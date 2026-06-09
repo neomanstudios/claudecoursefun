@@ -1,0 +1,74 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mockup 3 — Guided steps</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--p:#5B4BE0;--p-soft:#EEE9FF;--teal:#0E9D8E;--teal-soft:#E2F6F3;--green:#1A9E5A;--amber:#B8860B;--bg:#F2F1FB;--card:#fff;--ink:#1B1F2A;--ink2:#4A5163;--muted:#6B7280;--line:#E6E8F0}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Sarabun',sans-serif;background:var(--bg);color:var(--ink);font-size:17px;line-height:1.75}
+/* top stepper bar */
+.tbar{background:#fff;border-bottom:1px solid var(--line);padding:.7rem 1.4rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:50}
+.tbar .brand{display:flex;align-items:center;gap:.5rem;font-weight:800;font-size:.95rem}
+.tbar .logo{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--p),var(--teal));display:flex;align-items:center;justify-content:center;color:#fff}
+.stepper{flex:1;display:flex;align-items:center;gap:.4rem;justify-content:center;font-size:.78rem;color:var(--muted)}
+.stepper .s{display:flex;align-items:center;gap:.4rem}
+.stepper .b{width:24px;height:24px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.72rem}
+.stepper .s.done .b{background:var(--green);border-color:var(--green);color:#fff}
+.stepper .s.cur .b{background:var(--p);border-color:var(--p);color:#fff}
+.stepper .ln{width:26px;height:2px;background:var(--line)}
+.menu-btn{border:1px solid var(--line);background:#fff;border-radius:9px;padding:.4rem .8rem;font-family:inherit;font-weight:600;font-size:.84rem;cursor:pointer}
+.wrap{max-width:780px;margin:0 auto;padding:2rem 1.5rem 4rem}
+.hero{background:linear-gradient(135deg,var(--p-soft),var(--teal-soft));border-radius:20px;padding:1.8rem;margin-bottom:1.6rem}
+.hero .lno{font-family:'JetBrains Mono';font-size:.78rem;font-weight:700;color:var(--p)}
+.hero h1{font-size:1.95rem;font-weight:800;line-height:1.25;margin:.4rem 0 .5rem}
+.hero p{color:var(--ink2)}
+.obj{margin-top:1rem;background:#fff;border-radius:14px;padding:1rem 1.2rem}
+.obj h2{font-size:.9rem;color:#0B6B60;margin-bottom:.4rem}.obj li{list-style:none;padding-left:1.5rem;position:relative;color:#0E4C45;margin:.25rem 0;font-size:.93rem}.obj li::before{content:'🎯';position:absolute;left:0}
+figure{margin:0 0 1.6rem;border-radius:16px;overflow:hidden;box-shadow:0 6px 22px rgba(16,24,40,.08)}
+figure img{width:100%;display:block;aspect-ratio:16/9;object-fit:cover}
+/* step cards with vertical line */
+.steps{position:relative;margin-left:1.2rem;padding-left:2.4rem}
+.steps::before{content:'';position:absolute;left:0;top:.5rem;bottom:2rem;width:3px;background:linear-gradient(var(--p),var(--teal));border-radius:3px}
+.step{position:relative;background:#fff;border:1px solid var(--line);border-radius:16px;padding:1.3rem 1.5rem;margin-bottom:1.3rem;box-shadow:0 2px 10px rgba(16,24,40,.04)}
+.step .num{position:absolute;left:-3.5rem;top:1.2rem;width:2.4rem;height:2.4rem;border-radius:50%;background:var(--p);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono';box-shadow:0 0 0 5px var(--bg)}
+.step h3{font-size:1.18rem;font-weight:800;margin-bottom:.5rem}
+.step p{color:var(--ink2);margin-bottom:.5rem}b{color:var(--ink)}
+.quiz{background:#FFF8E6;border:1px solid #F3E2B3;border-radius:16px;padding:1.3rem 1.5rem;margin-top:.5rem}
+.quiz h3{font-size:1.1rem;font-weight:800;margin-bottom:.7rem}
+.choice{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:.6rem .9rem;margin-bottom:.5rem;font-family:inherit;font-size:.92rem;cursor:pointer}
+.choice:hover{border-color:var(--p)}
+.nextbtn{display:block;width:100%;background:var(--green);color:#fff;border:none;border-radius:14px;padding:.9rem;font-weight:800;font-family:inherit;font-size:1rem;margin-top:1.5rem;cursor:pointer}
+.tagstyle{position:fixed;bottom:14px;right:16px;background:var(--ink);color:#fff;font-size:.72rem;padding:.3rem .7rem;border-radius:20px;opacity:.85;z-index:99}
+</style></head><body>
+<div class="tagstyle">แบบที่ 3 · Guided Steps (ทำตามทีละขั้น)</div>
+<div class="tbar">
+  <div class="brand"><span class="logo">⚡</span> Claude Code Hub</div>
+  <div class="stepper">
+    <div class="s done"><span class="b">✓</span></div><span class="ln"></span>
+    <div class="s cur"><span class="b">2</span> Agentic Mode</div><span class="ln"></span>
+    <div class="s"><span class="b">3</span></div><span class="ln"></span>
+    <div class="s"><span class="b">4</span></div>
+  </div>
+  <button class="menu-btn">☰ บทเรียน</button>
+</div>
+<div class="wrap">
+  <div class="hero">
+    <span class="lno">บทเรียน 1.2</span>
+    <h1>Agentic Mode คืออะไร ทำงานยังไง</h1>
+    <p>Claude Code ไม่ได้แค่ตอบคำถาม แต่ลงมือทำงานเป็นขั้นตอนเองได้ มาดูทีละขั้นกัน</p>
+    <div class="obj"><h2>🎯 จบบทนี้คุณจะ…</h2><ul><li>อธิบาย agentic mode ได้</li><li>เข้าใจลูป อ่าน→แก้→ทดสอบ</li></ul></div>
+  </div>
+  <figure><img src="../images/01-agentic-mode.webp" alt="agentic"></figure>
+  <div class="steps">
+    <div class="step"><div class="num">1</div><h3>agent ต่างจาก autocomplete</h3><p>autocomplete แค่เติมโค้ด แต่ <b>agent ลงมือทำงานหลายขั้นเอง</b> จากเป้าหมายที่คุณบอก</p></div>
+    <div class="step"><div class="num">2</div><h3>ลูปการทำงาน</h3><p>Claude จะ <b>วางแผน → อ่านไฟล์ → แก้โค้ด → รันเทส → ตรวจผล</b> แล้ววนซ้ำจนงานเสร็จ</p></div>
+    <div class="step"><div class="num">3</div><h3>ลองดูตัวอย่าง</h3><p>สั่ง "แก้บั๊กหน้า login" → Claude หาไฟล์ แก้ รันเทส จนผ่านเอง</p></div>
+  </div>
+  <div class="quiz"><h3>🧠 เช็คความเข้าใจ</h3>
+    <p style="color:var(--ink2);margin-bottom:.7rem">agentic mode ต่างจาก autocomplete อย่างไร?</p>
+    <button class="choice">ก. เติมโค้ดให้ทีละบรรทัด</button>
+    <button class="choice">ข. ทำงานหลายขั้นตอนเองจนเสร็จ</button>
+    <button class="choice">ค. แค่ตรวจ syntax</button>
+  </div>
+  <button class="nextbtn">✓ เรียนจบ &amp; ไปบทถัดไป →</button>
+</div>
+</body></html>

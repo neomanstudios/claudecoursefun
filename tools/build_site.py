@@ -91,7 +91,7 @@ def quiz_html(slug):
           f'<div class="choices">{"".join(choices)}</div>'
           f'<div class="q-explain"><strong>เฉลย:</strong> {html.escape(q.get("explain",""))}</div>'
           '</div>')
-    return ('<div class="quiz"><div class="quiz-h">🧠 แบบทดสอบท้ายบท</div>'
+    return ('<div class="quiz" id="quiz"><div class="quiz-h">🧠 แบบทดสอบท้ายบท</div>'
             '<div class="quiz-sub">ลองตอบดู แล้วระบบจะเฉลยให้ทันที</div>'
             f'{"".join(qs)}</div>')
 
@@ -108,9 +108,30 @@ def pagenav(les, from_lessons):
             + btn(les.get("prev"), les.get("prev_title"), False)
             + btn(les.get("next"), les.get("next_title"), True) + '</div>')
 
+def add_section_ids(body_html):
+    """ใส่ id ให้หัวข้อ <h3> ในแต่ละ .block และคืนรายการสำหรับสารบัญด้านขวา"""
+    items = []
+    counter = [0]
+    def repl(m):
+        counter[0]+= 1
+        sid = f"sec-{counter[0]}"
+        text = re.sub(r'<[^>]+>', '', m.group(1)).strip()
+        items.append((sid, html.unescape(text)))
+        return f'<div class="block"><h3 id="{sid}">{m.group(1)}</h3>'
+    new = re.sub(r'<div class="block"><h3>(.*?)</h3>', repl, body_html, flags=re.S)
+    return new, items
+
+def toc_html(items, has_quiz):
+    if not items and not has_quiz: return ""
+    links = "".join(f'<a href="#{sid}">{html.escape(t)}</a>' for sid,t in items)
+    if has_quiz:
+        links += '<a href="#quiz" class="toc-quiz">🧠 แบบทดสอบท้ายบท</a>'
+    return f'<aside class="toc"><div class="toc-t">ในบทนี้</div>{links}</aside>'
+
 def render_lesson(les):
     c = les["content"]; slug = les["slug"]
     title = c.get("h1") or les["title"]
+    body_with_ids, toc_items = add_section_ids(c.get('body_html',''))
     page = f"""<!DOCTYPE html>
 <html lang="th">
 <head>
@@ -128,18 +149,21 @@ def render_lesson(les):
 <div class="main">
   <div class="topbar"><button class="hamb" id="hamb" aria-label="เมนู">☰</button>
     <span class="tb-title">{html.escape(les['module_num'])}. {html.escape(les['module_title'])}</span></div>
-  <article class="reading">
-    <div class="crumb"><a href="../index.html">หน้าหลัก</a> › โมดูล {html.escape(les['module_num'])}: {html.escape(les['module_title'])}</div>
-    <span class="les-no">บทเรียน {html.escape(c.get('lesson_no','').replace('บทเรียน','').strip() or les['num'])}</span>
-    <h1>{html.escape(title)}</h1>
-    <p class="lead">{html.escape(c.get('intro',''))}</p>
-    {objectives_html(slug)}
-    {figure(slug, True)}
-    {c.get('body_html','')}
-    {quiz_html(slug)}
-    <div class="complete-row"><button class="btn-complete" id="btnComplete">✓ ทำเครื่องหมายว่าเรียนจบ</button></div>
-    {pagenav(les, True)}
-  </article>
+  <div class="docs">
+    <article class="reading">
+      <div class="crumb"><a href="../index.html">หน้าหลัก</a> › โมดูล {html.escape(les['module_num'])}: {html.escape(les['module_title'])}</div>
+      <span class="les-no">บทเรียน {html.escape(c.get('lesson_no','').replace('บทเรียน','').strip() or les['num'])}</span>
+      <h1>{html.escape(title)}</h1>
+      <p class="lead">{html.escape(c.get('intro',''))}</p>
+      {objectives_html(slug)}
+      {figure(slug, True)}
+      {body_with_ids}
+      {quiz_html(slug)}
+      <div class="complete-row"><button class="btn-complete" id="btnComplete">✓ ทำเครื่องหมายว่าเรียนจบ</button></div>
+      {pagenav(les, True)}
+    </article>
+    {toc_html(toc_items, bool(meta.get(slug,{}).get('quiz')))}
+  </div>
   <footer>Claude Code Learning Hub · เรียนฟรี · Curated by <strong>Chetaphong Preecha</strong> &amp; Beyond Team</footer>
 </div>
 <script src="../assets/app.js"></script>
