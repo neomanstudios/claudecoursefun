@@ -12,6 +12,30 @@ ROOT = os.path.join(os.path.dirname(__file__), "..")
 course = json.load(open(os.path.join(ROOT,"data","course.json"),encoding="utf-8"))
 meta = json.load(open(os.path.join(ROOT,"data","meta.json"),encoding="utf-8")) if \
        os.path.exists(os.path.join(ROOT,"data","meta.json")) else {}
+detail = json.load(open(os.path.join(ROOT,"data","detail.json"),encoding="utf-8")) if \
+       os.path.exists(os.path.join(ROOT,"data","detail.json")) else {}
+
+def detail_body(slug, orig_body):
+    """ถ้ามีเนื้อหาขยาย (detail.json) ใช้ blocks ใหม่แทน .block เดิม
+    แต่คง prompt-box / note / takeaways เดิมไว้ (ส่วนท้าย)"""
+    d = detail.get(slug)
+    if not d or not d.get("blocks"):
+        return orig_body
+    blocks = ""
+    for b in d["blocks"]:
+        inner = "".join(f"<p>{p}</p>" for p in b.get("p",[]) if p.strip())
+        steps = [s for s in b.get("steps",[]) if s.strip()]
+        if steps:
+            inner += '<ol class="steps">' + "".join(f"<li>{s}</li>" for s in steps) + '</ol>'
+        blocks += f'<div class="block"><h3>{html.escape(b.get("h",""))}</h3>{inner}</div>'
+        if b.get("note","").strip():
+            blocks += (f'<div class="note"><span class="ni">💡</span>'
+                       f'<div class="note-body">{b["note"]}</div></div>')
+    # คงส่วนท้ายเดิม (prompt-box / note / takeaways) ไว้
+    idxs = [orig_body.find(m) for m in ('<div class="prompt-box">','<div class="note">','<div class="takeaways">')]
+    idxs = [i for i in idxs if i >= 0]
+    tail = orig_body[min(idxs):] if idxs else ""
+    return blocks + tail
 CAPS = {**IMG_CAPS, **IMG_DEPLOY}
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
@@ -131,7 +155,7 @@ def toc_html(items, has_quiz):
 def render_lesson(les):
     c = les["content"]; slug = les["slug"]
     title = c.get("h1") or les["title"]
-    body_with_ids, toc_items = add_section_ids(c.get('body_html',''))
+    body_with_ids, toc_items = add_section_ids(detail_body(slug, c.get('body_html','')))
     page = f"""<!DOCTYPE html>
 <html lang="th">
 <head>
