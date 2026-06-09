@@ -183,10 +183,69 @@ def toc_html(items, has_quiz):
         links += '<a href="#quiz" class="toc-quiz">แบบทดสอบท้ายบท</a>'
     return f'<aside class="toc"><div class="toc-t">ในบทนี้</div>{links}</aside>'
 
+# --- turn raw step lists into clean, structured steps for the guided stepper ---
+# detail.json steps are inconsistent: literal "1."/"ขั้นที่ 2:" prefixes, unrendered
+# **bold**, and a prompt buried inline as <code> or "quoted text". Normalise each step
+# and lift the prompt into an inline copy-tray. The light lessons (here) and the dark
+# app (tools/build_app.py) share this exact transform so both get the focused stepper.
+_LEAD_ENUM = re.compile(
+    r'^\s*(?:\d+\s*[.)\:]\s*'
+    r'|ขั้น(?:ตอน)?ที่\s*\d+\s*[:：.)]?\s*'
+    r'|STEP\s*\d+\s*[:：.)]?\s*)', re.IGNORECASE)
+_BOLD = re.compile(r'\*\*(.+?)\*\*', re.S)
+_CODE = re.compile(r'<code>(.*?)</code>', re.S)
+_QUOTE = re.compile(r'[\"“]([^\"”]{25,})[\"”]')
+_TITLE = re.compile(r'^\s*<strong>(.*?)</strong>\s*[:：]?\s*(.*)$', re.S)
+_PROMPT_SVG = ('<svg class="ic" viewBox="0 0 24 24" style="width:15px">'
+    '<path d="M9 9h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2Z"/>'
+    '<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>')
+_CMD_SVG = ('<svg class="ic" viewBox="0 0 24 24" style="width:15px">'
+    '<path d="m6 8 4 4-4 4"/><path d="M13 16h5"/></svg>')
+
+def prompt_tray(prompt):
+    """An inline copy-tray. Thai text -> 'Prompt'; ASCII -> 'คำสั่ง' (mono)."""
+    ptxt = re.sub(r'<[^>]+>', '', prompt)
+    is_thai = any('฀' <= ch <= '๿' for ch in ptxt)
+    icon, label, cls = (_PROMPT_SVG, 'พิมพ์ Prompt นี้', 'sp-text') if is_thai \
+                       else (_CMD_SVG, 'คัดลอกคำสั่งนี้', 'sp-text sp-cmd')
+    return (f'<div class="step-prompt"><div class="sp-top">{icon}{label}</div>'
+            f'<code class="{cls}">{prompt}</code>'
+            f'<button class="sp-copy" type="button">{_PROMPT_SVG}คัดลอก</button></div>')
+
+def _one_step(s):
+    s = _LEAD_ENUM.sub('', s.strip())
+    s = _BOLD.sub(r'<strong>\1</strong>', s).replace('**', '')
+    prompt = None
+    m = _CODE.search(s)
+    if m and len(re.sub(r'<[^>]+>', '', m.group(1)).strip()) >= 25:
+        prompt = m.group(1).strip(); s = s[:m.start()] + s[m.end():]
+    else:
+        m = _QUOTE.search(s)
+        if m:
+            prompt = m.group(1).strip(); s = s[:m.start()] + s[m.end():]
+    s = re.sub(r'[\s:：\-–—"“”]+$', '', s).strip()
+    title, desc = None, s
+    mt = _TITLE.match(s)
+    if mt:
+        title = mt.group(1).strip().rstrip(':：').strip(); desc = mt.group(2).strip()
+    main = ''
+    if title: main += f'<div class="st-t">{title}</div>'
+    if desc:  main += f'<div class="st-d">{desc}</div>'
+    if prompt: main += prompt_tray(prompt)
+    return f'<li class="step"><div class="st-main">{main}</div></li>'
+
+def restructure_steps(body):
+    def repl(m):
+        lis = re.findall(r'<li>(.*?)</li>', m.group(1), re.S)
+        if not lis: return m.group(0)
+        attr = ' data-stepper' if len(lis) >= 2 else ''
+        return f'<ol class="steps"{attr}>' + ''.join(_one_step(li) for li in lis) + '</ol>'
+    return re.sub(r'<ol class="steps">(.*?)</ol>', repl, body, flags=re.S)
+
 def render_lesson(les):
     c = les["content"]; slug = les["slug"]
     title = c.get("h1") or les["title"]
-    body_with_ids, toc_items = add_section_ids(declutter_labels(detail_body(slug, c.get('body_html',''))))
+    body_with_ids, toc_items = add_section_ids(declutter_labels(restructure_steps(detail_body(slug, c.get('body_html','')))))
     page = f"""<!DOCTYPE html>
 <html lang="th">
 <head>

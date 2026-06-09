@@ -198,8 +198,58 @@
     });
   }
 
+  // ---- guided lesson stepper: one .steps[data-stepper] step at a time ----
+  function initSteps(){
+    var ARROW='<span class="st-ico"><svg class="ic" viewBox="0 0 24 24" style="width:15px"><path d="M5 12h13"/><path d="m12 6 6 6-6 6"/></svg></span>';
+    var REDO='<span class="st-ico"><svg class="ic" viewBox="0 0 24 24" style="width:14px"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></span>';
+    var BACK='<svg class="ic" viewBox="0 0 24 24" style="width:15px"><path d="m15 18-6-6 6-6"/></svg>';
+    var CHECK='<svg class="ic" viewBox="0 0 24 24" style="width:15px"><path d="m5 13 4 4L19 7"/></svg>';
+    document.querySelectorAll('ol.steps[data-stepper]').forEach(function(ol){
+      var steps=[].slice.call(ol.children).filter(function(n){return n.tagName==='LI';});
+      if(steps.length<2)return;
+      steps.forEach(function(li,k){li.setAttribute('data-n',k+1);});
+      var wrap=document.createElement('div');wrap.className='stepper';
+      ol.parentNode.insertBefore(wrap,ol);
+      var head=document.createElement('div');head.className='st-head';
+      var track=document.createElement('div');track.className='st-track';var segs=[];
+      steps.forEach(function(_,k){var s=document.createElement('button');s.type='button';s.className='st-seg';
+        s.setAttribute('aria-label','ไปขั้นที่ '+(k+1));s.addEventListener('click',function(){go(k);});track.appendChild(s);segs.push(s);});
+      var count=document.createElement('div');count.className='st-count';
+      head.appendChild(track);head.appendChild(count);
+      var nav=document.createElement('div');nav.className='st-nav';
+      var prev=document.createElement('button');prev.type='button';prev.className='st-prev';prev.innerHTML=BACK+'ย้อนกลับ';
+      var next=document.createElement('button');next.type='button';next.className='st-next';
+      nav.appendChild(prev);nav.appendChild(next);
+      wrap.appendChild(head);wrap.appendChild(ol);wrap.appendChild(nav);
+      ol.classList.add('is-wired');
+      var i=0;
+      function render(){
+        steps.forEach(function(li,k){li.classList.toggle('active',k===i);});
+        segs.forEach(function(s,k){s.classList.toggle('on',k<=i);s.classList.toggle('cur',k===i);});
+        count.textContent='ขั้นที่ '+(i+1)+' / '+steps.length;
+        prev.disabled=(i===0);
+        next.innerHTML=(i===steps.length-1)?('เริ่มทำใหม่'+REDO):('ถัดไป'+ARROW);
+      }
+      function go(k){i=k<0?0:(k>=steps.length?steps.length-1:k);render();}
+      prev.addEventListener('click',function(){if(i>0)go(i-1);});
+      next.addEventListener('click',function(){go(i===steps.length-1?0:i+1);});
+      wrap.addEventListener('keydown',function(e){
+        if(e.key==='ArrowRight'){e.preventDefault();next.click();}
+        else if(e.key==='ArrowLeft'){e.preventDefault();if(!prev.disabled)prev.click();}});
+      render();
+    });
+    document.querySelectorAll('.stepper .step-prompt .sp-copy').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        var box=btn.closest('.step-prompt'),t=box&&box.querySelector('.sp-text');if(!t)return;
+        navigator.clipboard.writeText(t.innerText);
+        var o=btn.innerHTML;btn.classList.add('done');btn.innerHTML=CHECK+'คัดลอกแล้ว';
+        setTimeout(function(){btn.innerHTML=o;btn.classList.remove('done');},1600);
+      });
+    });
+  }
+
   document.addEventListener('DOMContentLoaded',function(){
     initTheme();refreshSidebar();initComplete();initQuiz();initBar();initNav();
-    openActiveModule();initTOC();initReveal();initAgentDemo();initHowtoStepper();
+    openActiveModule();initTOC();initReveal();initAgentDemo();initHowtoStepper();initSteps();
   });
 })();
