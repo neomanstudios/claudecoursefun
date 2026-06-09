@@ -19,20 +19,10 @@ FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
 FLAT = [l for m in course["modules"] for l in m["lessons"]]
 TOTAL = len(FLAT)
 
-NAV = ('<nav class="nav">'
-  '<a href="../index.html"><svg class="ic" viewBox="0 0 24 24"><path d="M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z"/></svg>หน้าหลัก</a>'
-  '<a href="../index.html" class="active"><svg class="ic" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h6v18H6a2 2 0 0 1-2-2Z"/><path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/></svg>การเรียนของฉัน</a>'
-  '<a href="../../workshops/index.html"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>เวิร์กช็อป</a>'
-  '</nav>')
 
 def topbar():
     return ('<header class="topbar"><button class="hamb" aria-label="เมนู"><svg class="ic" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>'
-      '<div class="search"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>'
-      '<input placeholder="ค้นหาบทเรียน หัวข้อ..."></div>'
-      '<div class="tb-right">'
-      '<button class="icon-btn" aria-label="แจ้งเตือน"><span class="dot"></span><svg class="ic" viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>'
-      '<button class="icon-btn" aria-label="ความสำเร็จ"><svg class="ic" viewBox="0 0 24 24"><path d="M6 4h12v3a6 6 0 0 1-12 0Z"/><path d="M6 5H3v2a3 3 0 0 0 3 3M18 5h3v2a3 3 0 0 1-3 3M9 17h6M10 21h4M12 13v4"/></svg></button>'
-      '<div class="profile"><span class="av-c">CC</span><div><div class="nm">ผู้เรียน</div><div class="rl">Claude Code Course</div></div></div></div></header>')
+      '<span class="tb-here">เนื้อหาบทเรียน</span></header>')
 
 def outline(active_slug):
     """Dark course outline sidebar: modules -> lessons."""
@@ -72,21 +62,6 @@ def cover(les, slug):
             f'<h2>{html.escape(les["content"].get("h1") or les["title"])}</h2></div>'
             f'<span class="readbadge"><svg class="ic" viewBox="0 0 24 24" style="width:14px;color:var(--accent-2)"><path d="M4 19V6a2 2 0 0 1 2-2h7v17H6a2 2 0 0 1-2-2Z"/><path d="M13 4h5a2 2 0 0 1 2 2v13"/></svg>บทเรียนแบบอ่าน</span></div>')
 
-def rail(les, slug):
-    title = html.escape(les["content"].get("h1") or les["title"])
-    return ('<aside class="rail">'
-      '<div class="assist"><h3><svg class="ic" viewBox="0 0 24 24" style="stroke:var(--accent-2)"><path d="m12 3 2.2 5.6L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.8-.4Z"/></svg>ผู้ช่วย AI</h3>'
-      '<p class="sub">ถามอะไรเกี่ยวกับบทเรียนนี้ได้เลย</p>'
-      '<button class="chip"><span class="ico"><svg class="ic" viewBox="0 0 24 24" style="width:14px"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 7v5"/></svg></span>อธิบายบทนี้แบบง่าย ๆ</button>'
-      '<button class="chip"><span class="ico"><svg class="ic" viewBox="0 0 24 24" style="width:14px"><rect x="4" y="4" width="16" height="16" rx="2"/></svg></span>ขอตัวอย่างการใช้งานจริง</button>'
-      '<button class="chip"><span class="ico"><svg class="ic" viewBox="0 0 24 24" style="width:14px"><path d="m5 12 5 5 9-11"/></svg></span>ทดสอบความเข้าใจของฉัน</button>'
-      '<button class="ask"><svg class="ic" viewBox="0 0 24 24" style="width:16px;stroke:#fff"><path d="m12 3 2.2 5.6L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.8-.4Z"/></svg>ถามผู้ช่วย AI</button></div>'
-      '<div class="card"><div class="rc-head"><h3>โน้ตของฉัน</h3><a href="#">+ เพิ่มโน้ต</a></div>'
-      '<div class="note-e"><textarea placeholder="จดสิ่งที่อยากจำจากบทนี้..."></textarea></div></div>'
-      '<div class="card"><div class="rc-head"><h3>พูดคุย</h3><a href="#">ดูทั้งหมด</a></div>'
-      f'<div class="disc"><span class="av">ปอ</span><div><div class="nm">ปอ ศิริพร <span class="tm">2 ชม.</span></div>'
-      f'<div class="q">ขอบคุณครับ บทนี้เข้าใจง่ายดี!</div><div class="meta"><span>ตอบกลับ</span><span>&#9825; 8</span></div></div></div></div>'
-      '</aside>')
 
 def render(les):
     c = les["content"]; slug = les["slug"]
@@ -136,7 +111,6 @@ def render(les):
 {quiz_panel}
 <div class="pn">{prev_b}{next_b}</div>
 </div>
-{rail(les, slug)}
 </div></div>
 <script src="../app.js"></script></body></html>"""
 
