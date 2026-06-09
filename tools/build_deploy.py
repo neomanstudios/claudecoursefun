@@ -3,7 +3,7 @@
 โดยคงเนื้อหาเดิมไว้ แล้วใส่ override CSS ให้คอมโพเนนต์เฉพาะของหน้านี้เป็นโทนสว่าง
 """
 import os, re, html
-from build_site import sidebar, FONTS, course, HEAD_THEME, theme_toggle
+from build_site import sidebar, FONTS, course, HEAD_THEME, theme_toggle, declutter_labels
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 src = open(os.path.join(ROOT,"deploy.html"),encoding="utf-8").read()
@@ -12,12 +12,13 @@ src = open(os.path.join(ROOT,"deploy.html"),encoding="utf-8").read()
 start = src.index('<div class="container">')
 end = src.index('<footer>')
 body = src[start:end].strip()
-# ลบ figure เดิม (inline dark) — จะใส่ figure สะอาดใหม่
+# ลบ figure เดิม (inline dark) จะใส่ figure สะอาดใหม่
 body = re.sub(r'<figure class="lesson-hero".*?</figure>', '', body, flags=re.S)
+body = declutter_labels(body)
 
 clean_fig = ('<figure class="lesson-hero"><img src="images/deploy.webp" '
   'alt="เฟส 3: นำเว็บขึ้นออนไลน์ให้คนทั้งโลกเข้าได้" loading="lazy" decoding="async">'
-  '<figcaption>🖼️ เฟส 3: นำเว็บขึ้นออนไลน์ ให้คนทั้งโลกเข้าถึงเว็บของคุณได้</figcaption></figure>')
+  '<figcaption>เฟส 3: นำเว็บขึ้นออนไลน์ ให้คนทั้งโลกเข้าถึงเว็บของคุณได้</figcaption></figure>')
 
 OVERRIDE = """
 /* ---- deploy page specific (themed via design tokens, dark-aware) ----

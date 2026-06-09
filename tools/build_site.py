@@ -54,6 +54,23 @@ def theme_toggle():
     return ('<button class="theme-toggle" type="button" aria-label="สลับโหมดสว่าง/มืด" '
             'title="สลับโหมดสว่าง/มืด">🌙</button>')
 
+def strip_lead_emoji(s):
+    """Drop a leading decorative emoji/symbol (+ spaces) from a title.
+    Keeps Latin/Thai/alnum; modules are identified by color + number now."""
+    s = s.lstrip()
+    while s and ord(s[0]) > 0x2000 and not ('฀' <= s[0] <= '๿'):
+        s = s[1:]
+    return s.lstrip()
+
+def declutter_labels(h):
+    """Remove repetitive decorative emoji from generated lesson body HTML
+    (prompt label, takeaways title, copy button, note icon)."""
+    h = re.sub(r'(<div class="prompt-label">)\s*💬\s*', r'\1', h)
+    h = re.sub(r'(<div class="tk-title">)\s*📌\s*', r'\1', h)
+    h = re.sub(r'(<button class="copy-btn"[^>]*>)\s*📋\s*', r'\1', h)
+    h = h.replace('<span class="ni">💡</span>', '')
+    return h
+
 def rel(href, from_lessons):
     """แปลง href ที่อ้างอิงจาก root ให้ถูกต้องตามตำแหน่งไฟล์"""
     if from_lessons:
@@ -79,7 +96,7 @@ def sidebar(active_slug, from_lessons):
         rows.append(
           f'<details class="sb-mod" data-mod="{mod["num"]}"{op}><summary>'
           f'<span class="mn">{mod["num"]}</span>'
-          f'<span class="mt">{html.escape(mod["title"])}</span>'
+          f'<span class="mt">{html.escape(strip_lead_emoji(mod["title"]))}</span>'
           f'<span class="mk">▶</span></summary>'
           f'<ul class="sb-les">{"".join(lis)}</ul></details>')
     return (
@@ -92,7 +109,7 @@ def sidebar(active_slug, from_lessons):
       '<div class="sb-progress"><div class="lbl"><span>ความคืบหน้า</span><b>0/0 บท</b></div>'
         '<div class="sb-bar"><i></i></div></div>'
       f'<nav class="sb-nav">{"".join(rows)}</nav>'
-      f'<div class="sb-back"><a href="{home}">🏠 หน้าหลักคอร์ส</a></div>'
+      f'<div class="sb-back"><a href="{home}">← หน้าหลักคอร์ส</a></div>'
     '</aside>')
 
 def figure(slug, from_lessons):
@@ -102,13 +119,13 @@ def figure(slug, from_lessons):
         return ""
     return (f'<figure class="lesson-hero"><img src="{img}" alt="{html.escape(cap)}" '
             f'loading="lazy" decoding="async">'
-            f'<figcaption>🖼️ {html.escape(cap)}</figcaption></figure>')
+            f'<figcaption>{html.escape(cap)}</figcaption></figure>')
 
 def objectives_html(slug):
     m = meta.get(slug)
     if not m or not m.get("objectives"): return ""
     items = "".join(f"<li>{html.escape(o)}</li>" for o in m["objectives"])
-    return ('<div class="objectives"><h2>🎯 เมื่อเรียนจบบทนี้ คุณจะ…</h2>'
+    return ('<div class="objectives"><h2>เมื่อเรียนจบบทนี้ คุณจะ…</h2>'
             f'<ul>{items}</ul></div>')
 
 def quiz_html(slug):
@@ -128,7 +145,7 @@ def quiz_html(slug):
           f'<div class="choices">{"".join(choices)}</div>'
           f'<div class="q-explain"><strong>เฉลย:</strong> {html.escape(q.get("explain",""))}</div>'
           '</div>')
-    return ('<div class="quiz" id="quiz"><div class="quiz-h">🧠 แบบทดสอบท้ายบท</div>'
+    return ('<div class="quiz" id="quiz"><div class="quiz-h">แบบทดสอบท้ายบท</div>'
             '<div class="quiz-sub">ลองตอบดู แล้วระบบจะเฉลยให้ทันที</div>'
             f'{"".join(qs)}</div>')
 
@@ -163,13 +180,13 @@ def toc_html(items, has_quiz):
     if not items and not has_quiz: return ""
     links = "".join(f'<a href="#{sid}">{html.escape(t)}</a>' for sid,t in items)
     if has_quiz:
-        links += '<a href="#quiz" class="toc-quiz">🧠 แบบทดสอบท้ายบท</a>'
+        links += '<a href="#quiz" class="toc-quiz">แบบทดสอบท้ายบท</a>'
     return f'<aside class="toc"><div class="toc-t">ในบทนี้</div>{links}</aside>'
 
 def render_lesson(les):
     c = les["content"]; slug = les["slug"]
     title = c.get("h1") or les["title"]
-    body_with_ids, toc_items = add_section_ids(detail_body(slug, c.get('body_html','')))
+    body_with_ids, toc_items = add_section_ids(declutter_labels(detail_body(slug, c.get('body_html',''))))
     page = f"""<!DOCTYPE html>
 <html lang="th">
 <head>
@@ -187,11 +204,11 @@ def render_lesson(les):
 {sidebar(slug, True)}
 <div class="main">
   <div class="topbar"><button class="hamb" id="hamb" aria-label="เมนู">☰</button>
-    <span class="tb-title">{html.escape(les['module_num'])}. {html.escape(les['module_title'])}</span>
+    <span class="tb-title">{html.escape(les['module_num'])}. {html.escape(strip_lead_emoji(les['module_title']))}</span>
     {theme_toggle()}</div>
   <div class="docs">
     <article class="reading">
-      <div class="crumb"><a href="../index.html">หน้าหลัก</a> › โมดูล {html.escape(les['module_num'])}: {html.escape(les['module_title'])}</div>
+      <div class="crumb"><a href="../index.html">หน้าหลัก</a> › โมดูล {html.escape(les['module_num'])}: {html.escape(strip_lead_emoji(les['module_title']))}</div>
       <span class="les-no">บทเรียน {html.escape(c.get('lesson_no','').replace('บทเรียน','').strip() or les['num'])}</span>
       <h1>{html.escape(title)}</h1>
       <p class="lead">{html.escape(c.get('intro',''))}</p>
@@ -235,7 +252,7 @@ def build_index():
         cards.append(
           f'<section class="mod-card reveal" data-mod="{mod["num"]}">'
           f'<div class="mc-head"><span class="mn">{mod["num"]}</span>'
-          f'<div><h3>{html.escape(mod["title"])}</h3>'
+          f'<div><h3>{html.escape(strip_lead_emoji(mod["title"]))}</h3>'
           f'<p>{html.escape(mod["sub"])}</p></div>'
           f'<span class="mc-count">{len(mod["lessons"])} บท</span></div>'
           f'<ul class="mc-list">{"".join(lis)}</ul></section>')
@@ -274,7 +291,7 @@ def build_index():
     {theme_toggle()}</div>
   <div class="home">
     <section class="home-hero">
-      <span class="tag">🇹🇭 เรียนฟรี · มือใหม่ทำตามได้</span>
+      <span class="tag">เรียนฟรี · มือใหม่ทำตามได้</span>
       <h1>เรียน Claude Code สร้างเว็บแอปด้วย AI</h1>
       <p>คอร์สภาษาไทยที่พามือใหม่ไม่มีพื้นฐาน ใช้ Claude Code สร้างงานจริงได้ทีละขั้น
          มีภาพประกอบทุกบท แบบทดสอบท้ายบท และติดตามความคืบหน้าได้</p>
