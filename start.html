@@ -115,6 +115,30 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(5,5,16,.92)
 .os-panel{display:none}
 .os-panel.active{display:block}
 
+/* ===== visual mockups: ให้เห็นว่ากดตรงไหน ===== */
+.part-label{display:inline-block;background:rgba(108,99,255,.12);border:1px solid rgba(108,99,255,.3);color:var(--p);font-weight:700;font-size:.82rem;padding:.35rem .9rem;border-radius:10px;margin:1.4rem 0 .8rem}
+.shot{border-radius:12px;overflow:hidden;border:1px solid rgba(0,0,0,.2);margin:.7rem 0 .3rem;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.shot-bar{background:#e7e7ee;padding:.45rem .7rem;display:flex;align-items:center;gap:.4rem}
+.shot-bar .d{width:10px;height:10px;border-radius:50%}
+.shot-url{flex:1;background:#fff;border-radius:20px;padding:.25rem .8rem;font-size:.74rem;color:#333;font-family:'JetBrains Mono',monospace;border:1px solid #ccc;text-align:center}
+.nodejs-mock{background:linear-gradient(#ffffff,#eef3ef);padding:1.4rem 1rem;text-align:center}
+.nodejs-logo{font-weight:800;font-size:1.05rem;color:#539e43}
+.nodejs-sub{color:#777;font-size:.72rem;margin:.2rem 0 1rem}
+.dl-row{display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap}
+.dl-btn{background:#539e43;color:#fff;padding:.6rem .9rem;border-radius:8px;font-size:.8rem;font-weight:700;line-height:1.2}
+.dl-btn.alt{background:#5a5a5a}
+.dl-btn small{display:block;font-weight:400;font-size:.6rem;opacity:.9;margin-top:.15rem}
+.dl-btn.target{outline:3px solid #FF6B6B;outline-offset:3px}
+.click-badge{display:inline-flex;align-items:center;gap:.3rem;background:#FF6B6B;color:#fff;font-size:.74rem;font-weight:700;padding:.25rem .7rem;border-radius:20px;margin-top:.6rem;animation:bob 1.1s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.win-mock{background:#f4f4f7;border-radius:10px;overflow:hidden;text-align:left;border:1px solid #ccc}
+.win-top{background:#e1e1e8;padding:.4rem .7rem;font-size:.72rem;color:#444;font-weight:700}
+.win-content{padding:1rem;color:#444;font-size:.76rem;line-height:1.6;min-height:46px}
+.win-foot{padding:.6rem .9rem;display:flex;justify-content:flex-end;gap:.5rem;border-top:1px solid #ddd;background:#fafafa}
+.win-btn{padding:.35rem .9rem;border-radius:6px;font-size:.74rem;font-weight:700;background:#e0e0e6;color:#666}
+.win-btn.primary{background:#007aff;color:#fff;outline:3px solid #FF6B6B;outline-offset:2px}
+.term-check{background:#0a0a18;border-radius:10px;padding:.8rem 1rem;font-family:'JetBrains Mono',monospace;font-size:.8rem;line-height:1.8;margin:.5rem 0}
+
 /* terminal / code */
 .terminal{background:#0a0a18;border:1px solid rgba(255,255,255,.08);border-radius:12px;overflow:hidden;margin:1rem 0}
 .term-bar{background:rgba(255,255,255,.04);padding:.5rem .9rem;display:flex;align-items:center;gap:.4rem;border-bottom:1px solid rgba(255,255,255,.05)}
@@ -322,49 +346,118 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:2.5rem 1.5rem;text-ali
         <div class="step-circle">1</div>
         <div class="step-titlewrap">
           <div class="step-label">ขั้นที่ 1</div>
-          <div class="step-h">ติดตั้ง Claude Code ลงเครื่อง</div>
+          <div class="step-h">ติดตั้ง Node.js แล้วก็ Claude Code</div>
         </div>
-        <span class="step-mins">⏱ 8 นาที</span>
+        <span class="step-mins">⏱ 10 นาที</span>
       </div>
       <div class="step-content">
-        <p>เราต้องลงโปรแกรม 2 อย่าง: <strong>Node.js</strong> (เครื่องยนต์ที่ทำให้เว็บรันได้) และ <strong>Claude Code</strong> (ตัว AI ผู้ช่วย) เลือกระบบของคุณก่อน:</p>
+        <p>ทำตามทีละจุดได้เลย ภาพข้างล่างคือ<strong>หน้าจอจริง</strong>ที่คุณจะเห็น — <strong style="color:var(--s)">กรอบแดง = ตรงที่ต้องกด</strong> 👇</p>
 
         <div class="os-tabs">
-          <div class="os-tab active" onclick="switchOS('mac',this)">🍎 Mac</div>
-          <div class="os-tab" onclick="switchOS('win',this)">🪟 Windows</div>
+          <div class="os-tab active" onclick="switchOS('mac',this)">🍎 เครื่อง Mac</div>
+          <div class="os-tab" onclick="switchOS('win',this)">🪟 เครื่อง Windows</div>
         </div>
 
-        <!-- MAC -->
+        <!-- ===== MAC ===== -->
         <div class="os-panel active" id="os-mac">
+          <div class="part-label">ส่วน A · ติดตั้ง Node.js (เครื่องยนต์)</div>
           <ul class="action-list">
-            <li><span class="action-num">1</span><span class="action-text">เข้าเว็บ <strong>nodejs.org</strong> กดปุ่มดาวน์โหลดตัว <strong>LTS</strong> แล้วติดตั้ง (กด Next ไปเรื่อยๆ)<small>Node.js คือเครื่องยนต์ที่ทำให้เว็บแอปทำงานได้</small></span></li>
-            <li><span class="action-num">2</span><span class="action-text">เปิดโปรแกรมชื่อ <strong>Terminal</strong><small>กด Cmd + Space แล้วพิมพ์ "Terminal" กด Enter — มันคือหน้าจอดำๆ ที่เราพิมพ์คำสั่ง</small></span></li>
-            <li><span class="action-num">3</span><span class="action-text">พิมพ์ (หรือวาง) คำสั่งนี้ แล้วกด Enter เพื่อติดตั้ง Claude Code:</span></li>
+            <li><span class="action-num">1</span><span class="action-text">เปิดเบราว์เซอร์ (Safari หรือ Chrome) พิมพ์ <strong>nodejs.org</strong> ที่ช่องด้านบนสุด กด Enter</span></li>
           </ul>
-          <div class="terminal">
-            <div class="term-bar"><span class="tdot" style="background:#FF5F56"></span><span class="tdot" style="background:#FFBD2E"></span><span class="tdot" style="background:#27C93F"></span><span class="term-title">Terminal</span></div>
-            <div class="term-body"><span class="prompt">$ </span><span class="cmd" id="cmd-mac">npm install -g @anthropic-ai/claude-code</span></div>
+          <div class="shot">
+            <div class="shot-bar"><span class="d" style="background:#FF5F56"></span><span class="d" style="background:#FFBD2E"></span><span class="d" style="background:#27C93F"></span><span class="shot-url">🔍 nodejs.org</span></div>
           </div>
-          <button class="copy-cmd" onclick="copyText('cmd-mac',this)">📋 คัดลอกคำสั่ง</button>
+          <ul class="action-list">
+            <li><span class="action-num">2</span><span class="action-text">จะเห็นปุ่ม<strong>สีเขียว</strong> กดปุ่มที่มีคำว่า <strong>"LTS"</strong><small>LTS = เวอร์ชันเสถียร เหมาะกับทุกคน</small></span></li>
+          </ul>
+          <div class="shot">
+            <div class="nodejs-mock">
+              <div class="nodejs-logo">node<span style="color:#333">.js</span></div>
+              <div class="nodejs-sub">Download Node.js®</div>
+              <div class="dl-row">
+                <span class="dl-btn target">⬇ Download LTS<small>แนะนำ — กดอันนี้</small></span>
+                <span class="dl-btn alt">Current<small>ไม่ต้องกด</small></span>
+              </div>
+              <div class="click-badge">👆 กดปุ่มเขียวซ้าย "LTS"</div>
+            </div>
+          </div>
+          <ul class="action-list">
+            <li><span class="action-num">3</span><span class="action-text">ไฟล์ <strong>node-….pkg</strong> จะถูกดาวน์โหลด (มุมขวาบนของเบราว์เซอร์) <strong>ดับเบิลคลิก</strong>เปิดไฟล์นั้น</span></li>
+            <li><span class="action-num">4</span><span class="action-text">หน้าต่างติดตั้งเปิดขึ้น — กดปุ่มมุม<strong>ขวาล่าง</strong>ไปเรื่อยๆ:</span></li>
+          </ul>
+          <div class="shot">
+            <div class="win-mock">
+              <div class="win-top">🍎 Install Node.js</div>
+              <div class="win-content">ยินดีต้อนรับสู่ตัวติดตั้ง Node.js<br>กดปุ่มสีฟ้ามุมขวาล่างเพื่อไปต่อ →</div>
+              <div class="win-foot"><span class="win-btn">Back</span><span class="win-btn primary">Continue</span></div>
+            </div>
+            <div class="click-badge">👆 Continue → Continue → Agree → Install</div>
+          </div>
+          <ul class="action-list">
+            <li><span class="action-num">5</span><span class="action-text">เครื่องอาจถาม<strong>รหัสผ่าน</strong> — ใส่รหัสที่ใช้ปลดล็อกเครื่อง แล้วกด Install Software</span></li>
+            <li><span class="action-num">6</span><span class="action-text">เสร็จแล้วกด <strong>Close</strong> — ติดตั้ง Node.js สำเร็จ! ✅</span></li>
+          </ul>
         </div>
 
-        <!-- WIN -->
+        <!-- ===== WINDOWS ===== -->
         <div class="os-panel" id="os-win">
+          <div class="part-label">ส่วน A · ติดตั้ง Node.js (เครื่องยนต์)</div>
           <ul class="action-list">
-            <li><span class="action-num">1</span><span class="action-text">เข้าเว็บ <strong>nodejs.org</strong> กดดาวน์โหลดตัว <strong>LTS</strong> แล้วติดตั้ง (กด Next ไปเรื่อยๆ จนเสร็จ)<small>Node.js คือเครื่องยนต์ที่ทำให้เว็บแอปทำงานได้</small></span></li>
-            <li><span class="action-num">2</span><span class="action-text">เปิดโปรแกรมชื่อ <strong>PowerShell</strong><small>กดปุ่ม Windows พิมพ์ "PowerShell" กด Enter — มันคือหน้าจอที่เราพิมพ์คำสั่ง</small></span></li>
-            <li><span class="action-num">3</span><span class="action-text">พิมพ์ (หรือวาง) คำสั่งนี้ แล้วกด Enter:</span></li>
+            <li><span class="action-num">1</span><span class="action-text">เปิดเบราว์เซอร์ (Edge หรือ Chrome) พิมพ์ <strong>nodejs.org</strong> ที่ช่องด้านบน กด Enter</span></li>
           </ul>
-          <div class="terminal">
-            <div class="term-bar"><span class="tdot" style="background:#FF5F56"></span><span class="tdot" style="background:#FFBD2E"></span><span class="tdot" style="background:#27C93F"></span><span class="term-title">PowerShell</span></div>
-            <div class="term-body"><span class="prompt">&gt; </span><span class="cmd" id="cmd-win">npm install -g @anthropic-ai/claude-code</span></div>
+          <div class="shot">
+            <div class="shot-bar"><span class="d" style="background:#FF5F56"></span><span class="d" style="background:#FFBD2E"></span><span class="d" style="background:#27C93F"></span><span class="shot-url">🔍 nodejs.org</span></div>
           </div>
-          <button class="copy-cmd" onclick="copyText('cmd-win',this)">📋 คัดลอกคำสั่ง</button>
+          <ul class="action-list">
+            <li><span class="action-num">2</span><span class="action-text">กดปุ่ม<strong>สีเขียว</strong>ที่มีคำว่า <strong>"LTS"</strong></span></li>
+          </ul>
+          <div class="shot">
+            <div class="nodejs-mock">
+              <div class="nodejs-logo">node<span style="color:#333">.js</span></div>
+              <div class="nodejs-sub">Download Node.js®</div>
+              <div class="dl-row">
+                <span class="dl-btn target">⬇ Download LTS<small>แนะนำ — กดอันนี้</small></span>
+                <span class="dl-btn alt">Current<small>ไม่ต้องกด</small></span>
+              </div>
+              <div class="click-badge">👆 กดปุ่มเขียว "LTS"</div>
+            </div>
+          </div>
+          <ul class="action-list">
+            <li><span class="action-num">3</span><span class="action-text">ไฟล์ <strong>node-….msi</strong> จะถูกดาวน์โหลด <strong>ดับเบิลคลิก</strong>เปิด (มุมขวาบน หรือโฟลเดอร์ Downloads)</span></li>
+            <li><span class="action-num">4</span><span class="action-text">หน้าต่างติดตั้ง — กดไปตามนี้:</span></li>
+          </ul>
+          <div class="shot">
+            <div class="win-mock">
+              <div class="win-top">🪟 Node.js Setup</div>
+              <div class="win-content">Welcome to the Node.js Setup Wizard<br>กดปุ่มสีฟ้าเพื่อไปต่อ →</div>
+              <div class="win-foot"><span class="win-btn">Back</span><span class="win-btn primary">Next</span></div>
+            </div>
+            <div class="click-badge">👆 Next → ติ๊ก "I accept" → Next → Next → Install</div>
+          </div>
+          <ul class="action-list">
+            <li><span class="action-num">5</span><span class="action-text">ถ้า Windows เด้งถาม "Do you want to allow…" กด <strong>Yes</strong></span></li>
+            <li><span class="action-num">6</span><span class="action-text">กด <strong>Finish</strong> — ติดตั้ง Node.js สำเร็จ! ✅</span></li>
+          </ul>
         </div>
 
+        <!-- ===== PART B (shared) ===== -->
+        <div class="part-label">ส่วน B · เช็ก Node แล้วติดตั้ง Claude Code</div>
+        <ul class="action-list">
+          <li><span class="action-num">1</span><span class="action-text">เปิดโปรแกรมพิมพ์คำสั่ง<small>🍎 Mac: กด Cmd+Space พิมพ์ "Terminal" กด Enter · 🪟 Windows: กดปุ่ม Windows พิมพ์ "PowerShell" กด Enter</small></span></li>
+          <li><span class="action-num">2</span><span class="action-text">พิมพ์ <strong>node -v</strong> กด Enter — ถ้าขึ้นเลขเวอร์ชัน = สำเร็จ ✅</span></li>
+        </ul>
+        <div class="term-check"><span style="color:var(--a)">$ </span><span style="color:#fff">node -v</span><br><span style="color:#27C93F">v22.14.0  ← เห็นเลขแบบนี้ = ผ่าน!</span></div>
+        <ul class="action-list">
+          <li><span class="action-num">3</span><span class="action-text">คัดลอกคำสั่งข้างล่าง วางในหน้าจอนั้น แล้วกด Enter เพื่อติดตั้ง Claude Code:</span></li>
+        </ul>
+        <div class="terminal">
+          <div class="term-bar"><span class="tdot" style="background:#FF5F56"></span><span class="tdot" style="background:#FFBD2E"></span><span class="tdot" style="background:#27C93F"></span><span class="term-title">Terminal / PowerShell</span></div>
+          <div class="term-body"><span class="prompt">$ </span><span class="cmd" id="cmd-install">npm install -g @anthropic-ai/claude-code</span></div>
+        </div>
+        <button class="copy-cmd" onclick="copyText('cmd-install',this)">📋 คัดลอกคำสั่ง</button>
         <div class="note note-tip">
           <span class="ni">💡</span>
-          <div class="note-body">เห็นข้อความวิ่งๆ เยอะๆ คือ <strong>กำลังติดตั้ง ปกติ!</strong> รอจนกว่าจะหยุดและกลับมาที่บรรทัดพิมพ์คำสั่งได้</div>
+          <div class="note-body">เห็นข้อความวิ่งๆ เยอะๆ = <strong>กำลังติดตั้ง ปกติ!</strong> รอจนหยุดและกลับมาที่บรรทัดพิมพ์คำสั่งได้ แล้วไปขั้นที่ 2 ต่อ</div>
         </div>
       </div>
     </div>
