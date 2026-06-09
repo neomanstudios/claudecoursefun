@@ -50,9 +50,21 @@ def block_keypoint(b, sid):
 
 def block_howto(b, sid):
     # one-step-at-a-time stepper (Back/Next); full list shown if JS is off.
-    steps = "".join(
-        f'<li class="{"active" if i == 0 else ""}"><span class="ho-n">{i+1}</span>'
-        f'<div class="ht">{s}</div></li>' for i, s in enumerate(b["steps"]))
+    # a step may be a string, or {text, prompt} to embed a copyable prompt IN the step.
+    lis = []
+    for i, s in enumerate(b["steps"]):
+        if isinstance(s, dict):
+            ht = s.get("text", "")
+            if s.get("prompt"):
+                pid = f"{sid}-p{i}"
+                ht += (f'<div class="step-prompt"><div class="prompt-text" id="{pid}">'
+                       f'{html.escape(s["prompt"])}</div>'
+                       f'<button class="copy-btn sp-copy" onclick="cp(\'{pid}\')">คัดลอก Prompt</button></div>')
+        else:
+            ht = s
+        cls = ' class="active"' if i == 0 else ''
+        lis.append(f'<li{cls}><span class="ho-n">{i+1}</span><div class="ht">{ht}</div></li>')
+    steps = "".join(lis)
     badge = f'<span class="badge">{html.escape(b["badge"])}</span>' if b.get("badge") else ""
     title = html.escape(b.get("title", "ลองเลย"))
     n = len(b["steps"])

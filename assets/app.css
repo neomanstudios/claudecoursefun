@@ -586,3 +586,17 @@ html.js .howto[data-stepper] .howto-nav{display:flex}
 .ho-prev:active,.ho-next:active{transform:scale(.97)}
 .ho-prev:disabled{opacity:.4;cursor:default;transform:none;filter:none}
 .ho-count{flex:1;text-align:center;font-family:var(--mono);font-size:.82rem;color:var(--muted)}
+/* inline prompt living INSIDE the step — nested tray + plate (double-bezel) */
+.step-prompt{margin-top:.95rem;padding:.45rem;border-radius:16px;
+  background:color-mix(in srgb,var(--mc) 8%,var(--card));
+  border:1px solid color-mix(in srgb,var(--mc) 24%,var(--line));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
+.step-prompt .prompt-text{margin:0;background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:.9rem 1rem;font-size:.95rem;line-height:1.7;color:var(--ink);white-space:pre-wrap;
+  box-shadow:0 1px 2px color-mix(in srgb,var(--mc) 12%,transparent)}
+.step-prompt .sp-copy{margin:.6rem .1rem .1rem}
+/* spring-eased entrance each time a step becomes active */
+@media (prefers-reduced-motion:no-preference){
+  html.js .howto[data-stepper] > ol > li.active{animation:stepIn .55s cubic-bezier(.32,.72,0,1)}
+}
+@keyframes stepIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}

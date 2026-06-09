@@ -104,7 +104,7 @@
   // ---- copy buttons ----
   window.cp=function(id){var el=document.getElementById(id||'pt');if(!el)return;
     navigator.clipboard.writeText(el.innerText);
-    var box=el.closest('.prompt-box');
+    var box=el.closest('.prompt-box, .step-prompt');
     var b=box?box.querySelector('.copy-btn'):document.querySelector('.copy-btn');if(!b)return;var o=b.innerHTML;
     b.innerHTML='✅ คัดลอกแล้ว!';b.classList.add('done');
     setTimeout(function(){b.innerHTML=o;b.classList.remove('done')},1800);};
