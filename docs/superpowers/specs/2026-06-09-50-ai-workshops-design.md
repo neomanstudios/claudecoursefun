@@ -106,15 +106,14 @@ Extend `tools/build_site.py`:
 
 ---
 
-## 7. Authoring pipeline (decided — Claude writes the content)
+## 7. Authoring pipeline (decided — Claude writes the content, in-session)
 
-New script **`tools/gen_workshop.py`** (mirrors the existing `gen_lesson_detail.py` pattern, but calls **Anthropic's API**):
-- Input: `data/workshops.json` catalog (category, title, goal, level).
-- For each workshop, call Claude with a **system prompt** that enforces: Thai, Gen-Z-friendly, scannable, the exact JSON block schema (§5), minimal emoji, a runnable prompt, and 2–3 quiz items. Use **tool-use / structured output** so the model returns valid JSON (no parsing guesswork).
-- Write results into `data/workshops_content.json`. **Resumable**: skip workshops already present unless `--force`; `--only <slug>` for one.
-- **Model:** flagships with the most capable model; bulk can use a faster tier to manage cost (a config knob). Exact model IDs and SDK usage per the `claude-api` skill at implementation time.
-- **Requires `ANTHROPIC_API_KEY`** in the environment (read the same lazy way as the Gemini key, with a clear error if missing).
-- Human review/edit pass after generation before publish.
+There is **no Anthropic API key available**, so workshops are authored by **Claude directly in the working session** (this assistant), not by an API script:
+- Work from the `data/workshops.json` catalog (category, title, goal).
+- Claude writes each workshop's content into `data/workshops_content.json` following the exact block schema (§5): Thai, Gen-Z-friendly, scannable, minimal emoji, a runnable prompt, 2–3 quiz items, **no em-dashes**.
+- Authored in **batches by category**, reviewed (spec + quality) before the build renders them. The 3 flagships set the quality bar.
+- The build (`build_workshops.py`) renders only workshops that have content; the rest show "เร็ว ๆ นี้" until authored.
+- No `gen_workshop.py` / no `ANTHROPIC_API_KEY` needed. (If an Anthropic key becomes available later, this could be scripted, but it is not required.)
 
 **Images:** per-workshop illustrations continue via `tools/gen_images.py` (Gemini), reusing the per-category color in the prompt builder. (Claude cannot generate images.)
 
@@ -123,7 +122,7 @@ New script **`tools/gen_workshop.py`** (mirrors the existing `gen_lesson_detail.
 ## 8. Phasing (for the implementation plan)
 
 1. **Templatize the format** — move the lesson-1.1 prototype into `render_workshop`; add `workshops.json` + `workshops_content.json` plumbing; restyle landing/sidebar by category. Ship with 2–3 **hand-written flagship** workshops (one validates each block type).
-2. **Build the Claude generator** — `gen_workshop.py` with structured output + the system prompt; generate a first batch (e.g. one category), review quality, tune the prompt.
+2. **Author content in batches** — Claude writes the remaining workshops into `workshops_content.json` one category at a time (in-session), reviewing each batch; the build renders them as they land.
 3. **Generate the rest** — batch the remaining workshops, review, publish.
 4. **Images** — extend the Gemini image map to the 50 workshops; generate.
 5. **Migrate** the existing Claude Code lessons into Category 6's workshop format.
