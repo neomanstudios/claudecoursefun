@@ -324,6 +324,79 @@ code{background:var(--code-bg);color:var(--code-ink);padding:.12rem .42rem;borde
   background:var(--mc);color:#fff;border-radius:50%;font-size:.72rem;font-weight:800;
   display:flex;align-items:center;justify-content:center;line-height:1}
 
+/* ============================================================
+   Infographic / scannable lesson toolkit (the workshop format)
+   Goal: separate essence from detail, replace text walls with
+   visual blocks, keep it easy on the eyes. Drives all workshops.
+   ============================================================ */
+
+/* "รู้ใน 30 วิ" — the essence, pulled to the top */
+.glance{position:relative;border-radius:var(--radius);padding:1.3rem 1.45rem;margin:0 0 1.9rem;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--mc) 13%,var(--card)),var(--card));
+  border:1px solid color-mix(in srgb,var(--mc) 28%,var(--line))}
+.glance-t{font-family:var(--font-display);font-weight:700;font-size:.78rem;letter-spacing:.03em;
+  color:var(--mc);text-transform:uppercase;margin-bottom:.5rem;display:flex;align-items:center;gap:.45rem}
+.glance-t::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--mc)}
+.glance p{font-size:1.08rem;color:var(--ink);line-height:1.65;margin:0 0 .9rem;font-weight:500}
+.glance-chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{font-size:.83rem;font-weight:600;color:var(--ink-2);background:var(--card);
+  border:1px solid var(--line);border-radius:99px;padding:.36rem .85rem}
+.chip b{color:var(--mc)}
+
+/* section heading inside a lesson */
+.sec-title{font-family:var(--font-display);font-weight:700;font-size:1.32rem;color:var(--ink);
+  margin:2.3rem 0 .25rem;line-height:1.3}
+.sec-lead{color:var(--muted);font-size:.95rem;margin-bottom:1rem}
+
+/* comparison infographic with an "autonomy" meter */
+.vs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.2rem 0 1.6rem}
+.vs{display:flex;flex-direction:column;gap:.5rem;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:1.1rem;box-shadow:var(--shadow-sm)}
+.vs.is-best{border-color:color-mix(in srgb,var(--mc) 50%,var(--line));
+  box-shadow:0 10px 26px color-mix(in srgb,var(--mc) 20%,transparent)}
+.vs-ic{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:1.35rem;background:color-mix(in srgb,var(--vc,var(--mc)) 16%,transparent)}
+.vs-name{font-family:var(--font-display);font-weight:700;font-size:1.02rem;color:var(--ink)}
+.vs-role{font-size:.86rem;color:var(--ink-2);line-height:1.5;flex:1}
+.meter{display:flex;gap:.28rem;align-items:center;margin-top:.35rem}
+.meter i{width:20px;height:7px;border-radius:99px;background:var(--line-2);border:1px solid var(--line)}
+.meter i.on{background:var(--vc,var(--mc));border-color:transparent}
+.meter span{font-size:.72rem;color:var(--muted);margin-left:.4rem;font-weight:700;font-family:var(--mono)}
+
+/* key-point pull-out (the one thing to remember) */
+.keypoint{margin:1.6rem 0;padding:1.05rem 1.3rem;border-radius:var(--radius);
+  background:color-mix(in srgb,var(--mc) 9%,var(--card));border-left:5px solid var(--mc)}
+.keypoint p{font-size:1.05rem;color:var(--ink);font-weight:600;line-height:1.6;margin:0}
+
+/* concept cards (numbered, no emoji) replacing bullet walls */
+.concept-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.1rem 0 1.6rem}
+.concept{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.05rem;
+  box-shadow:var(--shadow-sm)}
+.concept .c-num{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-weight:800;font-size:.85rem;margin-bottom:.6rem;color:var(--mc);
+  background:color-mix(in srgb,var(--mc) 15%,transparent)}
+.concept h4{font-family:var(--font-display);font-weight:600;font-size:.98rem;color:var(--ink);margin-bottom:.25rem}
+.concept p{font-size:.87rem;color:var(--ink-2);line-height:1.55;margin:0}
+
+/* hands-on "ลองเลย" steps — big, tactile, scannable */
+.howto{margin:1.3rem 0 1.6rem}
+.howto-t{font-family:var(--font-display);font-weight:700;font-size:1.15rem;color:var(--ink);
+  margin-bottom:1rem;display:flex;align-items:center;gap:.55rem}
+.howto-t .badge{font-size:.7rem;font-weight:700;color:#fff;background:var(--mc);border-radius:99px;
+  padding:.22rem .7rem;font-family:var(--font);letter-spacing:.02em}
+.howto ol{list-style:none;counter-reset:hs;display:flex;flex-direction:column;gap:.7rem}
+.howto li{counter-increment:hs;display:flex;gap:.85rem;align-items:flex-start;background:var(--card);
+  border:1px solid var(--line);border-radius:13px;padding:.85rem 1rem;box-shadow:var(--shadow-sm)}
+.howto li::before{content:counter(hs);flex-shrink:0;width:2rem;height:2rem;border-radius:50%;
+  background:var(--mc);color:#fff;font-family:var(--mono);font-weight:800;font-size:.88rem;
+  display:flex;align-items:center;justify-content:center}
+.howto .ht{color:var(--ink-2);font-size:.93rem;line-height:1.55;padding-top:.15rem}
+.howto .ht b{color:var(--ink)}
+
+@media(max-width:720px){
+  .vs-grid,.concept-grid{grid-template-columns:1fr}
+}
+
 /* ---------- Quiz ---------- */
 .quiz{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
   padding:1.5rem;margin:2.2rem 0;box-shadow:var(--shadow)}
