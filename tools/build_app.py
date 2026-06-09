@@ -3,7 +3,7 @@
 Reuses the content generators from build_site (detail_body / objectives / quiz),
 wraps them in the dark player shell, and writes app/lessons/<slug>.html + app/index.html.
 Uses app/app.css + app/app.js (the dark design system)."""
-import os, html, json
+import os, re, html, json
 from build_site import (course, meta, detail_body, objectives_html, quiz_html,
                         add_section_ids, declutter_labels)
 
@@ -63,10 +63,71 @@ def cover(les, slug):
             f'<span class="readbadge"><svg class="ic" viewBox="0 0 24 24" style="width:14px;color:var(--accent-2)"><path d="M4 19V6a2 2 0 0 1 2-2h7v17H6a2 2 0 0 1-2-2Z"/><path d="M13 4h5a2 2 0 0 1 2 2v13"/></svg>บทเรียนแบบอ่าน</span></div>')
 
 
+# --- turn raw step lists into clean, structured steps for the guided stepper ---
+# Source steps (detail.json) are inconsistent: some carry literal "1." / "ขั้นที่ 2:"
+# prefixes (duplicating the visible number), unrendered **bold**, and a prompt buried
+# inline as <code> or "quoted text". We normalise each step and lift the prompt into
+# an inline copy-tray so every step is self-contained and focused.
+_LEAD_ENUM = re.compile(
+    r'^\s*(?:\d+\s*[.)\:]\s*'
+    r'|ขั้น(?:ตอน)?ที่\s*\d+\s*[:：.)]?\s*'
+    r'|STEP\s*\d+\s*[:：.)]?\s*)', re.IGNORECASE)
+_BOLD = re.compile(r'\*\*(.+?)\*\*', re.S)
+_CODE = re.compile(r'<code>(.*?)</code>', re.S)
+_QUOTE = re.compile(r'[\"“]([^\"”]{25,})[\"”]')
+_TITLE = re.compile(r'^\s*<strong>(.*?)</strong>\s*[:：]?\s*(.*)$', re.S)
+_PROMPT_SVG = ('<svg class="ic" viewBox="0 0 24 24" style="width:15px">'
+    '<path d="M9 9h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2Z"/>'
+    '<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>')
+_CMD_SVG = ('<svg class="ic" viewBox="0 0 24 24" style="width:15px">'
+    '<path d="m6 8 4 4-4 4"/><path d="M13 16h5"/></svg>')
+
+def prompt_tray(prompt):
+    """An inline copy-tray for a prompt/command. Thai text -> 'Prompt'; ASCII -> 'คำสั่ง' (mono).
+    Reused by lesson steps and workshop howto steps."""
+    ptxt = re.sub(r'<[^>]+>', '', prompt)
+    is_thai = any('฀' <= ch <= '๿' for ch in ptxt)
+    icon, label, cls = (_PROMPT_SVG, 'พิมพ์ Prompt นี้', 'sp-text') if is_thai \
+                       else (_CMD_SVG, 'คัดลอกคำสั่งนี้', 'sp-text sp-cmd')
+    return (f'<div class="step-prompt"><div class="sp-top">{icon}{label}</div>'
+            f'<code class="{cls}">{prompt}</code>'
+            f'<button class="sp-copy" type="button">{_PROMPT_SVG}คัดลอก</button></div>')
+
+def _one_step(s):
+    s = _LEAD_ENUM.sub('', s.strip())
+    s = _BOLD.sub(r'<strong>\1</strong>', s).replace('**', '')
+    prompt = None
+    m = _CODE.search(s)
+    if m and len(re.sub(r'<[^>]+>', '', m.group(1)).strip()) >= 25:
+        prompt = m.group(1).strip(); s = s[:m.start()] + s[m.end():]
+    else:
+        m = _QUOTE.search(s)
+        if m:
+            prompt = m.group(1).strip(); s = s[:m.start()] + s[m.end():]
+    s = re.sub(r'[\s:：\-–—"“”]+$', '', s).strip()
+    title, desc = None, s
+    mt = _TITLE.match(s)
+    if mt:
+        title = mt.group(1).strip().rstrip(':：').strip(); desc = mt.group(2).strip()
+    main = ''
+    if title: main += f'<div class="st-t">{title}</div>'
+    if desc:  main += f'<div class="st-d">{desc}</div>'
+    if prompt:
+        main += prompt_tray(prompt)
+    return f'<li class="step"><div class="st-main">{main}</div></li>'
+
+def restructure_steps(body):
+    def repl(m):
+        lis = re.findall(r'<li>(.*?)</li>', m.group(1), re.S)
+        if not lis: return m.group(0)
+        attr = ' data-stepper' if len(lis) >= 2 else ''
+        return f'<ol class="steps"{attr}>' + ''.join(_one_step(li) for li in lis) + '</ol>'
+    return re.sub(r'<ol class="steps">(.*?)</ol>', repl, body, flags=re.S)
+
 def render(les):
     c = les["content"]; slug = les["slug"]
     title = c.get("h1") or les["title"]
-    body, toc_items = add_section_ids(declutter_labels(detail_body(slug, c.get("body_html", ""))))
+    body, toc_items = add_section_ids(declutter_labels(restructure_steps(detail_body(slug, c.get("body_html", "")))))
     obj = objectives_html(slug)
     qz = quiz_html(slug)
     toc = "".join(f'<a href="#{sid}">{html.escape(t)}</a>' for sid, t in toc_items)
@@ -140,7 +201,8 @@ def build_index():
 <div class="home">
 <div class="hero"><div class="k">คอร์สเรียนภาษาไทย</div><h1>เรียนใช้ <em>Claude Code</em> สร้างงานจริง</h1>
 <p>{total} บทเรียน · {len(course['modules'])} โมดูล · เรียนฟรีทุกบท พามือใหม่ใช้ AI agent สร้างงานได้ทีละขั้น</p>
-<a class="cta" href="lessons/{first}">เริ่มเรียนบทแรก &#8594;</a></div>
+<div class="hero-cta"><a class="cta" href="lessons/{first}">เริ่มเรียนบทแรก &#8594;</a>
+<a class="cta2" href="workshops/index.html">เวิร์กช็อปลงมือทำ 50 แบบ &#8594;</a></div></div>
 <h2 class="sec">เนื้อหาคอร์ส</h2>
 <div class="mgrid">{''.join(cards)}</div>
 </div></div>
