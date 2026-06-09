@@ -1,0 +1,75 @@
+{
+  "categories": [
+    { "num": "1", "slug": "foundations", "title": "เริ่มต้นกับ AI", "color": "m4",
+      "workshops": [
+        { "slug": "w-choose-tool", "title": "เลือกเครื่องมือ AI ให้เหมาะกับงาน", "goal": "เลือกเครื่องมือ AI ได้ถูกกับงานของตัวเอง", "flagship": true },
+        { "slug": "w-prompt-basics", "title": "เขียน Prompt ให้ได้ผลลัพธ์ดี", "goal": "เขียน prompt ที่ชัดเจนและได้คำตอบที่ใช้ได้จริง" },
+        { "slug": "w-verify-answers", "title": "เช็กความถูกต้องของคำตอบ AI", "goal": "ตรวจสอบและไม่หลงเชื่อคำตอบ AI ที่ผิด" },
+        { "slug": "w-ai-safety", "title": "ความปลอดภัยเมื่อใช้ AI", "goal": "ใช้ AI อย่างปลอดภัย ไม่หลุดข้อมูลส่วนตัว" },
+        { "slug": "w-setup-accounts", "title": "ตั้งค่าบัญชี AI ยอดนิยม", "goal": "สมัครและตั้งค่า ChatGPT/Claude/Gemini ได้" }
+      ] },
+    { "num": "2", "slug": "design", "title": "ออกแบบ & ครีเอทีฟ", "color": "m6",
+      "workshops": [
+        { "slug": "w-logo", "title": "สร้างโลโก้ด้วย AI", "goal": "ได้โลโก้ใช้งานได้จาก AI image gen", "flagship": true },
+        { "slug": "w-social-post", "title": "ออกแบบโพสต์โซเชียล", "goal": "ทำภาพโพสต์โซเชียลให้สวยและตรงแบรนด์" },
+        { "slug": "w-slides", "title": "ทำสไลด์พรีเซนต์ด้วย AI", "goal": "สร้างสไลด์พรีเซนต์ครบชุดเร็ว ๆ" },
+        { "slug": "w-bg-remove", "title": "ลบ/เปลี่ยนพื้นหลังรูป", "goal": "แก้พื้นหลังรูปภาพด้วย AI" },
+        { "slug": "w-brand-kit", "title": "สร้าง brand kit", "goal": "ได้ชุดสี ฟอนต์ และสไตล์แบรนด์" },
+        { "slug": "w-ui-mockup", "title": "ออกแบบ UI mockup", "goal": "ร่างหน้าตาเว็บ/แอปด้วย AI" },
+        { "slug": "w-short-video", "title": "ทำคลิปสั้นด้วย AI", "goal": "สร้างวิดีโอสั้นจากข้อความ/ภาพ" },
+        { "slug": "w-sticker-set", "title": "ทำชุดสติกเกอร์/ไอคอน", "goal": "ได้ชุดสติกเกอร์สไตล์เดียวกัน" }
+      ] },
+    { "num": "3", "slug": "writing", "title": "เขียน & คอนเทนต์", "color": "m2",
+      "workshops": [
+        { "slug": "w-seo-article", "title": "เขียนบทความ SEO", "goal": "เขียนบทความที่ติดอันดับและอ่านง่าย" },
+        { "slug": "w-sales-caption", "title": "เขียนแคปชั่นขายของ", "goal": "เขียนแคปชั่นที่กระตุ้นยอดขาย" },
+        { "slug": "w-yt-script", "title": "เขียนสคริปต์ YouTube", "goal": "ได้สคริปต์คลิปที่ลื่นไหล" },
+        { "slug": "w-pro-email", "title": "เขียนอีเมลมืออาชีพ", "goal": "ร่างอีเมลงานสุภาพและชัดเจน" },
+        { "slug": "w-summarize", "title": "สรุปเอกสารยาว ๆ", "goal": "ย่อเอกสารยาวให้เหลือใจความ" },
+        { "slug": "w-translate-tone", "title": "แปล & ปรับโทนภาษา", "goal": "แปลและปรับโทนให้เหมาะกับผู้อ่าน" },
+        { "slug": "w-content-plan", "title": "วางแผนคอนเทนต์ 1 เดือน", "goal": "ได้ปฏิทินคอนเทนต์พร้อมไอเดีย" }
+      ] },
+    { "num": "4", "slug": "professional", "title": "งานอาชีพ & เฉพาะทาง", "color": "m7",
+      "workshops": [
+        { "slug": "w-resume", "title": "ทำเรซูเม่/CV ให้โดดเด่น", "goal": "ได้เรซูเม่ที่ผ่านด่าน ATS และน่าสนใจ" },
+        { "slug": "w-interview-prep", "title": "เตรียมสัมภาษณ์งานกับ AI", "goal": "ซ้อมสัมภาษณ์และตอบได้มั่นใจ" },
+        { "slug": "w-excel-analysis", "title": "วิเคราะห์ข้อมูล Excel ด้วย AI", "goal": "วิเคราะห์และสรุปข้อมูลตารางได้" },
+        { "slug": "w-market-research", "title": "ทำ market research", "goal": "หาข้อมูลตลาดและคู่แข่งอย่างเป็นระบบ" },
+        { "slug": "w-biz-docs", "title": "ร่างเอกสารธุรกิจเบื้องต้น", "goal": "ร่างเอกสาร/ข้อเสนอธุรกิจได้เร็ว" },
+        { "slug": "w-personal-finance", "title": "วางแผนการเงินส่วนตัว", "goal": "ทำงบและแผนการเงินด้วยตัวช่วย AI" },
+        { "slug": "w-pitch", "title": "ทำ pitch / business plan", "goal": "ได้โครงแผนธุรกิจและสไลด์ pitch" },
+        { "slug": "w-sales-assistant", "title": "ผู้ช่วยงานขาย/ตอบลูกค้า", "goal": "ตั้งผู้ช่วยตอบลูกค้าให้เร็วและสุภาพ" }
+      ] },
+    { "num": "5", "slug": "automation", "title": "ระบบอัตโนมัติ & ผู้ช่วย", "color": "m5",
+      "workshops": [
+        { "slug": "w-chatbot", "title": "สร้างแชทบอตตอบลูกค้า", "goal": "ได้แชทบอตตอบคำถามพื้นฐานเอง", "flagship": true },
+        { "slug": "w-nocode-automation", "title": "automation ด้วย no-code", "goal": "ต่อ AI เข้ากับ Zapier/Make ทำงานอัตโนมัติ" },
+        { "slug": "w-personal-assistant", "title": "ตั้งผู้ช่วยส่วนตัว", "goal": "มีผู้ช่วย AI ส่วนตัวช่วยงานประจำวัน" },
+        { "slug": "w-rag-docs", "title": "ถามตอบจากเอกสารของเรา", "goal": "ให้ AI ตอบจากไฟล์/เอกสารของเราเอง" },
+        { "slug": "w-excel-macro", "title": "ทำสูตร/มาโคร Excel ด้วย AI", "goal": "สร้างสูตรและมาโครจากคำอธิบาย" },
+        { "slug": "w-ai-agent", "title": "สร้าง AI agent หลายขั้น", "goal": "ให้ AI ทำงานหลายขั้นตอนต่อเนื่อง" },
+        { "slug": "w-mcp-connect", "title": "เชื่อม AI กับเครื่องมือ (MCP)", "goal": "ต่อ AI เข้ากับเครื่องมือที่ใช้อยู่" },
+        { "slug": "w-meeting-notes", "title": "ถอดเสียง & สรุปประชุม", "goal": "ได้บันทึกและสรุปการประชุมอัตโนมัติ" }
+      ] },
+    { "num": "6", "slug": "build", "title": "สร้างแอป & โค้ด", "color": "m1",
+      "workshops": [
+        { "slug": "w-first-webapp", "title": "สร้างเว็บแอปแรกด้วย Claude Code", "goal": "ได้เว็บแอปง่าย ๆ ที่รันได้จริง" },
+        { "slug": "w-debug", "title": "ดีบักด้วย Claude Code", "goal": "หาและแก้บั๊กอย่างเป็นระบบ" },
+        { "slug": "w-deploy", "title": "deploy เว็บขึ้นออนไลน์", "goal": "นำเว็บขึ้นออนไลน์ฟรี" },
+        { "slug": "w-mcp-db", "title": "เชื่อมฐานข้อมูลผ่าน MCP", "goal": "ให้ Claude อ่าน/เขียนฐานข้อมูล" },
+        { "slug": "w-hooks", "title": "ตั้ง hooks อัตโนมัติ", "goal": "ให้ Claude Code ทำงานอัตโนมัติตาม event" },
+        { "slug": "w-slash-commands", "title": "สร้าง slash command", "goal": "ทำคำสั่งลัดของตัวเอง" },
+        { "slug": "w-multi-agent", "title": "ใช้หลาย agent ทำงานพร้อมกัน", "goal": "แบ่งงานให้หลาย agent ทำขนานกัน" },
+        { "slug": "w-headless-ci", "title": "รัน Claude ใน CI/CD", "goal": "ใช้ Claude Code แบบ headless อัตโนมัติ" }
+      ] },
+    { "num": "7", "slug": "learning", "title": "การศึกษา & เรียนรู้", "color": "m8",
+      "workshops": [
+        { "slug": "w-tutor", "title": "ติวเตอร์ส่วนตัวด้วย AI", "goal": "มีติวเตอร์ AI อธิบายเรื่องยากให้เข้าใจ" },
+        { "slug": "w-flashcards", "title": "ทำ flashcard/quiz จากเนื้อหา", "goal": "สร้างการ์ดคำถามไว้ทบทวน" },
+        { "slug": "w-learn-english", "title": "ฝึกภาษาอังกฤษกับ AI", "goal": "ฝึกพูด/เขียนอังกฤษกับ AI" },
+        { "slug": "w-lecture-notes", "title": "สรุปเลกเชอร์", "goal": "ย่อเลกเชอร์เป็นโน้ตที่อ่านง่าย" },
+        { "slug": "w-research-helper", "title": "ช่วยทำวิจัยอย่างมีจริยธรรม", "goal": "ใช้ AI ช่วยค้นคว้าโดยอ้างอิงถูกต้อง" },
+        { "slug": "w-study-plan", "title": "วางแผนการเรียน", "goal": "ได้แผนการเรียนรายสัปดาห์" }
+      ] }
+  ]
+}
