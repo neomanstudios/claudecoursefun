@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050510">
+<meta name="description" content="วิธีติดตั้ง MCP Server และ Skills ใน Claude Code ทีละขั้น พร้อมคำสั่ง copy-paste ได้เลย">
+<title>ติดตั้ง MCP & Skills | Claude Code Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700;800&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--p:#6C63FF;--s:#FF6B6B;--a:#4ECDC4;--g:#FFD700;--green:#27C93F;--dkr:#070713;--cd:#13132b;--cd2:#1c1c3a;--tx:#EDEDFF;--mt:#9aa0d0;--line:rgba(255,255,255,.07);--g1:linear-gradient(135deg,#6C63FF,#4ECDC4);--g2:linear-gradient(135deg,#FF6B6B,#FFD700);--glow:0 0 40px rgba(108,99,255,.3)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Sarabun',sans-serif;background:var(--dkr);color:var(--tx);font-size:17px;line-height:1.85;-webkit-font-smoothing:antialiased}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.star{position:absolute;border-radius:50%;background:#fff;animation:tw var(--d) ease-in-out infinite}
+@keyframes tw{0%,100%{opacity:.1}50%{opacity:.55}}
+.bar{position:fixed;top:0;left:0;height:3px;z-index:9999;background:var(--g1);width:0;transition:width .1s}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(7,7,19,.9);backdrop-filter:blur(18px);border-bottom:1px solid var(--line);padding:.7rem clamp(1rem,4vw,2rem);display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.brand{display:flex;align-items:center;gap:.6rem;text-decoration:none}
+.brand .logo{width:32px;height:32px;border-radius:9px;background:var(--g1);display:flex;align-items:center;justify-content:center;font-size:1rem}
+.brand .nm{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-home{color:var(--mt);text-decoration:none;font-size:.85rem;padding:.4rem .9rem;border-radius:8px;transition:.2s}
+.nav-home:hover{color:var(--tx);background:rgba(255,255,255,.05)}
+.wrap{max-width:780px;margin:0 auto;padding:0 clamp(1rem,4vw,1.5rem);position:relative;z-index:2}
+.hero{padding:7rem 1.5rem 2rem;text-align:center;position:relative;z-index:2}
+.hbadge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(108,99,255,.12);border:1px solid rgba(108,99,255,.3);border-radius:30px;padding:.4rem 1.1rem;font-size:.82rem;color:var(--p);margin-bottom:1.5rem;font-weight:600}
+.hero h1{font-size:clamp(2rem,5vw,2.9rem);font-weight:800;line-height:1.25;margin-bottom:1rem}
+.hl{background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hl2{background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--mt);font-size:1.1rem;max-width:540px;margin:0 auto;line-height:1.85}
+
+/* explainer */
+.what{background:linear-gradient(135deg,rgba(108,99,255,.08),rgba(78,205,196,.05));border:1px solid rgba(108,99,255,.2);border-radius:20px;padding:2rem;margin:2rem 0}
+.what h3{font-size:1.15rem;font-weight:800;margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem}
+.what p{color:var(--mt);margin-bottom:.6rem}
+.what strong{color:var(--tx)}
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.2rem}
+.vc{background:rgba(0,0,0,.25);border-radius:12px;padding:1.1rem;border:1px solid var(--line)}
+.vc .vt{font-weight:700;font-size:.9rem;margin-bottom:.4rem;display:flex;align-items:center;gap:.4rem}
+.vc p{font-size:.82rem;margin:0}
+@media(max-width:680px){.twocol{grid-template-columns:1fr}}
+
+/* quick nav */
+.qnav{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin:2rem 0}
+.qnav a{background:var(--cd);border:1px solid var(--line);border-radius:30px;padding:.5rem 1.1rem;font-size:.84rem;font-weight:600;color:var(--mt);text-decoration:none;transition:.2s}
+.qnav a:hover{border-color:rgba(108,99,255,.4);color:var(--p)}
+
+.sec-head{margin:3.5rem 0 1.5rem}
+.sec-tag{display:inline-block;background:rgba(108,99,255,.1);color:var(--p);border:1px solid rgba(108,99,255,.25);padding:.3rem 1rem;border-radius:20px;font-size:.72rem;font-weight:700;letter-spacing:.05em;margin-bottom:.7rem;text-transform:uppercase}
+.sec-head h2{font-size:clamp(1.5rem,4vw,2rem);font-weight:800}
+.sec-head p{color:var(--mt);font-size:.95rem;margin-top:.3rem}
+
+/* step */
+.step{background:var(--cd);border:1px solid var(--line);border-radius:18px;padding:1.8rem;margin-bottom:1.3rem;position:relative;overflow:hidden}
+.step::before{content:'';position:absolute;top:0;left:0;bottom:0;width:4px;background:var(--g1)}
+.step-h{display:flex;align-items:center;gap:.9rem;margin-bottom:1rem}
+.step-n{width:34px;height:34px;border-radius:50%;background:var(--g1);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.step-t{font-size:1.1rem;font-weight:700}
+.step p{color:var(--mt);font-size:.93rem;margin-bottom:.7rem}
+.step strong{color:var(--tx)}
+.step code{background:rgba(108,99,255,.12);color:#A89FFF;padding:.1rem .45rem;border-radius:5px;font-family:'JetBrains Mono',monospace;font-size:.85rem}
+
+/* terminal */
+.term{background:#0a0a18;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:.8rem 0}
+.term-bar{background:rgba(255,255,255,.04);padding:.5rem .9rem;display:flex;align-items:center;gap:.4rem;border-bottom:1px solid var(--line)}
+.td{width:10px;height:10px;border-radius:50%}
+.term-title{flex:1;text-align:center;font-size:.7rem;color:var(--mt);font-family:'JetBrains Mono',monospace}
+.term-body{padding:1rem 1.1rem;font-family:'JetBrains Mono',monospace;font-size:.8rem;line-height:1.85;overflow-x:auto;white-space:pre}
+.cp{color:#A89FFF}.ct{color:#4ECDC4}.cg{color:#27C93F}.co{color:#FFD700}.cr{color:#FF6B6B}.cm{color:var(--mt)}.cw{color:#EDEDFF}
+.copy{margin-top:.5rem;background:rgba(108,99,255,.15);color:var(--p);border:1px solid rgba(108,99,255,.3);border-radius:8px;padding:.4rem 1rem;font-size:.78rem;font-weight:700;font-family:'Sarabun',sans-serif;cursor:pointer;transition:.2s}
+.copy:hover{background:rgba(108,99,255,.28)}
+.copy.done{background:var(--green);color:#fff;border-color:var(--green)}
+
+.note{border-radius:12px;padding:.9rem 1.1rem;margin:1rem 0;font-size:.86rem;display:flex;gap:.7rem;align-items:flex-start}
+.note-tip{background:rgba(78,205,196,.07);border:1px solid rgba(78,205,196,.25)}
+.note-tip .ni{color:var(--a)}
+.note-warn{background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.22)}
+.note-warn .ni{color:var(--g)}
+.note .ni{font-size:1.1rem;flex-shrink:0}
+.note-body strong{color:var(--tx)}
+
+/* skill table */
+.sk-row{display:flex;align-items:center;gap:1rem;background:var(--cd);border:1px solid var(--line);border-radius:12px;padding:1rem 1.2rem;margin-bottom:.6rem}
+.sk-row .ic{font-size:1.5rem;flex-shrink:0}
+.sk-row .info{flex:1;min-width:0}
+.sk-row .cmd{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--p);font-size:.85rem}
+.sk-row .ds{color:var(--mt);font-size:.8rem}
+.sk-row .kind{font-size:.65rem;font-weight:700;padding:.2rem .6rem;border-radius:7px;flex-shrink:0;white-space:nowrap}
+.k-mcp{background:rgba(246,130,31,.12);color:#F6A341;border:1px solid rgba(246,130,31,.25)}
+.k-cmd{background:rgba(108,99,255,.12);color:#A89FFF;border:1px solid rgba(108,99,255,.25)}
+
+.next-box{background:linear-gradient(135deg,rgba(108,99,255,.1),rgba(78,205,196,.06));border:1px solid rgba(108,99,255,.25);border-radius:24px;padding:2.5rem 2rem;margin:3rem 0;text-align:center}
+.go-btn{display:inline-flex;align-items:center;gap:.6rem;background:var(--g1);color:#fff;padding:.9rem 1.8rem;border-radius:14px;font-size:1rem;font-weight:700;text-decoration:none;transition:.3s;box-shadow:var(--glow)}
+.go-btn:hover{transform:translateY(-2px)}
+.go-link{display:inline-flex;align-items:center;gap:.5rem;background:rgba(0,0,0,.25);border:1px solid var(--line);color:var(--tx);padding:.7rem 1.3rem;border-radius:12px;text-decoration:none;font-size:.85rem;font-weight:600;transition:.2s}
+.go-link:hover{border-color:var(--p);color:var(--p)}
+footer{border-top:1px solid var(--line);padding:2.5rem 1.5rem;text-align:center;position:relative;z-index:2;margin-top:3rem}
+.fc{color:var(--mt);font-size:.78rem;opacity:.65}
+.fc strong{color:var(--p);opacity:1}
+</style>
+</head>
+<body>
+<div class="bar" id="bar"></div>
+<div class="stars" id="stars"></div>
+<nav>
+  <a href="index.html" class="brand"><span class="logo">⚡</span><span class="nm">Claude Code Hub</span></a>
+  <a href="index.html" class="nav-home">← หน้าหลัก</a>
+</nav>
+
+<section class="hero">
+  <div class="hbadge">🔌 ติดตั้งครั้งเดียว ใช้ได้ตลอด</div>
+  <h1>ติดตั้ง <span class="hl">MCP</span> &amp; <span class="hl2">Skills</span></h1>
+  <p>เพิ่มพลังให้ Claude Code เชื่อมต่อเครื่องมือภายนอกและคำสั่งลัด — ทำตามทีละขั้น คัดลอกคำสั่งไปวางได้เลย</p>
+</section>
+
+<div class="wrap">
+
+  <!-- WHAT -->
+  <div class="what">
+    <h3>🤔 MCP กับ Skills ต่างกันยังไง?</h3>
+    <div class="twocol">
+      <div class="vc">
+        <div class="vt">🔌 MCP Server</div>
+        <p>"ปลั๊ก" ที่เชื่อม Claude เข้ากับเครื่องมือจริง เช่น GitHub, ฐานข้อมูล, Cloudflare — ทำให้ Claude ทำงานกับระบบเหล่านั้นได้โดยตรง</p>
+      </div>
+      <div class="vc">
+        <div class="vt">⚡ Skill / Slash Command</div>
+        <p>"คำสั่งลัด" ที่บันทึก workflow ที่ใช้บ่อยไว้ เช่น /review, /deploy — พิมพ์คำสั่งสั้นๆ แล้ว Claude ทำตามขั้นตอนที่กำหนดไว้</p>
+      </div>
+    </div>
+    <p style="margin-top:1rem;margin-bottom:0"><strong>สรุปง่ายๆ:</strong> MCP = เพิ่ม "ความสามารถ" ให้ Claude · Skill = เพิ่ม "คำสั่งลัด" ให้เรา</p>
+  </div>
+
+  <div class="qnav">
+    <a href="#prereq">ก่อนเริ่ม</a>
+    <a href="#mcp">ติดตั้ง MCP</a>
+    <a href="#skills">สร้าง Skills</a>
+    <a href="#list">8 Skills ในคอร์ส</a>
+  </div>
+
+  <!-- PREREQ -->
+  <div class="sec-head" id="prereq">
+    <span class="sec-tag">ก่อนเริ่ม</span>
+    <h2>ต้องมี Claude Code ก่อน</h2>
+    <p>ถ้ายังไม่ได้ติดตั้ง Claude Code ให้ไปทำตามหน้า "เริ่มจากศูนย์" ก่อน แล้วค่อยกลับมาหน้านี้</p>
+  </div>
+  <div class="note note-tip">
+    <span class="ni">📍</span>
+    <div class="note-body">ยังไม่มี Claude Code? → <a href="start.html" style="color:var(--a);font-weight:700">ไปหน้าเริ่มจากศูนย์ (ติดตั้ง Claude Code)</a> ก่อน แล้วกลับมาเพิ่ม MCP/Skills ทีหลัง</div>
+  </div>
+
+  <!-- MCP -->
+  <div class="sec-head" id="mcp">
+    <span class="sec-tag">ตอนที่ 1</span>
+    <h2>🔌 ติดตั้ง MCP Server</h2>
+    <p>เพิ่มเครื่องมือภายนอกเข้า Claude ด้วยคำสั่ง <code>claude mcp add</code></p>
+  </div>
+
+  <div class="step">
+    <div class="step-h"><span class="step-n">1</span><span class="step-t">รูปแบบคำสั่งพื้นฐาน</span></div>
+    <p>เปิด Terminal ในโฟลเดอร์โปรเจกต์ แล้วใช้รูปแบบนี้:</p>
+    <div class="term">
+      <div class="term-bar"><span class="td" style="background:#FF5F56"></span><span class="td" style="background:#FFBD2E"></span><span class="td" style="background:#27C93F"></span><span class="term-title">Terminal</span></div>
+      <div class="term-body"><span class="cm"># รูปแบบ: claude mcp add [ชื่อ] -- [คำสั่งรัน server]</span>
+<span class="ct">claude</span> mcp add <span class="co">ชื่อ</span> -- npx -y <span class="cw">ชื่อแพ็กเกจ</span></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-h"><span class="step-n">2</span><span class="step-t">ตัวอย่างที่ใช้บ่อย — คัดลอกได้เลย</span></div>
+    <p><strong>Context7</strong> (ดึง docs library ล่าสุดเข้า context):</p>
+    <div class="term">
+      <div class="term-bar"><span class="td" style="background:#FF5F56"></span><span class="td" style="background:#FFBD2E"></span><span class="td" style="background:#27C93F"></span><span class="term-title">Terminal</span></div>
+      <div class="term-body" id="m1"><span class="ct">claude</span> mcp add context7 -- npx -y @upstash/context7-mcp</div>
+    </div>
+    <button class="copy" onclick="cp('m1',this)">📋 คัดลอก</button>
+
+    <p style="margin-top:1.2rem"><strong>GitHub</strong> (ให้ Claude สร้าง PR, อ่าน issue):</p>
+    <div class="term">
+      <div class="term-bar"><span class="td" style="background:#FF5F56"></span><span class="td" style="background:#FFBD2E"></span><span class="td" style="background:#27C93F"></span><span class="term-title">Terminal</span></div>
+      <div class="term-body" id="m2"><span class="ct">claude</span> mcp add github -- npx -y @modelcontextprotocol/server-github
+<span class="cm"># ตั้ง token ก่อน: export GITHUB_TOKEN=ghp_xxxx</span></div>
+    </div>
+    <button class="copy" onclick="cp('m2',this)">📋 คัดลอก</button>
+
+    <p style="margin-top:1.2rem"><strong>Filesystem</strong> (ให้ Claude อ่าน/เขียนไฟล์ในโฟลเดอร์ที่กำหนด):</p>
+    <div class="term">
+      <div class="term-bar"><span class="td" style="background:#FF5F56"></span><span class="td" style="background:#FFBD2E"></span><span class="td" style="background:#27C93F"></span><span class="term-title">Terminal</span></div>
+      <div class="term-body" id="m3"><span class="ct">claude</span> mcp add filesystem -- npx -y @modelcontextprotocol/server-filesystem ~/projects</div>
+    </div>
+    <button class="copy" onclick="cp('m3',this)">📋 คัดลอก</button>
+
+    <p style="margin-top:1.2rem"><strong>Postgres</strong> (ให้ Claude query database):</p>
+    <div class="term">
+      <div class="term-bar"><span class="td" style="background:#FF5F56"></span><span class="td" style="background:#FFBD2E"></span><span class="td" style="background:#27C93F"></span><span class="term-title">Terminal</span></div>
+      <div class="term-body" id="m4"><span class="ct">claude</span> mcp add postgres -- npx -y @modelcontextprotocol/server-postgres <span class="cw">postgresql://...</span></div>
+    </div>
+    <button class="copy" onclick="cp('m4',this)">📋 คัดลอก</button>
+  </div>
+
+  <div class="step">
+    <div class="step-h"><span class="step-n">3</span><span class="step-t">ตรวจสอบ + จัดการ MCP</span></div>
+    <div class="term">
+      <div class="term-bar"><span class="td" style="background:#FF5F56"></span><span class="td" style="background:#FFBD2E"></span><span class="td" style="background:#27C93F"></span><span class="term-title">Terminal</span></div>
+      <div class="term-body" id="m5"><span class="cm"># ดู MCP ที่ติดตั้งทั้งหมด</span>
+<span class="ct">claude</span> mcp list
+
+<span class="cm"># ดูรายละเอียดตัวใดตัวหนึ่ง</span>
+<span class="ct">claude</span> mcp get context7
+
+<span class="cm"># ลบออก</span>
+<span class="ct">claude</span> mcp remove context7</div>
+    </div>
+    <button class="copy" onclick="cp('m5',this)">📋 คัดลอก</button>
+    <div class="note note-tip"><span class="ni">💡</span><div class="note-body">อยากให้ทีมใช้ MCP เดียวกัน? เพิ่ม <code>--scope project</code> จะสร้างไฟล์ <code>.mcp.json</code> ที่ commit ขึ้น git ได้</div></div>
+    <div class="note note-warn"><span class="ni">🆘</span><div class="note-body">ติดตรงไหน พิมพ์ถาม Claude ได้เลย เช่น <strong>"ช่วยติดตั้ง MCP สำหรับ GitHub ให้หน่อย แล้วอธิบายเป็นภาษาไทย"</strong> — Claude ติดตั้งให้ได้</div></div>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="sec-head" id="skills">
+    <span class="sec-tag">ตอนที่ 2</span>
+    <h2>⚡ สร้าง Skill / Slash Command</h2>
+    <p>บันทึก workflow ที่ใช้บ่อยเป็นคำสั่งลัดของคุณเอง</p>
+  </div>
+
+  <div class="step">
+    <div class="step-h"><span class="step-n">1</span><span class="step-t">สร้างคำสั่งลัดของตัวเอง</span></div>
+    <p>สร้างไฟล์ <code>.md</code> ในโฟลเดอร์ <code>.claude/commands/</code> ของโปรเจกต์ ชื่อไฟล์ = ชื่อคำสั่ง</p>
+    <div class="term">
+      <div class="term-bar"><span class="td" style="background:#FF5F56"></span><span class="td" style="background:#FFBD2E"></span><span class="td" style="background:#27C93F"></span><span class="term-title">.claude/commands/review.md</span></div>
+      <div class="term-body" id="s1"><span class="cm"># พิมพ์ /review เพื่อรันคำสั่งนี้</span>
+<span class="cw">ช่วย review โค้ดที่เพิ่งแก้ มองหา bug,</span>
+<span class="cw">ปัญหา security, performance แล้วสรุป</span>
+<span class="cw">เป็นภาษาไทย เรียงตามความสำคัญ</span></div>
+    </div>
+    <button class="copy" onclick="cp('s1',this)">📋 คัดลอก</button>
+    <p style="margin-top:1rem">เสร็จแล้วพิมพ์ <code>/review</code> ใน Claude Code ได้เลย</p>
+  </div>
+
+  <div class="step">
+    <div class="step-h"><span class="step-n">2</span><span class="step-t">รับค่าเพิ่มด้วย $ARGUMENTS</span></div>
+    <div class="term">
+      <div class="term-bar"><span class="td" style="background:#FF5F56"></span><span class="td" style="background:#FFBD2E"></span><span class="td" style="background:#27C93F"></span><span class="term-title">.claude/commands/explain.md</span></div>
+      <div class="term-body" id="s2"><span class="cw">อธิบายโค้ดในไฟล์</span> <span class="co">$ARGUMENTS</span> <span class="cw">แบบละเอียดเป็นภาษาไทย</span>
+<span class="cm"># ใช้: /explain src/auth.ts</span></div>
+    </div>
+    <button class="copy" onclick="cp('s2',this)">📋 คัดลอก</button>
+  </div>
+
+  <div class="step">
+    <div class="step-h"><span class="step-n">3</span><span class="step-t">หรือให้ Claude สร้างให้</span></div>
+    <p>ขี้เกียจเขียนเอง? บอก Claude ได้เลย:</p>
+    <div class="term">
+      <div class="term-bar"><span class="td" style="background:#FF5F56"></span><span class="td" style="background:#FFBD2E"></span><span class="td" style="background:#27C93F"></span><span class="term-title">บอก Claude</span></div>
+      <div class="term-body" id="s3"><span class="cw">ช่วยสร้าง slash command ชื่อ /deploy ที่:</span>
+<span class="cw">รัน test, ถ้าผ่านให้ build แล้ว deploy</span>
+<span class="cw">ขึ้น production พร้อมแจ้งผล</span></div>
+    </div>
+    <button class="copy" onclick="cp('s3',this)">📋 คัดลอก</button>
+    <div class="note note-tip"><span class="ni">📚</span><div class="note-body">อยากเรียนลึกขึ้น? ดูบทเรียน <a href="lessons/07-slash-commands.html" style="color:var(--a);font-weight:700">7.3 Custom Slash Commands</a> และ <a href="lessons/07-hooks.html" style="color:var(--a);font-weight:700">7.4 Hooks</a></div></div>
+  </div>
+
+  <!-- 8 SKILLS LIST -->
+  <div class="sec-head" id="list">
+    <span class="sec-tag">อ้างอิง</span>
+    <h2>8 Skills ที่ใช้ในคอร์สนี้</h2>
+    <p>แต่ละตัวเป็นชนิดไหน และติดตั้งยังไง</p>
+  </div>
+
+  <div class="sk-row"><span class="ic">🐙</span><span class="info"><span class="cmd">/github-mcp</span><div class="ds">Push, PR, จัดการ repo</div></span><span class="kind k-mcp">MCP</span></div>
+  <div class="sk-row"><span class="ic">☁️</span><span class="info"><span class="cmd">/cloudflare-mcp</span><div class="ds">Deploy Workers / Pages</div></span><span class="kind k-mcp">MCP</span></div>
+  <div class="sk-row"><span class="ic">📚</span><span class="info"><span class="cmd">/context7</span><div class="ds">ดึง docs library ล่าสุด</div></span><span class="kind k-mcp">MCP</span></div>
+  <div class="sk-row"><span class="ic">💨</span><span class="info"><span class="cmd">/tailwind-mcp</span><div class="ds">TailwindCSS reference</div></span><span class="kind k-mcp">MCP</span></div>
+  <div class="sk-row"><span class="ic">🎨</span><span class="info"><span class="cmd">/uxui-promax</span><div class="ds">ออกแบบ UX/UI ระดับ Pro</div></span><span class="kind k-cmd">Skill</span></div>
+  <div class="sk-row"><span class="ic">✨</span><span class="info"><span class="cmd">/taste-design</span><div class="ds">รสนิยม design</div></span><span class="kind k-cmd">Skill</span></div>
+  <div class="sk-row"><span class="ic">⚡</span><span class="info"><span class="cmd">/superpower</span><div class="ds">Hooks, automation</div></span><span class="kind k-cmd">Skill</span></div>
+  <div class="sk-row"><span class="ic">🍌</span><span class="info"><span class="cmd">/nano-banana-pro</span><div class="ds">Prototype เร็ว</div></span><span class="kind k-cmd">Skill</span></div>
+
+  <div class="note note-tip" style="margin-top:1.2rem"><span class="ni">💡</span><div class="note-body">ตัวที่เป็น <strong>MCP</strong> ติดตั้งด้วย <code>claude mcp add</code> (ตอนที่ 1) · ตัวที่เป็น <strong>Skill</strong> สร้างเป็น slash command เอง (ตอนที่ 2) หรือให้ Claude ช่วยสร้าง</div></div>
+
+  <!-- NEXT -->
+  <div class="next-box">
+    <div style="font-size:2.2rem;margin-bottom:.8rem">🎉</div>
+    <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:.6rem">ติดตั้งเสร็จแล้ว ไปต่อ!</h2>
+    <p style="color:var(--mt);max-width:420px;margin:0 auto 1.6rem;font-size:.92rem">ตอนนี้ Claude Code ของคุณแข็งแกร่งขึ้นแล้ว ลองใช้ทำโปรเจกต์จริงได้เลย</p>
+    <div style="display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap">
+      <a href="projects.html" class="go-btn">📂 55 โปรเจกต์</a>
+      <a href="lessons/07-mcp-intro.html" class="go-link">📚 เรียน MCP ลึกขึ้น</a>
+      <a href="index.html" class="go-link">🏠 หน้าหลัก</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="fc">Claude Code Learning Hub · Curated by <strong>Chetaphong Preecha</strong> &amp; <strong>Beyond Team</strong></div>
+</footer>
+
+<script>
+const sc=document.getElementById('stars');
+for(let i=0;i<45;i++){const s=document.createElement('div');s.className='star';const z=Math.random()*2+.5;s.style.cssText=`width:${z}px;height:${z}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${Math.random()*4+2}s;animation-delay:${Math.random()*5}s`;sc.appendChild(s)}
+addEventListener('scroll',()=>{const t=scrollY,h=document.documentElement.scrollHeight-innerHeight;document.getElementById('bar').style.width=(h>0?t/h*100:0)+'%'},{passive:true});
+function cp(id,btn){const el=document.getElementById(id);navigator.clipboard.writeText(el.innerText.replace(/^# .*$/gm,m=>m)).then(()=>{const o=btn.innerHTML;btn.innerHTML='✅ คัดลอกแล้ว!';btn.classList.add('done');setTimeout(()=>{btn.innerHTML=o;btn.classList.remove('done')},2000)})}
+</script>
+</body>
+</html>
