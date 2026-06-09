@@ -27,7 +27,8 @@ def detail_body(slug, orig_body):
         steps = [s for s in b.get("steps",[]) if s.strip()]
         if steps:
             inner += '<ol class="steps">' + "".join(f"<li>{s}</li>" for s in steps) + '</ol>'
-        blocks += f'<div class="block"><h3>{html.escape(b.get("h",""))}</h3>{inner}</div>'
+        h_text = re.sub(r'<[^>]+>', '', b.get("h",""))  # headings เป็นข้อความล้วน (ตัด tag เช่น <code>)
+        blocks += f'<div class="block"><h3>{html.escape(h_text)}</h3>{inner}</div>'
         if b.get("note","").strip():
             blocks += (f'<div class="note"><span class="ni">💡</span>'
                        f'<div class="note-body">{b["note"]}</div></div>')
