@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>เริ่มจากศูนย์ — สร้างเว็บแอปบนเครื่องคุณเอง | Claude Code Hub</title>
+<meta name="description" content="ไม่เคยเขียนโค้ด ไม่เคยจับคอม? ติดตั้ง Claude Code แล้วสร้างเว็บแอปรันบนเครื่องตัวเองได้ ทำตามทีละขั้น">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap');
+:root{
+  --p:#6C63FF;--s:#FF6B6B;--a:#4ECDC4;--g:#FFD700;--green:#27C93F;
+  --dkr:#050510;--cd:#12122A;--cd2:#1A1A35;
+  --tx:#E8E8FF;--mt:#9999CC;
+  --g1:linear-gradient(135deg,#6C63FF,#4ECDC4);
+  --g2:linear-gradient(135deg,#FF6B6B,#FFD700);
+  --gg:linear-gradient(135deg,#27C93F,#4ECDC4);
+  --glow:0 0 40px rgba(108,99,255,.4);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Sarabun',sans-serif;background:var(--dkr);color:var(--tx);overflow-x:hidden;line-height:1.8;font-size:17px}
+
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.star{position:absolute;border-radius:50%;background:#fff;animation:tw var(--d) ease-in-out infinite}
+@keyframes tw{0%,100%{opacity:.08}50%{opacity:.6}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(5,5,16,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(108,99,255,.15);padding:.7rem 1.5rem;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{display:flex;align-items:center;gap:.6rem;text-decoration:none}
+.nav-logo{width:32px;height:32px;border-radius:9px;background:var(--g1);display:flex;align-items:center;justify-content:center;font-size:1rem}
+.nav-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-home{color:var(--mt);text-decoration:none;font-size:.85rem;padding:.4rem .9rem;border-radius:8px;transition:all .2s}
+.nav-home:hover{color:var(--tx);background:rgba(255,255,255,.05)}
+
+.step-tracker{position:fixed;right:1.5rem;top:50%;transform:translateY(-50%);z-index:900;display:flex;flex-direction:column;gap:.8rem}
+.track-dot{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.15);border:2px solid transparent;transition:all .3s;cursor:pointer;position:relative}
+.track-dot.active{background:var(--p);border-color:var(--p);box-shadow:0 0 12px var(--p);transform:scale(1.3)}
+.track-dot:hover::after{content:attr(data-label);position:absolute;right:24px;top:50%;transform:translateY(-50%);background:var(--cd);padding:.3rem .7rem;border-radius:8px;font-size:.72rem;white-space:nowrap;border:1px solid rgba(108,99,255,.3)}
+@media(max-width:1000px){.step-tracker{display:none}}
+
+.reading-bar{position:fixed;top:0;left:0;height:3px;z-index:9999;background:var(--g1);transition:width .1s}
+
+.container{max-width:780px;margin:0 auto;padding:0 1.5rem}
+
+/* HERO */
+.hero{padding:7rem 1.5rem 3rem;text-align:center;position:relative;z-index:2}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(39,201,63,.12);border:1px solid rgba(39,201,63,.3);border-radius:30px;padding:.4rem 1.1rem;font-size:.82rem;color:var(--green);margin-bottom:1.8rem;font-weight:600}
+.hero h1{font-size:clamp(2rem,6vw,3.2rem);font-weight:800;line-height:1.25;margin-bottom:1.2rem}
+.hl{background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hl-g{background:var(--gg);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hl2{background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{color:var(--mt);font-size:1.15rem;max-width:580px;margin:0 auto 2rem;line-height:1.9}
+.hero-time{display:inline-flex;align-items:center;gap:1.5rem;background:var(--cd);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:1rem 1.8rem;flex-wrap:wrap;justify-content:center}
+.htime-item{text-align:center}
+.htime-n{font-size:1.6rem;font-weight:800;background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+.htime-l{font-size:.72rem;color:var(--mt);margin-top:.2rem}
+.htime-div{width:1px;height:30px;background:rgba(255,255,255,.1)}
+
+/* REASSURE */
+.reassure{padding:3rem 0;position:relative;z-index:2}
+.truth-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem}
+.truth-card{background:var(--cd);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:1.6rem 1.3rem;text-align:center}
+.truth-emoji{font-size:2.5rem;margin-bottom:.8rem}
+.truth-title{font-weight:700;font-size:1rem;margin-bottom:.5rem;color:var(--green)}
+.truth-desc{color:var(--mt);font-size:.85rem;line-height:1.6}
+@media(max-width:700px){.truth-grid{grid-template-columns:1fr}}
+
+/* WHAT IS LOCAL RUN explainer */
+.explainer{background:linear-gradient(135deg,rgba(108,99,255,.08),rgba(78,205,196,.05));border:1px solid rgba(108,99,255,.2);border-radius:20px;padding:2rem;margin:1.5rem 0;position:relative;z-index:2}
+.explainer h3{font-size:1.15rem;font-weight:800;margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem}
+.explainer p{color:var(--mt);font-size:.92rem;margin-bottom:.8rem}
+.explainer strong{color:var(--tx)}
+.local-vs{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.2rem}
+.vs-card{background:rgba(0,0,0,.25);border-radius:12px;padding:1.1rem;border:1px solid rgba(255,255,255,.05)}
+.vs-title{font-weight:700;font-size:.85rem;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.vs-list{list-style:none;font-size:.8rem;color:var(--mt)}
+.vs-list li{padding:.2rem 0;display:flex;gap:.4rem}
+.vs-list li::before{content:'✓';color:var(--green)}
+@media(max-width:700px){.local-vs{grid-template-columns:1fr}}
+
+/* SECTION HEADER */
+.sec-head{text-align:center;margin:4rem 0 2rem;position:relative;z-index:2}
+.sec-tag{display:inline-block;background:rgba(108,99,255,.1);color:var(--p);border:1px solid rgba(108,99,255,.25);padding:.3rem 1rem;border-radius:20px;font-size:.75rem;font-weight:700;letter-spacing:.05em;margin-bottom:.8rem}
+.sec-head h2{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800;margin-bottom:.5rem}
+.sec-head p{color:var(--mt);font-size:.95rem}
+
+/* BIG STEPS */
+.steps{position:relative;z-index:2;padding-bottom:3rem}
+.big-step{background:var(--cd);border:1px solid rgba(255,255,255,.07);border-radius:24px;padding:2.2rem;margin-bottom:1.5rem;position:relative;overflow:hidden;transition:all .3s}
+.big-step:hover{border-color:rgba(108,99,255,.25)}
+.big-step::before{content:'';position:absolute;top:0;left:0;bottom:0;width:5px;background:var(--g1)}
+.big-step.highlight::before{background:var(--gg);width:6px}
+.step-top{display:flex;align-items:center;gap:1.2rem;margin-bottom:1.2rem}
+.step-circle{width:60px;height:60px;border-radius:50%;background:var(--g1);display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:800;font-family:'Space Grotesk',sans-serif;flex-shrink:0;box-shadow:var(--glow)}
+.step-circle.gg{background:var(--gg)}
+.step-titlewrap{flex:1}
+.step-label{font-size:.72rem;color:var(--p);font-weight:700;text-transform:uppercase;letter-spacing:.1em}
+.step-h{font-size:1.3rem;font-weight:800;margin-top:.1rem}
+.step-mins{background:rgba(39,201,63,.1);color:var(--green);border:1px solid rgba(39,201,63,.2);padding:.25rem .7rem;border-radius:20px;font-size:.72rem;font-weight:700;white-space:nowrap}
+.step-content p{color:var(--mt);margin-bottom:1rem;font-size:.95rem}
+.step-content strong{color:var(--tx)}
+
+.action-list{list-style:none;margin:1rem 0}
+.action-list li{display:flex;gap:.9rem;align-items:flex-start;margin-bottom:.9rem;background:rgba(0,0,0,.2);border-radius:12px;padding:.9rem 1.1rem;border:1px solid rgba(255,255,255,.04)}
+.action-num{width:26px;height:26px;border-radius:50%;background:rgba(108,99,255,.2);color:var(--p);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0;margin-top:.1rem}
+.action-text{flex:1;font-size:.92rem;color:var(--tx)}
+.action-text small{display:block;color:var(--mt);font-size:.8rem;margin-top:.2rem}
+
+/* OS tabs */
+.os-tabs{display:flex;gap:.5rem;margin:1rem 0 .8rem}
+.os-tab{flex:1;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:.6rem;text-align:center;cursor:pointer;font-size:.85rem;font-weight:600;color:var(--mt);transition:all .2s}
+.os-tab.active{background:rgba(108,99,255,.15);border-color:rgba(108,99,255,.4);color:var(--p)}
+.os-panel{display:none}
+.os-panel.active{display:block}
+
+/* terminal / code */
+.terminal{background:#0a0a18;border:1px solid rgba(255,255,255,.08);border-radius:12px;overflow:hidden;margin:1rem 0}
+.term-bar{background:rgba(255,255,255,.04);padding:.5rem .9rem;display:flex;align-items:center;gap:.4rem;border-bottom:1px solid rgba(255,255,255,.05)}
+.tdot{width:11px;height:11px;border-radius:50%}
+.term-title{flex:1;text-align:center;font-size:.7rem;color:var(--mt);font-family:'JetBrains Mono',monospace}
+.term-body{padding:1.1rem 1.2rem;font-family:'JetBrains Mono',monospace;font-size:.85rem;line-height:1.9;overflow-x:auto}
+.term-body .prompt{color:var(--a)}
+.term-body .cmd{color:#fff}
+.term-body .cmt{color:var(--mt)}
+.term-body .out{color:var(--g)}
+.term-body .ok{color:var(--green)}
+.copy-cmd{margin-top:.6rem;background:rgba(108,99,255,.15);color:var(--p);border:1px solid rgba(108,99,255,.3);border-radius:8px;padding:.45rem 1rem;font-size:.78rem;font-weight:700;font-family:'Sarabun',sans-serif;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:.4rem}
+.copy-cmd:hover{background:rgba(108,99,255,.25)}
+.copy-cmd.done{background:var(--green);color:#fff;border-color:var(--green)}
+
+/* prompt box */
+.prompt-box{background:linear-gradient(135deg,rgba(108,99,255,.1),rgba(78,205,196,.06));border:1.5px solid rgba(108,99,255,.3);border-radius:16px;padding:1.3rem;margin:1.2rem 0}
+.prompt-label{display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--p);font-weight:700;margin-bottom:.7rem}
+.prompt-text{font-size:.95rem;color:var(--tx);line-height:1.8;background:rgba(0,0,0,.25);border-radius:10px;padding:1rem 1.1rem;font-family:'Sarabun',sans-serif;white-space:pre-wrap}
+.copy-btn{margin-top:.8rem;background:var(--p);color:#fff;border:none;border-radius:10px;padding:.6rem 1.3rem;font-size:.85rem;font-weight:700;font-family:'Sarabun',sans-serif;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:.5rem}
+.copy-btn:hover{background:#5a52e0;transform:translateY(-1px)}
+.copy-btn.done{background:var(--green)}
+
+/* note */
+.note{border-radius:12px;padding:1rem 1.2rem;margin:1rem 0;font-size:.88rem;display:flex;gap:.7rem;align-items:flex-start}
+.note-tip{background:rgba(78,205,196,.07);border:1px solid rgba(78,205,196,.25)}
+.note-tip .ni{color:var(--a)}
+.note-warn{background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.22)}
+.note-warn .ni{color:var(--g)}
+.note .ni{font-size:1.2rem;flex-shrink:0}
+.note-body strong{color:var(--tx)}
+
+/* result mock */
+.result-card{background:#0d0d20;border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden;margin:1rem 0}
+.result-bar{background:rgba(255,255,255,.04);padding:.6rem .9rem;display:flex;align-items:center;gap:.4rem;border-bottom:1px solid rgba(255,255,255,.05)}
+.rdot{width:11px;height:11px;border-radius:50%}
+.url-mini{flex:1;background:rgba(0,0,0,.3);border-radius:6px;padding:.2rem .7rem;font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--a);text-align:center}
+.result-body{padding:1.5rem;text-align:center}
+
+.go-btn{display:inline-flex;align-items:center;gap:.6rem;background:var(--g1);color:#fff;padding:1rem 2rem;border-radius:14px;font-size:1.05rem;font-weight:700;text-decoration:none;transition:all .3s;box-shadow:var(--glow);font-family:'Sarabun',sans-serif;border:none;cursor:pointer}
+.go-btn:hover{transform:translateY(-2px);box-shadow:0 0 55px rgba(108,99,255,.55)}
+.go-link{display:inline-flex;align-items:center;gap:.5rem;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.1);color:var(--tx);padding:.7rem 1.3rem;border-radius:12px;text-decoration:none;font-size:.88rem;font-weight:600;transition:all .2s}
+.go-link:hover{border-color:var(--p);color:var(--p)}
+
+/* STARTERS */
+.starters{padding:3rem 0;position:relative;z-index:2}
+.starter-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1.5rem}
+.starter-card{background:var(--cd);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:1.5rem;cursor:pointer;transition:all .3s;text-align:left}
+.starter-card:hover{transform:translateY(-3px);border-color:rgba(108,99,255,.3);box-shadow:var(--glow)}
+.starter-icon{font-size:2.2rem;margin-bottom:.7rem}
+.starter-title{font-weight:700;font-size:1.05rem;margin-bottom:.3rem}
+.starter-desc{color:var(--mt);font-size:.82rem;line-height:1.5;margin-bottom:.8rem}
+.starter-try{font-size:.78rem;color:var(--p);font-weight:700;display:flex;align-items:center;gap:.3rem}
+@media(max-width:700px){.starter-grid{grid-template-columns:1fr}}
+
+/* DEPLOY teaser */
+.deploy-teaser{padding:3rem 0;position:relative;z-index:2}
+.deploy-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-top:1.5rem}
+.deploy-mini{background:var(--cd);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:1.2rem .8rem;text-align:center;transition:all .3s;text-decoration:none;color:inherit}
+.deploy-mini:hover{transform:translateY(-3px);border-color:rgba(108,99,255,.3)}
+.deploy-mini .di{font-size:1.8rem;margin-bottom:.4rem}
+.deploy-mini .dn{font-weight:700;font-size:.82rem}
+.deploy-mini .dt{color:var(--mt);font-size:.68rem;margin-top:.2rem}
+@media(max-width:700px){.deploy-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* STUCK */
+.stuck{padding:3rem 0;position:relative;z-index:2}
+.stuck-item{background:var(--cd);border:1px solid rgba(255,255,255,.06);border-radius:14px;margin-bottom:.7rem;overflow:hidden}
+.stuck-q{padding:1.1rem 1.4rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:.95rem;transition:background .2s}
+.stuck-q:hover{background:rgba(108,99,255,.06)}
+.stuck-arrow{color:var(--mt);transition:transform .3s;flex-shrink:0;margin-left:1rem}
+.stuck-item.open .stuck-arrow{transform:rotate(180deg)}
+.stuck-a{max-height:0;overflow:hidden;transition:max-height .35s ease;color:var(--mt);font-size:.9rem}
+.stuck-item.open .stuck-a{max-height:500px}
+.stuck-a-inner{padding:0 1.4rem 1.3rem}
+.stuck-a code{background:rgba(108,99,255,.12);color:#A89FFF;padding:.15rem .5rem;border-radius:5px;font-size:.85rem;font-family:'JetBrains Mono',monospace}
+
+/* NEXT */
+.next-section{padding:4rem 1.5rem 5rem;text-align:center;position:relative;z-index:2}
+.next-box{background:linear-gradient(135deg,rgba(108,99,255,.1),rgba(78,205,196,.06));border:1px solid rgba(108,99,255,.25);border-radius:24px;padding:3rem 2rem;max-width:680px;margin:0 auto;position:relative;overflow:hidden}
+.next-box::after{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(108,99,255,.12),transparent)}
+
+footer{border-top:1px solid rgba(255,255,255,.05);padding:2.5rem 1.5rem;text-align:center;position:relative;z-index:2}
+.footer-credit{color:var(--mt);font-size:.8rem;opacity:.7}
+.footer-credit strong{color:var(--p);opacity:1}
+
+.fade-up{opacity:0;transform:translateY(24px);transition:all .6s ease-out}
+.fade-up.vis{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<div class="reading-bar" id="bar"></div>
+<div class="stars" id="stars"></div>
+
+<nav>
+  <a href="index.html" class="nav-brand">
+    <div class="nav-logo">⚡</div>
+    <span class="nav-name">Claude Code Hub</span>
+  </a>
+  <a href="index.html" class="nav-home">← หน้าหลัก</a>
+</nav>
+
+<div class="step-tracker" id="tracker">
+  <div class="track-dot active" data-label="เริ่มต้น" data-target="top"></div>
+  <div class="track-dot" data-label="ขั้นที่ 1: ติดตั้ง" data-target="step1"></div>
+  <div class="track-dot" data-label="ขั้นที่ 2: เปิด Claude" data-target="step2"></div>
+  <div class="track-dot" data-label="ขั้นที่ 3: สั่งสร้างเว็บ" data-target="step3"></div>
+  <div class="track-dot" data-label="ขั้นที่ 4: รันบนเครื่อง" data-target="step4"></div>
+  <div class="track-dot" data-label="ขั้นที่ 5: แก้ไข" data-target="step5"></div>
+  <div class="track-dot" data-label="เอาขึ้นออนไลน์" data-target="deploy"></div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-badge">✅ รันบนเครื่องคุณเอง · เป็นเจ้าของไฟล์ 100% · เริ่มฟรี</div>
+  <h1>
+    ไม่เคยจับคอม?<br>
+    สร้าง <span class="hl-g">เว็บแอป</span><br>
+    บนเครื่องตัวเองได้
+  </h1>
+  <p class="hero-sub">
+    เราจะติดตั้ง <strong style="color:var(--tx)">Claude Code</strong> ลงเครื่องคุณ
+    แล้วสั่งสร้างเว็บด้วยภาษาไทย เว็บจะรันอยู่ <strong style="color:var(--tx)">บนเครื่องคุณเอง</strong>
+    — ทำตามทีละขั้นข้างล่างนี้ ไม่ต้องมีพื้นฐาน
+  </p>
+  <div class="hero-time">
+    <div class="htime-item"><div class="htime-n">5</div><div class="htime-l">ขั้นตอน</div></div>
+    <div class="htime-div"></div>
+    <div class="htime-item"><div class="htime-n">20</div><div class="htime-l">นาที</div></div>
+    <div class="htime-div"></div>
+    <div class="htime-item"><div class="htime-n">0฿</div><div class="htime-l">เริ่มฟรี</div></div>
+  </div>
+  <div style="margin-top:2rem">
+    <a href="#step1" class="go-btn">เริ่มติดตั้งเลย 👇</a>
+  </div>
+</section>
+
+<!-- 3 TRUTHS -->
+<section class="reassure">
+  <div class="container">
+    <div class="sec-head fade-up" style="margin-top:1rem">
+      <span class="sec-tag">อ่านก่อนเริ่ม</span>
+      <h2>3 เรื่องที่ทำให้คุณ <span class="hl">สบายใจ</span></h2>
+      <p>มือใหม่ทุกคนกลัวเหมือนกัน — แต่ความจริงคือ...</p>
+    </div>
+    <div class="truth-grid">
+      <div class="truth-card fade-up">
+        <div class="truth-emoji">🗣️</div>
+        <div class="truth-title">คุณแค่ "พูด" ไม่ต้อง "เขียนโค้ด"</div>
+        <div class="truth-desc">พิมพ์บอกเป็นภาษาไทยธรรมดา เหมือนสั่งงานเพื่อน แล้ว Claude เขียนโค้ดให้</div>
+      </div>
+      <div class="truth-card fade-up">
+        <div class="truth-emoji">💻</div>
+        <div class="truth-title">ทุกอย่างอยู่บนเครื่องคุณ</div>
+        <div class="truth-desc">ไฟล์เว็บอยู่ในเครื่องคุณเอง เปิดดู แก้ไข เก็บไว้ได้ตลอด เป็นเจ้าของจริงๆ</div>
+      </div>
+      <div class="truth-card fade-up">
+        <div class="truth-emoji">🛡️</div>
+        <div class="truth-title">คุณทำพังไม่ได้</div>
+        <div class="truth-desc">Claude ถามก่อนทำทุกครั้งที่สำคัญ ลองได้เต็มที่ ผิดก็บอกให้แก้ใหม่ได้</div>
+      </div>
+    </div>
+
+    <!-- What is Local Run -->
+    <div class="explainer fade-up">
+      <h3>🤔 "รันบนเครื่อง" (Local Run) คืออะไร?</h3>
+      <p>คือการที่เว็บของคุณ <strong>ทำงานอยู่บนคอมพิวเตอร์ของคุณเอง</strong> ไม่ใช่บนเว็บคนอื่น — เหมือนทำอาหารกินเองที่บ้าน คุณคุมทุกอย่าง เห็นทุกไฟล์ แก้ได้ทันที ไม่ต้องต่อเน็ตก็เปิดดูได้</p>
+      <div class="local-vs">
+        <div class="vs-card">
+          <div class="vs-title">💻 Local Run (ที่เราจะทำ)</div>
+          <ul class="vs-list">
+            <li>เว็บรันบนเครื่องคุณ</li>
+            <li>เป็นเจ้าของไฟล์ทั้งหมด</li>
+            <li>แก้ไขได้อิสระ ไม่จำกัด</li>
+            <li>เห็นผลทันทีขณะแก้</li>
+          </ul>
+        </div>
+        <div class="vs-card">
+          <div class="vs-title">🌐 Deploy (ขั้นต่อไป)</div>
+          <ul class="vs-list">
+            <li>เอาเว็บขึ้นออนไลน์</li>
+            <li>คนอื่นเปิดดูได้ด้วยลิงก์</li>
+            <li>ทำเมื่อพอใจแล้ว</li>
+            <li>มีบทเรียนแยกข้างล่าง</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE 5 STEPS -->
+<section class="steps">
+  <div class="container">
+    <div class="sec-head fade-up">
+      <span class="sec-tag">ลงมือทำ</span>
+      <h2>5 ขั้นตอน สร้างเว็บ <span class="hl-g">รันบนเครื่อง</span></h2>
+      <p>ทำตามทีละขั้น ไม่ต้องรีบ — ทุกคำสั่งมีปุ่มคัดลอกให้</p>
+    </div>
+
+    <!-- STEP 1: Install -->
+    <div class="big-step fade-up" id="step1">
+      <div class="step-top">
+        <div class="step-circle">1</div>
+        <div class="step-titlewrap">
+          <div class="step-label">ขั้นที่ 1</div>
+          <div class="step-h">ติดตั้ง Claude Code ลงเครื่อง</div>
+        </div>
+        <span class="step-mins">⏱ 8 นาที</span>
+      </div>
+      <div class="step-content">
+        <p>เราต้องลงโปรแกรม 2 อย่าง: <strong>Node.js</strong> (เครื่องยนต์ที่ทำให้เว็บรันได้) และ <strong>Claude Code</strong> (ตัว AI ผู้ช่วย) เลือกระบบของคุณก่อน:</p>
+
+        <div class="os-tabs">
+          <div class="os-tab active" onclick="switchOS('mac',this)">🍎 Mac</div>
+          <div class="os-tab" onclick="switchOS('win',this)">🪟 Windows</div>
+        </div>
+
+        <!-- MAC -->
+        <div class="os-panel active" id="os-mac">
+          <ul class="action-list">
+            <li><span class="action-num">1</span><span class="action-text">เข้าเว็บ <strong>nodejs.org</strong> กดปุ่มดาวน์โหลดตัว <strong>LTS</strong> แล้วติดตั้ง (กด Next ไปเรื่อยๆ)<small>Node.js คือเครื่องยนต์ที่ทำให้เว็บแอปทำงานได้</small></span></li>
+            <li><span class="action-num">2</span><span class="action-text">เปิดโปรแกรมชื่อ <strong>Terminal</strong><small>กด Cmd + Space แล้วพิมพ์ "Terminal" กด Enter — มันคือหน้าจอดำๆ ที่เราพิมพ์คำสั่ง</small></span></li>
+            <li><span class="action-num">3</span><span class="action-text">พิมพ์ (หรือวาง) คำสั่งนี้ แล้วกด Enter เพื่อติดตั้ง Claude Code:</span></li>
+          </ul>
+          <div class="terminal">
+            <div class="term-bar"><span class="tdot" style="background:#FF5F56"></span><span class="tdot" style="background:#FFBD2E"></span><span class="tdot" style="background:#27C93F"></span><span class="term-title">Terminal</span></div>
+            <div class="term-body"><span class="prompt">$ </span><span class="cmd" id="cmd-mac">npm install -g @anthropic-ai/claude-code</span></div>
+          </div>
+          <button class="copy-cmd" onclick="copyText('cmd-mac',this)">📋 คัดลอกคำสั่ง</button>
+        </div>
+
+        <!-- WIN -->
+        <div class="os-panel" id="os-win">
+          <ul class="action-list">
+            <li><span class="action-num">1</span><span class="action-text">เข้าเว็บ <strong>nodejs.org</strong> กดดาวน์โหลดตัว <strong>LTS</strong> แล้วติดตั้ง (กด Next ไปเรื่อยๆ จนเสร็จ)<small>Node.js คือเครื่องยนต์ที่ทำให้เว็บแอปทำงานได้</small></span></li>
+            <li><span class="action-num">2</span><span class="action-text">เปิดโปรแกรมชื่อ <strong>PowerShell</strong><small>กดปุ่ม Windows พิมพ์ "PowerShell" กด Enter — มันคือหน้าจอที่เราพิมพ์คำสั่ง</small></span></li>
+            <li><span class="action-num">3</span><span class="action-text">พิมพ์ (หรือวาง) คำสั่งนี้ แล้วกด Enter:</span></li>
+          </ul>
+          <div class="terminal">
+            <div class="term-bar"><span class="tdot" style="background:#FF5F56"></span><span class="tdot" style="background:#FFBD2E"></span><span class="tdot" style="background:#27C93F"></span><span class="term-title">PowerShell</span></div>
+            <div class="term-body"><span class="prompt">&gt; </span><span class="cmd" id="cmd-win">npm install -g @anthropic-ai/claude-code</span></div>
+          </div>
+          <button class="copy-cmd" onclick="copyText('cmd-win',this)">📋 คัดลอกคำสั่ง</button>
+        </div>
+
+        <div class="note note-tip">
+          <span class="ni">💡</span>
+          <div class="note-body">เห็นข้อความวิ่งๆ เยอะๆ คือ <strong>กำลังติดตั้ง ปกติ!</strong> รอจนกว่าจะหยุดและกลับมาที่บรรทัดพิมพ์คำสั่งได้</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: Open Claude -->
+    <div class="big-step fade-up" id="step2">
+      <div class="step-top">
+        <div class="step-circle">2</div>
+        <div class="step-titlewrap">
+          <div class="step-label">ขั้นที่ 2</div>
+          <div class="step-h">เปิด Claude แล้วล็อกอิน</div>
+        </div>
+        <span class="step-mins">⏱ 3 นาที</span>
+      </div>
+      <div class="step-content">
+        <p>ติดตั้งเสร็จแล้ว ลองเรียก Claude ขึ้นมา ในหน้าจอเดิม (Terminal/PowerShell) พิมพ์คำว่า <strong>claude</strong> แล้วกด Enter:</p>
+        <div class="terminal">
+          <div class="term-bar"><span class="tdot" style="background:#FF5F56"></span><span class="tdot" style="background:#FFBD2E"></span><span class="tdot" style="background:#27C93F"></span><span class="term-title">Terminal</span></div>
+          <div class="term-body"><span class="prompt">$ </span><span class="cmd" id="cmd-claude">claude</span>
+<span class="cmt"># ครั้งแรกจะให้ล็อกอิน เปิดเบราว์เซอร์อัตโนมัติ</span>
+<span class="out">→ กด Login แล้วเลือกบัญชี Claude ของคุณ</span>
+<span class="ok">✓ ล็อกอินสำเร็จ พร้อมใช้งาน!</span></div>
+        </div>
+        <button class="copy-cmd" onclick="copyText('cmd-claude',this)">📋 คัดลอก "claude"</button>
+        <ul class="action-list" style="margin-top:1rem">
+          <li><span class="action-num">1</span><span class="action-text">ครั้งแรกระบบจะเปิดเบราว์เซอร์ให้ล็อกอิน<small>ถ้ายังไม่มีบัญชี กดสมัครด้วย Google ได้เลย ฟรี</small></span></li>
+          <li><span class="action-num">2</span><span class="action-text">ล็อกอินเสร็จ กลับมาที่หน้าจอ Terminal จะเห็นช่องให้พิมพ์คุยกับ Claude<small>เหมือนช่องแชต แต่อยู่ในหน้าจอคำสั่ง</small></span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- STEP 3: Tell it to build -->
+    <div class="big-step fade-up" id="step3">
+      <div class="step-top">
+        <div class="step-circle">3</div>
+        <div class="step-titlewrap">
+          <div class="step-label">ขั้นที่ 3</div>
+          <div class="step-h">สั่งให้ Claude สร้างเว็บ</div>
+        </div>
+        <span class="step-mins">⏱ 2 นาที</span>
+      </div>
+      <div class="step-content">
+        <p>นี่คือส่วนที่ง่ายและสนุกที่สุด! แค่<strong>พิมพ์บอกเป็นภาษาไทย</strong>ว่าอยากได้เว็บอะไร คัดลอกข้อความนี้ไปวางในช่องคุยกับ Claude:</p>
+        <div class="prompt-box">
+          <div class="prompt-label">📋 คัดลอกไปวางในช่องคุยกับ Claude</div>
+          <div class="prompt-text" id="prompt1">สร้างโฟลเดอร์ชื่อ my-website แล้วสร้างหน้าเว็บแนะนำตัวฉันข้างในเป็นไฟล์ index.html ไฟล์เดียวที่เปิดดูได้เลย
+
+ชื่อ: [ใส่ชื่อคุณ]
+อาชีพ: [ใส่อาชีพ เช่น เจ้าของร้านกาแฟ]
+เกี่ยวกับฉัน: [แนะนำตัวสั้นๆ 2-3 ประโยค]
+
+อยากได้เว็บสวยๆ สีโทนอบอุ่น มีรูปโปรไฟล์วงกลม มีปุ่มติดต่อ ดูดีบนมือถือ เสร็จแล้วช่วยเปิดให้ดูในเบราว์เซอร์ด้วย</div>
+          <button class="copy-btn" onclick="copyText('prompt1',this)">📋 คัดลอกข้อความ</button>
+        </div>
+        <div class="note note-tip">
+          <span class="ni">✏️</span>
+          <div class="note-body"><strong>แก้ข้อมูลในวงเล็บ [ ]</strong> ให้เป็นของคุณก่อนส่ง แล้วกด Enter — Claude จะสร้างโฟลเดอร์และไฟล์เว็บให้บนเครื่องคุณ</div>
+        </div>
+        <div class="note note-warn">
+          <span class="ni">🔐</span>
+          <div class="note-body">Claude อาจ<strong>ถามขออนุญาต</strong>ก่อนสร้างไฟล์ — พิมพ์ <code style="font-family:'JetBrains Mono'">yes</code> หรือกด Enter เพื่ออนุญาต นี่คือระบบความปลอดภัย ปกติมาก</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: Run locally - HIGHLIGHT -->
+    <div class="big-step highlight fade-up" id="step4">
+      <div class="step-top">
+        <div class="step-circle gg">4</div>
+        <div class="step-titlewrap">
+          <div class="step-label" style="color:var(--green)">ขั้นที่ 4 · หัวใจสำคัญ</div>
+          <div class="step-h">รันเว็บดูบนเครื่องคุณ 🎉</div>
+        </div>
+        <span class="step-mins">⏱ 1 นาที</span>
+      </div>
+      <div class="step-content">
+        <p>Claude สร้างไฟล์เสร็จแล้ว ตอนนี้มาเปิดดูเว็บที่<strong>รันอยู่บนเครื่องคุณ</strong>กัน วิธีที่ง่ายที่สุด — บอก Claude ให้เปิดให้:</p>
+        <div class="prompt-box">
+          <div class="prompt-label">📋 พิมพ์บอก Claude</div>
+          <div class="prompt-text" id="prompt-open">ช่วยเปิดเว็บที่สร้างให้ดูในเบราว์เซอร์หน่อย</div>
+          <button class="copy-btn" onclick="copyText('prompt-open',this)">📋 คัดลอก</button>
+        </div>
+        <p>เบราว์เซอร์จะเปิดขึ้นมาแสดงเว็บของคุณ — <strong style="color:var(--green)">นี่คือเว็บที่รันบนเครื่องคุณเอง!</strong> สังเกตที่อยู่ด้านบนจะขึ้นว่า <code style="font-family:'JetBrains Mono';background:rgba(108,99,255,.12);color:#A89FFF;padding:.1rem .4rem;border-radius:4px">file://</code> หรือ <code style="font-family:'JetBrains Mono';background:rgba(108,99,255,.12);color:#A89FFF;padding:.1rem .4rem;border-radius:4px">localhost</code></p>
+        <div class="result-card">
+          <div class="result-bar">
+            <span class="rdot" style="background:#FF5F56"></span><span class="rdot" style="background:#FFBD2E"></span><span class="rdot" style="background:#27C93F"></span>
+            <span class="url-mini">localhost:3000 — เครื่องของคุณ</span>
+          </div>
+          <div class="result-body">
+            <div style="width:70px;height:70px;border-radius:50%;background:var(--g2);margin:0 auto .8rem;display:flex;align-items:center;justify-content:center;font-size:1.8rem">😊</div>
+            <div style="font-weight:800;font-size:1.1rem">สวัสดีครับ ผมชื่อ...</div>
+            <div style="color:var(--mt);font-size:.82rem;margin:.4rem 0">เจ้าของร้านกาแฟเล็กๆ ใจกลางเมือง</div>
+            <div style="display:inline-block;background:var(--p);color:#fff;padding:.4rem 1.2rem;border-radius:20px;font-size:.78rem;margin-top:.5rem">📞 ติดต่อฉัน</div>
+          </div>
+        </div>
+        <div class="note note-tip">
+          <span class="ni">⚡</span>
+          <div class="note-body"><strong>เว็บใหญ่ขึ้น (เช่น React)?</strong> Claude จะรัน "dev server" ให้ แล้วบอกที่อยู่ เช่น <code style="font-family:'JetBrains Mono'">localhost:3000</code> เปิดในเบราว์เซอร์ได้เลย — แก้โค้ดแล้วเว็บอัปเดตทันที</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: Edit -->
+    <div class="big-step fade-up" id="step5">
+      <div class="step-top">
+        <div class="step-circle">5</div>
+        <div class="step-titlewrap">
+          <div class="step-label">ขั้นที่ 5</div>
+          <div class="step-h">แก้ไขให้ถูกใจ — แค่บอกเพิ่ม</div>
+        </div>
+        <span class="step-mins">⏱ 5 นาที</span>
+      </div>
+      <div class="step-content">
+        <p>ยังไม่ชอบตรงไหน? ไม่ต้องแก้โค้ดเอง แค่<strong>พิมพ์บอก Claude</strong>ต่อในช่องเดิม แล้วรีเฟรชเบราว์เซอร์ดูผล:</p>
+        <div class="prompt-box">
+          <div class="prompt-label">💬 ตัวอย่างประโยคที่บอกให้แก้</div>
+          <div class="prompt-text" id="prompt2">เปลี่ยนสีพื้นหลังเป็นฟ้าอ่อนหน่อย
+
+เพิ่มส่วนแสดงเมนูกาแฟ 3 อย่าง พร้อมราคา
+
+ทำให้ตัวหนังสือใหญ่ขึ้น อ่านง่ายขึ้น
+
+เพิ่มปุ่มลิงก์ไป Facebook กับ LINE</div>
+          <button class="copy-btn" onclick="copyText('prompt2',this)">📋 คัดลอกตัวอย่าง</button>
+        </div>
+        <p>บอกทีละอย่างก็ได้ Claude แก้ไฟล์บนเครื่องให้ทันที <strong>รีเฟรชเบราว์เซอร์ (กด F5)</strong> เพื่อดูผลใหม่ บอกแก้ได้เรื่อยๆ จนพอใจ</p>
+        <div class="note note-warn">
+          <span class="ni">⭐</span>
+          <div class="note-body"><strong>เคล็ดลับ:</strong> ยิ่งบอกละเอียด ยิ่งตรงใจ เช่น แทน "ทำให้สวยขึ้น" ให้บอก "ใช้สีน้ำตาลกับครีม ให้อบอุ่นแบบร้านกาแฟ"</div>
+        </div>
+        <div class="result-card">
+          <div class="result-body" style="padding:1.8rem">
+            <div style="font-size:2.5rem;margin-bottom:.5rem">🎉</div>
+            <div style="font-weight:800;font-size:1.2rem;color:var(--green)">ยินดีด้วย! คุณมีเว็บรันบนเครื่องแล้ว</div>
+            <div style="color:var(--mt);font-size:.88rem;margin-top:.5rem">จากคนไม่เคยจับคอม สู่เจ้าของเว็บที่รันบนเครื่องตัวเอง</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- STARTER PROJECTS -->
+<section class="starters" id="starters">
+  <div class="container">
+    <div class="sec-head fade-up">
+      <span class="sec-tag">ลองทำอันอื่น</span>
+      <h2>อยากทำเว็บแบบไหน? <span class="hl">เลือกเลย</span></h2>
+      <p>กดเลือกแบบที่อยากทำ คัดลอกประโยคไปวางใน Claude ได้เลย</p>
+    </div>
+    <div class="starter-grid">
+      <div class="starter-card fade-up" onclick="showStarter('about')"><div class="starter-icon">🙋</div><div class="starter-title">เว็บแนะนำตัว</div><div class="starter-desc">หน้าโปรไฟล์ส่วนตัว บอกว่าคุณเป็นใคร</div><div class="starter-try">เลือกอันนี้ →</div></div>
+      <div class="starter-card fade-up" onclick="showStarter('shop')"><div class="starter-icon">🛍️</div><div class="starter-title">เว็บร้านค้า</div><div class="starter-desc">โชว์สินค้า ราคา ช่องทางสั่งซื้อ</div><div class="starter-try">เลือกอันนี้ →</div></div>
+      <div class="starter-card fade-up" onclick="showStarter('event')"><div class="starter-icon">🎉</div><div class="starter-title">การ์ดเชิญงาน</div><div class="starter-desc">เชิญงานวันเกิด งานแต่ง พร้อมนับถอยหลัง</div><div class="starter-try">เลือกอันนี้ →</div></div>
+      <div class="starter-card fade-up" onclick="showStarter('menu')"><div class="starter-icon">🍜</div><div class="starter-title">เมนูร้านอาหาร</div><div class="starter-desc">เมนูสวยๆ พร้อมราคา ให้ลูกค้าสแกนดู</div><div class="starter-try">เลือกอันนี้ →</div></div>
+      <div class="starter-card fade-up" onclick="showStarter('portfolio')"><div class="starter-icon">📸</div><div class="starter-title">โชว์ผลงาน</div><div class="starter-desc">แกลเลอรีรูปภาพ ผลงาน สินค้าแฮนด์เมด</div><div class="starter-try">เลือกอันนี้ →</div></div>
+      <div class="starter-card fade-up" onclick="showStarter('countdown')"><div class="starter-icon">⏰</div><div class="starter-title">เว็บนับถอยหลัง</div><div class="starter-desc">นับถอยหลังสู่วันสำคัญ เปิดร้าน วันเกิด</div><div class="starter-try">เลือกอันนี้ →</div></div>
+    </div>
+    <div class="prompt-box" id="starterPrompt" style="display:none;margin-top:1.5rem">
+      <div class="prompt-label">📋 คัดลอกไปวางใน Claude</div>
+      <div class="prompt-text" id="starterText"></div>
+      <button class="copy-btn" onclick="copyText('starterText',this)">📋 คัดลอกข้อความ</button>
+    </div>
+  </div>
+</section>
+
+<!-- DEPLOY TEASER -->
+<section class="deploy-teaser" id="deploy">
+  <div class="container">
+    <div class="sec-head fade-up">
+      <span class="sec-tag">ขั้นต่อไป</span>
+      <h2>เว็บรันบนเครื่องแล้ว<br>อยากให้คนอื่นเห็น? <span class="hl2">Deploy เลย</span></h2>
+      <p>เอาเว็บขึ้นออนไลน์ แชร์ด้วยลิงก์เดียว — เลือก deploy ที่ไหนก็ได้ มีบทเรียนละเอียดให้</p>
+    </div>
+    <div class="deploy-grid">
+      <a href="deploy.html#cloudflare" class="deploy-mini fade-up"><div class="di">☁️</div><div class="dn">Cloudflare Pages</div><div class="dt">ฟรี · เร็วทั่วโลก</div></a>
+      <a href="deploy.html#vercel" class="deploy-mini fade-up"><div class="di">▲</div><div class="dn">Vercel</div><div class="dt">ฟรี · ง่ายสุด</div></a>
+      <a href="deploy.html#github" class="deploy-mini fade-up"><div class="di">🐙</div><div class="dn">GitHub Pages</div><div class="dt">ฟรี · เว็บนิ่งๆ</div></a>
+      <a href="deploy.html#netlify" class="deploy-mini fade-up"><div class="di">🔷</div><div class="dn">Netlify</div><div class="dt">ฟรี · ลากวาง</div></a>
+    </div>
+    <div style="text-align:center;margin-top:1.8rem">
+      <a href="deploy.html" class="go-btn">📖 เปิดบทเรียน Deploy ทั้งหมด →</a>
+    </div>
+  </div>
+</section>
+
+<!-- STUCK -->
+<section class="stuck">
+  <div class="container">
+    <div class="sec-head fade-up">
+      <span class="sec-tag">ติดปัญหา?</span>
+      <h2>ถ้าติดตรงไหน <span class="hl2">ทำแบบนี้</span></h2>
+      <p>ปัญหาที่มือใหม่เจอบ่อย พร้อมวิธีแก้</p>
+    </div>
+    <div class="stuck-item fade-up" onclick="toggleStuck(this)">
+      <div class="stuck-q">😰 พิมพ์ <code>claude</code> แล้วขึ้น "command not found"<span class="stuck-arrow">▼</span></div>
+      <div class="stuck-a"><div class="stuck-a-inner">แปลว่ายังติดตั้งไม่สำเร็จ ลองปิด Terminal แล้วเปิดใหม่ก่อน ถ้ายังไม่ได้ ให้พิมพ์ <code>node -v</code> ดูว่า Node.js ติดตั้งแล้วหรือยัง (ต้องขึ้นเลขเวอร์ชัน) ถ้ายัง ให้กลับไปติดตั้ง Node.js จาก nodejs.org ก่อน</div></div>
+    </div>
+    <div class="stuck-item fade-up" onclick="toggleStuck(this)">
+      <div class="stuck-q">🤔 Claude ตอบเป็นภาษาอังกฤษ<span class="stuck-arrow">▼</span></div>
+      <div class="stuck-a"><div class="stuck-a-inner">พิมพ์บอกไปว่า <strong>"ตอบเป็นภาษาไทยนะ"</strong> แล้ว Claude จะเปลี่ยนมาเป็นไทยทันที</div></div>
+    </div>
+    <div class="stuck-item fade-up" onclick="toggleStuck(this)">
+      <div class="stuck-q">😅 ไม่รู้ว่าไฟล์เว็บอยู่ตรงไหนในเครื่อง<span class="stuck-arrow">▼</span></div>
+      <div class="stuck-a"><div class="stuck-a-inner">พิมพ์ถาม Claude ได้เลย: <strong>"ไฟล์เว็บอยู่ที่ไหนในเครื่อง บอกที่อยู่หน่อย"</strong> Claude จะบอก path เต็มให้ หรือบอกว่า <strong>"เปิดโฟลเดอร์ที่เก็บไฟล์ให้หน่อย"</strong></div></div>
+    </div>
+    <div class="stuck-item fade-up" onclick="toggleStuck(this)">
+      <div class="stuck-q">💸 ต้องเสียเงินไหม?<span class="stuck-arrow">▼</span></div>
+      <div class="stuck-a"><div class="stuck-a-inner">Node.js และการรันบนเครื่อง <strong>ฟรีทั้งหมด</strong> ส่วน Claude มีแพลนฟรีให้ลองใช้ ถ้าใช้หนักค่อยอัปเกรด — การ deploy ที่แนะนำก็มีแพลนฟรีทุกเจ้า</div></div>
+    </div>
+    <div class="stuck-item fade-up" onclick="toggleStuck(this)">
+      <div class="stuck-q">🆘 งงตรงไหน ถาม Claude ได้ไหม?<span class="stuck-arrow">▼</span></div>
+      <div class="stuck-a"><div class="stuck-a-inner">ได้เลย! Claude คุยด้วยได้ ถามอะไรก็ได้ เช่น <strong>"อธิบายให้ฟังหน่อยว่าตอนนี้ต้องทำอะไรต่อ"</strong> หรือ <strong>"คำสั่งเมื่อกี้ทำอะไร"</strong> ถามเหมือนถามเพื่อนที่รู้เรื่องคอมได้</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- NEXT -->
+<section class="next-section">
+  <div class="next-box fade-up">
+    <div style="font-size:2.5rem;margin-bottom:1rem">🚀</div>
+    <h2 style="font-size:1.7rem;font-weight:800;margin-bottom:.7rem">สร้างเว็บรันบนเครื่องได้แล้ว?<br><span class="hl">ไปต่อกันเลย!</span></h2>
+    <p style="color:var(--mt);max-width:460px;margin:0 auto 2rem;font-size:.95rem">
+      ลองโปรเจกต์ที่ใหญ่ขึ้น มีตัวอย่างพร้อมประโยคบอก Claude ให้เลือกทำ 55 แบบ
+      หรือเรียน deploy เอาเว็บขึ้นออนไลน์
+    </p>
+    <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
+      <a href="projects.html" class="go-btn">📂 ดู 55 โปรเจกต์</a>
+      <a href="deploy.html" class="go-link">🌐 บทเรียน Deploy</a>
+      <a href="index.html#modules" class="go-link">📚 เนื้อหาเต็ม</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-credit">
+    Claude Code Learning Hub · Curated by <strong>Chetaphong Preecha</strong> &amp; <strong>Beyond Team</strong> · 2026
+  </div>
+</footer>
+
+<script>
+const sc=document.getElementById('stars');
+for(let i=0;i<100;i++){const s=document.createElement('div');s.className='star';const z=Math.random()*2.5+.5;s.style.cssText=`width:${z}px;height:${z}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${Math.random()*4+2}s;animation-delay:${Math.random()*5}s`;sc.appendChild(s)}
+window.addEventListener('scroll',()=>{const t=document.documentElement.scrollTop,h=document.documentElement.scrollHeight-window.innerHeight;document.getElementById('bar').style.width=(t/h*100)+'%'});
+
+function copyText(id,btn){
+  const txt=document.getElementById(id).innerText;
+  navigator.clipboard.writeText(txt).then(()=>{
+    const orig=btn.innerHTML;btn.innerHTML='✅ คัดลอกแล้ว!';btn.classList.add('done');
+    setTimeout(()=>{btn.innerHTML=orig;btn.classList.remove('done')},2000);
+  });
+}
+function switchOS(os,el){
+  document.querySelectorAll('.os-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.os-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('os-'+os).classList.add('active');
+}
+const starters={
+  about:`สร้างโฟลเดอร์ my-website แล้วทำหน้าเว็บแนะนำตัวเป็นไฟล์ index.html เปิดดูได้เลย
+
+ชื่อ: [ใส่ชื่อคุณ]
+อาชีพ: [ใส่อาชีพ]
+เกี่ยวกับฉัน: [แนะนำตัวสั้นๆ]
+
+อยากได้เว็บสวยๆ มีรูปโปรไฟล์ ปุ่มติดต่อ ดูดีบนมือถือ เสร็จแล้วเปิดให้ดูในเบราว์เซอร์ด้วย`,
+  shop:`สร้างโฟลเดอร์ my-shop แล้วทำเว็บร้านค้าเป็นไฟล์ index.html เปิดดูได้เลย
+
+ชื่อร้าน: [ใส่ชื่อร้าน]
+ขายอะไร: [เช่น เสื้อผ้าแฮนด์เมด]
+สินค้า 3 อย่าง พร้อมราคา: [สินค้า1-ราคา], [สินค้า2-ราคา], [สินค้า3-ราคา]
+
+โชว์สินค้าสวยๆ มีราคา ปุ่มสั่งซื้อทาง LINE ดูดีบนมือถือ เสร็จแล้วเปิดให้ดูด้วย`,
+  event:`สร้างโฟลเดอร์ my-invite แล้วทำการ์ดเชิญงานเป็นไฟล์ index.html เปิดดูได้เลย
+
+งาน: [เช่น งานวันเกิดครบ 30 ปี]
+วันเวลา: [ใส่วันเวลา]
+สถานที่: [ใส่สถานที่]
+
+การ์ดเชิญสวยๆ มีอนิเมชั่น มีนับถอยหลังสู่วันงาน ปุ่มยืนยันการมา ดูดีบนมือถือ เสร็จแล้วเปิดให้ดู`,
+  menu:`สร้างโฟลเดอร์ my-menu แล้วทำเว็บเมนูร้านอาหารเป็นไฟล์ index.html เปิดดูได้เลย
+
+ชื่อร้าน: [ใส่ชื่อร้าน]
+ประเภท: [เช่น ร้านก๋วยเตี๋ยว]
+เมนู: [เมนู1-ราคา], [เมนู2-ราคา], [เมนู3-ราคา], [เมนู4-ราคา]
+
+เมนูสวยๆ แบ่งหมวดหมู่ ดูน่ากิน เปิดบนมือถือได้ เสร็จแล้วเปิดให้ดู`,
+  portfolio:`สร้างโฟลเดอร์ my-portfolio แล้วทำเว็บโชว์ผลงานเป็นไฟล์ index.html เปิดดูได้เลย
+
+ชื่อ: [ใส่ชื่อคุณ]
+ผลงานประเภท: [เช่น ถ่ายภาพ / งานวาด / สินค้าแฮนด์เมด]
+
+แกลเลอรีรูปแบบ grid กดรูปขยายได้ มีหน้าแนะนำตัว ช่องทางติดต่อ ดูดีบนมือถือ เสร็จแล้วเปิดให้ดู`,
+  countdown:`สร้างโฟลเดอร์ my-countdown แล้วทำเว็บนับถอยหลังเป็นไฟล์ index.html เปิดดูได้เลย
+
+นับถอยหลังสู่: [เช่น วันเปิดร้าน / ปีใหม่]
+วันเวลาเป้าหมาย: [ใส่วันเวลา]
+
+ตัวเลขใหญ่ชัด มีอนิเมชั่น พื้นหลังไล่เฉดสี บอกว่ารออะไรอยู่ ดูดีบนมือถือ เสร็จแล้วเปิดให้ดู`
+};
+function showStarter(key){
+  const box=document.getElementById('starterPrompt'),txt=document.getElementById('starterText');
+  txt.innerText=starters[key];box.style.display='block';box.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function toggleStuck(el){el.classList.toggle('open')}
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis')})},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+const dots=document.querySelectorAll('.track-dot');
+dots.forEach(d=>d.addEventListener('click',()=>{document.getElementById(d.dataset.target)?.scrollIntoView({behavior:'smooth'})}));
+const targets=[...dots].map(d=>d.dataset.target);
+window.addEventListener('scroll',()=>{const pos=window.scrollY+window.innerHeight/2;let active=0;targets.forEach((t,i)=>{const el=document.getElementById(t);if(el&&pos>=el.offsetTop)active=i});dots.forEach((d,i)=>d.classList.toggle('active',i===active))});
+</script>
+</body>
+</html>
