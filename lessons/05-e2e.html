@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E2E Tests ด้วย Playwright | Claude Code Hub</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap');
+:root{--p:#6C63FF;--s:#FF6B6B;--a:#4ECDC4;--g:#FFD700;--green:#27C93F;--dkr:#050510;--cd:#12122A;--cd2:#1A1A35;--tx:#E8E8FF;--mt:#9999CC;--g1:linear-gradient(135deg,#6C63FF,#4ECDC4);--glow:0 0 40px rgba(108,99,255,.35)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Sarabun',sans-serif;background:var(--dkr);color:var(--tx);line-height:1.85;font-size:16.5px}
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.star{position:absolute;border-radius:50%;background:#fff;animation:tw var(--d) ease-in-out infinite}
+@keyframes tw{0%,100%{opacity:.08}50%{opacity:.55}}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(5,5,16,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(108,99,255,.15);padding:.7rem 1.5rem;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{display:flex;align-items:center;gap:.6rem;text-decoration:none}
+.nav-logo{width:30px;height:30px;border-radius:8px;background:var(--g1);display:flex;align-items:center;justify-content:center;font-size:.95rem}
+.nav-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.92rem;background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-home{color:var(--mt);text-decoration:none;font-size:.82rem;padding:.4rem .9rem;border-radius:8px;transition:all .2s}
+.nav-home:hover{color:var(--tx);background:rgba(255,255,255,.05)}
+.reading-bar{position:fixed;top:0;left:0;height:3px;z-index:9999;background:var(--g1);transition:width .1s}
+.wrap{max-width:720px;margin:0 auto;padding:6.5rem 1.5rem 3rem;position:relative;z-index:2}
+.crumb{font-size:.78rem;color:var(--mt);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.crumb a{color:var(--mt);text-decoration:none}
+.crumb a:hover{color:var(--p)}
+.crumb .mod-pill{background:rgba(108,99,255,.12);color:var(--p);border:1px solid rgba(108,99,255,.25);padding:.15rem .7rem;border-radius:20px;font-weight:600}
+.lesson-progress{display:flex;align-items:center;gap:.8rem;margin-bottom:1.5rem;font-size:.75rem;color:var(--mt)}
+.lp-bar{flex:1;height:5px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden}
+.lp-fill{height:100%;background:var(--g1);border-radius:3px;width:59%}
+h1{font-size:clamp(1.7rem,4vw,2.4rem);font-weight:800;line-height:1.25;margin-bottom:1rem}
+.lesson-no{font-family:'Space Grotesk',sans-serif;font-size:.85rem;color:var(--p);font-weight:700;letter-spacing:.05em}
+.intro{color:var(--mt);font-size:1.05rem;line-height:1.9;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(255,255,255,.08)}
+.block{margin-bottom:2rem}
+.block h3{font-size:1.2rem;font-weight:700;margin-bottom:.8rem;color:var(--tx);display:flex;align-items:center;gap:.5rem}
+.block h3::before{content:'';width:4px;height:20px;background:var(--g1);border-radius:2px}
+.block p{color:var(--mt);margin-bottom:.8rem}
+.block b{color:var(--tx)}
+.ul,.ol{color:var(--mt);margin:.5rem 0 .8rem 1.3rem}
+.ul li,.ol li{margin-bottom:.5rem}
+.ul li b,.ol li b{color:var(--tx)}
+code{background:rgba(108,99,255,.12);color:#A89FFF;padding:.1rem .45rem;border-radius:5px;font-family:'JetBrains Mono',monospace;font-size:.85rem}
+.code-block{background:#0a0a18;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.1rem 1.2rem;margin:.9rem 0;position:relative;overflow-x:auto}
+.code-block pre{font-family:'JetBrains Mono',monospace;font-size:.82rem;line-height:1.7;color:#E8E8FF;white-space:pre-wrap}
+.ccopy{position:absolute;top:.6rem;right:.6rem;background:rgba(108,99,255,.15);border:1px solid rgba(108,99,255,.3);color:var(--p);border-radius:6px;padding:.2rem .5rem;font-size:.75rem;cursor:pointer}
+.ccopy:hover{background:rgba(108,99,255,.3)}
+.prompt-box{background:linear-gradient(135deg,rgba(108,99,255,.1),rgba(78,205,196,.06));border:1.5px solid rgba(108,99,255,.3);border-radius:14px;padding:1.3rem;margin:1.5rem 0}
+.prompt-label{display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--p);font-weight:700;margin-bottom:.7rem}
+.prompt-text{font-size:.92rem;color:var(--tx);line-height:1.8;background:rgba(0,0,0,.25);border-radius:10px;padding:1rem;font-family:'Sarabun',sans-serif;white-space:pre-wrap}
+.copy-btn{margin-top:.7rem;background:var(--p);color:#fff;border:none;border-radius:10px;padding:.55rem 1.2rem;font-size:.82rem;font-weight:700;font-family:'Sarabun',sans-serif;cursor:pointer;transition:all .2s}
+.copy-btn:hover{background:#5a52e0}
+.copy-btn.done{background:var(--green)}
+.note{background:rgba(78,205,196,.07);border:1px solid rgba(78,205,196,.25);border-radius:12px;padding:1rem 1.2rem;margin:1.5rem 0;font-size:.9rem;display:flex;gap:.7rem;align-items:flex-start}
+.note .ni{font-size:1.2rem;flex-shrink:0}
+.note-body strong{color:var(--a)}
+.takeaways{background:var(--cd);border:1px solid rgba(108,99,255,.2);border-radius:16px;padding:1.5rem;margin:2rem 0}
+.tk-title{font-weight:700;font-size:1rem;margin-bottom:.8rem}
+.takeaways ul{list-style:none}
+.takeaways li{padding:.35rem 0;padding-left:1.6rem;position:relative;color:var(--mt);font-size:.9rem}
+.takeaways li::before{content:'✓';position:absolute;left:0;color:var(--green);font-weight:700}
+.pagenav{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.08)}
+.pn-btn{display:flex;flex-direction:column;gap:.3rem;background:var(--cd);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:1rem 1.2rem;text-decoration:none;transition:all .3s}
+.pn-btn:hover{border-color:rgba(108,99,255,.3);transform:translateY(-2px)}
+.pn-next{text-align:right}
+.pn-dir{font-size:.72rem;color:var(--p);font-weight:700}
+.pn-title{font-size:.88rem;color:var(--tx);font-weight:600}
+footer{border-top:1px solid rgba(255,255,255,.05);padding:2rem 1.5rem;text-align:center;position:relative;z-index:2}
+.footer-credit{color:var(--mt);font-size:.78rem;opacity:.7}
+.footer-credit strong{color:var(--p);opacity:1}
+@media(max-width:600px){.pagenav{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="reading-bar" id="bar"></div>
+<div class="stars" id="stars"></div>
+<nav>
+  <a href="../index.html" class="nav-brand"><div class="nav-logo">⚡</div><span class="nav-name">Claude Code Hub</span></a>
+  <a href="../index.html#modules" class="nav-home">← บทเรียนทั้งหมด</a>
+</nav>
+<div class="wrap">
+  <div class="crumb"><a href="../index.html">หน้าหลัก</a> › <a href="../index.html#modules">บทเรียน</a> › <span class="mod-pill">Module 5: Testing & Docs</span></div>
+  <div class="lesson-progress"><span>บทที่ 20/34</span><div class="lp-bar"><div class="lp-fill"></div></div><span>59%</span></div>
+  <div class="lesson-no">บทเรียน 5.2</div>
+  <h1>E2E Tests ด้วย Playwright</h1>
+  <div class="intro">End-to-end test จำลองการใช้งานจริงของผู้ใช้ ตั้งแต่เปิดหน้าเว็บจนกดปุ่มเสร็จงาน Claude เขียน Playwright test ให้ได้</div>
+  <div class="block"><h3>E2E ต่างจาก unit ยังไง</h3><p>Unit test ทดสอบฟังก์ชันเดี่ยวๆ ส่วน E2E ทดสอบ flow ทั้งหมดผ่านเบราว์เซอร์จริง เช่น "ผู้ใช้ login → เพิ่มสินค้าลงตะกร้า → checkout"</p></div><div class="block"><h3>ให้ Claude เขียน Playwright</h3><p>บอก flow ที่อยากทดสอบ Claude จะเขียน test และรันให้ดูผล</p></div>
+  <div class="prompt-box"><div class="prompt-label">💬 ลองใช้ Prompt นี้กับ Claude</div><div class="prompt-text" id="pt">ช่วยเขียน E2E test ด้วย Playwright สำหรับ flow นี้: [อธิบายขั้นตอนที่ผู้ใช้ทำ] แล้วรัน test ให้ผ่าน</div><button class="copy-btn" onclick="cp()">📋 คัดลอก Prompt</button></div>
+  <div class="note"><span class="ni">💡</span><div class="note-body"><strong>เคล็ดลับ:</strong> เริ่มจาก E2E ของ flow สำคัญที่สุด (เช่น checkout, login) ก่อน — คุ้มค่าที่สุด</div></div>
+  <div class="takeaways"><div class="tk-title">📌 สรุปบทนี้</div><ul><li>E2E ทดสอบ flow ทั้งหมดผ่านเบราว์เซอร์</li><li>Playwright = เครื่องมือยอดนิยม</li><li>เริ่มจาก flow สำคัญสุด</li></ul></div>
+  <div class="pagenav"><a href="05-unit-tests.html" class="pn-btn pn-prev"><span class="pn-dir">← ก่อนหน้า</span><span class="pn-title">Generate Unit Tests</span></a><a href="05-api-docs.html" class="pn-btn pn-next"><span class="pn-dir">ถัดไป →</span><span class="pn-title">Auto-generate API Docs</span></a></div>
+</div>
+<footer><div class="footer-credit">Claude Code Learning Hub · Curated by <strong>Chetaphong Preecha</strong> &amp; <strong>Beyond Team</strong></div></footer>
+<script>
+const sc=document.getElementById('stars');
+for(let i=0;i<70;i++){const s=document.createElement('div');s.className='star';const z=Math.random()*2.5+.5;s.style.cssText=`width:${z}px;height:${z}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${Math.random()*4+2}s;animation-delay:${Math.random()*5}s`;sc.appendChild(s)}
+window.addEventListener('scroll',()=>{const t=document.documentElement.scrollTop,h=document.documentElement.scrollHeight-window.innerHeight;document.getElementById('bar').style.width=(t/h*100)+'%'});
+function cp(){const el=document.getElementById('pt');navigator.clipboard.writeText(el.innerText);const b=document.querySelector('.copy-btn');const o=b.innerHTML;b.innerHTML='✅ คัดลอกแล้ว!';b.classList.add('done');setTimeout(()=>{b.innerHTML=o;b.classList.remove('done')},2000)}
+function cc(btn){const pre=btn.parentElement.querySelector('pre');navigator.clipboard.writeText(pre.innerText);const o=btn.innerHTML;btn.innerHTML='✅';setTimeout(()=>btn.innerHTML=o,1500)}
+</script>
+</body>
+</html>
