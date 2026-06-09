@@ -376,8 +376,21 @@ def build_index():
 <script src="assets/app.js"></script>
 </body>
 </html>"""
-    open(os.path.join(ROOT,"index.html"),"w",encoding="utf-8").write(page)
-    print("built index.html")
+    # /app/ (dark LMS) is the canonical site now — root redirects there so there is
+    # one entry point. The former light home is preserved at index-light.html (reversible).
+    open(os.path.join(ROOT,"index-light.html"),"w",encoding="utf-8").write(page)
+    redirect = ('<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8">'
+        '<meta name="viewport" content="width=device-width, initial-scale=1.0">'
+        '<title>Claude Code | คอร์สเรียนภาษาไทย</title>'
+        '<link rel="canonical" href="app/index.html">'
+        '<meta http-equiv="refresh" content="0; url=app/index.html">'
+        '<script>location.replace("app/index.html");</script>'
+        '<style>html,body{margin:0;height:100%;background:#080B16;color:#9BA4BD;'
+        'font-family:system-ui,-apple-system,sans-serif;display:flex;align-items:center;justify-content:center}'
+        'a{color:#38BDF8;font-weight:700}</style></head>'
+        '<body><p>กำลังพาไปที่คอร์ส… <a href="app/index.html">เข้าคอร์ส Claude Code &#8594;</a></p></body></html>')
+    open(os.path.join(ROOT,"index.html"),"w",encoding="utf-8").write(redirect)
+    print("built index.html -> redirect to app/  (light home kept at index-light.html)")
 
 if __name__ == "__main__":
     build_lessons()
