@@ -144,6 +144,7 @@ def ws_sidebar(active_slug):
             '<a href="index.html" class="sb-brand-link"><span class="sb-logo">⚡</span>'
             '<span class="sb-brand">Claude Code<small>เวิร์กช็อปลงมือทำ</small></span></a>'
             f'{theme_toggle()}</div>'
+            '<div class="sb-switch"><a href="../index.html">บทเรียน</a><a href="index.html" class="active">เวิร์กช็อป</a></div>'
             f'<nav class="sb-nav">{"".join(rows)}</nav>'
             '<div class="sb-back"><a href="../index.html">← คอร์ส Claude Code</a></div></aside>')
 

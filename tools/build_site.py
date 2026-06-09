@@ -80,6 +80,7 @@ def rel(href, from_lessons):
 
 def sidebar(active_slug, from_lessons):
     home = "../index.html" if from_lessons else "index.html"
+    ws = "../workshops/index.html" if from_lessons else "workshops/index.html"
     asset = "../assets/" if from_lessons else "assets/"
     rows = []
     for mod in course["modules"]:
@@ -106,6 +107,7 @@ def sidebar(active_slug, from_lessons):
           '<span class="sb-logo">⚡</span>'
           '<span class="sb-brand">Claude Code Hub<small>คอร์สเรียนภาษาไทย</small></span></a>'
         f'{theme_toggle()}</div>'
+      f'<div class="sb-switch"><a href="{home}" class="active">บทเรียน</a><a href="{ws}">เวิร์กช็อป</a></div>'
       '<div class="sb-progress"><div class="lbl"><span>ความคืบหน้า</span><b>0/0 บท</b></div>'
         '<div class="sb-bar"><i></i></div></div>'
       f'<nav class="sb-nav">{"".join(rows)}</nav>'
