@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>55 โปรเจกต์ Claude Code | Beyond Team</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700;800&family=Space+Grotesk:wght@400;600;700&display=swap');
+  :root {
+    --primary:#6C63FF;--secondary:#FF6B6B;--accent:#4ECDC4;--gold:#FFD700;
+    --dark:#0A0A1A;--darker:#050510;--card:#12122A;--card2:#1A1A35;
+    --text:#E8E8FF;--muted:#8888BB;
+    --g1:linear-gradient(135deg,#6C63FF,#4ECDC4);
+    --g2:linear-gradient(135deg,#FF6B6B,#FFD700);
+    --g3:linear-gradient(135deg,#6C63FF,#FF6B6B);
+    --glow:0 0 30px rgba(108,99,255,.35);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Sarabun',sans-serif;background:var(--darker);color:var(--text);overflow-x:hidden;line-height:1.6}
+
+  /* ---- STARS ---- */
+  .stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+  .star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d) ease-in-out infinite}
+  @keyframes twinkle{0%,100%{opacity:.1}50%{opacity:.9}}
+
+  /* ---- NAV ---- */
+  nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(5,5,16,.88);backdrop-filter:blur(20px);border-bottom:1px solid rgba(108,99,255,.2);padding:.8rem 2rem;display:flex;align-items:center;justify-content:space-between}
+  .nav-logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:flex;align-items:center;gap:.5rem;text-decoration:none}
+  .nav-back{color:var(--muted);font-size:.85rem;text-decoration:none;transition:color .3s}
+  .nav-back:hover{color:var(--primary)}
+  .progress-bar{position:fixed;top:0;left:0;height:3px;z-index:9999;background:var(--g1);transition:width .1s}
+
+  /* ---- HERO ---- */
+  .hero{padding:8rem 2rem 4rem;text-align:center;position:relative;z-index:2;background:radial-gradient(ellipse at 50% 30%,rgba(108,99,255,.12) 0%,transparent 60%)}
+  .hero-tag{display:inline-flex;align-items:center;gap:.5rem;background:rgba(108,99,255,.12);border:1px solid rgba(108,99,255,.3);border-radius:30px;padding:.35rem 1rem;font-size:.78rem;color:var(--primary);margin-bottom:1.5rem;letter-spacing:.05em}
+  .hero-tag::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--primary);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  h1{font-size:clamp(2.2rem,5vw,3.5rem);font-weight:800;line-height:1.2;margin-bottom:1rem}
+  .hl{background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .hl2{background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .hero-desc{color:var(--muted);font-size:1.05rem;max-width:600px;margin:0 auto 2.5rem}
+  .stat-row{display:flex;justify-content:center;gap:3rem;margin-bottom:3rem;flex-wrap:wrap}
+  .stat-item{text-align:center}
+  .stat-num{font-size:2.2rem;font-weight:800;background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .stat-label{font-size:.75rem;color:var(--muted)}
+
+  /* ---- SEARCH & FILTER ---- */
+  .controls{max-width:1200px;margin:0 auto 3rem;padding:0 2rem;position:relative;z-index:2}
+  .search-wrap{position:relative;margin-bottom:1.5rem}
+  .search-icon{position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:var(--muted);font-size:1rem}
+  #search{width:100%;background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:.9rem 1rem .9rem 2.8rem;color:var(--text);font-size:.95rem;font-family:'Sarabun',sans-serif;outline:none;transition:border-color .3s}
+  #search:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(108,99,255,.15)}
+  #search::placeholder{color:var(--muted)}
+  .filters{display:flex;gap:.6rem;flex-wrap:wrap}
+  .filter-btn{padding:.4rem 1rem;border-radius:20px;border:1px solid rgba(255,255,255,.1);background:transparent;color:var(--muted);font-size:.78rem;font-family:'Sarabun',sans-serif;cursor:pointer;transition:all .3s;font-weight:600}
+  .filter-btn:hover,.filter-btn.active{background:rgba(108,99,255,.2);border-color:rgba(108,99,255,.5);color:var(--primary)}
+  .filter-btn[data-cat="ecommerce"].active{background:rgba(255,107,107,.15);border-color:rgba(255,107,107,.4);color:var(--secondary)}
+  .filter-btn[data-cat="food"].active{background:rgba(255,215,0,.12);border-color:rgba(255,215,0,.4);color:var(--gold)}
+  .filter-btn[data-cat="business"].active{background:rgba(78,205,196,.12);border-color:rgba(78,205,196,.4);color:var(--accent)}
+  .filter-btn[data-cat="game"].active{background:rgba(255,107,107,.12);border-color:rgba(255,107,107,.3);color:#FF9A9A}
+  .filter-btn[data-cat="tool"].active{background:rgba(108,99,255,.15);border-color:rgba(108,99,255,.4);color:#A89FFF}
+  .filter-btn[data-cat="education"].active{background:rgba(39,201,63,.12);border-color:rgba(39,201,63,.3);color:#27C93F}
+  .filter-btn[data-cat="creative"].active{background:rgba(255,215,0,.12);border-color:rgba(255,215,0,.3);color:var(--gold)}
+
+  /* ---- GRID ---- */
+  .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:1.2rem;max-width:1200px;margin:0 auto;padding:0 2rem;position:relative;z-index:2}
+  .project-card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:1.6rem;cursor:pointer;transition:all .35s;position:relative;overflow:hidden;text-decoration:none;display:block}
+  .project-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;opacity:0;transition:opacity .3s;background:var(--g1)}
+  .project-card:hover::before{opacity:1}
+  .project-card:hover{transform:translateY(-5px);border-color:rgba(108,99,255,.35);box-shadow:var(--glow),0 20px 50px rgba(0,0,0,.3)}
+  .card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1rem}
+  .card-icon{width:52px;height:52px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
+  .card-badges{display:flex;flex-direction:column;align-items:flex-end;gap:.3rem}
+  .badge{padding:.18rem .6rem;border-radius:8px;font-size:.65rem;font-weight:700;letter-spacing:.04em}
+  .badge-easy{background:rgba(39,201,63,.15);color:#27C93F;border:1px solid rgba(39,201,63,.25)}
+  .badge-medium{background:rgba(255,215,0,.12);color:var(--gold);border:1px solid rgba(255,215,0,.25)}
+  .badge-hard{background:rgba(255,107,107,.12);color:var(--secondary);border:1px solid rgba(255,107,107,.25)}
+  .badge-time{background:rgba(255,255,255,.05);color:var(--muted);border:1px solid rgba(255,255,255,.08);font-weight:400}
+  .card-num{position:absolute;top:1rem;left:1.4rem;font-family:'Space Grotesk',sans-serif;font-size:.65rem;color:rgba(255,255,255,.15);font-weight:700;letter-spacing:.1em}
+  .card-title{font-size:1rem;font-weight:700;margin-bottom:.4rem;line-height:1.4}
+  .card-desc{color:var(--muted);font-size:.82rem;line-height:1.6;margin-bottom:1rem}
+  .card-tech{display:flex;flex-wrap:wrap;gap:.3rem}
+  .tech-tag{background:rgba(108,99,255,.08);border:1px solid rgba(108,99,255,.15);color:rgba(108,99,255,.9);padding:.15rem .55rem;border-radius:6px;font-size:.68rem;font-weight:600}
+  .card-arrow{position:absolute;bottom:1.4rem;right:1.4rem;color:var(--primary);opacity:0;transform:translateX(-5px);transition:all .3s;font-size:.9rem}
+  .project-card:hover .card-arrow{opacity:1;transform:translateX(0)}
+
+  /* Category colors */
+  .cat-personal .card-icon{background:rgba(108,99,255,.18)}
+  .cat-ecommerce .card-icon{background:rgba(255,107,107,.15)}
+  .cat-ecommerce::before{background:var(--g2)}
+  .cat-food .card-icon{background:rgba(255,215,0,.15)}
+  .cat-food::before{background:linear-gradient(90deg,#FFD700,#FF6B6B)}
+  .cat-business .card-icon{background:rgba(78,205,196,.15)}
+  .cat-business::before{background:linear-gradient(90deg,#4ECDC4,#6C63FF)}
+  .cat-game .card-icon{background:rgba(255,154,154,.15)}
+  .cat-game::before{background:linear-gradient(90deg,#FF6B6B,#FFB347)}
+  .cat-tool .card-icon{background:rgba(169,159,255,.15)}
+  .cat-tool::before{background:linear-gradient(90deg,#A89FFF,#4ECDC4)}
+  .cat-education .card-icon{background:rgba(39,201,63,.15)}
+  .cat-education::before{background:linear-gradient(90deg,#27C93F,#4ECDC4)}
+  .cat-realestate .card-icon{background:rgba(255,215,0,.15)}
+  .cat-realestate::before{background:linear-gradient(90deg,#FFD700,#4ECDC4)}
+  .cat-creative .card-icon{background:rgba(255,107,107,.12)}
+  .cat-creative::before{background:linear-gradient(90deg,#FF6B6B,#A89FFF)}
+
+  /* ---- SECTION HEADER ---- */
+  .section-header{text-align:center;margin:3rem 0 2rem;position:relative;z-index:2;padding:0 2rem}
+  .cat-label{display:inline-flex;align-items:center;gap:.5rem;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;padding:.3rem 1rem;border-radius:20px;margin-bottom:.8rem}
+  h2{font-size:1.6rem;font-weight:800;margin-bottom:.4rem}
+  .section-desc{color:var(--muted);font-size:.9rem}
+
+  /* ---- LESSON PAGE PREVIEW ---- */
+  .lesson-preview{max-width:1200px;margin:5rem auto 0;padding:0 2rem;position:relative;z-index:2}
+  .lesson-header{background:linear-gradient(135deg,rgba(108,99,255,.1),rgba(78,205,196,.07));border:1px solid rgba(108,99,255,.2);border-radius:20px;padding:2.5rem;margin-bottom:2rem}
+  .lesson-meta{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
+  .lesson-badge{padding:.3rem .8rem;border-radius:8px;font-size:.75rem;font-weight:700}
+  .steps-container{display:grid;grid-template-columns:1fr;gap:1rem}
+  .step{background:var(--card);border-radius:14px;border:1px solid rgba(255,255,255,.06);overflow:hidden}
+  .step-header{padding:1rem 1.5rem;display:flex;align-items:center;gap:1rem;cursor:pointer;transition:background .2s}
+  .step-header:hover{background:rgba(108,99,255,.08)}
+  .step-number{width:32px;height:32px;border-radius:50%;background:var(--g1);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0}
+  .step-title{font-weight:700;font-size:.95rem;flex:1}
+  .step-time{color:var(--muted);font-size:.75rem}
+  .step-arrow{color:var(--muted);transition:transform .3s}
+  .step.open .step-arrow{transform:rotate(180deg)}
+  .step-body{padding:0 1.5rem;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s}
+  .step.open .step-body{max-height:1200px;padding:0 1.5rem 1.5rem}
+  .step-desc{color:var(--muted);font-size:.88rem;margin-bottom:1.2rem;line-height:1.8}
+  .code-block{background:rgba(0,0,0,.5);border-radius:10px;padding:1.2rem 1.4rem;font-family:monospace;font-size:.82rem;border:1px solid rgba(255,255,255,.06);overflow-x:auto;margin:.8rem 0;position:relative}
+  .code-lang{position:absolute;top:.5rem;right:.8rem;font-size:.65rem;color:var(--muted);font-family:'Space Grotesk',sans-serif;text-transform:uppercase;letter-spacing:.08em}
+  .c-p{color:#A89FFF}
+  .c-t{color:#4ECDC4}
+  .c-g{color:#27C93F}
+  .c-o{color:#FFD700}
+  .c-r{color:#FF6B6B}
+  .c-m{color:var(--muted)}
+  .c-w{color:#E8E8FF}
+  .tip-box{background:rgba(78,205,196,.06);border:1px solid rgba(78,205,196,.2);border-radius:10px;padding:1rem 1.2rem;margin:.8rem 0;font-size:.85rem}
+  .tip-box strong{color:var(--accent)}
+  .warn-box{background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.2);border-radius:10px;padding:1rem 1.2rem;margin:.8rem 0;font-size:.85rem}
+  .warn-box strong{color:var(--gold)}
+  .checklist{list-style:none;margin:.5rem 0}
+  .checklist li{padding:.3rem 0;font-size:.85rem;color:var(--muted);display:flex;align-items:flex-start;gap:.6rem}
+  .checklist li::before{content:'✓';color:var(--accent);flex-shrink:0;margin-top:.1rem}
+  .result-box{background:linear-gradient(135deg,rgba(108,99,255,.08),rgba(78,205,196,.05));border:1px solid rgba(108,99,255,.2);border-radius:10px;padding:1.2rem;margin-top:1rem;text-align:center}
+  .result-box .url{font-family:monospace;color:var(--accent);font-size:.85rem}
+
+  /* ---- PROJECT DETAIL MODAL ---- */
+  .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);backdrop-filter:blur(10px);z-index:2000;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .3s}
+  .modal-overlay.show{opacity:1;pointer-events:all}
+  .modal{background:var(--card);border-radius:24px;border:1px solid rgba(108,99,255,.25);width:100%;max-width:800px;max-height:90vh;overflow-y:auto;padding:2.5rem;position:relative;transform:translateY(20px);transition:transform .3s}
+  .modal-overlay.show .modal{transform:translateY(0)}
+  .modal-close{position:absolute;top:1.2rem;right:1.2rem;background:rgba(255,255,255,.06);border:none;color:var(--muted);cursor:pointer;width:36px;height:36px;border-radius:50%;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
+  .modal-close:hover{background:rgba(255,107,107,.2);color:var(--secondary)}
+  .modal-hero{display:flex;align-items:flex-start;gap:1.5rem;margin-bottom:2rem}
+  .modal-icon{width:72px;height:72px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0}
+  .modal-title{font-size:1.5rem;font-weight:800;margin-bottom:.3rem}
+  .modal-meta{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:.5rem}
+  .modal-desc{color:var(--muted);font-size:.9rem;line-height:1.7}
+  .modal-section{margin-bottom:1.8rem}
+  .modal-section h3{font-size:1rem;font-weight:700;margin-bottom:.8rem;color:var(--accent)}
+  .modal-step{background:rgba(0,0,0,.25);border-radius:10px;padding:.9rem 1.1rem;margin-bottom:.6rem;border:1px solid rgba(255,255,255,.04)}
+  .modal-step-head{display:flex;align-items:center;gap:.7rem;margin-bottom:.4rem}
+  .modal-step-num{width:24px;height:24px;border-radius:50%;background:var(--g1);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0}
+  .modal-step-title{font-weight:600;font-size:.88rem}
+  .modal-step-desc{color:var(--muted);font-size:.8rem;margin-left:1.9rem;line-height:1.6}
+  .modal-prompt{background:rgba(108,99,255,.08);border:1px solid rgba(108,99,255,.2);border-radius:8px;padding:.8rem 1rem;font-family:monospace;font-size:.78rem;margin:.6rem 0;line-height:1.6;color:var(--accent)}
+  .modal-prompt::before{content:'💬 Prompt: ';color:var(--muted);font-family:'Sarabun',sans-serif;font-size:.72rem}
+  .learn-list{display:flex;flex-wrap:wrap;gap:.4rem}
+  .learn-chip{background:rgba(78,205,196,.08);border:1px solid rgba(78,205,196,.2);color:var(--accent);padding:.2rem .7rem;border-radius:8px;font-size:.72rem;font-weight:600}
+  /* Skills */
+  .skills-row{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem}
+  .skill-pill{display:inline-flex;align-items:center;gap:.3rem;padding:.22rem .7rem;border-radius:20px;font-size:.68rem;font-weight:700;letter-spacing:.02em;cursor:help;transition:all .2s}
+  .skill-pill:hover{transform:translateY(-1px)}
+  .sk-ux{background:rgba(255,107,107,.12);border:1px solid rgba(255,107,107,.3);color:#FF9A9A}
+  .sk-gh{background:rgba(39,201,63,.1);border:1px solid rgba(39,201,63,.25);color:#27C93F}
+  .sk-cf{background:rgba(255,165,0,.1);border:1px solid rgba(255,165,0,.25);color:#FFA500}
+  .sk-sp{background:rgba(108,99,255,.15);border:1px solid rgba(108,99,255,.3);color:#A89FFF}
+  .sk-tw{background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.25);color:#06B6D4}
+  .sk-cx{background:rgba(78,205,196,.1);border:1px solid rgba(78,205,196,.25);color:var(--accent)}
+  .sk-td{background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.25);color:var(--gold)}
+  .sk-nb{background:linear-gradient(135deg,rgba(255,107,107,.1),rgba(255,215,0,.08));border:1px solid rgba(255,165,0,.25);color:#FFB347}
+  .skills-legend{background:rgba(0,0,0,.3);border-radius:14px;border:1px solid rgba(255,255,255,.06);padding:1.5rem;margin-bottom:2rem;position:relative;z-index:2;max-width:1200px;margin-left:auto;margin-right:auto}
+  .modal-footer{display:flex;gap:1rem;margin-top:2rem;flex-wrap:wrap}
+  .btn-start{background:var(--g1);color:#fff;padding:.8rem 2rem;border-radius:12px;border:none;font-size:.9rem;font-weight:700;font-family:'Sarabun',sans-serif;cursor:pointer;transition:all .3s;flex:1;min-width:140px}
+  .btn-start:hover{transform:translateY(-2px);box-shadow:var(--glow)}
+  .btn-outline{background:transparent;border:1px solid rgba(108,99,255,.35);color:var(--text);padding:.8rem 1.5rem;border-radius:12px;font-size:.9rem;font-weight:600;font-family:'Sarabun',sans-serif;cursor:pointer;transition:all .3s}
+  .btn-outline:hover{border-color:var(--primary);color:var(--primary)}
+
+  /* ---- FOOTER ---- */
+  footer{text-align:center;padding:3rem 2rem;color:var(--muted);font-size:.8rem;border-top:1px solid rgba(255,255,255,.05);position:relative;z-index:2;margin-top:5rem}
+
+  /* ---- RESPONSIVE ---- */
+  @media(max-width:768px){.projects-grid{grid-template-columns:1fr}.stat-row{gap:1.5rem}.modal{padding:1.5rem}}
+
+  /* ---- FADE IN ---- */
+  .fade-up{opacity:0;transform:translateY(24px);transition:all .6s ease-out}
+  .fade-up.vis{opacity:1;transform:translateY(0)}
+
+  /* empty state */
+  .empty-state{grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--muted)}
+  .empty-state .emoji{font-size:3rem;margin-bottom:1rem}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+<div class="stars" id="stars"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg width="24" height="24" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="8" fill="url(#ng)"/><path d="M8 14L12 10L16 14L20 8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="20" r="3" fill="white" opacity=".8"/><defs><linearGradient id="ng" x1="0" y1="0" x2="28" y2="28"><stop stop-color="#6C63FF"/><stop offset="1" stop-color="#4ECDC4"/></linearGradient></defs></svg>
+    Claude Code Mastery
+  </a>
+  <span style="color:var(--muted);font-size:.8rem;background:rgba(108,99,255,.1);border:1px solid rgba(108,99,255,.2);padding:.3rem .9rem;border-radius:20px;">55 โปรเจกต์ · Beyond Team</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">🚀 Project Library 2026</div>
+  <h1>สร้างได้จริง <span class="hl">ทันที</span><br>ไม่ต้องรอพร้อม</h1>
+  <p class="hero-desc">เลือกโปรเจกต์ที่อยากทำ ทำตาม step-by-step กับ Claude Code<br>ตั้งแต่ระดับมือใหม่จนถึง production-ready</p>
+  <div class="stat-row">
+    <div class="stat-item"><div class="stat-num">55</div><div class="stat-label">โปรเจกต์</div></div>
+    <div class="stat-item"><div class="stat-num">8</div><div class="stat-label">หมวดหมู่</div></div>
+    <div class="stat-item"><div class="stat-num">3</div><div class="stat-label">ระดับความยาก</div></div>
+    <div class="stat-item"><div class="stat-num">∞</div><div class="stat-label">ความเป็นไปได้</div></div>
+  </div>
+</section>
+
+<!-- SKILLS LEGEND -->
+<div class="skills-legend" style="margin:0 2rem 2rem;max-width:calc(100% - 4rem);position:relative;z-index:2;">
+  <div style="font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:1rem;">⚡ Skills ที่ใช้ประกอบในแต่ละบทเรียน</div>
+  <div style="display:flex;flex-wrap:wrap;gap:.5rem;">
+    <span class="skill-pill sk-ux" title="UX/UI design principles, wireframing, prototyping">🎨 /uxui-promax — ออกแบบ UX/UI ระดับ Pro</span>
+    <span class="skill-pill sk-gh" title="GitHub MCP: create repos, manage PRs, CI/CD">🐙 /github-mcp — Push, PR, Deploy อัตโนมัติ</span>
+    <span class="skill-pill sk-cf" title="Cloudflare MCP: Workers, Pages, D1, R2">☁️ /cloudflare-mcp — Deploy บน Cloudflare</span>
+    <span class="skill-pill sk-sp" title="Superpower: Hooks, Custom Commands, Multi-agent">⚡ /superpower — Automate ทุกอย่าง</span>
+    <span class="skill-pill sk-tw" title="TailwindCSS MCP: class suggestions, design tokens">💨 /tailwind-mcp — TailwindCSS ไม่ต้องจำ class</span>
+    <span class="skill-pill sk-cx" title="Context7: ดึง latest docs เข้า context อัตโนมัติ">📚 /context7 — Docs สดใหม่ใน context</span>
+    <span class="skill-pill sk-td" title="Design taste: color, typography, spacing, visual hierarchy">✨ /taste-design — รสนิยม design ระดับ Agency</span>
+    <span class="skill-pill sk-nb" title="Nano Banana Pro: rapid prototyping, micro-interactions">🍌 /nano-banana-pro — Prototype เร็วสุดๆ</span>
+  </div>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="search" placeholder="ค้นหาโปรเจกต์... เช่น resume, shop, game">
+  </div>
+  <div class="filters">
+    <button class="filter-btn active" data-cat="all">✦ ทั้งหมด</button>
+    <button class="filter-btn" data-cat="personal">🧑‍💼 Personal Brand</button>
+    <button class="filter-btn" data-cat="ecommerce">🛒 E-Commerce</button>
+    <button class="filter-btn" data-cat="food">🍽️ Food & Hospitality</button>
+    <button class="filter-btn" data-cat="business">💼 Business Tools</button>
+    <button class="filter-btn" data-cat="game">🎮 Games & Fun</button>
+    <button class="filter-btn" data-cat="tool">🛠️ Dev Tools</button>
+    <button class="filter-btn" data-cat="education">📚 Education</button>
+    <button class="filter-btn" data-cat="creative">🎨 Creative</button>
+  </div>
+</div>
+
+<!-- PROJECTS GRID -->
+<div class="projects-grid" id="grid"></div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal" id="modal-content">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<footer>
+  <div>Claude Code Mastery 2026 · Curated by <strong style="color:var(--primary)">Beyond Team</strong></div>
+  <div style="margin-top:.5rem;opacity:.5">กดการ์ดเพื่อดู step-by-step guide พร้อม prompts สำหรับ Claude</div>
+</footer>
+
+<script>
+// ===== STARS =====
+const sc = document.getElementById('stars');
+for(let i=0;i<120;i++){const s=document.createElement('div');s.className='star';const sz=Math.random()*2.5+.5;s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${Math.random()*4+2}s;animation-delay:${Math.random()*5}s`;sc.appendChild(s)}
+
+// ===== READING PROGRESS =====
+window.addEventListener('scroll',()=>{const t=document.documentElement.scrollTop,h=document.documentElement.scrollHeight-window.innerHeight;document.getElementById('progress').style.width=(t/h*100)+'%'})
+
+// ===== PROJECT DATA =====
+const projects = [
+  // ---- PERSONAL BRAND ----
+  {id:1,cat:'personal',icon:'📄',title:'Personal Resume Website',desc:'เว็บ Resume สวยงามพร้อม animation ที่ HR จะประทับใจ มี dark mode และ print layout',diff:'easy',time:'45 นาที',tech:['HTML','CSS','JS'],skills:['td','ux','tw'],
+   steps:[
+    {t:'บอก Claude สร้าง Resume',d:'เปิด Claude Code แล้วบอกข้อมูลของคุณ',prompt:'สร้าง resume website สำหรับ [ชื่อ] ตำแหน่ง [Job Title] มีทักษะ [skills] ประสบการณ์ [ปี] ปี design แบบ modern dark theme พร้อม smooth scroll animation'},
+    {t:'เพิ่ม sections ที่ต้องการ',d:'บอก Claude เพิ่ม section ตามที่ต้องการ',prompt:'เพิ่ม section: Experience timeline, Skills progress bar, Portfolio gallery 3 โปรเจกต์, Contact form พร้อม validation'},
+    {t:'ปรับ color scheme',d:'ให้ Claude ช่วยเลือกสีที่เหมาะกับสาย',prompt:'ปรับ color scheme ให้เหมาะกับ Frontend Developer: ใช้สีหลัก #6C63FF กับ #4ECDC4 เพิ่ม CSS variables สำหรับ dark/light mode toggle'},
+    {t:'Deploy บน GitHub Pages',d:'เอาขึ้น online ฟรี',prompt:'ช่วย setup GitHub Pages deployment สำหรับ project นี้ สร้าง .github/workflows/deploy.yml และ บอกขั้นตอน push ขึ้น repo'},
+   ],
+   learn:['CSS Grid/Flexbox','CSS Animations','Dark Mode Toggle','GitHub Pages Deploy']},
+
+  {id:2,cat:'personal',icon:'🎨',title:'Developer Portfolio Website',desc:'Portfolio site แบบ fullscreen สำหรับ dev มี project showcase, skills visualization, และ live demo links',diff:'easy',time:'1 ชั่วโมง',tech:['React','TailwindCSS','Framer Motion'],
+   steps:[
+    {t:'Init React project',d:'ให้ Claude สร้าง project structure',prompt:'สร้าง React portfolio website ใช้ TailwindCSS และ Framer Motion มี sections: Hero, About, Skills, Projects (4 projects), Contact. Design: dark theme, gradient text, floating particles background'},
+    {t:'เพิ่ม Projects section',d:'แสดงผลงานแบบ interactive',prompt:'สร้าง Projects section แสดง card ที่ flip เมื่อ hover หน้าหน้าแสดง screenshot หน้าหลังแสดง tech stack, description, GitHub link, Live demo link'},
+    {t:'เพิ่ม Skills visualization',d:'แสดง skills แบบ visual',prompt:'สร้าง Skills section แสดง skill bars แบบ animated ที่ trigger เมื่อ scroll เข้า viewport แบ่งเป็น Frontend, Backend, Tools'},
+    {t:'Deploy บน Vercel',d:'',prompt:'ช่วย deploy project นี้บน Vercel พร้อม setup custom domain และ environment variables'},
+   ],
+   learn:['React Hooks','Framer Motion','TailwindCSS','Vercel Deploy']},
+
+  {id:3,cat:'personal',icon:'🖥️',title:'Web Presentation (Slide Deck)',desc:'สร้าง slide presentation บนเว็บ ดีกว่า PowerPoint เพราะ interactive, animate, และ share ด้วย link',diff:'easy',time:'30 นาที',tech:['HTML','CSS','JS'],
+   steps:[
+    {t:'บอก topic ของ presentation',d:'',prompt:'สร้าง web presentation เรื่อง [หัวข้อ] มี 8 slides: title, agenda, 5 content slides, closing. ใช้ keyboard arrow keys เปลี่ยน slide, มี progress bar, transition animation แบบ slide'},
+    {t:'เพิ่ม interactive elements',d:'ทำให้ engage มากขึ้น',prompt:'เพิ่ม: live code demo section, animated charts ด้วย CSS, emoji reactions counter ที่ audience กดได้, fullscreen mode'},
+    {t:'Export และ share',d:'',prompt:'เพิ่มปุ่ม Print to PDF และ Share link ที่ copy URL ไปยัง clipboard พร้อม OG meta tags สำหรับ social sharing'},
+   ],
+   learn:['CSS Transitions','Keyboard Events','Fullscreen API','Print CSS']},
+
+  {id:4,cat:'personal',icon:'💳',title:'Digital Business Card (NFC Ready)',desc:'Business card แบบดิจิทัล เปิดด้วย QR code หรือ NFC tap มี vCard download และ social links',diff:'easy',time:'20 นาที',tech:['HTML','CSS'],
+   steps:[
+    {t:'สร้าง card design',d:'',prompt:'สร้าง digital business card สำหรับ [ชื่อ] [ตำแหน่ง] [บริษัท] design แบบ premium dark card มี avatar, social links (LinkedIn, GitHub, Twitter), email, phone และปุ่ม Save Contact (vCard)'},
+    {t:'เพิ่ม QR Code generator',d:'',prompt:'เพิ่ม QR code ที่ generate จาก URL ของหน้าเว็บ ใช้ QRCode.js library และเพิ่ม share button ที่ใช้ Web Share API'},
+   ],
+   learn:['vCard Format','QR Code Generation','Web Share API']},
+
+  {id:5,cat:'personal',icon:'✍️',title:'Personal Blog with CMS',desc:'Blog ส่วนตัวที่เขียนโพสต์ได้เองผ่าน Markdown โดยไม่ต้องมี backend',diff:'medium',time:'2 ชั่วโมง',tech:['Next.js','MDX','TailwindCSS'],
+   steps:[
+    {t:'สร้าง Next.js blog',d:'',prompt:'สร้าง personal blog ด้วย Next.js 14 App Router, MDX สำหรับ content, TailwindCSS Typography plugin. มี: blog list page, individual post page, tag filtering, search, dark mode'},
+    {t:'เพิ่ม reading features',d:'',prompt:'เพิ่ม: reading time estimator, table of contents sidebar, code syntax highlighting, copy code button, like counter ด้วย localStorage'},
+    {t:'SEO และ RSS Feed',d:'',prompt:'เพิ่ม SEO meta tags, OpenGraph images auto-generate ด้วย Vercel OG, sitemap.xml, RSS feed สำหรับ subscribers'},
+    {t:'Deploy',d:'',prompt:'Setup deployment บน Vercel พร้อม environment variables'},
+   ],
+   learn:['Next.js App Router','MDX','SEO Optimization','Static Generation']},
+
+  // ---- E-COMMERCE ----
+  {id:6,cat:'ecommerce',icon:'🛒',title:'E-Commerce Store',desc:'ร้านค้าออนไลน์ครบระบบ มี product catalog, cart, checkout และ payment integration',diff:'hard',time:'1 วัน',tech:['Next.js','Stripe','Prisma'],
+   steps:[
+    {t:'Setup project structure',d:'',prompt:'สร้าง e-commerce store ด้วย Next.js 14, Prisma ORM, PostgreSQL. Schema: Products, Categories, Orders, Users. มี product listing, search, filter by price/category'},
+    {t:'Shopping cart',d:'',prompt:'สร้าง shopping cart ด้วย Zustand state management มี: add/remove/update quantity, cart summary, coupon code field, shipping calculator'},
+    {t:'Checkout + Payment',d:'',prompt:'สร้าง checkout flow 3 ขั้นตอน: Address → Payment → Confirmation. Integrate Stripe payment ด้วย Next.js server actions, มี order confirmation email ด้วย Resend'},
+    {t:'Admin Dashboard',d:'',prompt:'สร้าง admin dashboard ดู orders, manage products (CRUD), inventory tracking, revenue chart ด้วย Recharts'},
+   ],
+   learn:['Stripe Payment','Prisma ORM','Server Actions','Zustand']},
+
+  {id:7,cat:'ecommerce',icon:'📱',title:'Product Landing Page',desc:'Landing page สินค้า conversion-optimized มี social proof, countdown timer, และ one-click buy',diff:'easy',time:'45 นาที',tech:['HTML','CSS','JS'],
+   steps:[
+    {t:'สร้าง hero section',d:'',prompt:'สร้าง product landing page สำหรับ [ชื่อสินค้า] มี: hero ด้วย product mockup, headline ที่ compelling, USP 3 ข้อ, CTA button โดดเด่น'},
+    {t:'เพิ่ม social proof',d:'',prompt:'เพิ่ม sections: testimonials carousel (5 reviews พร้อม star rating), customer counter ที่ animate, trust badges (secure payment, free return, warranty)'},
+    {t:'Countdown + Urgency',d:'',prompt:'เพิ่ม countdown timer สำหรับ flash sale, stock counter "เหลือ 7 ชิ้น", recently purchased notification popup แบบ real-looking'},
+   ],
+   learn:['Conversion Optimization','CSS Animations','Countdown Timer']},
+
+  {id:8,cat:'ecommerce',icon:'💎',title:'Digital Product Store',desc:'ขาย e-books, templates, courses ดาวน์โหลดได้ทันทีหลังจ่ายเงิน',diff:'medium',time:'3 ชั่วโมง',tech:['Next.js','Stripe','Supabase'],
+   steps:[
+    {t:'Product catalog',d:'',prompt:'สร้าง digital products store มี product cards แสดง preview, price, หมวดหมู่, rating. ใช้ Supabase เก็บ products data'},
+    {t:'Instant delivery',d:'',prompt:'Setup Stripe webhook ที่เมื่อ payment สำเร็จ ส่ง download link ทาง email และแสดง download page ทันที ด้วย signed URLs ที่หมดอายุใน 24 ชั่วโมง'},
+   ],
+   learn:['Stripe Webhooks','Signed URLs','Supabase Storage']},
+
+  {id:9,cat:'ecommerce',icon:'⚡',title:'Flash Sale Platform',desc:'แพลตฟอร์ม flash sale ที่มี countdown, limited stock, และ queue system',diff:'medium',time:'2 ชั่วโมง',tech:['React','Node.js','Redis'],
+   steps:[
+    {t:'Sale countdown UI',d:'',prompt:'สร้าง flash sale page มี countdown timer ขนาดใหญ่, stock bar แสดง "เหลือ X%", product grid พร้อม original price และ sale price'},
+    {t:'Stock management',d:'',prompt:'สร้าง Node.js API endpoint สำหรับ reserve stock ใช้ Redis atomic operations เพื่อป้องกัน overselling, มี queue system ถ้าคนซื้อพร้อมกัน'},
+   ],
+   learn:['Redis Atomic Ops','Race Condition Prevention','WebSocket Updates']},
+
+  {id:10,cat:'ecommerce',icon:'🏪',title:'Multi-vendor Marketplace',desc:'ตลาดออนไลน์ที่มีหลาย seller ระบบรีวิว commission และ payout',diff:'hard',time:'3 วัน',tech:['Next.js','Stripe Connect','PostgreSQL'],
+   steps:[
+    {t:'Seller onboarding',d:'',prompt:'สร้าง seller registration flow ด้วย Stripe Connect Express onboarding เพื่อให้ seller รับเงินได้ตรง มี seller dashboard แสดง sales, reviews, payout'},
+    {t:'Buyer experience',d:'',prompt:'สร้าง buyer experience: browse products across sellers, compare, checkout multiple sellers ในครั้งเดียว ด้วย split payment ผ่าน Stripe Connect'},
+   ],
+   learn:['Stripe Connect','Multi-tenant Architecture','Split Payments']},
+
+  // ---- FOOD ----
+  {id:11,cat:'food',icon:'🖥️',title:'Restaurant POS System',desc:'ระบบ POS ร้านอาหารครบระบบ รับออเดอร์ แบ่งโต๊ะ คิดบิล พิมพ์ใบเสร็จ',diff:'hard',time:'1 วัน',tech:['React','Node.js','SQLite'],
+   steps:[
+    {t:'Floor plan + Table management',d:'',prompt:'สร้าง restaurant POS ระบบ table management มี floor plan drag-and-drop วางโต๊ะได้เอง แต่ละโต๊ะแสดง status: ว่าง/มีลูกค้า/กำลัง checkout สีต่างกัน'},
+    {t:'Menu + Order taking',d:'',prompt:'สร้าง menu page ที่ waiter ใช้รับออเดอร์ มี categories, search, modifier options (ไม่เผ็ด/เพิ่มผัก), special instructions, ส่งออเดอร์ไปหน้า kitchen display'},
+    {t:'Kitchen Display System',d:'',prompt:'สร้าง KDS (Kitchen Display) ที่แสดง orders real-time เรียงตาม priority มีปุ่ม Mark Ready เมื่ออาหารพร้อม ส่ง notification ไปหน้า waiter'},
+    {t:'Billing + Receipt',d:'',prompt:'สร้าง billing system คำนวณ VAT 7%, service charge, discount, split bill หลายคน มี receipt preview และ print function'},
+   ],
+   learn:['Real-time Updates','WebSocket','Print API','SQLite']},
+
+  {id:12,cat:'food',icon:'📱',title:'QR Menu + Online Ordering',desc:'เมนูดิจิทัลผ่าน QR code ลูกค้าสั่งอาหารเองจากโทรศัพท์ ไม่ต้องรอ waiter',diff:'medium',time:'3 ชั่วโมง',tech:['Next.js','Supabase','QR Code'],
+   steps:[
+    {t:'สร้าง QR menu',d:'',prompt:'สร้าง QR menu website สำหรับร้านอาหาร มี: category tabs แบบ swipeable, product cards พร้อมรูปและราคา, filter (เจ/ไม่มีแป้ง/ลดเผ็ด), ภาษาไทย-อังกฤษ toggle'},
+    {t:'Self-ordering system',d:'',prompt:'เพิ่ม self-ordering: ลูกค้ากด + เพิ่มในตะกร้า, กรอก table number, กด submit ออเดอร์ไปหน้า waiter real-time ด้วย Supabase realtime'},
+    {t:'Generate QR Code per table',d:'',prompt:'สร้าง admin page ที่ generate QR code แยกต่างหากแต่ละโต๊ะ (encode table number ใน URL), download ทั้งหมดเป็น ZIP'},
+   ],
+   learn:['Supabase Realtime','QR Generation','PWA Offline']},
+
+  {id:13,cat:'food',icon:'🛵',title:'Food Delivery Tracker',desc:'ระบบ track การส่งอาหาร real-time แบบ Grab/Foodpanda มีแผนที่และ ETA',diff:'hard',time:'5 ชั่วโมง',tech:['React','Google Maps API','Socket.io'],
+   steps:[
+    {t:'Order status UI',d:'',prompt:'สร้าง food delivery tracking page มี status timeline: กำลังทำอาหาร → ไรเดอร์รับแล้ว → กำลังจัดส่ง → ถึงแล้ว. แต่ละ step มี animation และ estimated time'},
+    {t:'Real-time map',d:'',prompt:'Integrate Google Maps API แสดง rider location ที่ update ทุก 5 วินาที, วาด route จาก restaurant ไปยัง delivery address, แสดง ETA แบบ dynamic'},
+   ],
+   learn:['Google Maps API','Socket.io','Geolocation']},
+
+  {id:14,cat:'food',icon:'📅',title:'Restaurant Reservation System',desc:'ระบบจองโต๊ะออนไลน์ มี calendar, reminder email, และ waitlist',diff:'medium',time:'3 ชั่วโมง',tech:['Next.js','PostgreSQL','Resend Email'],
+   steps:[
+    {t:'Booking calendar',d:'',prompt:'สร้าง restaurant reservation system มี calendar แสดงวันและเวลาที่ว่าง (disable slots ที่เต็ม), form กรอก ชื่อ-เบอร์-จำนวนคน-special request'},
+    {t:'Confirmation + Reminder',d:'',prompt:'เมื่อจองสำเร็จ ส่ง confirmation email ด้วย Resend พร้อม iCalendar attachment เพื่อ add to calendar, ส่ง reminder 1 ชั่วโมงก่อนเวลาจอง'},
+    {t:'Admin management',d:'',prompt:'สร้าง admin dashboard ดู reservations วันนี้/พรุ่งนี้, confirm/cancel, จัดการโต๊ะ, export เป็น CSV'},
+   ],
+   learn:['iCalendar','Email Automation','Calendar UI']},
+
+  {id:15,cat:'food',icon:'🧾',title:'Recipe Sharing Website',desc:'เว็บแชร์สูตรอาหาร มี ingredient calculator, step-by-step cooking mode และ community ratings',diff:'medium',time:'4 ชั่วโมง',tech:['Next.js','Supabase','Cloudinary'],
+   steps:[
+    {t:'Recipe creation',d:'',prompt:'สร้าง recipe website มี editor สำหรับสร้าง recipe: ชื่อ, รูปภาพ (upload to Cloudinary), ingredients list with amounts, step-by-step instructions พร้อม photo per step'},
+    {t:'Cooking mode',d:'',prompt:'สร้าง cooking mode ที่ fullscreen, เปลี่ยน step ด้วย swipe, timer ต่อแต่ละ step, ingredient calculator ที่ scale ตาม serving size ที่กรอก'},
+   ],
+   learn:['Cloudinary Upload','Rich Text Editor','Step Timer']},
+
+  // ---- BUSINESS TOOLS ----
+  {id:16,cat:'business',icon:'🧾',title:'Invoice Generator',desc:'สร้างใบแจ้งหนี้แบบ professional ออก PDF ได้ทันที',diff:'easy',time:'1 ชั่วโมง',tech:['React','PDF Generation'],
+   steps:[
+    {t:'Invoice form UI',d:'',prompt:'สร้าง invoice generator มี form: from/to company info, invoice number auto-increment, date/due date, line items (description/qty/price), tax rate, notes section'},
+    {t:'Live preview + PDF',d:'',prompt:'สร้าง live preview ที่ update real-time ขณะกรอก form ออกแบบให้ดูเหมือนใบจริง ปุ่ม Download PDF ใช้ html2pdf.js, ปุ่ม Print'},
+    {t:'Save + History',d:'',prompt:'เพิ่ม save invoice ลง localStorage, หน้า invoice history แสดงรายการทั้งหมด, filter ตาม status (paid/unpaid/overdue)'},
+   ],
+   learn:['html2pdf.js','Form Validation','localStorage CRUD']},
+
+  {id:17,cat:'business',icon:'📊',title:'Analytics Dashboard',desc:'Dashboard แสดง KPIs, charts, และ reports พร้อม date range filter',diff:'medium',time:'3 ชั่วโมง',tech:['React','Recharts','TailwindCSS'],
+   steps:[
+    {t:'Dashboard layout',d:'',prompt:'สร้าง analytics dashboard ด้วย React + Recharts มี: summary cards (Revenue/Users/Orders/Conversion), line chart revenue 30 วัน, bar chart top products, pie chart traffic sources'},
+    {t:'Date range filter',d:'',prompt:'เพิ่ม date range picker, เมื่อเปลี่ยน range ข้อมูลทุก chart update พร้อมกัน, เพิ่ม comparison period (เทียบกับช่วงก่อนหน้า), percentage change badge'},
+    {t:'Export reports',d:'',prompt:'เพิ่มปุ่ม Export: download chart เป็น PNG, export ข้อมูลเป็น CSV, สร้าง PDF report summary ด้วย layout ที่ print-friendly'},
+   ],
+   learn:['Recharts','Date Manipulation','Chart Export']},
+
+  {id:18,cat:'business',icon:'👥',title:'Employee Directory + HR',desc:'ระบบ directory พนักงาน org chart และ basic HR functions',diff:'medium',time:'2 ชั่วโมง',tech:['React','Supabase'],
+   steps:[
+    {t:'Employee cards',d:'',prompt:'สร้าง employee directory มี: search, filter by department/location, employee cards แสดง avatar/name/title/email/phone, org chart view แบบ tree'},
+    {t:'Profile pages',d:'',prompt:'แต่ละพนักงานมี profile page แสดง: bio, skills, projects, team members, วันเริ่มงาน, ช่องทางติดต่อ, timeline การ promotion'},
+   ],
+   learn:['Org Chart Visualization','Supabase CRUD','Search & Filter']},
+
+  {id:19,cat:'business',icon:'📅',title:'Meeting Room Booking',desc:'ระบบจองห้องประชุมออนไลน์ มี calendar view, conflict detection และ notifications',diff:'medium',time:'2 ชั่วโมง',tech:['React','Supabase'],
+   steps:[
+    {t:'Room calendar',d:'',prompt:'สร้าง meeting room booking system มี: รายการห้อง (ชื่อ/capacity/facilities), calendar view รายสัปดาห์ แต่ละ room แสดง bookings, click slot เพื่อจอง'},
+    {t:'Booking + Conflict detection',d:'',prompt:'เพิ่ม booking form: หัวข้อ, organizer, attendees, description. Detect conflict real-time ถ้าช่วงเวลาซ้อน alert ก่อน submit. ส่ง email แจ้ง attendees'},
+   ],
+   learn:['Calendar Grid','Conflict Detection','Real-time DB']},
+
+  {id:20,cat:'business',icon:'📦',title:'Inventory Management System',desc:'ระบบจัดการ stock สินค้า tracking in/out, low stock alerts, และ reports',diff:'medium',time:'4 ชั่วโมง',tech:['Next.js','PostgreSQL','Prisma'],
+   steps:[
+    {t:'Product catalog',d:'',prompt:'สร้าง inventory management system มี: product CRUD (ชื่อ/SKU/category/price/cost), stock tracking, barcode field, image upload'},
+    {t:'Stock transactions',d:'',prompt:'สร้าง stock in/out transactions ระบุเหตุผล (purchase/sale/return/adjustment), เห็น transaction history ต่อสินค้า, คำนวณ average cost'},
+    {t:'Alerts + Reports',d:'',prompt:'เพิ่ม low stock alerts (email เมื่อ stock < minimum), reorder suggestion, monthly report: top selling, slow moving, stock valuation'},
+   ],
+   learn:['Prisma Migrations','Business Logic','Report Generation']},
+
+  {id:21,cat:'business',icon:'💰',title:'Expense Tracker + Budget',desc:'ติดตามรายรับ-รายจ่าย ตั้ง budget ต่อหมวด และ visual reports',diff:'easy',time:'1 ชั่วโมง',tech:['React','Chart.js','localStorage'],
+   steps:[
+    {t:'Transaction logging',d:'',prompt:'สร้าง expense tracker มี: quick add transaction (amount/category/note/date), categories: อาหาร/เดินทาง/ช้อปปิ้ง/บันเทิง/อื่นๆ, รายการ transactions ต่อวัน'},
+    {t:'Budget tracking',d:'',prompt:'เพิ่ม monthly budget ต่อ category, progress bar แสดงการใช้งาน, alert เมื่อใกล้เกิน budget, monthly summary card'},
+    {t:'Visual reports',d:'',prompt:'เพิ่ม: donut chart breakdown รายจ่ายต่อ category, line chart spending trend 3 เดือน, heatmap calendar แสดงวันที่ใช้เงินมาก'},
+   ],
+   learn:['Chart.js','Budget Logic','Date Grouping']},
+
+  {id:22,cat:'business',icon:'🎟️',title:'Event Ticket System',desc:'ระบบขายตั๋ว event มี seat selection, QR ticket, และ check-in scanner',diff:'hard',time:'5 ชั่วโมง',tech:['Next.js','Stripe','QR Code'],
+   steps:[
+    {t:'Event page + Seat map',d:'',prompt:'สร้าง event ticketing system มี event page แสดงรายละเอียด, interactive seat map (A1-F20), แต่ละ seat มี status: available/reserved/sold ด้วยสีต่างกัน'},
+    {t:'Checkout + E-ticket',d:'',prompt:'สร้าง checkout flow: เลือก seat → กรอก info → payment ด้วย Stripe → ได้ e-ticket เป็น PDF พร้อม QR code unique ต่อแต่ละ seat'},
+    {t:'Check-in scanner',d:'',prompt:'สร้าง check-in app (mobile-friendly) ที่ scan QR code จาก camera → verify ในฐานข้อมูล → แสดง ✓ valid หรือ ✗ invalid/already used'},
+   ],
+   learn:['Stripe Payment','QR Scanner','PDF Generation','Seat Map SVG']},
+
+  {id:23,cat:'business',icon:'💬',title:'Customer Support Ticket System',desc:'ระบบ helpdesk tickets สำหรับ support team มี SLA, priority, และ canned responses',diff:'medium',time:'3 ชั่วโมง',tech:['Next.js','Supabase','Email'],
+   steps:[
+    {t:'Ticket submission',d:'',prompt:'สร้าง support ticket system มี: customer submission form (subject/description/category/priority/file attachment), auto-assign ticket number, confirmation email'},
+    {t:'Agent dashboard',d:'',prompt:'สร้าง agent dashboard: inbox แสดง tickets (new/open/pending/resolved), filter/sort/search, ตอบ ticket พร้อม internal notes, assign to agent อื่น'},
+   ],
+   learn:['Email Integration','Status Machines','File Upload']},
+
+  // ---- GAMES ----
+  {id:24,cat:'game',icon:'🟩',title:'Wordle Clone (ภาษาไทย)',desc:'เกม Wordle แบบไทย เดาคำ 5 ตัวอักษร 6 ครั้ง พร้อม daily challenge',diff:'medium',time:'2 ชั่วโมง',tech:['React','TS'],
+   steps:[
+    {t:'Game logic',d:'',prompt:'สร้าง Wordle clone ภาษาไทย ใช้คำ 5 ตัวอักษร ผู้เล่นมี 6 ครั้ง แต่ละตัวอักษรมี 3 สถานะ: ถูกที่ (เขียว), มีแต่ผิดที่ (เหลือง), ไม่มีในคำ (เทา)'},
+    {t:'Keyboard + Animations',d:'',prompt:'สร้าง on-screen keyboard ภาษาไทย, flip animation เมื่อ submit row, shake animation เมื่อคำไม่ถูก, bounce เมื่อชนะ'},
+    {t:'Daily challenge + Stats',d:'',prompt:'เพิ่ม daily word (เปลี่ยนทุกเที่ยงคืน), statistics modal แสดง win%, streak, distribution chart, share result เป็น emoji grid'},
+   ],
+   learn:['Game State Management','CSS Animations','LocalStorage Stats']},
+
+  {id:25,cat:'game',icon:'🃏',title:'Memory Card Game',desc:'เกมจับคู่ภาพ มีหลาย level, timer, leaderboard และ custom card themes',diff:'easy',time:'1 ชั่วโมง',tech:['React'],
+   steps:[
+    {t:'Game board',d:'',prompt:'สร้าง memory card matching game ด้วย React มี 16 cards (8 คู่) shuffle ทุกเกม, flip animation 3D เมื่อ click, match animation เมื่อจับคู่ได้'},
+    {t:'Levels + Timer',d:'',prompt:'เพิ่ม 3 levels (Easy 4×4, Medium 6×6, Hard 8×8), countdown timer, move counter, best score per level ใน localStorage'},
+   ],
+   learn:['Array Shuffle','3D CSS Flip','Game Timer']},
+
+  {id:26,cat:'game',icon:'❓',title:'Interactive Quiz Platform',desc:'สร้าง quiz ได้เอง มีหลายประเภทคำถาม, timer, results analysis',diff:'medium',time:'2 ชั่วโมง',tech:['React','Supabase'],
+   steps:[
+    {t:'Quiz builder',d:'',prompt:'สร้าง quiz platform มี quiz builder: หลายประเภทคำถาม (multiple choice, true/false, fill in blank), เพิ่มรูปประกอบได้, กำหนด time per question, คะแนนต่อข้อ'},
+    {t:'Quiz player',d:'',prompt:'สร้าง quiz player มี: countdown timer per question, progress bar, ตอบแล้วเห็น correct/incorrect ทันที, animation, final score screen พร้อม review answers'},
+   ],
+   learn:['Complex State','Timer Management','Results Analysis']},
+
+  {id:27,cat:'game',icon:'⌨️',title:'Typing Speed Test',desc:'ทดสอบความเร็วพิมพ์ดีด ภาษาไทยและอังกฤษ พร้อม WPM, accuracy และ leaderboard',diff:'easy',time:'1 ชั่วโมง',tech:['React','TS'],
+   steps:[
+    {t:'Typing interface',d:'',prompt:'สร้าง typing speed test มี: passage ที่ต้องพิมพ์ (highlight ตัวต่อไปสีต่างกัน), realtime WPM คำนวณ, error highlight สีแดง, accuracy percentage'},
+    {t:'Results + Leaderboard',d:'',prompt:'เพิ่ม results screen แสดง WPM/accuracy/time, chart speed over time ตลอด test, leaderboard ด้วย localStorage (top 10), share result button'},
+   ],
+   learn:['Keyboard Events','String Comparison','Performance Metrics']},
+
+  {id:28,cat:'game',icon:'🐍',title:'Snake Game',desc:'เกม Snake คลาสสิค พร้อม power-ups, obstacles, และ high score',diff:'medium',time:'1.5 ชั่วโมง',tech:['HTML Canvas','JS'],
+   steps:[
+    {t:'Core game',d:'',prompt:'สร้าง Snake game ด้วย HTML Canvas มี: snake ที่กิน food แล้วยาวขึ้น, game over เมื่อชนกำแพงหรือตัวเอง, score, arrow keys/WASD control, 60fps smooth movement'},
+    {t:'Power-ups + Levels',d:'',prompt:'เพิ่ม power-ups: ⚡ speed boost, 💎 double points, 🛡️ shield (1 crash), เพิ่ม obstacles ขวาง, level system ที่เพิ่ม speed, particle effect เมื่อกิน food'},
+   ],
+   learn:['Canvas 2D API','Game Loop','Collision Detection']},
+
+  {id:29,cat:'game',icon:'🎲',title:'Board Game: ลูโด',desc:'เกมลูโดดิจิทัล เล่นได้ 2-4 คน บนเครื่องเดียวกัน',diff:'hard',time:'3 ชั่วโมง',tech:['React','Canvas'],
+   steps:[
+    {t:'Game board',d:'',prompt:'สร้าง Ludo board game digital version ด้วย React+Canvas มี board 15×15, home areas 4 สี, safe squares, player pieces ที่ move ตาม path'},
+    {t:'Game logic',d:'',prompt:'เขียน game logic: dice roll animation, valid moves highlight, capture opponents, finishing home stretch, win detection, turn management 4 players'},
+   ],
+   learn:['Complex Game Logic','Canvas Drawing','State Machine']},
+
+  // ---- DEV TOOLS ----
+  {id:30,cat:'tool',icon:'📝',title:'Markdown Editor + Preview',desc:'Editor แบบ split-pane เขียน Markdown ซ้าย เห็น preview ขวา export HTML/PDF',diff:'easy',time:'45 นาที',tech:['React','Marked.js'],
+   steps:[
+    {t:'Split editor',d:'',prompt:'สร้าง Markdown editor ด้วย React มี split pane: ซ้าย textarea สำหรับ Markdown, ขวา rendered preview ด้วย Marked.js, sync scroll ทั้งสองฝั่ง'},
+    {t:'Toolbar + Export',d:'',prompt:'เพิ่ม formatting toolbar (Bold/Italic/Link/Image/Code/Table), autosave ทุก 30 วินาที, export เป็น HTML และ PDF, word count, reading time'},
+   ],
+   learn:['Marked.js','CodeMirror','Split Pane','Sync Scroll']},
+
+  {id:31,cat:'tool',icon:'🎨',title:'Color Palette Generator',desc:'Generate color palettes จากรูปภาพ หรือ base color พร้อม copy CSS variables',diff:'easy',time:'1 ชั่วโมง',tech:['React','Canvas API','Chroma.js'],
+   steps:[
+    {t:'Color picker + generation',d:'',prompt:'สร้าง color palette generator: input base color → generate 5 variants (tints/shades), complementary colors, analogous scheme, triadic. แต่ละสีแสดง HEX/RGB/HSL'},
+    {t:'Extract from image',d:'',prompt:'เพิ่ม upload image → extract dominant colors ด้วย Canvas API, แสดง 5 extracted colors เป็น palette, ปุ่ม copy CSS variables (--color-primary etc.)'},
+   ],
+   learn:['Canvas getImageData','Color Theory','Clipboard API']},
+
+  {id:32,cat:'tool',icon:'🔍',title:'Regex Tester & Explainer',desc:'ทดสอบ Regular Expressions real-time พร้อม highlight matches และ AI explanation',diff:'easy',time:'45 นาที',tech:['React'],
+   steps:[
+    {t:'Regex tester',d:'',prompt:'สร้าง regex tester มี: input field สำหรับ regex pattern, flags toggles (g/i/m/s), text area ทดสอบ, highlight matches แบบ real-time, แสดง match groups'},
+    {t:'Cheat sheet + Explainer',d:'',prompt:'เพิ่ม regex cheat sheet sidebar, common patterns library (email/phone/URL/Thai ID), ปุ่ม Explain ที่แปล regex เป็นภาษาไทย'},
+   ],
+   learn:['Regex API','String Matching','Highlight Ranges']},
+
+  {id:33,cat:'tool',icon:'🔗',title:'API Tester (Postman Clone)',desc:'ทดสอบ REST API ในเบราว์เซอร์ save collections, environments, และ auto-generate code',diff:'medium',time:'2 ชั่วโมง',tech:['React','Axios'],
+   steps:[
+    {t:'Request builder',d:'',prompt:'สร้าง API tester มี: method selector (GET/POST/PUT/DELETE/PATCH), URL bar, Headers editor, Body editor (JSON/form-data/raw), Send button, Response viewer (formatted JSON/XML)'},
+    {t:'Collections + History',d:'',prompt:'เพิ่ม: save requests เป็น collections, request history 50 รายการ, environment variables, auto-generate code (fetch/axios/curl) จาก request ที่กรอกไว้'},
+   ],
+   learn:['HTTP Client','JSON Formatter','Code Generation']},
+
+  {id:34,cat:'tool',icon:'🗃️',title:'Code Snippet Manager',desc:'จัดเก็บ code snippets ที่ใช้บ่อย ค้นหาได้ง่าย sync ระหว่างเครื่อง',diff:'medium',time:'2 ชั่วโมง',tech:['Next.js','Supabase','CodeMirror'],
+   steps:[
+    {t:'Snippet library',d:'',prompt:'สร้าง code snippet manager มี: add snippet (title/language/tags/code), syntax highlighting ด้วย CodeMirror, search & filter by language/tag, copy to clipboard button'},
+    {t:'Collections + Sync',d:'',prompt:'เพิ่ม organize snippets ใน folders, import/export JSON, sync กับ Supabase ผ่าน user auth, share snippet link'},
+   ],
+   learn:['CodeMirror Editor','Full-text Search','Supabase Auth']},
+
+  {id:35,cat:'tool',icon:'📊',title:'JSON Visualizer & Editor',desc:'Visualize JSON เป็น tree view แก้ไข validate และ diff สอง JSON',diff:'easy',time:'1 ชั่วโมง',tech:['React'],
+   steps:[
+    {t:'Tree viewer',d:'',prompt:'สร้าง JSON visualizer มี: paste JSON → แสดงเป็น interactive tree view (expand/collapse nodes), search ภายใน JSON, path breadcrumb เมื่อ hover'},
+    {t:'Edit + Diff',d:'',prompt:'เพิ่ม: inline editing ใน tree view, JSON diff tool เปรียบเทียบ 2 JSON (added/removed/changed สีต่างกัน), JSON → CSV converter'},
+   ],
+   learn:['Recursive Rendering','JSON Diff','Tree Structure']},
+
+  // ---- EDUCATION ----
+  {id:36,cat:'education',icon:'🃏',title:'Flashcard Learning App',desc:'แอพเรียนด้วย flashcard ระบบ spaced repetition ฉลาดขึ้น เรียนน้อย จำได้นาน',diff:'medium',time:'2 ชั่วโมง',tech:['React','IndexedDB'],
+   steps:[
+    {t:'Card creation + Study',d:'',prompt:'สร้าง flashcard app มี: create decks and cards (front/back/image), study mode ที่ flip card ด้วย animation 3D, ปุ่ม: ง่าย/ยาก/ลืม สำหรับ rating'},
+    {t:'Spaced repetition',d:'',prompt:'เพิ่ม SM-2 algorithm สำหรับ spaced repetition: แต่ละ card มี next review date ตาม performance, daily review queue, progress tracking per deck'},
+   ],
+   learn:['SM-2 Algorithm','IndexedDB','3D CSS Flip']},
+
+  {id:37,cat:'education',icon:'🧮',title:'Math Learning Game (สำหรับเด็ก)',desc:'เกมคณิตศาสตร์สำหรับเด็กประถม มีเสียง animation และ reward system',diff:'easy',time:'1 ชั่วโมง',tech:['React','Web Audio'],
+   steps:[
+    {t:'Game modes',d:'',prompt:'สร้าง math learning game สำหรับเด็ก ป.1-ป.6 มีโหมด: บวก, ลบ, คูณ, หาร ตั้ง level ตามความยาก, random questions ตาม level, timer 10 วินาทีต่อข้อ'},
+    {t:'Rewards + Sound',d:'',prompt:'เพิ่ม: ตอบถูก → star animation + เสียงชื่นชม (Web Audio API), ตอบผิด → เสียง + hint แสดงวิธีคิด, ระบบดาว สะสม unlock characters, parent report card'},
+   ],
+   learn:['Web Audio API','Animation on Answer','Difficulty Scaling']},
+
+  {id:38,cat:'education',icon:'🌏',title:'Language Learning App',desc:'แอพเรียนภาษา vocabulary ด้วย pictures, pronunciation, และ progress tracking',diff:'medium',time:'2 ชั่วโมง',tech:['React','Web Speech API'],
+   steps:[
+    {t:'Vocabulary lessons',d:'',prompt:'สร้าง language learning app (เรียนภาษาอังกฤษ) มี: word cards พร้อมรูปภาพ, pronunciation ด้วย Web Speech API, 4-choice multiple choice quiz'},
+    {t:'Progress tracking',d:'',prompt:'เพิ่ม: streak counter, XP system, level badges, weak words review mode ที่ focus คำที่ตอบผิดบ่อย, daily goal (20 words/day)'},
+   ],
+   learn:['Web Speech API','Gamification','Adaptive Learning']},
+
+  {id:39,cat:'education',icon:'📋',title:'Online Assessment Platform',desc:'สร้าง exam ออนไลน์ มี anti-cheat, timer, auto grading และ results analytics',diff:'hard',time:'5 ชั่วโมง',tech:['Next.js','Supabase'],
+   steps:[
+    {t:'Exam builder',d:'',prompt:'สร้าง online assessment platform มี exam builder: MCQ/True-False/Short answer/Essay, set time limit, randomize questions, point per question, section grouping'},
+    {t:'Student experience',d:'',prompt:'สร้าง exam interface: fullscreen mode, countdown timer, prevent copy-paste (สำหรับ essay), auto-save every 30s, submit confirmation, instant results สำหรับ objective'},
+    {t:'Analytics',d:'',prompt:'สร้าง teacher dashboard: ดู class scores, item analysis (% ตอบถูกต่อข้อ), detect outliers, export results เป็น CSV, download certificates ผู้ผ่าน'},
+   ],
+   learn:['Anti-cheat Techniques','Auto Grading','Statistical Analysis']},
+
+  {id:40,cat:'education',icon:'🏆',title:'Certificate Generator',desc:'ออก certificate ออนไลน์แบบ custom design ด้วยชื่อและข้อมูล download PDF',diff:'easy',time:'1 ชั่วโมง',tech:['React','Canvas/PDF'],
+   steps:[
+    {t:'Certificate template',d:'',prompt:'สร้าง certificate generator มี: certificate template สวยงาม (landscape A4), ใส่ชื่อ/หลักสูตร/วันที่/ลายเซ็น, preview real-time, download เป็น PDF และ PNG'},
+    {t:'Bulk generation',d:'',prompt:'เพิ่ม bulk mode: upload CSV ชื่อ → generate certificate ทุกคนพร้อมกัน, download ทั้งหมดเป็น ZIP, unique certificate ID + verify URL'},
+   ],
+   learn:['Canvas Text Rendering','Bulk Processing','PDF Generation']},
+
+  // ---- REAL ESTATE ----
+  {id:41,cat:'realestate',icon:'🏠',title:'Property Listing Website',desc:'เว็บประกาศอสังหาริมทรัพย์ มี map search, filter ราคา/พื้นที่ และ mortgage calculator',diff:'medium',time:'3 ชั่วโมง',tech:['Next.js','Google Maps','Supabase'],
+   steps:[
+    {t:'Property listings',d:'',prompt:'สร้าง property listing website มี: grid view และ map view toggle, filter: ราคา/ประเภท/พื้นที่/ห้องนอน, property cards พร้อมรูปภาพ, mark as favorite'},
+    {t:'Property detail',d:'',prompt:'สร้าง property detail page: photo gallery แบบ lightbox, floor plan, amenities checklist, location map, contact agent form, mortgage calculator'},
+   ],
+   learn:['Google Maps Integration','Filtering Logic','Mortgage Formula']},
+
+  {id:42,cat:'realestate',icon:'💇',title:'Service Booking System (Salon/Clinic)',desc:'ระบบนัดหมายออนไลน์สำหรับ salon, clinic, หรือ service business ทั่วไป',diff:'medium',time:'3 ชั่วโมง',tech:['Next.js','Supabase','Cal.com API'],
+   steps:[
+    {t:'Service menu + Staff',d:'',prompt:'สร้าง booking system สำหรับ beauty salon มี: services menu (ชื่อ/ราคา/เวลา), staff profiles, customers เลือก service + staff + วันเวลาที่ว่าง'},
+    {t:'Booking management',d:'',prompt:'สร้าง admin panel: calendar view bookings ต่อ staff, confirm/cancel/reschedule, customer history, revenue per service report, ส่ง reminder SMS/Line'},
+   ],
+   learn:['Availability Logic','Calendar Management','Reminder Automation']},
+
+  {id:43,cat:'realestate',icon:'🏗️',title:'Construction Cost Calculator',desc:'คำนวณราคาก่อสร้างบ้าน ต่อพื้นที่ วัสดุ และ breakdown ค่าใช้จ่าย',diff:'easy',time:'1 ชั่วโมง',tech:['React'],
+   steps:[
+    {t:'Input form',d:'',prompt:'สร้าง construction cost calculator มี: input พื้นที่ (ตร.ม.), จำนวนชั้น, ประเภทวัสดุ (ประหยัด/มาตรฐาน/พรีเมียม), rooms count, special features'},
+    {t:'Cost breakdown',d:'',prompt:'แสดง breakdown ค่าใช้จ่าย: โครงสร้าง/หลังคา/ผนัง/พื้น/ไฟฟ้า-ประปา/งานตกแต่ง, pie chart สัดส่วน, export PDF summary'},
+   ],
+   learn:['Form Calculations','Chart.js Pie','PDF Export']},
+
+  // ---- CREATIVE ----
+  {id:44,cat:'creative',icon:'💍',title:'Wedding Website',desc:'เว็บงานแต่งงานสุดโรแมนติก มี RSVP, wedding countdown, photo gallery และ gift registry',diff:'easy',time:'1.5 ชั่วโมง',tech:['HTML','CSS','JS'],
+   steps:[
+    {t:'Wedding page',d:'',prompt:'สร้าง wedding website สำหรับ [ชื่อบ่าว-ชื่อสาว] วันที่ [date] มี: hero section พร้อมรูปคู่, love story timeline, venue map, dress code, countdown timer'},
+    {t:'RSVP + Gallery',d:'',prompt:'เพิ่ม: RSVP form (ชื่อ/จำนวนคน/dietary/message), photo gallery แบบ masonry, gift registry links, playlist เพลงงาน, guestbook สำหรับ อวยพร'},
+   ],
+   learn:['Masonry Layout','Form Handling','Countdown Timer']},
+
+  {id:45,cat:'creative',icon:'🎪',title:'Event Landing Page',desc:'Landing page สำหรับ event/conference มี speaker lineup, schedule, และ ticket registration',diff:'easy',time:'1 ชั่วโมง',tech:['HTML','CSS','JS'],
+   steps:[
+    {t:'Event page',d:'',prompt:'สร้าง event landing page สำหรับ tech conference มี: hero countdown, speaker cards (avatar/name/title/company), schedule timeline, venue info with map, sponsor logos'},
+    {t:'Registration + FAQ',d:'',prompt:'เพิ่ม: ticket registration form, FAQ accordion, social share, early bird countdown banner, แสดง current attendee count'},
+   ],
+   learn:['Event Layout','FAQ Accordion','Registration Form']},
+
+  {id:46,cat:'creative',icon:'📸',title:'Photography Portfolio',desc:'Portfolio สำหรับช่างภาพ มี gallery แบบ masonry, lightbox และ category filters',diff:'easy',time:'1 ชั่วโมง',tech:['React','Cloudinary'],
+   steps:[
+    {t:'Photo gallery',d:'',prompt:'สร้าง photography portfolio website มี: masonry gallery, filter ตาม category (portrait/landscape/wedding/product), click รูป → lightbox fullscreen พร้อม prev/next'},
+    {t:'About + Contact + Shop',d:'',prompt:'เพิ่ม: about page พร้อม photography style, client logos, contact form ขอ quote พร้อม budget range, package pricing table'},
+   ],
+   learn:['Masonry Grid','Lightbox','Cloudinary CDN']},
+
+  {id:47,cat:'creative',icon:'🎵',title:'Music Playlist Showcase',desc:'เว็บโชว์ playlist เพลง มี audio player, waveform visualization และ mood tagging',diff:'medium',time:'2 ชั่วโมง',tech:['React','Web Audio API','Wavesurfer.js'],
+   steps:[
+    {t:'Player UI',d:'',prompt:'สร้าง music playlist website มี: audio player ด้วย Wavesurfer.js (waveform visualization), play/pause/skip/seek/volume, track list, shuffle/repeat'},
+    {t:'Mood + Discovery',d:'',prompt:'เพิ่ม: tag tracks ด้วย mood (chill/energetic/focus/happy), filter ตาม mood, "Now Playing" widget แบบ Spotify, share playlist link'},
+   ],
+   learn:['Web Audio API','Wavesurfer.js','Audio Visualization']},
+
+  {id:48,cat:'creative',icon:'🎂',title:'Birthday Surprise Website',desc:'เว็บอวยพรวันเกิดแบบ interactive มี confetti, music, photo collage และ message from friends',diff:'easy',time:'30 นาที',tech:['HTML','CSS','JS'],
+   steps:[
+    {t:'Surprise reveal',d:'',prompt:'สร้าง birthday surprise website มี: intro screen "กด enter เพื่อเปิด", เมื่อกด → confetti explosion + เพลง Happy Birthday, animated cake พร้อม blow candle interaction'},
+    {t:'Photo + Messages',d:'',prompt:'เพิ่ม: photo collage จาก friends, scrollable message wall, timeline ความทรงจำ, wish button ที่แต่ละคนกดได้ แล้วชื่อขึ้น fireworks'},
+   ],
+   learn:['Canvas Confetti','Web Audio','Interactive Animations']},
+
+  {id:49,cat:'creative',icon:'📰',title:'Digital Magazine / Newsletter',desc:'Magazine-style layout สำหรับ newsletter หรือ company update ส่ง email ได้',diff:'medium',time:'2 ชั่วโมง',tech:['Next.js','MDX','Email Template'],
+   steps:[
+    {t:'Magazine layout',d:'',prompt:'สร้าง digital magazine website มี: editorial grid layout (featured article ใหญ่ + smaller articles), category navigation, article page ด้วย beautiful typography'},
+    {t:'Email newsletter',d:'',prompt:'สร้าง email template version ที่ส่งผ่าน Resend, subscribe form, unsubscribe link, view in browser fallback'},
+   ],
+   learn:['Editorial Layout','Email Template HTML','Newsletter System']},
+
+  {id:50,cat:'creative',icon:'🗺️',title:'Interactive Story Map',desc:'เล่าเรื่องผ่านแผนที่ interactive เหมาะสำหรับ travel blog, history, หรือ brand story',diff:'medium',time:'2 ชั่วโมง',tech:['React','Mapbox GL','MDX'],
+   steps:[
+    {t:'Story map',d:'',prompt:'สร้าง interactive story map ด้วย Mapbox GL มี: locations ที่ click แล้วเห็น story popup, animated path เมื่อ scroll, chapter-based navigation ที่ fly map ไปแต่ละ location'},
+    {t:'Content + Media',d:'',prompt:'เพิ่ม: photo slideshow ต่อ location, video embed, audio narration, timeline sidebar, share ได้ด้วย deep link ไปแต่ละ chapter'},
+   ],
+   learn:['Mapbox GL','Scroll Storytelling','GeoJSON']},
+
+  // ---- BONUS ----
+  {id:51,cat:'business',icon:'📡',title:'Real-time Chat Application',desc:'แอพ chat real-time มีห้อง, emoji reactions, file sharing และ read receipts',diff:'hard',time:'4 ชั่วโมง',tech:['Next.js','Supabase Realtime','WebSocket'],
+   steps:[
+    {t:'Chat rooms',d:'',prompt:'สร้าง real-time chat app ด้วย Supabase Realtime มี: public channels, direct messages, ส่งข้อความ/emoji/file, typing indicator, online/offline status'},
+    {t:'Features',d:'',prompt:'เพิ่ม: reply to message, emoji reactions, message search, pin messages, user mentions (@name), notification sounds, mobile-friendly'},
+   ],
+   learn:['Supabase Realtime','WebSocket','Chat Architecture']},
+
+  {id:52,cat:'business',icon:'📋',title:'Project Management (Kanban)',desc:'Kanban board สำหรับ manage tasks มี drag-drop, due dates, team assignments',diff:'medium',time:'3 ชั่วโมง',tech:['React','DnD Kit','Supabase'],
+   steps:[
+    {t:'Kanban board',d:'',prompt:'สร้าง Kanban project management tool มี: boards/lists/cards drag-and-drop ด้วย DnD Kit, card มี title/description/due date/assignee/labels/checklist'},
+    {t:'Team collaboration',d:'',prompt:'เพิ่ม: real-time updates เมื่อ teammate เปลี่ยน card, comments on cards, @mention, activity log, filter by assignee/label/due date'},
+   ],
+   learn:['Drag and Drop','Optimistic Updates','Real-time Collaboration']},
+
+  {id:53,cat:'business',icon:'🏬',title:'Multi-branch POS System',desc:'ระบบ POS ที่ support หลายสาขา รายงานรวม และ inventory sync',diff:'hard',time:'3 วัน',tech:['Next.js','PostgreSQL','WebSocket'],
+   steps:[
+    {t:'Multi-branch setup',d:'',prompt:'สร้าง multi-branch POS system มี: branch management, staff accounts per branch, product/price ที่ set ต่าง branch ได้, sales recording'},
+    {t:'Central reporting',d:'',prompt:'สร้าง central dashboard: compare sales across branches, best/worst performing branch, consolidated P&L, inventory transfer between branches'},
+   ],
+   learn:['Multi-tenant DB','Branch Logic','Consolidated Reporting']},
+
+  {id:54,cat:'tool',icon:'🤖',title:'AI Chatbot Widget',desc:'Embed chatbot ลงเว็บไซต์ใดก็ได้ ตอบคำถามตาม knowledge base ที่กำหนด',diff:'medium',time:'2 ชั่วโมง',tech:['React','Claude API','Vector DB'],
+   steps:[
+    {t:'Chat widget',d:'',prompt:'สร้าง chatbot widget ที่ embed ได้ใน script tag เดียว มี: chat bubble bottom-right, chat window slide-up, conversation UI, typing indicator'},
+    {t:'Knowledge base',d:'',prompt:'สร้าง RAG pipeline: upload documents (PDF/TXT) → chunk → embed → store ใน Supabase pgvector → เมื่อ user ถาม → retrieve relevant chunks → ตอบด้วย Claude API'},
+   ],
+   learn:['Claude API','RAG Pipeline','pgvector','Widget Embedding']},
+
+  {id:55,cat:'education',icon:'📈',title:'Student Progress Tracker',desc:'ระบบติดตามความก้าวหน้านักเรียน สำหรับครู ผู้ปกครอง และนักเรียน',diff:'medium',time:'3 ชั่วโมง',tech:['Next.js','Supabase','Charts'],
+   steps:[
+    {t:'Grade tracking',d:'',prompt:'สร้าง student progress tracker มี: teacher ใส่คะแนนต่อวิชา/การบ้าน/exam, นักเรียนดู dashboard คะแนนตัวเอง, radar chart แสดง strengths per subject'},
+    {t:'Parent portal',d:'',prompt:'สร้าง parent portal ดู progress บุตรหลาน, weekly report email, attendance tracking, teacher comments, goal setting และ progress toward goals'},
+   ],
+   learn:['Role-based Access','Radar Chart','Email Reports']}
+];
+
+// ===== SKILLS CONFIG =====
+const SKILLS = {
+  ux:  {cls:'sk-ux', icon:'🎨', label:'/uxui-promax',   tip:'ออกแบบ UX/UI ระดับ Pro'},
+  gh:  {cls:'sk-gh', icon:'🐙', label:'/github-mcp',    tip:'Push, PR, Deploy อัตโนมัติ'},
+  cf:  {cls:'sk-cf', icon:'☁️', label:'/cloudflare-mcp',tip:'Deploy Workers/Pages'},
+  sp:  {cls:'sk-sp', icon:'⚡', label:'/superpower',    tip:'Hooks, Commands, Multi-agent'},
+  tw:  {cls:'sk-tw', icon:'💨', label:'/tailwind-mcp',  tip:'TailwindCSS ไม่ต้องจำ class'},
+  cx:  {cls:'sk-cx', icon:'📚', label:'/context7',      tip:'Docs สดใหม่ใน context'},
+  td:  {cls:'sk-td', icon:'✨', label:'/taste-design',  tip:'Color, Typography, Visual Hierarchy'},
+  nb:  {cls:'sk-nb', icon:'🍌', label:'/nano-banana-pro',tip:'Prototype เร็ว + Micro-interactions'},
+};
+// Default skills per category
+const CAT_SKILLS = {
+  personal:  ['td','ux','tw','nb'],
+  ecommerce: ['sp','gh','cf','cx','tw'],
+  food:      ['ux','tw','sp','gh'],
+  business:  ['cx','sp','gh','cf'],
+  game:      ['nb','sp','cx'],
+  tool:      ['cx','sp','gh'],
+  education: ['ux','tw','nb','cx'],
+  realestate:['td','ux','tw','gh'],
+  creative:  ['td','nb','ux','tw'],
+};
+function getSkills(p){ return p.skills || CAT_SKILLS[p.cat] || ['sp','cx'] }
+
+// ===== RENDER CARDS =====
+const grid = document.getElementById('grid');
+let activeFilter = 'all';
+let searchQuery = '';
+
+function diffColor(d){return d==='easy'?'badge-easy':d==='medium'?'badge-medium':'badge-hard'}
+function diffLabel(d){return d==='easy'?'⚡ ง่าย':d==='medium'?'⚙️ กลาง':'🔥 ท้าทาย'}
+
+function catClass(c){
+  const m={personal:'cat-personal',ecommerce:'cat-ecommerce',food:'cat-food',business:'cat-business',game:'cat-game',tool:'cat-tool',education:'cat-education',realestate:'cat-realestate',creative:'cat-creative'};
+  return m[c]||'';
+}
+
+function renderGrid(){
+  const filtered = projects.filter(p=>{
+    const matchCat = activeFilter==='all'||p.cat===activeFilter;
+    const q=searchQuery.toLowerCase();
+    const matchSearch = !q||p.title.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q)||p.tech.join(' ').toLowerCase().includes(q)||p.cat.includes(q);
+    return matchCat&&matchSearch;
+  });
+
+  if(filtered.length===0){
+    grid.innerHTML='<div class="empty-state"><div class="emoji">🔍</div><div>ไม่พบโปรเจกต์ที่ค้นหา ลองคำอื่น</div></div>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map(p=>`
+    <div class="project-card ${catClass(p.cat)} fade-up" onclick="openModal(${p.id})" data-id="${p.id}">
+      <div class="card-num">#${String(p.id).padStart(2,'0')}</div>
+      <div class="card-top">
+        <div class="card-icon">${p.icon}</div>
+        <div class="card-badges">
+          <span class="badge ${diffColor(p.diff)}">${diffLabel(p.diff)}</span>
+          <span class="badge badge-time">⏱ ${p.time}</span>
+        </div>
+      </div>
+      <div class="card-title">${p.title}</div>
+      <div class="card-desc">${p.desc}</div>
+      <div class="card-tech">${p.tech.map(t=>`<span class="tech-tag">${t}</span>`).join('')}</div>
+      <div class="skills-row">${getSkills(p).map(k=>`<span class="skill-pill ${SKILLS[k].cls}" title="${SKILLS[k].tip}">${SKILLS[k].icon} ${SKILLS[k].label}</span>`).join('')}</div>
+      <div class="card-arrow">→</div>
+    </div>
+  `).join('');
+
+  // animate
+  setTimeout(()=>{
+    document.querySelectorAll('.fade-up').forEach((el,i)=>{
+      setTimeout(()=>el.classList.add('vis'),i*40);
+    });
+  },50);
+}
+
+// ===== FILTERS =====
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter=btn.dataset.cat;
+    renderGrid();
+  });
+});
+
+document.getElementById('search').addEventListener('input',e=>{
+  searchQuery=e.target.value;
+  renderGrid();
+});
+
+// ===== MODAL =====
+function openModal(id){
+  const p=projects.find(x=>x.id===id);
+  if(!p)return;
+  const overlay=document.getElementById('modal');
+  document.getElementById('modal-body').innerHTML=`
+    <div class="modal-hero">
+      <div class="modal-icon ${catClass(p.cat)}" style="font-size:2.2rem">${p.icon}</div>
+      <div>
+        <div style="font-size:.7rem;color:var(--muted);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.1em">#${String(p.id).padStart(2,'0')} · ${p.cat}</div>
+        <div class="modal-title">${p.title}</div>
+        <div class="modal-meta">
+          <span class="badge ${diffColor(p.diff)}">${diffLabel(p.diff)}</span>
+          <span class="badge badge-time">⏱ ${p.time}</span>
+          ${p.tech.map(t=>`<span class="badge" style="background:rgba(108,99,255,.1);color:var(--primary);border:1px solid rgba(108,99,255,.2)">${t}</span>`).join('')}
+        </div>
+        <div class="modal-desc">${p.desc}</div>
+      </div>
+    </div>
+    <div class="modal-section">
+      <h3>🛠️ Step-by-Step กับ Claude Code</h3>
+      ${p.steps.map((s,i)=>`
+        <div class="modal-step">
+          <div class="modal-step-head">
+            <div class="modal-step-num">${i+1}</div>
+            <div class="modal-step-title">${s.t}</div>
+          </div>
+          ${s.d?`<div class="modal-step-desc">${s.d}</div>`:''}
+          ${s.prompt?`<div class="modal-prompt">${s.prompt}</div>`:''}
+        </div>
+      `).join('')}
+    </div>
+    <div class="modal-section">
+      <h3>⚡ Skills ที่ใช้ในโปรเจกต์นี้</h3>
+      <div class="skills-row">${getSkills(p).map(k=>`<span class="skill-pill ${SKILLS[k].cls}" style="font-size:.78rem;padding:.3rem .9rem" title="${SKILLS[k].tip}">${SKILLS[k].icon} ${SKILLS[k].label} — ${SKILLS[k].tip}</span>`).join('')}</div>
+    </div>
+    <div class="modal-section">
+      <h3>📚 สิ่งที่จะได้เรียนรู้</h3>
+      <div class="learn-list">${p.learn.map(l=>`<span class="learn-chip">${l}</span>`).join('')}</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-start" onclick="copyPrompt(${p.id})">📋 Copy Prompt แรก</button>
+      <button class="btn-outline" onclick="closeModal()">ปิด</button>
+    </div>
+  `;
+  overlay.classList.add('show');
+  document.body.style.overflow='hidden';
+}
+
+function closeModal(){
+  document.getElementById('modal').classList.remove('show');
+  document.body.style.overflow='';
+}
+
+document.getElementById('modal').addEventListener('click',e=>{
+  if(e.target===document.getElementById('modal'))closeModal();
+});
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+
+function copyPrompt(id){
+  const p=projects.find(x=>x.id===id);
+  if(!p||!p.steps[0]?.prompt)return;
+  navigator.clipboard.writeText(p.steps[0].prompt).then(()=>{
+    const btn=document.querySelector('.btn-start');
+    const orig=btn.textContent;
+    btn.textContent='✅ Copied!';
+    btn.style.background='linear-gradient(135deg,#27C93F,#4ECDC4)';
+    setTimeout(()=>{btn.textContent=orig;btn.style.background=''},2000);
+  });
+}
+
+// ===== INTERSECTION OBSERVER =====
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')});
+},{threshold:.1});
+function observeAll(){document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el))}
+
+renderGrid();
+setTimeout(observeAll,200);
+</script>
+</body>
+</html>
