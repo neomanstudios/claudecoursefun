@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deploy เว็บขึ้นออนไลน์ | Claude Code</title>
+<meta name="description" content="เอาเว็บขึ้นออนไลน์ฟรี ด้วย Cloudflare Pages, Vercel, GitHub Pages หรือ Netlify ทำตามทีละขั้น">
+<script>(function(){try{var t=localStorage.getItem('cc_app_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}document.documentElement.className+=' js';})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="../app.css">
+<style>
+:root{--ink:var(--text);--ink-2:var(--text-2);--mc:var(--accent-2);--radius:14px;
+  --shadow:0 18px 40px -26px rgba(0,0,0,.8);--shadow-sm:0 10px 24px -20px rgba(0,0,0,.7);
+  --ok-soft:rgba(52,211,153,.14);--ok-ink:#34D399;--accent-soft:rgba(59,130,246,.18);
+  --bad-soft:rgba(248,113,113,.12);--font-display:var(--font)}
+
+.container{max-width:none;margin:0;padding:0}
+.hl{background:linear-gradient(135deg,var(--mc),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hl2{color:var(--mc)}
+.sec-head{margin:2.2rem 0 1rem}
+.sec-tag{display:inline-block;font-family:var(--mono);font-size:.74rem;font-weight:700;color:var(--mc);background:color-mix(in srgb,var(--mc) 14%,transparent);padding:.2rem .7rem;border-radius:20px;margin-bottom:.5rem}
+.sec-head h2{font-weight:800;font-size:1.5rem;margin-bottom:.3rem;color:var(--ink)}
+.sec-head p{color:var(--muted);font-size:.95rem}
+.intro-box{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1.3rem;margin-bottom:1.4rem;box-shadow:var(--shadow-sm)}
+.intro-box h3{font-weight:700;font-size:1.15rem;margin-bottom:.6rem;color:var(--ink)}
+.intro-box p{color:var(--ink-2);margin-bottom:.6rem}
+.quick-nav{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.4rem}
+.qn-link{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:.5rem .9rem;font-size:.85rem;font-weight:600;color:var(--ink-2);transition:.15s}
+.qn-link:hover{border-color:var(--mc);color:var(--mc)}
+.compare{overflow-x:auto;margin-bottom:1.4rem}
+.compare table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;font-size:.9rem}
+.compare th{background:var(--bg-2);text-align:left;padding:.7rem .9rem;font-weight:700;color:var(--ink);border-bottom:1px solid var(--line)}
+.compare td{padding:.7rem .9rem;border-bottom:1px solid var(--line-2);color:var(--ink-2)}
+.compare tr:last-child td{border-bottom:none}
+.badge-best{display:inline-block;background:var(--ok-soft);color:var(--ok-ink);font-size:.7rem;font-weight:700;padding:.1rem .5rem;border-radius:20px;margin-left:.3rem}
+.platform{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1.4rem;margin-bottom:1.4rem;box-shadow:var(--shadow-sm)}
+.plat-head{display:flex;gap:.9rem;align-items:flex-start;margin-bottom:.9rem}
+.plat-logo{width:46px;height:46px;border-radius:13px;background:color-mix(in srgb,var(--mc) 15%,transparent);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
+.plat-name{font-weight:700;font-size:1.15rem;color:var(--ink)}
+.plat-tagline{color:var(--muted);font-size:.86rem;margin:.15rem 0 .4rem}
+.plat-tags{display:flex;flex-wrap:wrap;gap:.4rem}
+.ptag{font-size:.72rem;font-weight:700;padding:.18rem .55rem;border-radius:20px}
+.ptag-free{background:var(--ok-soft);color:var(--ok-ink)}
+.ptag-fast{background:var(--accent-soft);color:var(--accent-2)}
+.ptag-easy{background:color-mix(in srgb,var(--accent-2) 16%,transparent);color:var(--accent-2)}
+.plat-best{background:var(--bg-2);border-left:3px solid var(--mc);border-radius:8px;padding:.7rem .9rem;font-size:.88rem;color:var(--ink-2);margin-bottom:1rem}
+.plat-best strong{color:var(--ink)}
+.way{border:1px solid var(--line);border-radius:12px;padding:1rem 1.1rem;margin-bottom:1rem}
+.way-easy{background:color-mix(in srgb,var(--mc) 9%,var(--card));border-color:color-mix(in srgb,var(--mc) 26%,var(--line))}
+.way-manual{background:var(--bg-2)}
+.way-title{font-weight:700;font-size:.98rem;margin-bottom:.6rem;color:var(--ink)}
+.action-list{list-style:none;margin:.3rem 0;padding:0}
+.action-list li{display:flex;gap:.7rem;align-items:flex-start;margin-bottom:.6rem}
+.action-num{width:24px;height:24px;border-radius:50%;background:var(--mc);color:#04140C;font-weight:800;font-size:.78rem;font-family:var(--mono);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.action-text{color:var(--ink-2);font-size:.92rem;line-height:1.65}
+.action-text strong{color:var(--ink)}
+.action-text small{display:block;color:var(--muted);font-size:.8rem;margin-top:.2rem}
+.result-url{display:flex;gap:.6rem;align-items:center;background:var(--ok-soft);border:1px solid color-mix(in srgb,var(--ok) 40%,transparent);border-radius:10px;padding:.7rem .9rem;margin-top:.8rem;color:var(--ok-ink);font-size:.9rem}
+.result-url .ri{font-size:1.2rem}
+.terminal{background:#060912;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:.6rem 0}
+.term-bar{display:flex;align-items:center;gap:.4rem;padding:.5rem .8rem;background:rgba(255,255,255,.03)}
+.tdot{width:11px;height:11px;border-radius:50%}
+.term-title{color:var(--text-2);font-size:.78rem;margin-left:.4rem;font-family:var(--mono)}
+.term-body{padding:.8rem 1rem;font-family:var(--mono);font-size:.84rem;color:#E7E9F3;white-space:pre-wrap;line-height:1.7}
+.prompt{color:#7CFFB2}.cmd{color:#E7E9F3}.cmt{color:#8b93a7}.ok{color:#7CFFB2}
+.copy-cmd{background:var(--grad-cta);color:#fff;border:none;border-radius:8px;padding:.35rem .8rem;font-size:.78rem;font-weight:700;font-family:var(--font);cursor:pointer;margin-top:-.2rem}
+.domain-box{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1.4rem;margin-bottom:1.4rem;box-shadow:var(--shadow-sm)}
+.note-warn{background:var(--bad-soft);border:1px solid color-mix(in srgb,var(--bad) 35%,transparent);border-left:4px solid var(--bad)}
+.note-tip{background:color-mix(in srgb,var(--accent-2) 12%,var(--card));border:1px solid color-mix(in srgb,var(--accent-2) 30%,var(--line));border-left:4px solid var(--accent-2)}
+.next-section{margin-top:2rem}
+.next-box{background:linear-gradient(135deg,color-mix(in srgb,var(--mc) 14%,var(--card)),color-mix(in srgb,var(--accent-2) 12%,var(--card)));border:1px solid color-mix(in srgb,var(--mc) 26%,var(--line));border-radius:18px;padding:2rem;text-align:center}
+.next-box .mt{font-weight:800;font-size:1.2rem;color:var(--ink);margin-bottom:.4rem;display:block}
+.next-box p{color:var(--ink-2)}
+.go-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--grad-cta);color:#fff;font-weight:700;padding:.7rem 1.4rem;border-radius:12px}
+.go-link{display:inline-flex;align-items:center;gap:.4rem;background:var(--card);border:1px solid var(--line);color:var(--text);font-weight:700;padding:.7rem 1.4rem;border-radius:12px}
+.fade-up{opacity:1}
+</style></head>
+<body data-slug="deploy">
+<div class="sb-overlay"></div>
+<aside class="sidebar"><div class="brand"><a href="../index.html" class="brand-l"><span class="logo">CC</span><b>Claude Code</b></a></div><div class="sb-switch"><a href="../index.html" class="active">บทเรียน</a><a href="../workshops/index.html">เวิร์กช็อป</a></div><div class="sb-progress"><div class="pl"><span>ความคืบหน้า</span><b class="prog-lbl">0/0</b></div><div class="pbar"><i></i></div></div><div class="sb-scroll"><details class="mod"><summary><span class="mn">1</span><span class="mt">Claude Code คืออะไร ทำไมต้องใช้</span><svg class="chev ic" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></summary><ul class="lessons"><li><a href="01-what-is-claude-code.html" data-slug="01-what-is-claude-code" class=""><span class="dot"></span><span class="ln">1.1</span><span class="lt">Claude Code vs Copilot vs Cursor</span></a></li><li><a href="01-agentic-mode.html" data-slug="01-agentic-mode" class=""><span class="dot"></span><span class="ln">1.2</span><span class="lt">Agentic Mode คืออะไร</span></a></li><li><a href="01-real-use-cases.html" data-slug="01-real-use-cases" class=""><span class="dot"></span><span class="ln">1.3</span><span class="lt">Use cases จริงที่ได้ผล</span></a></li><li><a href="01-limitations.html" data-slug="01-limitations" class=""><span class="dot"></span><span class="ln">1.4</span><span class="lt">ข้อจำกัดที่ต้องรู้</span></a></li></ul></details><details class="mod"><summary><span class="mn">2</span><span class="mt">Setup &amp; Configuration</span><svg class="chev ic" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></summary><ul class="lessons"><li><a href="02-install.html" data-slug="02-install" class=""><span class="dot"></span><span class="ln">2.1</span><span class="lt">ติดตั้ง CLI + VS Code Extension</span></a></li><li><a href="02-api-key.html" data-slug="02-api-key" class=""><span class="dot"></span><span class="ln">2.2</span><span class="lt">ตั้งค่า Login และ Billing</span></a></li><li><a href="02-claude-md.html" data-slug="02-claude-md" class=""><span class="dot"></span><span class="ln">2.3</span><span class="lt">สร้าง CLAUDE.md ที่ดี</span></a></li><li><a href="02-settings.html" data-slug="02-settings" class=""><span class="dot"></span><span class="ln">2.4</span><span class="lt">settings.json ปรับ behavior</span></a></li><li><a href="02-permissions.html" data-slug="02-permissions" class=""><span class="dot"></span><span class="ln">2.5</span><span class="lt">Permission System</span></a></li></ul></details><details class="mod"><summary><span class="mn">3</span><span class="mt">Prompt Engineering</span><svg class="chev ic" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></summary><ul class="lessons"><li><a href="03-context-first.html" data-slug="03-context-first" class=""><span class="dot"></span><span class="ln">3.1</span><span class="lt">Context-first prompting</span></a></li><li><a href="03-constraints.html" data-slug="03-constraints" class=""><span class="dot"></span><span class="ln">3.2</span><span class="lt">ให้ constraints ที่ชัดเจน</span></a></li><li><a href="03-think-first.html" data-slug="03-think-first" class=""><span class="dot"></span><span class="ln">3.3</span><span class="lt">คิดก่อน แล้วค่อยทำ</span></a></li><li><a href="03-iterative.html" data-slug="03-iterative" class=""><span class="dot"></span><span class="ln">3.4</span><span class="lt">Iterative refinement</span></a></li><li><a href="03-mistakes.html" data-slug="03-mistakes" class=""><span class="dot"></span><span class="ln">3.5</span><span class="lt">Mistakes ที่ต้องเลี่ยง</span></a></li></ul></details><details class="mod"><summary><span class="mn">4</span><span class="mt">Debugging &amp; Code Review</span><svg class="chev ic" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></summary><ul class="lessons"><li><a href="04-error-debug.html" data-slug="04-error-debug" class=""><span class="dot"></span><span class="ln">4.1</span><span class="lt">หา root cause ของ error</span></a></li><li><a href="04-code-review.html" data-slug="04-code-review" class=""><span class="dot"></span><span class="ln">4.2</span><span class="lt">Code review workflow</span></a></li><li><a href="04-security.html" data-slug="04-security" class=""><span class="dot"></span><span class="ln">4.3</span><span class="lt">Security scanning</span></a></li><li><a href="04-performance.html" data-slug="04-performance" class=""><span class="dot"></span><span class="ln">4.4</span><span class="lt">Performance optimization</span></a></li></ul></details><details class="mod"><summary><span class="mn">5</span><span class="mt">Testing &amp; Documentation</span><svg class="chev ic" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></summary><ul class="lessons"><li><a href="05-unit-tests.html" data-slug="05-unit-tests" class=""><span class="dot"></span><span class="ln">5.1</span><span class="lt">Generate unit tests</span></a></li><li><a href="05-e2e.html" data-slug="05-e2e" class=""><span class="dot"></span><span class="ln">5.2</span><span class="lt">E2E tests ด้วย Playwright</span></a></li><li><a href="05-api-docs.html" data-slug="05-api-docs" class=""><span class="dot"></span><span class="ln">5.3</span><span class="lt">Auto-generate API docs</span></a></li><li><a href="05-tdd.html" data-slug="05-tdd" class=""><span class="dot"></span><span class="ln">5.4</span><span class="lt">TDD — test ก่อน code</span></a></li></ul></details><details class="mod"><summary><span class="mn">6</span><span class="mt">Architecture &amp; Refactoring</span><svg class="chev ic" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></summary><ul class="lessons"><li><a href="06-system-design.html" data-slug="06-system-design" class=""><span class="dot"></span><span class="ln">6.1</span><span class="lt">System design consultation</span></a></li><li><a href="06-refactor.html" data-slug="06-refactor" class=""><span class="dot"></span><span class="ln">6.2</span><span class="lt">Refactor codebase ใหญ่</span></a></li><li><a href="06-migration.html" data-slug="06-migration" class=""><span class="dot"></span><span class="ln">6.3</span><span class="lt">Migration JS→TS, Class→Hooks</span></a></li><li><a href="06-db-design.html" data-slug="06-db-design" class=""><span class="dot"></span><span class="ln">6.4</span><span class="lt">Database schema design</span></a></li></ul></details><details class="mod"><summary><span class="mn">7</span><span class="mt">Superpower Skills</span><svg class="chev ic" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></summary><ul class="lessons"><li><a href="07-mcp-intro.html" data-slug="07-mcp-intro" class=""><span class="dot"></span><span class="ln">7.1</span><span class="lt">MCP Servers คืออะไร</span></a></li><li><a href="07-mcp-db.html" data-slug="07-mcp-db" class=""><span class="dot"></span><span class="ln">7.2</span><span class="lt">เชื่อม Database เข้า Claude</span></a></li><li><a href="07-slash-commands.html" data-slug="07-slash-commands" class=""><span class="dot"></span><span class="ln">7.3</span><span class="lt">Custom Slash Commands</span></a></li><li><a href="07-hooks.html" data-slug="07-hooks" class=""><span class="dot"></span><span class="ln">7.4</span><span class="lt">Hooks ทำงานอัตโนมัติ</span></a></li><li><a href="07-multi-agent.html" data-slug="07-multi-agent" class=""><span class="dot"></span><span class="ln">7.5</span><span class="lt">Multi-agent workflows</span></a></li><li><a href="07-headless.html" data-slug="07-headless" class=""><span class="dot"></span><span class="ln">7.6</span><span class="lt">Headless mode ใน CI/CD</span></a></li></ul></details><details class="mod" open><summary><span class="mn">8</span><span class="mt">Workshop: สร้าง Portfolio Website</span><svg class="chev ic" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></summary><ul class="lessons"><li><a href="08-design.html" data-slug="08-design" class=""><span class="dot"></span><span class="ln">8.1</span><span class="lt">Phase 1: Design กับ Claude</span></a></li><li><a href="08-build.html" data-slug="08-build" class=""><span class="dot"></span><span class="ln">8.2</span><span class="lt">Phase 2: Build &amp; Iterate</span></a></li><li><a href="deploy.html" data-slug="deploy" class="active"><span class="dot"></span><span class="ln">8.3</span><span class="lt">Phase 3: Deploy ออนไลน์</span></a></li></ul></details></div><a class="sb-back" href="../index.html"><svg class="ic" viewBox="0 0 24 24" style="width:15px"><path d="m15 18-6-6 6-6"/></svg>หน้าหลักคอร์ส</a></aside>
+<div class="shell">
+<header class="topbar"><button class="hamb" aria-label="เมนู"><svg class="ic" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button><span class="tb-here">เนื้อหาบทเรียน</span></header>
+<div class="content">
+<div class="main">
+<div class="crumb"><a class="back" href="../index.html"><svg class="ic" viewBox="0 0 24 24" style="width:15px"><path d="m15 18-6-6 6-6"/></svg>หน้าหลัก</a><span class="sep">&#8250;</span>โมดูล 8: Workshop สร้าง Portfolio Website<span class="sep">&#8250;</span>บทเรียน 8.3</div>
+<div class="les-head"><div><h1>เอาเว็บขึ้นออนไลน์ ให้คนทั้งโลกเห็น</h1><p>เว็บที่รันบนเครื่องคุณ พร้อมแชร์แล้ว เลือกแพลตฟอร์มที่ชอบแล้วทำตามทีละขั้น หรือให้ Claude Code ช่วย deploy ก็ได้ ทุกแพลตฟอร์มมีแพลนฟรี</p></div>
+<div class="ring"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.5" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="3.4"/><circle class="ring-i" cx="18" cy="18" r="15.5" fill="none" stroke="url(#rg)" stroke-width="3.4" stroke-linecap="round" stroke-dasharray="0 100" transform="rotate(-90 18 18)"/><text class="ring-t" x="18" y="21" text-anchor="middle" font-size="8.5" font-weight="800" fill="#EAEEF9" font-family="Plus Jakarta Sans">0%</text><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3B82F6"/><stop offset="1" stop-color="#8B5CF6"/></linearGradient></defs></svg><div class="rlbl">ความคืบหน้าคอร์ส</div></div></div>
+<div class="cover" style="background-image:linear-gradient(90deg,rgba(8,11,22,.92),rgba(8,11,22,.35)),url('../../images/deploy.webp')"><div class="ctxt"><div class="k">8.3 · Workshop: สร้าง Portfolio Website</div><h2>เอาเว็บขึ้น ออนไลน์ ให้คนทั้งโลกเห็น</h2></div><span class="readbadge"><svg class="ic" viewBox="0 0 24 24" style="width:14px;color:var(--accent-2)"><path d="M4 19V6a2 2 0 0 1 2-2h7v17H6a2 2 0 0 1-2-2Z"/><path d="M13 4h5a2 2 0 0 1 2 2v13"/></svg>บทเรียนแบบอ่าน</span></div>
+<div class="ov"><div class="ov-main"><div class="container">
+  
+  <!-- what is deploy -->
+  <div class="intro-box fade-up">
+    <h3>📦 Deploy คืออะไร?</h3>
+    <p>Deploy (ดีพลอย) คือการ <strong>เอาเว็บที่อยู่ในเครื่องเรา ไปวางไว้บนเซิร์ฟเวอร์ออนไลน์</strong> เพื่อให้คนอื่นเปิดดูได้จากที่ไหนก็ได้ในโลก ผ่านลิงก์</p>
+    <p>เปรียบเหมือน: ทำอาหารเสร็จที่บ้าน (Local) แล้วเอาไปเปิดร้านให้คนมาซื้อ (Deploy) 🍜</p>
+    <p style="margin-bottom:0">ข่าวดี: ทุกแพลตฟอร์มข้างล่างนี้ <strong>มีแพลนฟรี</strong> และ <strong>Claude ทำให้คุณได้</strong> — แค่บอก</p>
+  </div>
+
+  <!-- quick nav -->
+  <div class="quick-nav fade-up">
+    <a href="#cloudflare" class="qn-link">☁️ Cloudflare Pages</a>
+    <a href="#vercel" class="qn-link">▲ Vercel</a>
+    <a href="#github" class="qn-link">🐙 GitHub Pages</a>
+    <a href="#netlify" class="qn-link">🔷 Netlify</a>
+    <a href="#domain" class="qn-link">🌍 โดเมนของตัวเอง</a>
+  </div>
+
+  <!-- compare -->
+  <div class="compare fade-up">
+    <table>
+      <thead>
+        <tr><th>แพลตฟอร์ม</th><th>เหมาะกับ</th><th>ความง่าย</th><th>ฟรี</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="plat">☁️ Cloudflare Pages</td><td>เว็บทุกแบบ เร็วทั่วโลก</td><td>⭐⭐⭐⭐</td><td>✅ ใจดีมาก</td></tr>
+        <tr><td class="plat">▲ Vercel <span class="badge-best">แนะนำมือใหม่</span></td><td>React/Next.js</td><td>⭐⭐⭐⭐⭐</td><td>✅ ใช่</td></tr>
+        <tr><td class="plat">🐙 GitHub Pages</td><td>เว็บนิ่งๆ ไฟล์ HTML</td><td>⭐⭐⭐</td><td>✅ ใช่</td></tr>
+        <tr><td class="plat">🔷 Netlify</td><td>ลากวางไฟล์ ง่ายสุด</td><td>⭐⭐⭐⭐⭐</td><td>✅ ใช่</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note note-tip fade-up">
+    <span class="ni">🎯</span>
+    <div class="note-body"><strong>มือใหม่ไม่รู้จะเลือกอะไร?</strong> เริ่มที่ <strong>Netlify (ลากวางไฟล์)</strong> ง่ายที่สุด หรือ <strong>Vercel</strong> ถ้าให้ Claude ทำให้ — ทั้งคู่ไม่ต้องตั้งค่าอะไรมาก</div>
+  </div>
+</div>
+
+<!-- ============ CLOUDFLARE ============ -->
+<div class="container">
+  <div class="sec-head fade-up">
+    <span class="sec-tag">บทเรียนที่ 1</span>
+    <h2><span class="hl">☁️ Cloudflare Pages</span></h2>
+    <p>เร็วที่สุดในโลก ฟรีแบบใจป้ำ เหมาะกับทุกเว็บ</p>
+  </div>
+
+  <div class="platform cf fade-up" id="cloudflare">
+    <div class="plat-head">
+      <div class="plat-logo">☁️</div>
+      <div class="plat-titlewrap">
+        <div class="plat-name">Cloudflare Pages</div>
+        <div class="plat-tagline">เครือข่ายเร็วที่สุด ครอบคลุม 300+ เมืองทั่วโลก</div>
+        <div class="plat-tags"><span class="ptag ptag-free">ฟรี bandwidth ไม่จำกัด</span><span class="ptag ptag-fast">เร็วมาก</span></div>
+      </div>
+    </div>
+    <div class="plat-best">🎯 <strong>เหมาะเมื่อ:</strong> อยากได้เว็บโหลดเร็วทั่วโลก, มี traffic เยอะ, หรืออยากต่อ domain ฟรี SSL</div>
+
+    <!-- Easy way -->
+    <div class="way way-easy">
+      <div class="way-title">✨ วิธีง่าย — ให้ Claude ทำให้ (ผ่าน GitHub)</div>
+      <p style="color:var(--mt);font-size:.88rem;margin-bottom:.5rem">เว็บจะ deploy ใหม่อัตโนมัติทุกครั้งที่แก้โค้ด — บอก Claude แบบนี้:</p>
+      <div class="prompt-box">
+        <div class="prompt-label">📋 คัดลอกบอก Claude</div>
+        <div class="prompt-text" id="cf-prompt">ช่วยเอาเว็บนี้ขึ้น GitHub แล้วบอกขั้นตอนต่อ Cloudflare Pages ให้หน่อย:
+1. สร้าง git repo และ push ขึ้น GitHub
+2. อธิบายวิธีไปเชื่อม repo กับ Cloudflare Pages ทีละขั้น
+3. บอกค่า build settings ที่ต้องใส่</div>
+        <button class="copy-btn" onclick="copyText('cf-prompt',this)">คัดลอก</button>
+      </div>
+    </div>
+
+    <!-- Manual -->
+    <div class="way way-manual">
+      <div class="way-title">🔧 ทำเองทีละขั้น (เชื่อม GitHub → auto deploy)</div>
+      <ul class="action-list">
+        <li><span class="action-num">1</span><span class="action-text">ให้ Claude push โค้ดขึ้น GitHub ก่อน (ใช้ prompt ด้านบน)</span></li>
+        <li><span class="action-num">2</span><span class="action-text">เข้า <code>dash.cloudflare.com</code> → เมนู <strong>Workers &amp; Pages</strong> → <strong>Create</strong> → แท็บ <strong>Pages</strong><small>สมัครฟรีด้วย email ถ้ายังไม่มีบัญชี</small></span></li>
+        <li><span class="action-num">3</span><span class="action-text">กด <strong>Connect to Git</strong> เลือก repo ของคุณ</span></li>
+        <li><span class="action-num">4</span><span class="action-text">ตั้งค่า: เว็บ HTML ธรรมดา → Build command เว้นว่าง, Output = <code>/</code> · ถ้าเป็น React/Vite → Build = <code>npm run build</code>, Output = <code>dist</code><small>ไม่แน่ใจ? ถาม Claude: "เว็บผมต้องตั้ง build settings ยังไงบน Cloudflare"</small></span></li>
+        <li><span class="action-num">5</span><span class="action-text">กด <strong>Save and Deploy</strong> รอสักครู่</span></li>
+      </ul>
+      <div class="result-url"><span class="ri">🎉</span><div>เว็บออนไลน์ที่ <code>ชื่อเว็บ.pages.dev</code> — แก้โค้ดแล้ว push ใหม่ จะ deploy เองอัตโนมัติ</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ VERCEL ============ -->
+<div class="container">
+  <div class="sec-head fade-up">
+    <span class="sec-tag">บทเรียนที่ 2</span>
+    <h2><span class="hl">▲ Vercel</span></h2>
+    <p>ง่ายที่สุดสำหรับมือใหม่ โดยเฉพาะเว็บ React/Next.js</p>
+  </div>
+
+  <div class="platform vc fade-up" id="vercel">
+    <div class="plat-head">
+      <div class="plat-logo">▲</div>
+      <div class="plat-titlewrap">
+        <div class="plat-name">Vercel</div>
+        <div class="plat-tagline">deploy ด้วยคำสั่งเดียว เหมาะกับ React, Next.js, Vite</div>
+        <div class="plat-tags"><span class="ptag ptag-free">ฟรี</span><span class="ptag ptag-easy">ง่ายสุดๆ</span></div>
+      </div>
+    </div>
+    <div class="plat-best">🎯 <strong>เหมาะเมื่อ:</strong> ทำเว็บด้วย React/Next.js, อยาก deploy เร็วด้วยคำสั่งเดียว, มือใหม่ที่อยากให้ Claude จัดการให้หมด</div>
+
+    <div class="way way-easy">
+      <div class="way-title">✨ วิธีง่าย — คำสั่งเดียวจบ</div>
+      <p style="color:var(--mt);font-size:.88rem;margin-bottom:.5rem">บอก Claude ให้ deploy ให้เลย:</p>
+      <div class="prompt-box">
+        <div class="prompt-label">📋 คัดลอกบอก Claude</div>
+        <div class="prompt-text" id="vc-prompt">ช่วย deploy เว็บนี้ขึ้น Vercel ให้หน่อย ติดตั้ง vercel CLI ถ้ายังไม่มี แล้วรันคำสั่ง deploy พร้อมอธิบายแต่ละขั้นเป็นภาษาไทย</div>
+        <button class="copy-btn" onclick="copyText('vc-prompt',this)">คัดลอก</button>
+      </div>
+    </div>
+
+    <div class="way way-manual">
+      <div class="way-title">🔧 ทำเองทีละขั้น</div>
+      <ul class="action-list">
+        <li><span class="action-num">1</span><span class="action-text">ติดตั้ง Vercel CLI (ทำครั้งเดียว):</span></li>
+      </ul>
+      <div class="terminal">
+        <div class="term-bar"><span class="tdot" style="background:#FF5F56"></span><span class="tdot" style="background:#FFBD2E"></span><span class="tdot" style="background:#27C93F"></span><span class="term-title">Terminal</span></div>
+        <div class="term-body"><span class="prompt">$ </span><span class="cmd" id="vc-cmd1">npm install -g vercel</span></div>
+      </div>
+      <button class="copy-cmd" onclick="copyText('vc-cmd1',this)">📋 คัดลอก</button>
+      <ul class="action-list" style="margin-top:.8rem">
+        <li><span class="action-num">2</span><span class="action-text">เข้าไปในโฟลเดอร์เว็บ แล้วพิมพ์ <code>vercel</code> ครั้งแรกจะให้ล็อกอิน (กด Enter ตามค่าเริ่มต้นได้เลย)</span></li>
+      </ul>
+      <div class="terminal">
+        <div class="term-bar"><span class="tdot" style="background:#FF5F56"></span><span class="tdot" style="background:#FFBD2E"></span><span class="tdot" style="background:#27C93F"></span><span class="term-title">Terminal</span></div>
+        <div class="term-body"><span class="prompt">$ </span><span class="cmd" id="vc-cmd2">vercel</span>
+<span class="cmt"># ตอบคำถาม กด Enter ผ่านได้เลย</span>
+<span class="ok">✓ Production: https://your-app.vercel.app</span></div>
+      </div>
+      <button class="copy-cmd" onclick="copyText('vc-cmd2',this)">📋 คัดลอก</button>
+      <div class="result-url"><span class="ri">🎉</span><div>เว็บออนไลน์ที่ <code>your-app.vercel.app</code> — อัปเดตด้วยคำสั่ง <code>vercel --prod</code></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ GITHUB PAGES ============ -->
+<div class="container">
+  <div class="sec-head fade-up">
+    <span class="sec-tag">บทเรียนที่ 3</span>
+    <h2><span class="hl">🐙 GitHub Pages</span></h2>
+    <p>ฟรีตลอดกาล เหมาะกับเว็บ HTML นิ่งๆ</p>
+  </div>
+
+  <div class="platform gh fade-up" id="github">
+    <div class="plat-head">
+      <div class="plat-logo">🐙</div>
+      <div class="plat-titlewrap">
+        <div class="plat-name">GitHub Pages</div>
+        <div class="plat-tagline">โฮสต์เว็บฟรีจาก GitHub repo ของคุณ</div>
+        <div class="plat-tags"><span class="ptag ptag-free">ฟรีถาวร</span><span class="ptag ptag-fast">เหมาะเว็บ static</span></div>
+      </div>
+    </div>
+    <div class="plat-best">🎯 <strong>เหมาะเมื่อ:</strong> เว็บไฟล์ HTML/CSS/JS ธรรมดา (ไม่มี backend), อยากได้ที่ฟรีถาวร, เก็บโค้ดบน GitHub อยู่แล้ว</div>
+
+    <div class="way way-easy">
+      <div class="way-title">✨ วิธีง่าย — ให้ Claude จัดการ</div>
+      <div class="prompt-box">
+        <div class="prompt-label">📋 คัดลอกบอก Claude</div>
+        <div class="prompt-text" id="gh-prompt">ช่วยเอาเว็บนี้ขึ้น GitHub Pages ให้หน่อย:
+1. สร้าง git repo และ push ขึ้น GitHub
+2. ตั้งค่าให้ deploy ด้วย GitHub Pages
+3. บอก URL ที่จะเข้าดูเว็บได้ และอธิบายเป็นภาษาไทย</div>
+        <button class="copy-btn" onclick="copyText('gh-prompt',this)">คัดลอก</button>
+      </div>
+    </div>
+
+    <div class="way way-manual">
+      <div class="way-title">🔧 ทำเองทีละขั้น</div>
+      <ul class="action-list">
+        <li><span class="action-num">1</span><span class="action-text">ให้ Claude push เว็บขึ้น GitHub repo (ตั้งเป็น public)</span></li>
+        <li><span class="action-num">2</span><span class="action-text">เข้าหน้า repo บน GitHub → <strong>Settings</strong> → <strong>Pages</strong> (เมนูซ้าย)</span></li>
+        <li><span class="action-num">3</span><span class="action-text">ที่ <strong>Source</strong> เลือก branch <code>main</code> โฟลเดอร์ <code>/root</code> แล้วกด <strong>Save</strong></span></li>
+        <li><span class="action-num">4</span><span class="action-text">รอ 1-2 นาที refresh หน้า จะเห็นลิงก์เว็บ</span></li>
+      </ul>
+      <div class="result-url"><span class="ri">🎉</span><div>เว็บออนไลน์ที่ <code>ชื่อคุณ.github.io/ชื่อ-repo</code></div></div>
+      <div class="note note-warn"><span class="ni">⚠️</span><div class="note-body">GitHub Pages รองรับเฉพาะเว็บ <strong>static</strong> (HTML/CSS/JS) — ถ้าเว็บมี backend หรือ database ให้ใช้ Vercel หรือ Cloudflare แทน</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ NETLIFY ============ -->
+<div class="container">
+  <div class="sec-head fade-up">
+    <span class="sec-tag">บทเรียนที่ 4</span>
+    <h2><span class="hl">🔷 Netlify</span></h2>
+    <p>ลากไฟล์มาวาง = ออนไลน์ทันที ไม่ต้องใช้คำสั่ง</p>
+  </div>
+
+  <div class="platform nl fade-up" id="netlify">
+    <div class="plat-head">
+      <div class="plat-logo">🔷</div>
+      <div class="plat-titlewrap">
+        <div class="plat-name">Netlify</div>
+        <div class="plat-tagline">deploy ง่ายที่สุด — ลากโฟลเดอร์มาวางบนเว็บ</div>
+        <div class="plat-tags"><span class="ptag ptag-free">ฟรี</span><span class="ptag ptag-easy">ไม่ต้องใช้คำสั่ง</span></div>
+      </div>
+    </div>
+    <div class="plat-best">🎯 <strong>เหมาะเมื่อ:</strong> มือใหม่สุดๆ ไม่อยากแตะ command line เลย, อยาก deploy ใน 1 นาทีด้วยการลากวาง</div>
+
+    <div class="way way-easy">
+      <div class="way-title">✨ วิธีง่ายสุด — ลากวาง (Drag &amp; Drop)</div>
+      <ul class="action-list">
+        <li><span class="action-num">1</span><span class="action-text">เข้า <code>app.netlify.com/drop</code> (สมัครฟรีด้วย email หรือ Google)</span></li>
+        <li><span class="action-num">2</span><span class="action-text"><strong>ลากโฟลเดอร์เว็บของคุณ</strong> จากเครื่อง มาวางในช่องบนหน้าเว็บ Netlify<small>ไม่รู้ว่าโฟลเดอร์อยู่ไหน? ถาม Claude: "เปิดโฟลเดอร์เว็บให้หน่อย"</small></span></li>
+        <li><span class="action-num">3</span><span class="action-text">รอสักครู่ — เว็บออนไลน์ทันที!</span></li>
+      </ul>
+      <div class="result-url"><span class="ri">🎉</span><div>เว็บออนไลน์ที่ <code>ชื่อสุ่ม.netlify.app</code> (เปลี่ยนชื่อได้ในตั้งค่า)</div></div>
+    </div>
+
+    <div class="way way-manual">
+      <div class="way-title">🔧 หรือให้ Claude ทำผ่าน CLI</div>
+      <div class="prompt-box">
+        <div class="prompt-label">📋 คัดลอกบอก Claude</div>
+        <div class="prompt-text" id="nl-prompt">ช่วย deploy เว็บนี้ขึ้น Netlify ให้หน่อย ติดตั้ง netlify-cli ถ้ายังไม่มี แล้วรัน deploy พร้อมอธิบายเป็นภาษาไทย</div>
+        <button class="copy-btn" onclick="copyText('nl-prompt',this)">คัดลอก</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ CUSTOM DOMAIN ============ -->
+<div class="container">
+  <div class="sec-head fade-up">
+    <span class="sec-tag">โบนัส</span>
+    <h2><span class="hl2">🌍 ใช้โดเมนของตัวเอง</span></h2>
+    <p>จาก ชื่อ.pages.dev → เป็น www.ชื่อร้านคุณ.com</p>
+  </div>
+  <div class="domain-box fade-up" id="domain">
+    <p style="color:var(--mt);font-size:.92rem;margin-bottom:1rem">อยากให้เว็บมีที่อยู่สวยๆ เป็นชื่อร้านหรือชื่อคุณเอง? ทำได้! แค่ซื้อโดเมน (ปีละไม่กี่ร้อยบาท) แล้วเชื่อมกับเว็บ</p>
+    <ul class="action-list">
+      <li><span class="action-num">1</span><span class="action-text">ซื้อโดเมนจาก <strong>Cloudflare</strong>, Namecheap, หรือ GoDaddy<small>เช่น mycoffeeshop.com ราคาประมาณ 300-500 บาท/ปี</small></span></li>
+      <li><span class="action-num">2</span><span class="action-text">ในหน้าตั้งค่า deploy (Cloudflare/Vercel/Netlify) หา <strong>Custom Domain</strong> แล้วใส่โดเมนที่ซื้อ</span></li>
+      <li><span class="action-num">3</span><span class="action-text">ทำตามที่ระบบบอก (ตั้งค่า DNS) — หรือถาม Claude ช่วย</span></li>
+    </ul>
+    <div class="prompt-box">
+      <div class="prompt-label">📋 ถาม Claude เมื่อสับสน</div>
+      <div class="prompt-text" id="dm-prompt">ผมซื้อโดเมน [ชื่อโดเมน.com] มาแล้ว อยากเชื่อมกับเว็บที่ deploy บน [Cloudflare/Vercel/Netlify] ช่วยอธิบายขั้นตอนตั้งค่า DNS ทีละขั้นเป็นภาษาไทยหน่อย</div>
+      <button class="copy-btn" onclick="copyText('dm-prompt',this)">คัดลอก</button>
+    </div>
+  </div>
+</div>
+
+<!-- NEXT -->
+<section class="next-section">
+  <div class="next-box fade-up">
+    <div style="font-size:2.5rem;margin-bottom:1rem">🌐</div>
+    <h2 style="font-size:1.6rem;font-weight:800;margin-bottom:.7rem">เว็บคุณออนไลน์แล้ว!<br><span class="hl">ทำอะไรต่อดี?</span></h2>
+    <p style="color:var(--mt);max-width:440px;margin:0 auto 1.8rem;font-size:.92rem">
+      ลองสร้างโปรเจกต์ที่ใหญ่ขึ้น หรือเรียนเทคนิคขั้นสูงเพื่อทำเว็บที่ซับซ้อนขึ้น
+    </p>
+    <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
+      <a href="projects.html" class="go-btn">📂 55 โปรเจกต์</a>
+      <a href="start.html" class="go-link">🌱 กลับไปเริ่มต้น</a>
+      <a href="index.html#modules" class="go-link">📚 เนื้อหาเต็ม</a>
+    </div>
+  </div>
+</section>
+    <div class="complete-row"><button class="btn-complete" id="btnComplete">✓ ทำเครื่องหมายว่าเรียนจบ</button></div>
+    <div class="pagenav"><a href="lessons/08-build.html" class="pn-btn"><span class="pn-dir">← ก่อนหน้า</span><span class="pn-title">Phase 2: Build &amp; Iterate</span></a><span class="pn-btn pn-next disabled"><span class="pn-dir">จบคอร์ส 🎉</span><span class="pn-title">คุณเรียนครบแล้ว!</span></span></div>
+  </article>
+      <div class="complete-row"><button class="btn-complete" id="btnComplete">✓ ทำเครื่องหมายว่าเรียนจบ</button></div>
+      <div class="pagenav"><a href="lessons/08-build.html" class="pn-btn"><span class="pn-dir">← ก่อนหน้า</span><span class="pn-title">Phase 2: Build &amp; Iterate</span></a><span class="pn-btn pn-next disabled"><span class="pn-dir">จบคอร์ส 🎉</span><span class="pn-title">คุณเรียนครบแล้ว!</span></span></div>
+    </article>
+    <aside class="toc"><div class="toc-t">ในบทนี้</div>
+      <a href="#cloudflare">☁️ Cloudflare Pages</a>
+      <a href="#vercel">▲ Vercel</a>
+      <a href="#github">🐙 GitHub Pages</a>
+      <a href="#netlify">🔷 Netlify</a>
+      <a href="#domain">🌍 โดเมนของตัวเอง</a>
+    </aside>
+  </div>
+      <div class="complete-row"><button class="btn-complete" id="btnComplete">✓ ทำเครื่องหมายว่าเรียนจบ</button></div>
+      <div class="pagenav"><a href="lessons/08-build.html" class="pn-btn"><span class="pn-dir">← ก่อนหน้า</span><span class="pn-title">Phase 2: Build &amp; Iterate</span></a><span class="pn-btn pn-next disabled"><span class="pn-dir">จบคอร์ส 🎉</span><span class="pn-title">คุณเรียนครบแล้ว!</span></span></div>
+    </article>
+    <aside class="toc"><div class="toc-t">ในบทนี้</div>
+      <a href="#cloudflare">☁️ Cloudflare Pages</a>
+      <a href="#vercel">▲ Vercel</a>
+      <a href="#github">🐙 GitHub Pages</a>
+      <a href="#netlify">🔷 Netlify</a>
+      <a href="#domain">🌍 โดเมนของตัวเอง</a>
+    </aside>
+  </div>
+      <div class="complete-row"><button class="btn-complete" id="btnComplete">✓ ทำเครื่องหมายว่าเรียนจบ</button></div>
+      <div class="pagenav"><a href="lessons/08-build.html" class="pn-btn"><span class="pn-dir">← ก่อนหน้า</span><span class="pn-title">Phase 2: Build &amp; Iterate</span></a><span class="pn-btn pn-next disabled"><span class="pn-dir">จบคอร์ส 🎉</span><span class="pn-title">คุณเรียนครบแล้ว!</span></span></div>
+    </article>
+    <aside class="toc"><div class="toc-t">ในบทนี้</div>
+      <a href="#cloudflare">☁️ Cloudflare Pages</a>
+      <a href="#vercel">▲ Vercel</a>
+      <a href="#github">🐙 GitHub Pages</a>
+      <a href="#netlify">🔷 Netlify</a>
+      <a href="#domain">🌍 โดเมนของตัวเอง</a>
+    </aside>
+  </div>
+      <div class="complete-row"><button class="btn-complete" id="btnComplete">✓ ทำเครื่องหมายว่าเรียนจบ</button></div>
+      <div class="pagenav"><a href="lessons/08-build.html" class="pn-btn"><span class="pn-dir">← ก่อนหน้า</span><span class="pn-title">Phase 2: Build &amp; Iterate</span></a><span class="pn-btn pn-next disabled"><span class="pn-dir">จบคอร์ส 🎉</span><span class="pn-title">คุณเรียนครบแล้ว!</span></span></div>
+    </article>
+    <aside class="toc"><div class="toc-t">ในบทนี้</div>
+      <a href="#cloudflare">☁️ Cloudflare Pages</a>
+      <a href="#vercel">▲ Vercel</a>
+      <a href="#github">🐙 GitHub Pages</a>
+      <a href="#netlify">🔷 Netlify</a>
+      <a href="#domain">🌍 โดเมนของตัวเอง</a>
+    </aside>
+  </div>
+      <div class="complete-row"><button class="btn-complete" id="btnComplete">✓ ทำเครื่องหมายว่าเรียนจบ</button></div>
+      <div class="pagenav"><a href="lessons/08-build.html" class="pn-btn"><span class="pn-dir">← ก่อนหน้า</span><span class="pn-title">Phase 2: Build &amp; Iterate</span></a><span class="pn-btn pn-next disabled"><span class="pn-dir">จบคอร์ส 🎉</span><span class="pn-title">คุณเรียนครบแล้ว!</span></span></div>
+    </article>
+    <aside class="toc"><div class="toc-t">ในบทนี้</div>
+      <a href="#cloudflare">☁️ Cloudflare Pages</a>
+      <a href="#vercel">▲ Vercel</a>
+      <a href="#github">🐙 GitHub Pages</a>
+      <a href="#netlify">🔷 Netlify</a>
+      <a href="#domain">🌍 โดเมนของตัวเอง</a>
+    </aside>
+  </div>
+<div class="complete-row"><button class="btn-complete" id="btnComplete">ทำเครื่องหมายว่าเรียนจบ</button></div></div>
+<aside class="ov-side"><div class="card toc"><div class="toc-t">ในบทนี้</div><a href="#cloudflare">Cloudflare Pages</a><a href="#vercel">Vercel</a><a href="#github">GitHub Pages</a><a href="#netlify">Netlify</a><a href="#domain">โดเมนของตัวเอง</a></div></aside></div>
+<div class="pn"><a class="pn-a" href="08-build.html"><span class="d">&#8592; บทก่อนหน้า</span><span class="t">Phase 2: Build &amp; Iterate</span></a><span class="pn-a nx disabled"><span class="d">จบคอร์ส &#127881;</span><span class="t">คุณเรียนครบแล้ว!</span></span></div>
+</div>
+</div></div>
+<script>function copyText(id,btn){var t=document.getElementById(id).innerText;navigator.clipboard.writeText(t).then(function(){var o=btn.innerHTML;btn.innerHTML='คัดลอกแล้ว';btn.classList.add('done');setTimeout(function(){btn.innerHTML=o;btn.classList.remove('done')},1600)});}</script>
+<script src="../app.js"></script></body></html>

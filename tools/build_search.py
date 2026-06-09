@@ -34,6 +34,13 @@ for l in LESSONS:
         "d": desc[:120], "k": " ".join([title, desc, mod, l["slug"], l.get("num","")]).lower()
     })
 
+# deploy (lesson 8.3) is hand-authored (no body_html) but is a real dark page
+if os.path.exists(os.path.join(APP, "lessons", "deploy.html")):
+    entries.append({
+        "t": "เอาเว็บขึ้นออนไลน์ (Deploy)", "u": "lessons/deploy.html", "g": "บทเรียน · โมดูล 8", "tag": "บทเรียน",
+        "d": "deploy เว็บฟรี ด้วย Cloudflare Pages, Vercel, GitHub Pages หรือ Netlify",
+        "k": "เอาเว็บขึ้นออนไลน์ deploy คลาวด์แฟลร์ cloudflare pages vercel github netlify โดเมน domain ssl ฟรี โมดูล 8"})
+
 # ---- workshops (only authored ones have a real page) ----
 for cat in catalog["categories"]:
     for w in cat["workshops"]:

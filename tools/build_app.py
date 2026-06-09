@@ -212,6 +212,124 @@ def build_index():
     open(os.path.join(ROOT, "app", "index.html"), "w", encoding="utf-8").write(page)
     print("built app/index.html")
 
+# deploy (lesson 8.3) is hand-authored HTML (data/.. has no body_html); its content
+# lives in ROOT/deploy.html with bespoke components. Render a DARK version so the
+# sidebar link doesn't 404. We map the light component tokens to the dark palette.
+_DEPLOY_ALIAS = """
+:root{--ink:var(--text);--ink-2:var(--text-2);--mc:var(--accent-2);--radius:14px;
+  --shadow:0 18px 40px -26px rgba(0,0,0,.8);--shadow-sm:0 10px 24px -20px rgba(0,0,0,.7);
+  --ok-soft:rgba(52,211,153,.14);--ok-ink:#34D399;--accent-soft:rgba(59,130,246,.18);
+  --bad-soft:rgba(248,113,113,.12);--font-display:var(--font)}
+"""
+_DEPLOY_OVERRIDE = """
+.container{max-width:none;margin:0;padding:0}
+.hl{background:linear-gradient(135deg,var(--mc),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hl2{color:var(--mc)}
+.sec-head{margin:2.2rem 0 1rem}
+.sec-tag{display:inline-block;font-family:var(--mono);font-size:.74rem;font-weight:700;color:var(--mc);background:color-mix(in srgb,var(--mc) 14%,transparent);padding:.2rem .7rem;border-radius:20px;margin-bottom:.5rem}
+.sec-head h2{font-weight:800;font-size:1.5rem;margin-bottom:.3rem;color:var(--ink)}
+.sec-head p{color:var(--muted);font-size:.95rem}
+.intro-box{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1.3rem;margin-bottom:1.4rem;box-shadow:var(--shadow-sm)}
+.intro-box h3{font-weight:700;font-size:1.15rem;margin-bottom:.6rem;color:var(--ink)}
+.intro-box p{color:var(--ink-2);margin-bottom:.6rem}
+.quick-nav{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.4rem}
+.qn-link{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:.5rem .9rem;font-size:.85rem;font-weight:600;color:var(--ink-2);transition:.15s}
+.qn-link:hover{border-color:var(--mc);color:var(--mc)}
+.compare{overflow-x:auto;margin-bottom:1.4rem}
+.compare table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;font-size:.9rem}
+.compare th{background:var(--bg-2);text-align:left;padding:.7rem .9rem;font-weight:700;color:var(--ink);border-bottom:1px solid var(--line)}
+.compare td{padding:.7rem .9rem;border-bottom:1px solid var(--line-2);color:var(--ink-2)}
+.compare tr:last-child td{border-bottom:none}
+.badge-best{display:inline-block;background:var(--ok-soft);color:var(--ok-ink);font-size:.7rem;font-weight:700;padding:.1rem .5rem;border-radius:20px;margin-left:.3rem}
+.platform{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1.4rem;margin-bottom:1.4rem;box-shadow:var(--shadow-sm)}
+.plat-head{display:flex;gap:.9rem;align-items:flex-start;margin-bottom:.9rem}
+.plat-logo{width:46px;height:46px;border-radius:13px;background:color-mix(in srgb,var(--mc) 15%,transparent);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
+.plat-name{font-weight:700;font-size:1.15rem;color:var(--ink)}
+.plat-tagline{color:var(--muted);font-size:.86rem;margin:.15rem 0 .4rem}
+.plat-tags{display:flex;flex-wrap:wrap;gap:.4rem}
+.ptag{font-size:.72rem;font-weight:700;padding:.18rem .55rem;border-radius:20px}
+.ptag-free{background:var(--ok-soft);color:var(--ok-ink)}
+.ptag-fast{background:var(--accent-soft);color:var(--accent-2)}
+.ptag-easy{background:color-mix(in srgb,var(--accent-2) 16%,transparent);color:var(--accent-2)}
+.plat-best{background:var(--bg-2);border-left:3px solid var(--mc);border-radius:8px;padding:.7rem .9rem;font-size:.88rem;color:var(--ink-2);margin-bottom:1rem}
+.plat-best strong{color:var(--ink)}
+.way{border:1px solid var(--line);border-radius:12px;padding:1rem 1.1rem;margin-bottom:1rem}
+.way-easy{background:color-mix(in srgb,var(--mc) 9%,var(--card));border-color:color-mix(in srgb,var(--mc) 26%,var(--line))}
+.way-manual{background:var(--bg-2)}
+.way-title{font-weight:700;font-size:.98rem;margin-bottom:.6rem;color:var(--ink)}
+.action-list{list-style:none;margin:.3rem 0;padding:0}
+.action-list li{display:flex;gap:.7rem;align-items:flex-start;margin-bottom:.6rem}
+.action-num{width:24px;height:24px;border-radius:50%;background:var(--mc);color:#04140C;font-weight:800;font-size:.78rem;font-family:var(--mono);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.action-text{color:var(--ink-2);font-size:.92rem;line-height:1.65}
+.action-text strong{color:var(--ink)}
+.action-text small{display:block;color:var(--muted);font-size:.8rem;margin-top:.2rem}
+.result-url{display:flex;gap:.6rem;align-items:center;background:var(--ok-soft);border:1px solid color-mix(in srgb,var(--ok) 40%,transparent);border-radius:10px;padding:.7rem .9rem;margin-top:.8rem;color:var(--ok-ink);font-size:.9rem}
+.result-url .ri{font-size:1.2rem}
+.terminal{background:#060912;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:.6rem 0}
+.term-bar{display:flex;align-items:center;gap:.4rem;padding:.5rem .8rem;background:rgba(255,255,255,.03)}
+.tdot{width:11px;height:11px;border-radius:50%}
+.term-title{color:var(--text-2);font-size:.78rem;margin-left:.4rem;font-family:var(--mono)}
+.term-body{padding:.8rem 1rem;font-family:var(--mono);font-size:.84rem;color:#E7E9F3;white-space:pre-wrap;line-height:1.7}
+.prompt{color:#7CFFB2}.cmd{color:#E7E9F3}.cmt{color:#8b93a7}.ok{color:#7CFFB2}
+.copy-cmd{background:var(--grad-cta);color:#fff;border:none;border-radius:8px;padding:.35rem .8rem;font-size:.78rem;font-weight:700;font-family:var(--font);cursor:pointer;margin-top:-.2rem}
+.domain-box{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1.4rem;margin-bottom:1.4rem;box-shadow:var(--shadow-sm)}
+.note-warn{background:var(--bad-soft);border:1px solid color-mix(in srgb,var(--bad) 35%,transparent);border-left:4px solid var(--bad)}
+.note-tip{background:color-mix(in srgb,var(--accent-2) 12%,var(--card));border:1px solid color-mix(in srgb,var(--accent-2) 30%,var(--line));border-left:4px solid var(--accent-2)}
+.next-section{margin-top:2rem}
+.next-box{background:linear-gradient(135deg,color-mix(in srgb,var(--mc) 14%,var(--card)),color-mix(in srgb,var(--accent-2) 12%,var(--card)));border:1px solid color-mix(in srgb,var(--mc) 26%,var(--line));border-radius:18px;padding:2rem;text-align:center}
+.next-box .mt{font-weight:800;font-size:1.2rem;color:var(--ink);margin-bottom:.4rem;display:block}
+.next-box p{color:var(--ink-2)}
+.go-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--grad-cta);color:#fff;font-weight:700;padding:.7rem 1.4rem;border-radius:12px}
+.go-link{display:inline-flex;align-items:center;gap:.4rem;background:var(--card);border:1px solid var(--line);color:var(--text);font-weight:700;padding:.7rem 1.4rem;border-radius:12px}
+.fade-up{opacity:1}
+"""
+
+def build_deploy():
+    src = open(os.path.join(ROOT, "deploy.html"), encoding="utf-8").read()
+    body = src[src.index('<div class="container">'):src.index('<footer>')].strip()
+    body = re.sub(r'<figure class="lesson-hero".*?</figure>', '', body, flags=re.S)
+    body = declutter_labels(body)
+    les = next(l for l in FLAT if l["slug"] == "deploy")
+    i = FLAT.index(les)
+    prev = FLAT[i-1] if i > 0 else None
+    if prev:
+        ph = (prev["href"][len("lessons/"):] if prev["href"].startswith("lessons/") else prev["href"])
+        prev_b = f'<a class="pn-a" href="{ph}"><span class="d">&#8592; บทก่อนหน้า</span><span class="t">{html.escape(prev["title"])}</span></a>'
+    else:
+        prev_b = '<span class="pn-a disabled"><span class="d">&#8592; บทก่อนหน้า</span><span class="t">นี่คือบทแรก</span></span>'
+    next_b = '<span class="pn-a nx disabled"><span class="d">จบคอร์ส &#127881;</span><span class="t">คุณเรียนครบแล้ว!</span></span>'
+    toc = ('<a href="#cloudflare">Cloudflare Pages</a><a href="#vercel">Vercel</a>'
+           '<a href="#github">GitHub Pages</a><a href="#netlify">Netlify</a><a href="#domain">โดเมนของตัวเอง</a>')
+    page = f"""<!DOCTYPE html>
+<html lang="th">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deploy เว็บขึ้นออนไลน์ | Claude Code</title>
+<meta name="description" content="เอาเว็บขึ้นออนไลน์ฟรี ด้วย Cloudflare Pages, Vercel, GitHub Pages หรือ Netlify ทำตามทีละขั้น">
+<script>(function(){{try{{var t=localStorage.getItem('cc_app_theme');if(t)document.documentElement.setAttribute('data-theme',t);}}catch(e){{}}document.documentElement.className+=' js';}})();</script>
+{FONTS}<link rel="stylesheet" href="../app.css">
+<style>{_DEPLOY_ALIAS}{_DEPLOY_OVERRIDE}</style></head>
+<body data-slug="deploy">
+<div class="sb-overlay"></div>
+{outline("deploy")}
+<div class="shell">
+{topbar()}
+<div class="content">
+<div class="main">
+<div class="crumb"><a class="back" href="../index.html"><svg class="ic" viewBox="0 0 24 24" style="width:15px"><path d="m15 18-6-6 6-6"/></svg>หน้าหลัก</a><span class="sep">&#8250;</span>โมดูล 8: Workshop สร้าง Portfolio Website<span class="sep">&#8250;</span>บทเรียน 8.3</div>
+<div class="les-head"><div><h1>เอาเว็บขึ้นออนไลน์ ให้คนทั้งโลกเห็น</h1><p>เว็บที่รันบนเครื่องคุณ พร้อมแชร์แล้ว เลือกแพลตฟอร์มที่ชอบแล้วทำตามทีละขั้น หรือให้ Claude Code ช่วย deploy ก็ได้ ทุกแพลตฟอร์มมีแพลนฟรี</p></div>
+<div class="ring"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.5" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="3.4"/><circle class="ring-i" cx="18" cy="18" r="15.5" fill="none" stroke="url(#rg)" stroke-width="3.4" stroke-linecap="round" stroke-dasharray="0 100" transform="rotate(-90 18 18)"/><text class="ring-t" x="18" y="21" text-anchor="middle" font-size="8.5" font-weight="800" fill="#EAEEF9" font-family="Plus Jakarta Sans">0%</text><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3B82F6"/><stop offset="1" stop-color="#8B5CF6"/></linearGradient></defs></svg><div class="rlbl">ความคืบหน้าคอร์ส</div></div></div>
+{cover(les, "deploy")}
+<div class="ov"><div class="ov-main">{body}
+<div class="complete-row"><button class="btn-complete" id="btnComplete">ทำเครื่องหมายว่าเรียนจบ</button></div></div>
+<aside class="ov-side"><div class="card toc"><div class="toc-t">ในบทนี้</div>{toc}</div></aside></div>
+<div class="pn">{prev_b}{next_b}</div>
+</div>
+</div></div>
+<script>function copyText(id,btn){{var t=document.getElementById(id).innerText;navigator.clipboard.writeText(t).then(function(){{var o=btn.innerHTML;btn.innerHTML='คัดลอกแล้ว';btn.classList.add('done');setTimeout(function(){{btn.innerHTML=o;btn.classList.remove('done')}},1600)}});}}</script>
+<script src="../app.js"></script></body></html>"""
+    open(os.path.join(OUT, "deploy.html"), "w", encoding="utf-8").write(page)
+    print("built app/lessons/deploy.html (dark)")
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
     n = 0
@@ -222,5 +340,6 @@ if __name__ == "__main__":
         fn = (les["href"][len("lessons/"):] if les["href"].startswith("lessons/") else les["href"])
         open(os.path.join(OUT, os.path.basename(fn)), "w", encoding="utf-8").write(render(les))
         n += 1
+    build_deploy()
     build_index()
     print(f"built {n} dark lesson pages")
