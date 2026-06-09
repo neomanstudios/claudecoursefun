@@ -15,21 +15,24 @@
 <div class="main">
   <div class="topbar"><button class="hamb" id="hamb" aria-label="เมนู">☰</button>
     <span class="tb-title">5. 🧪 Testing &amp; Documentation</span></div>
-  <article class="reading">
-    <div class="crumb"><a href="../index.html">หน้าหลัก</a> › โมดูล 5: 🧪 Testing &amp; Documentation</div>
-    <span class="les-no">บทเรียน 5.3</span>
-    <h1>Auto-generate API Docs</h1>
-    <p class="lead">ให้ Claude สร้างเอกสาร API อัตโนมัติจากโค้ด ทั้ง OpenAPI spec, README, และคำอธิบาย endpoint</p>
-    <div class="objectives"><h2>🎯 เมื่อเรียนจบบทนี้ คุณจะ…</h2><ul><li>อธิบายได้ว่าเอกสาร API คืออะไร</li><li>บอกได้ว่า Claude สร้างเอกสาร API อะไรให้บ้าง</li><li>เข้าใจว่า Claude สร้างเอกสารจากโค้ดจริงได้อย่างไร</li></ul></div>
-    <figure class="lesson-hero"><img src="../images/05-api-docs.webp" alt="สร้างเอกสาร API อัตโนมัติจากโค้ด" loading="lazy" decoding="async"><figcaption>🖼️ สร้างเอกสาร API อัตโนมัติจากโค้ด</figcaption></figure>
-    <div class="block"><h3>สิ่งที่สร้างได้</h3><ul class='ul'><li>OpenAPI/Swagger spec</li><li>README พร้อมตัวอย่างการเรียก</li><li>คำอธิบาย endpoint, params, response</li><li>ตัวอย่าง curl/fetch</li></ul></div><div class="block"><h3>ให้สร้างจากโค้ดจริง</h3><p>Claude อ่าน route/controller จริงแล้วสร้าง docs ที่ตรงกับโค้ด ไม่ใช่เดา</p></div>
+  <div class="docs">
+    <article class="reading">
+      <div class="crumb"><a href="../index.html">หน้าหลัก</a> › โมดูล 5: 🧪 Testing &amp; Documentation</div>
+      <span class="les-no">บทเรียน 5.3</span>
+      <h1>Auto-generate API Docs</h1>
+      <p class="lead">ให้ Claude สร้างเอกสาร API อัตโนมัติจากโค้ด ทั้ง OpenAPI spec, README, และคำอธิบาย endpoint</p>
+      <div class="objectives"><h2>🎯 เมื่อเรียนจบบทนี้ คุณจะ…</h2><ul><li>อธิบายได้ว่าเอกสาร API คืออะไร</li><li>บอกได้ว่า Claude สร้างเอกสาร API อะไรให้บ้าง</li><li>เข้าใจว่า Claude สร้างเอกสารจากโค้ดจริงได้อย่างไร</li></ul></div>
+      <figure class="lesson-hero"><img src="../images/05-api-docs.webp" alt="สร้างเอกสาร API อัตโนมัติจากโค้ด" loading="lazy" decoding="async"><figcaption>🖼️ สร้างเอกสาร API อัตโนมัติจากโค้ด</figcaption></figure>
+      <div class="block"><h3 id="sec-1">สิ่งที่สร้างได้</h3><ul class='ul'><li>OpenAPI/Swagger spec</li><li>README พร้อมตัวอย่างการเรียก</li><li>คำอธิบาย endpoint, params, response</li><li>ตัวอย่าง curl/fetch</li></ul></div><div class="block"><h3 id="sec-2">ให้สร้างจากโค้ดจริง</h3><p>Claude อ่าน route/controller จริงแล้วสร้าง docs ที่ตรงกับโค้ด ไม่ใช่เดา</p></div>
   <div class="prompt-box"><div class="prompt-label">💬 ลองใช้ Prompt นี้กับ Claude</div><div class="prompt-text" id="pt">ช่วยสร้าง API documentation จาก route ทั้งหมดในโปรเจกต์นี้ ทำเป็น README ที่มี: endpoint, method, params, ตัวอย่าง request/response เป็นภาษาไทย</div><button class="copy-btn" onclick="cp()">📋 คัดลอก Prompt</button></div>
   <div class="note"><span class="ni">💡</span><div class="note-body"><strong>เคล็ดลับ:</strong> ให้ Claude อัปเดต docs ทุกครั้งที่แก้ API — หรือตั้ง hook ให้ทำอัตโนมัติ (บท 7.4)</div></div>
   <div class="takeaways"><div class="tk-title">📌 สรุปบทนี้</div><ul><li>สร้าง OpenAPI, README, ตัวอย่างได้</li><li>สร้างจากโค้ดจริง ไม่เดา</li><li>อัปเดต docs พร้อมโค้ดเสมอ</li></ul></div>
-    <div class="quiz"><div class="quiz-h">🧠 แบบทดสอบท้ายบท</div><div class="quiz-sub">ลองตอบดู แล้วระบบจะเฉลยให้ทันที</div><div class="q" data-answer="3"><div class="q-text"><span class="qn">ข้อ 1.</span>Claude สามารถสร้างเอกสาร API แบบไหนได้บ้าง?</div><div class="choices"><button class="choice"><span class="mk">A</span><span>OpenAPI spec</span></button><button class="choice"><span class="mk">B</span><span>README</span></button><button class="choice"><span class="mk">C</span><span>ตัวอย่างการเรียกใช้งาน (curl/fetch)</span></button><button class="choice"><span class="mk">D</span><span>ถูกทุกข้อ</span></button></div><div class="q-explain"><strong>เฉลย:</strong> Claude สามารถสร้างได้ทั้ง OpenAPI spec, README และตัวอย่างการเรียกใช้งาน API ค่ะ</div></div><div class="q" data-answer="1"><div class="q-text"><span class="qn">ข้อ 2.</span>Claude สร้างเอกสาร API โดยใช้ข้อมูลจากอะไร?</div><div class="choices"><button class="choice"><span class="mk">A</span><span>เดาจากชื่อโปรเจกต์</span></button><button class="choice"><span class="mk">B</span><span>อ่านจากโค้ดจริงในโปรเจกต์</span></button><button class="choice"><span class="mk">C</span><span>ถามผู้พัฒนาโปรเจกต์</span></button><button class="choice"><span class="mk">D</span><span>ค้นหาจากอินเทอร์เน็ต</span></button></div><div class="q-explain"><strong>เฉลย:</strong> Claude จะอ่านโค้ด route/controller จริง ๆ เพื่อสร้างเอกสารที่ถูกต้องตรงกับโค้ดค่ะ</div></div></div>
-    <div class="complete-row"><button class="btn-complete" id="btnComplete">✓ ทำเครื่องหมายว่าเรียนจบ</button></div>
-    <div class="pagenav"><a href="05-e2e.html" class="pn-btn "><span class="pn-dir">← ก่อนหน้า</span><span class="pn-title">E2E tests ด้วย Playwright</span></a><a href="05-tdd.html" class="pn-btn pn-next"><span class="pn-dir">ถัดไป →</span><span class="pn-title">TDD — test ก่อน code</span></a></div>
-  </article>
+      <div class="quiz" id="quiz"><div class="quiz-h">🧠 แบบทดสอบท้ายบท</div><div class="quiz-sub">ลองตอบดู แล้วระบบจะเฉลยให้ทันที</div><div class="q" data-answer="3"><div class="q-text"><span class="qn">ข้อ 1.</span>Claude สามารถสร้างเอกสาร API แบบไหนได้บ้าง?</div><div class="choices"><button class="choice"><span class="mk">A</span><span>OpenAPI spec</span></button><button class="choice"><span class="mk">B</span><span>README</span></button><button class="choice"><span class="mk">C</span><span>ตัวอย่างการเรียกใช้งาน (curl/fetch)</span></button><button class="choice"><span class="mk">D</span><span>ถูกทุกข้อ</span></button></div><div class="q-explain"><strong>เฉลย:</strong> Claude สามารถสร้างได้ทั้ง OpenAPI spec, README และตัวอย่างการเรียกใช้งาน API ค่ะ</div></div><div class="q" data-answer="1"><div class="q-text"><span class="qn">ข้อ 2.</span>Claude สร้างเอกสาร API โดยใช้ข้อมูลจากอะไร?</div><div class="choices"><button class="choice"><span class="mk">A</span><span>เดาจากชื่อโปรเจกต์</span></button><button class="choice"><span class="mk">B</span><span>อ่านจากโค้ดจริงในโปรเจกต์</span></button><button class="choice"><span class="mk">C</span><span>ถามผู้พัฒนาโปรเจกต์</span></button><button class="choice"><span class="mk">D</span><span>ค้นหาจากอินเทอร์เน็ต</span></button></div><div class="q-explain"><strong>เฉลย:</strong> Claude จะอ่านโค้ด route/controller จริง ๆ เพื่อสร้างเอกสารที่ถูกต้องตรงกับโค้ดค่ะ</div></div></div>
+      <div class="complete-row"><button class="btn-complete" id="btnComplete">✓ ทำเครื่องหมายว่าเรียนจบ</button></div>
+      <div class="pagenav"><a href="05-e2e.html" class="pn-btn "><span class="pn-dir">← ก่อนหน้า</span><span class="pn-title">E2E tests ด้วย Playwright</span></a><a href="05-tdd.html" class="pn-btn pn-next"><span class="pn-dir">ถัดไป →</span><span class="pn-title">TDD — test ก่อน code</span></a></div>
+    </article>
+    <aside class="toc"><div class="toc-t">ในบทนี้</div><a href="#sec-1">สิ่งที่สร้างได้</a><a href="#sec-2">ให้สร้างจากโค้ดจริง</a><a href="#quiz" class="toc-quiz">🧠 แบบทดสอบท้ายบท</a></aside>
+  </div>
   <footer>Claude Code Learning Hub · เรียนฟรี · Curated by <strong>Chetaphong Preecha</strong> &amp; Beyond Team</footer>
 </div>
 <script src="../assets/app.js"></script>

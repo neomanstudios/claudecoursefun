@@ -15,14 +15,15 @@
 <div class="main">
   <div class="topbar"><button class="hamb" id="hamb" aria-label="เมนู">☰</button>
     <span class="tb-title">7. ⚡ Superpower Skills</span></div>
-  <article class="reading">
-    <div class="crumb"><a href="../index.html">หน้าหลัก</a> › โมดูล 7: ⚡ Superpower Skills</div>
-    <span class="les-no">บทเรียน 7.4</span>
-    <h1>Hooks — ทำงานอัตโนมัติทุก Action</h1>
-    <p class="lead">Hooks คือ script ที่รันอัตโนมัติเมื่อ Claude ทำบางอย่าง เช่น หลังแก้ไฟล์ให้รัน test, หลังเสร็จงานให้แจ้งเตือน — นี่คือ automation ตัวจริง</p>
-    <div class="objectives"><h2>🎯 เมื่อเรียนจบบทนี้ คุณจะ…</h2><ul><li>เข้าใจความหมายของ Hooks</li><li>บอกประเภทของ Hooks ได้</li><li>ตั้งค่า Hooks พื้นฐานใน settings.json ได้</li></ul></div>
-    <figure class="lesson-hero"><img src="../images/07-hooks.webp" alt="Hooks สั่งให้ทำงานอัตโนมัติเมื่อเกิดเหตุการณ์" loading="lazy" decoding="async"><figcaption>🖼️ Hooks สั่งให้ทำงานอัตโนมัติเมื่อเกิดเหตุการณ์</figcaption></figure>
-    <div class="block"><h3>ประเภทของ hook</h3><ul class='ul'><li><b>PreToolUse</b> — ก่อน Claude ใช้ tool (validate/บล็อก)</li><li><b>PostToolUse</b> — หลังใช้ tool (เช่น แก้ไฟล์เสร็จ → รัน test)</li><li><b>Stop</b> — เมื่อ Claude ทำงานเสร็จ (เช่น แจ้งเตือน/deploy)</li></ul></div><div class="block"><h3>ตัวอย่าง: รัน test หลังแก้ไฟล์</h3><p>ตั้งใน settings.json:</p><div class="code-block"><button class="ccopy" onclick="cc(this)">📋</button><pre>{
+  <div class="docs">
+    <article class="reading">
+      <div class="crumb"><a href="../index.html">หน้าหลัก</a> › โมดูล 7: ⚡ Superpower Skills</div>
+      <span class="les-no">บทเรียน 7.4</span>
+      <h1>Hooks — ทำงานอัตโนมัติทุก Action</h1>
+      <p class="lead">Hooks คือ script ที่รันอัตโนมัติเมื่อ Claude ทำบางอย่าง เช่น หลังแก้ไฟล์ให้รัน test, หลังเสร็จงานให้แจ้งเตือน — นี่คือ automation ตัวจริง</p>
+      <div class="objectives"><h2>🎯 เมื่อเรียนจบบทนี้ คุณจะ…</h2><ul><li>เข้าใจความหมายของ Hooks</li><li>บอกประเภทของ Hooks ได้</li><li>ตั้งค่า Hooks พื้นฐานใน settings.json ได้</li></ul></div>
+      <figure class="lesson-hero"><img src="../images/07-hooks.webp" alt="Hooks สั่งให้ทำงานอัตโนมัติเมื่อเกิดเหตุการณ์" loading="lazy" decoding="async"><figcaption>🖼️ Hooks สั่งให้ทำงานอัตโนมัติเมื่อเกิดเหตุการณ์</figcaption></figure>
+      <div class="block"><h3 id="sec-1">ประเภทของ hook</h3><ul class='ul'><li><b>PreToolUse</b> — ก่อน Claude ใช้ tool (validate/บล็อก)</li><li><b>PostToolUse</b> — หลังใช้ tool (เช่น แก้ไฟล์เสร็จ → รัน test)</li><li><b>Stop</b> — เมื่อ Claude ทำงานเสร็จ (เช่น แจ้งเตือน/deploy)</li></ul></div><div class="block"><h3 id="sec-2">ตัวอย่าง: รัน test หลังแก้ไฟล์</h3><p>ตั้งใน settings.json:</p><div class="code-block"><button class="ccopy" onclick="cc(this)">📋</button><pre>{
   &quot;hooks&quot;: {
     &quot;PostToolUse&quot;: [{
       &quot;matcher&quot;: &quot;Edit|Write&quot;,
@@ -33,10 +34,12 @@
   <div class="prompt-box"><div class="prompt-label">💬 ลองใช้ Prompt นี้กับ Claude</div><div class="prompt-text" id="pt">ช่วยตั้งค่า hook ใน settings.json ให้: ทุกครั้งที่แก้ไฟล์ .ts ให้รัน prettier และ eslint อัตโนมัติ</div><button class="copy-btn" onclick="cp()">📋 คัดลอก Prompt</button></div>
   <div class="note"><span class="ni">💡</span><div class="note-body"><strong>เคล็ดลับ:</strong> hook ที่นิยม: auto-format หลังแก้, รัน test หลังเขียนโค้ด, แจ้งเตือนเมื่อเสร็จงานยาวๆ</div></div>
   <div class="takeaways"><div class="tk-title">📌 สรุปบทนี้</div><ul><li>Hook = script อัตโนมัติเมื่อ Claude ทำ action</li><li>มี PreToolUse, PostToolUse, Stop</li><li>ตั้งใน settings.json</li></ul></div>
-    <div class="quiz"><div class="quiz-h">🧠 แบบทดสอบท้ายบท</div><div class="quiz-sub">ลองตอบดู แล้วระบบจะเฉลยให้ทันที</div><div class="q" data-answer="1"><div class="q-text"><span class="qn">ข้อ 1.</span>Hooks มีประโยชน์หลักๆ คืออะไร?</div><div class="choices"><button class="choice"><span class="mk">A</span><span>ก. ช่วยให้ Claude พักผ่อน</span></button><button class="choice"><span class="mk">B</span><span>ข. ทำให้ Claude ทำงานอัตโนมัติเมื่อเกิดเหตุการณ์</span></button><button class="choice"><span class="mk">C</span><span>ค. ตกแต่งหน้าตาของ Claude</span></button><button class="choice"><span class="mk">D</span><span>ง. เพิ่มความเร็วในการพิมพ์โค้ด</span></button></div><div class="q-explain"><strong>เฉลย:</strong> Hooks ถูกออกแบบมาให้รันคำสั่งอัตโนมัติเมื่อ Claude ทำบางอย่าง เช่น แก้ไขไฟล์ หรือทำงานเสร็จ</div></div><div class="q" data-answer="2"><div class="q-text"><span class="qn">ข้อ 2.</span>Hook ชนิดใดที่จะทำงาน &#x27;หลังจาก&#x27; Claude ใช้เครื่องมือเสร็จแล้ว (เช่น แก้ไขไฟล์เสร็จ)?</div><div class="choices"><button class="choice"><span class="mk">A</span><span>ก. PreToolUse</span></button><button class="choice"><span class="mk">B</span><span>ข. Stop</span></button><button class="choice"><span class="mk">C</span><span>ค. PostToolUse</span></button><button class="choice"><span class="mk">D</span><span>ง. Start</span></button></div><div class="q-explain"><strong>เฉลย:</strong> PostToolUse จะทำงานหลังจาก Claude ใช้เครื่องมือเสร็จแล้ว เช่น หลังแก้ไฟล์เสร็จจึงรัน test</div></div></div>
-    <div class="complete-row"><button class="btn-complete" id="btnComplete">✓ ทำเครื่องหมายว่าเรียนจบ</button></div>
-    <div class="pagenav"><a href="07-slash-commands.html" class="pn-btn "><span class="pn-dir">← ก่อนหน้า</span><span class="pn-title">Custom Slash Commands</span></a><a href="07-multi-agent.html" class="pn-btn pn-next"><span class="pn-dir">ถัดไป →</span><span class="pn-title">Multi-agent workflows</span></a></div>
-  </article>
+      <div class="quiz" id="quiz"><div class="quiz-h">🧠 แบบทดสอบท้ายบท</div><div class="quiz-sub">ลองตอบดู แล้วระบบจะเฉลยให้ทันที</div><div class="q" data-answer="1"><div class="q-text"><span class="qn">ข้อ 1.</span>Hooks มีประโยชน์หลักๆ คืออะไร?</div><div class="choices"><button class="choice"><span class="mk">A</span><span>ก. ช่วยให้ Claude พักผ่อน</span></button><button class="choice"><span class="mk">B</span><span>ข. ทำให้ Claude ทำงานอัตโนมัติเมื่อเกิดเหตุการณ์</span></button><button class="choice"><span class="mk">C</span><span>ค. ตกแต่งหน้าตาของ Claude</span></button><button class="choice"><span class="mk">D</span><span>ง. เพิ่มความเร็วในการพิมพ์โค้ด</span></button></div><div class="q-explain"><strong>เฉลย:</strong> Hooks ถูกออกแบบมาให้รันคำสั่งอัตโนมัติเมื่อ Claude ทำบางอย่าง เช่น แก้ไขไฟล์ หรือทำงานเสร็จ</div></div><div class="q" data-answer="2"><div class="q-text"><span class="qn">ข้อ 2.</span>Hook ชนิดใดที่จะทำงาน &#x27;หลังจาก&#x27; Claude ใช้เครื่องมือเสร็จแล้ว (เช่น แก้ไขไฟล์เสร็จ)?</div><div class="choices"><button class="choice"><span class="mk">A</span><span>ก. PreToolUse</span></button><button class="choice"><span class="mk">B</span><span>ข. Stop</span></button><button class="choice"><span class="mk">C</span><span>ค. PostToolUse</span></button><button class="choice"><span class="mk">D</span><span>ง. Start</span></button></div><div class="q-explain"><strong>เฉลย:</strong> PostToolUse จะทำงานหลังจาก Claude ใช้เครื่องมือเสร็จแล้ว เช่น หลังแก้ไฟล์เสร็จจึงรัน test</div></div></div>
+      <div class="complete-row"><button class="btn-complete" id="btnComplete">✓ ทำเครื่องหมายว่าเรียนจบ</button></div>
+      <div class="pagenav"><a href="07-slash-commands.html" class="pn-btn "><span class="pn-dir">← ก่อนหน้า</span><span class="pn-title">Custom Slash Commands</span></a><a href="07-multi-agent.html" class="pn-btn pn-next"><span class="pn-dir">ถัดไป →</span><span class="pn-title">Multi-agent workflows</span></a></div>
+    </article>
+    <aside class="toc"><div class="toc-t">ในบทนี้</div><a href="#sec-1">ประเภทของ hook</a><a href="#sec-2">ตัวอย่าง: รัน test หลังแก้ไฟล์</a><a href="#quiz" class="toc-quiz">🧠 แบบทดสอบท้ายบท</a></aside>
+  </div>
   <footer>Claude Code Learning Hub · เรียนฟรี · Curated by <strong>Chetaphong Preecha</strong> &amp; Beyond Team</footer>
 </div>
 <script src="../assets/app.js"></script>

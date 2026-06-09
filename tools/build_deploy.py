@@ -131,17 +131,26 @@ page = f"""<!DOCTYPE html>
 <div class="main">
   <div class="topbar"><button class="hamb" id="hamb" aria-label="เมนู">☰</button>
     <span class="tb-title">8. Workshop: Deploy</span></div>
-  <article class="reading">
-    <div class="crumb"><a href="index.html">หน้าหลัก</a> › โมดูล 8: Workshop สร้าง Portfolio Website</div>
-    <span class="les-no">บทเรียน 8.3</span>
-    <h1>เอาเว็บขึ้นออนไลน์ ให้คนทั้งโลกเห็น</h1>
-    <p class="lead">เว็บที่รันบนเครื่องคุณ พร้อมแชร์แล้ว! เลือกแพลตฟอร์มที่ชอบแล้วทำตามทีละขั้น —
-       หรือให้ Claude ช่วย deploy ให้ก็ได้ ทุกแพลตฟอร์มในบทนี้มีแพลนฟรี</p>
-    {clean_fig}
-    {body}
-    <div class="complete-row"><button class="btn-complete" id="btnComplete">✓ ทำเครื่องหมายว่าเรียนจบ</button></div>
-    <div class="pagenav">{prev_btn}<span class="pn-btn pn-next disabled"><span class="pn-dir">จบคอร์ส 🎉</span><span class="pn-title">คุณเรียนครบแล้ว!</span></span></div>
-  </article>
+  <div class="docs">
+    <article class="reading">
+      <div class="crumb"><a href="index.html">หน้าหลัก</a> › โมดูล 8: Workshop สร้าง Portfolio Website</div>
+      <span class="les-no">บทเรียน 8.3</span>
+      <h1>เอาเว็บขึ้นออนไลน์ ให้คนทั้งโลกเห็น</h1>
+      <p class="lead">เว็บที่รันบนเครื่องคุณ พร้อมแชร์แล้ว! เลือกแพลตฟอร์มที่ชอบแล้วทำตามทีละขั้น —
+         หรือให้ Claude ช่วย deploy ให้ก็ได้ ทุกแพลตฟอร์มในบทนี้มีแพลนฟรี</p>
+      {clean_fig}
+      {body}
+      <div class="complete-row"><button class="btn-complete" id="btnComplete">✓ ทำเครื่องหมายว่าเรียนจบ</button></div>
+      <div class="pagenav">{prev_btn}<span class="pn-btn pn-next disabled"><span class="pn-dir">จบคอร์ส 🎉</span><span class="pn-title">คุณเรียนครบแล้ว!</span></span></div>
+    </article>
+    <aside class="toc"><div class="toc-t">ในบทนี้</div>
+      <a href="#cloudflare">☁️ Cloudflare Pages</a>
+      <a href="#vercel">▲ Vercel</a>
+      <a href="#github">🐙 GitHub Pages</a>
+      <a href="#netlify">🔷 Netlify</a>
+      <a href="#domain">🌍 โดเมนของตัวเอง</a>
+    </aside>
+  </div>
   <footer>Claude Code Learning Hub · Curated by <strong>Chetaphong Preecha</strong> &amp; Beyond Team</footer>
 </div>
 <script>

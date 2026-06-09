@@ -15,14 +15,15 @@
 <div class="main">
   <div class="topbar"><button class="hamb" id="hamb" aria-label="เมนู">☰</button>
     <span class="tb-title">2. ⚙️ Setup &amp; Configuration</span></div>
-  <article class="reading">
-    <div class="crumb"><a href="../index.html">หน้าหลัก</a> › โมดูล 2: ⚙️ Setup &amp; Configuration</div>
-    <span class="les-no">บทเรียน 2.4</span>
-    <h1>settings.json — ปรับ behavior</h1>
-    <p class="lead">settings.json ให้คุณปรับพฤติกรรมของ Claude Code ได้ เช่น สิทธิ์การใช้ tool, hooks, และ environment ต่างๆ</p>
-    <div class="objectives"><h2>🎯 เมื่อเรียนจบบทนี้ คุณจะ…</h2><ul><li>เข้าใจว่า settings.json ใช้ทำอะไร</li><li>บอกได้ว่าไฟล์ settings.json มีกี่แบบและอยู่ตรงไหน</li><li>ตั้งค่าอนุญาตให้ใช้ tool พื้นฐานได้</li></ul></div>
-    <figure class="lesson-hero"><img src="../images/02-settings.webp" alt="settings.json ปรับพฤติกรรมและค่าเริ่มต้นของ Claude Code" loading="lazy" decoding="async"><figcaption>🖼️ settings.json ปรับพฤติกรรมและค่าเริ่มต้นของ Claude Code</figcaption></figure>
-    <div class="block"><h3>ที่อยู่ของ settings</h3><ul class='ul'><li><code>~/.claude/settings.json</code> — ตั้งค่าระดับ user (ทุกโปรเจกต์)</li><li><code>.claude/settings.json</code> — ตั้งค่าเฉพาะโปรเจกต์ (commit ขึ้น git ได้)</li><li><code>.claude/settings.local.json</code> — เฉพาะเครื่องคุณ (ไม่ commit)</li></ul></div><div class="block"><h3>ตัวอย่างพื้นฐาน</h3><p>กำหนด tool ที่อนุญาตให้ใช้โดยไม่ต้องถาม:</p><div class="code-block"><button class="ccopy" onclick="cc(this)">📋</button><pre>{
+  <div class="docs">
+    <article class="reading">
+      <div class="crumb"><a href="../index.html">หน้าหลัก</a> › โมดูล 2: ⚙️ Setup &amp; Configuration</div>
+      <span class="les-no">บทเรียน 2.4</span>
+      <h1>settings.json — ปรับ behavior</h1>
+      <p class="lead">settings.json ให้คุณปรับพฤติกรรมของ Claude Code ได้ เช่น สิทธิ์การใช้ tool, hooks, และ environment ต่างๆ</p>
+      <div class="objectives"><h2>🎯 เมื่อเรียนจบบทนี้ คุณจะ…</h2><ul><li>เข้าใจว่า settings.json ใช้ทำอะไร</li><li>บอกได้ว่าไฟล์ settings.json มีกี่แบบและอยู่ตรงไหน</li><li>ตั้งค่าอนุญาตให้ใช้ tool พื้นฐานได้</li></ul></div>
+      <figure class="lesson-hero"><img src="../images/02-settings.webp" alt="settings.json ปรับพฤติกรรมและค่าเริ่มต้นของ Claude Code" loading="lazy" decoding="async"><figcaption>🖼️ settings.json ปรับพฤติกรรมและค่าเริ่มต้นของ Claude Code</figcaption></figure>
+      <div class="block"><h3 id="sec-1">ที่อยู่ของ settings</h3><ul class='ul'><li><code>~/.claude/settings.json</code> — ตั้งค่าระดับ user (ทุกโปรเจกต์)</li><li><code>.claude/settings.json</code> — ตั้งค่าเฉพาะโปรเจกต์ (commit ขึ้น git ได้)</li><li><code>.claude/settings.local.json</code> — เฉพาะเครื่องคุณ (ไม่ commit)</li></ul></div><div class="block"><h3 id="sec-2">ตัวอย่างพื้นฐาน</h3><p>กำหนด tool ที่อนุญาตให้ใช้โดยไม่ต้องถาม:</p><div class="code-block"><button class="ccopy" onclick="cc(this)">📋</button><pre>{
   &quot;permissions&quot;: {
     &quot;allow&quot;: [&quot;Bash(npm:*)&quot;, &quot;Bash(git:*)&quot;]
   }
@@ -30,10 +31,12 @@
   
   <div class="note"><span class="ni">💡</span><div class="note-body"><strong>เคล็ดลับ:</strong> ตั้งค่าเฉพาะโปรเจกต์ใน .claude/settings.json แล้ว commit ขึ้น git ทีมจะได้ใช้ค่าเดียวกัน</div></div>
   <div class="takeaways"><div class="tk-title">📌 สรุปบทนี้</div><ul><li>settings มี 3 ระดับ: user, project, local</li><li>ใช้กำหนด permission, hooks, env</li><li>commit project settings ให้ทีมใช้ร่วม</li></ul></div>
-    <div class="quiz"><div class="quiz-h">🧠 แบบทดสอบท้ายบท</div><div class="quiz-sub">ลองตอบดู แล้วระบบจะเฉลยให้ทันที</div><div class="q" data-answer="1"><div class="q-text"><span class="qn">ข้อ 1.</span>ไฟล์ settings.json ที่ใช้ตั้งค่า &#x27;เฉพาะโปรเจกต์&#x27; และสามารถ &#x27;commit ขึ้น git&#x27; ได้ คือไฟล์ไหน?</div><div class="choices"><button class="choice"><span class="mk">A</span><span>ก. ~/.claude/settings.json</span></button><button class="choice"><span class="mk">B</span><span>ข. .claude/settings.json</span></button><button class="choice"><span class="mk">C</span><span>ค. .claude/settings.local.json</span></button><button class="choice"><span class="mk">D</span><span>ง. settings.global.json</span></button></div><div class="q-explain"><strong>เฉลย:</strong> ไฟล์ .claude/settings.json ใช้ตั้งค่าเฉพาะโปรเจกต์และสามารถแชร์กับทีมได้โดยการ commit ขึ้น git.</div></div><div class="q" data-answer="1"><div class="q-text"><span class="qn">ข้อ 2.</span>เราใช้ settings.json เพื่อทำอะไรเป็นหลัก?</div><div class="choices"><button class="choice"><span class="mk">A</span><span>ก. เปลี่ยนสีหน้าจอของโปรแกรม</span></button><button class="choice"><span class="mk">B</span><span>ข. กำหนดสิทธิ์การใช้ tool ต่างๆ</span></button><button class="choice"><span class="mk">C</span><span>ค. เขียนโค้ดหลักของโปรเจกต์</span></button><button class="choice"><span class="mk">D</span><span>ง. เก็บข้อมูลส่วนตัวของผู้ใช้</span></button></div><div class="q-explain"><strong>เฉลย:</strong> settings.json ช่วยให้เรากำหนดพฤติกรรมของ Claude Code ได้ เช่น การอนุญาตให้ใช้ tool ต่างๆ.</div></div></div>
-    <div class="complete-row"><button class="btn-complete" id="btnComplete">✓ ทำเครื่องหมายว่าเรียนจบ</button></div>
-    <div class="pagenav"><a href="02-claude-md.html" class="pn-btn "><span class="pn-dir">← ก่อนหน้า</span><span class="pn-title">สร้าง CLAUDE.md ที่ดี</span></a><a href="02-permissions.html" class="pn-btn pn-next"><span class="pn-dir">ถัดไป →</span><span class="pn-title">Permission System</span></a></div>
-  </article>
+      <div class="quiz" id="quiz"><div class="quiz-h">🧠 แบบทดสอบท้ายบท</div><div class="quiz-sub">ลองตอบดู แล้วระบบจะเฉลยให้ทันที</div><div class="q" data-answer="1"><div class="q-text"><span class="qn">ข้อ 1.</span>ไฟล์ settings.json ที่ใช้ตั้งค่า &#x27;เฉพาะโปรเจกต์&#x27; และสามารถ &#x27;commit ขึ้น git&#x27; ได้ คือไฟล์ไหน?</div><div class="choices"><button class="choice"><span class="mk">A</span><span>ก. ~/.claude/settings.json</span></button><button class="choice"><span class="mk">B</span><span>ข. .claude/settings.json</span></button><button class="choice"><span class="mk">C</span><span>ค. .claude/settings.local.json</span></button><button class="choice"><span class="mk">D</span><span>ง. settings.global.json</span></button></div><div class="q-explain"><strong>เฉลย:</strong> ไฟล์ .claude/settings.json ใช้ตั้งค่าเฉพาะโปรเจกต์และสามารถแชร์กับทีมได้โดยการ commit ขึ้น git.</div></div><div class="q" data-answer="1"><div class="q-text"><span class="qn">ข้อ 2.</span>เราใช้ settings.json เพื่อทำอะไรเป็นหลัก?</div><div class="choices"><button class="choice"><span class="mk">A</span><span>ก. เปลี่ยนสีหน้าจอของโปรแกรม</span></button><button class="choice"><span class="mk">B</span><span>ข. กำหนดสิทธิ์การใช้ tool ต่างๆ</span></button><button class="choice"><span class="mk">C</span><span>ค. เขียนโค้ดหลักของโปรเจกต์</span></button><button class="choice"><span class="mk">D</span><span>ง. เก็บข้อมูลส่วนตัวของผู้ใช้</span></button></div><div class="q-explain"><strong>เฉลย:</strong> settings.json ช่วยให้เรากำหนดพฤติกรรมของ Claude Code ได้ เช่น การอนุญาตให้ใช้ tool ต่างๆ.</div></div></div>
+      <div class="complete-row"><button class="btn-complete" id="btnComplete">✓ ทำเครื่องหมายว่าเรียนจบ</button></div>
+      <div class="pagenav"><a href="02-claude-md.html" class="pn-btn "><span class="pn-dir">← ก่อนหน้า</span><span class="pn-title">สร้าง CLAUDE.md ที่ดี</span></a><a href="02-permissions.html" class="pn-btn pn-next"><span class="pn-dir">ถัดไป →</span><span class="pn-title">Permission System</span></a></div>
+    </article>
+    <aside class="toc"><div class="toc-t">ในบทนี้</div><a href="#sec-1">ที่อยู่ของ settings</a><a href="#sec-2">ตัวอย่างพื้นฐาน</a><a href="#quiz" class="toc-quiz">🧠 แบบทดสอบท้ายบท</a></aside>
+  </div>
   <footer>Claude Code Learning Hub · เรียนฟรี · Curated by <strong>Chetaphong Preecha</strong> &amp; Beyond Team</footer>
 </div>
 <script src="../assets/app.js"></script>

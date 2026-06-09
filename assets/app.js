@@ -93,7 +93,26 @@
       a.scrollIntoView({block:'center'});}
   }
 
+  // ---- scroll-spy: ไฮไลต์หัวข้อปัจจุบันใน "ในบทนี้" ----
+  function initTOC(){
+    var links=document.querySelectorAll('.toc a[href^="#"]');
+    if(!links.length)return;
+    var map={};
+    links.forEach(function(a){var t=document.getElementById(a.getAttribute('href').slice(1));
+      if(t)map[t.id]=a;});
+    var ids=Object.keys(map); if(!ids.length)return;
+    function onScroll(){
+      var cur=null,top=120;
+      ids.forEach(function(id){var el=document.getElementById(id);
+        if(el.getBoundingClientRect().top-top<=0)cur=id;});
+      if(!cur)cur=ids[0];
+      links.forEach(function(a){a.classList.remove('on');});
+      map[cur].classList.add('on');
+    }
+    window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  }
+
   document.addEventListener('DOMContentLoaded',function(){
-    refreshSidebar();initComplete();initQuiz();initBar();initNav();openActiveModule();
+    refreshSidebar();initComplete();initQuiz();initBar();initNav();openActiveModule();initTOC();
   });
 })();

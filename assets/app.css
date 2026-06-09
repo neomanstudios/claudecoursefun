@@ -96,7 +96,21 @@ img{max-width:100%}
 
 /* ---------------- Main reading area ---------------- */
 .main{margin-left:var(--sidebar-w);flex:1;min-width:0}
-.reading{max-width:var(--read-w);margin:0 auto;padding:2.4rem 1.6rem 4rem}
+/* docs two-column: เนื้อหา + สารบัญด้านขวา */
+.docs{display:grid;grid-template-columns:minmax(0,1fr) 232px;gap:2.8rem;
+  max-width:1080px;margin:0 auto;padding:2.4rem 1.8rem 4rem;align-items:start}
+.reading{max-width:var(--read-w);margin:0;padding:0;min-width:0}
+
+/* right "on this page" outline */
+.toc{position:sticky;top:1.6rem;align-self:start}
+.toc-t{font-size:.72rem;font-weight:800;color:var(--muted);text-transform:uppercase;
+  letter-spacing:.05em;margin-bottom:.7rem}
+.toc a{display:block;font-size:.84rem;color:var(--ink-2);padding:.3rem 0 .3rem .8rem;
+  border-left:2px solid var(--line);line-height:1.4;transition:.15s}
+.toc a:hover{color:var(--p);border-left-color:var(--p)}
+.toc a.on{color:var(--p);border-left-color:var(--p);font-weight:700}
+.toc a.toc-quiz{margin-top:.4rem;color:var(--amber)}
+.toc a.toc-quiz.on{color:var(--amber);border-left-color:var(--amber)}
 .crumb{font-size:.8rem;color:var(--muted);margin-bottom:.8rem}
 .crumb a{color:var(--muted)}.crumb a:hover{color:var(--p)}
 .les-no{display:inline-block;font-family:var(--mono);font-size:.78rem;font-weight:700;
@@ -227,6 +241,10 @@ footer{border-top:1px solid var(--line);padding:1.6rem;text-align:center;color:v
 footer strong{color:var(--p)}
 
 /* ---------------- Responsive ---------------- */
+@media(max-width:1150px){
+  .docs{grid-template-columns:minmax(0,1fr);max-width:var(--read-w)}
+  .toc{display:none}
+}
 @media(max-width:900px){
   .sidebar{transform:translateX(-100%);transition:transform .25s;box-shadow:0 0 40px rgba(0,0,0,.15)}
   body.nav-open .sidebar{transform:translateX(0)}
