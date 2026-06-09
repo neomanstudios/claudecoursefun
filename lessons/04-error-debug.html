@@ -85,6 +85,7 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:2rem 1.5rem;text-align
   <div class="lesson-no">บทเรียน 4.1</div>
   <h1>ให้ Claude หา Root Cause ของ Error</h1>
   <div class="intro">หนึ่งในงานที่ Claude Code เก่งที่สุดคือ debug ให้มันอ่าน error message แล้วหา root cause พร้อมแก้ บทนี้สอนวิธีใช้ให้ได้ผลสูงสุด</div>
+  <figure class="lesson-hero" style="margin:0 0 2rem;border:1px solid rgba(108,99,255,.2);border-radius:16px;overflow:hidden;background:var(--cd,#12122A);box-shadow:0 8px 30px rgba(0,0,0,.35)"><img src="../images/04-error-debug.webp" alt="ไล่หาต้นตอที่แท้จริงของ error ไม่ใช่แค่ปลายเหตุ" loading="lazy" decoding="async" style="width:100%;display:block;aspect-ratio:16/10;object-fit:cover"><figcaption style="font-size:.82rem;color:var(--mt,#9999CC);padding:.75rem 1rem;text-align:center;border-top:1px solid rgba(255,255,255,.06)">🖼️ ไล่หาต้นตอที่แท้จริงของ error ไม่ใช่แค่ปลายเหตุ</figcaption></figure>
   <div class="block"><h3>วิธีที่ได้ผล</h3><p>วาง error message เต็มๆ (อย่าตัด) แล้วให้ context ว่าทำอะไรอยู่ตอนเกิด error</p></div><div class="block"><h3>ให้ Claude หาเอง</h3><p>ถ้าเป็น error ตอนรัน ให้ Claude รันคำสั่งเองเพื่อ reproduce แล้วมันจะ debug เป็นลูปจนแก้ได้</p></div>
   <div class="prompt-box"><div class="prompt-label">💬 ลองใช้ Prompt นี้กับ Claude</div><div class="prompt-text" id="pt">รันคำสั่ง [คำสั่ง] แล้วเจอ error นี้:
 [วาง error เต็มๆ]

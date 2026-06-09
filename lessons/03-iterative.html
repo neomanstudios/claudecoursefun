@@ -85,6 +85,7 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:2rem 1.5rem;text-align
   <div class="lesson-no">บทเรียน 3.4</div>
   <h1>Iterative Refinement Workflow</h1>
   <div class="intro">การทำงานกับ Claude Code ที่ดีคือการทำเป็นรอบๆ (iterate) ไม่ใช่หวังได้ผลสมบูรณ์ในครั้งเดียว บทนี้สอน workflow การปรับแก้ทีละรอบ</div>
+  <figure class="lesson-hero" style="margin:0 0 2rem;border:1px solid rgba(108,99,255,.2);border-radius:16px;overflow:hidden;background:var(--cd,#12122A);box-shadow:0 8px 30px rgba(0,0,0,.35)"><img src="../images/03-iterative.webp" alt="ค่อย ๆ ปรับทีละรอบ จนได้ผลลัพธ์ที่ดี" loading="lazy" decoding="async" style="width:100%;display:block;aspect-ratio:16/10;object-fit:cover"><figcaption style="font-size:.82rem;color:var(--mt,#9999CC);padding:.75rem 1rem;text-align:center;border-top:1px solid rgba(255,255,255,.06)">🖼️ ค่อย ๆ ปรับทีละรอบ จนได้ผลลัพธ์ที่ดี</figcaption></figure>
   <div class="block"><h3>Workflow แบบ iterative</h3><ol class='ol'><li>เริ่มจากเป้าหมายกว้างๆ ให้ Claude ทำร่างแรก</li><li>ดูผล แล้วบอกสิ่งที่อยากปรับ (เฉพาะเจาะจง)</li><li>ทำซ้ำจนพอใจ</li></ol><p>แต่ละรอบเล็กและชัด ดีกว่าสั่งใหญ่ทีเดียว</p></div><div class="block"><h3>ตัวอย่างการ iterate</h3><p>"ทำหน้า dashboard" → ดู → "ย้าย chart ไปบน" → ดู → "เพิ่ม filter วันที่" → ดู → "สีเข้มไป ใช้โทนอ่อน"</p></div>
   
   <div class="note"><span class="ni">💡</span><div class="note-body"><strong>เคล็ดลับ:</strong> ถ้า Claude หลงทางมากๆ อย่าฝืนแก้ต่อ — กด /clear เริ่มใหม่พร้อม context ที่ชัดกว่าเดิม จะเร็วกว่า</div></div>

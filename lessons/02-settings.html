@@ -85,6 +85,7 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:2rem 1.5rem;text-align
   <div class="lesson-no">บทเรียน 2.4</div>
   <h1>settings.json — ปรับ behavior</h1>
   <div class="intro">settings.json ให้คุณปรับพฤติกรรมของ Claude Code ได้ เช่น สิทธิ์การใช้ tool, hooks, และ environment ต่างๆ</div>
+  <figure class="lesson-hero" style="margin:0 0 2rem;border:1px solid rgba(108,99,255,.2);border-radius:16px;overflow:hidden;background:var(--cd,#12122A);box-shadow:0 8px 30px rgba(0,0,0,.35)"><img src="../images/02-settings.webp" alt="settings.json ปรับพฤติกรรมและค่าเริ่มต้นของ Claude Code" loading="lazy" decoding="async" style="width:100%;display:block;aspect-ratio:16/10;object-fit:cover"><figcaption style="font-size:.82rem;color:var(--mt,#9999CC);padding:.75rem 1rem;text-align:center;border-top:1px solid rgba(255,255,255,.06)">🖼️ settings.json ปรับพฤติกรรมและค่าเริ่มต้นของ Claude Code</figcaption></figure>
   <div class="block"><h3>ที่อยู่ของ settings</h3><ul class='ul'><li><code>~/.claude/settings.json</code> — ตั้งค่าระดับ user (ทุกโปรเจกต์)</li><li><code>.claude/settings.json</code> — ตั้งค่าเฉพาะโปรเจกต์ (commit ขึ้น git ได้)</li><li><code>.claude/settings.local.json</code> — เฉพาะเครื่องคุณ (ไม่ commit)</li></ul></div><div class="block"><h3>ตัวอย่างพื้นฐาน</h3><p>กำหนด tool ที่อนุญาตให้ใช้โดยไม่ต้องถาม:</p><div class="code-block"><button class="ccopy" onclick="cc(this)">📋</button><pre>{
   &quot;permissions&quot;: {
     &quot;allow&quot;: [&quot;Bash(npm:*)&quot;, &quot;Bash(git:*)&quot;]

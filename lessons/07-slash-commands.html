@@ -85,6 +85,7 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:2rem 1.5rem;text-align
   <div class="lesson-no">บทเรียน 7.3</div>
   <h1>สร้าง Custom Slash Commands</h1>
   <div class="intro">Custom slash command ให้คุณบันทึก workflow ที่ใช้บ่อยเป็นคำสั่งสั้นๆ เช่น /review, /deploy แล้วเรียกใช้ได้ทุกเมื่อ</div>
+  <figure class="lesson-hero" style="margin:0 0 2rem;border:1px solid rgba(108,99,255,.2);border-radius:16px;overflow:hidden;background:var(--cd,#12122A);box-shadow:0 8px 30px rgba(0,0,0,.35)"><img src="../images/07-slash-commands.webp" alt="สร้าง slash command ของตัวเองเพื่อสั่งงานซ้ำ ๆ" loading="lazy" decoding="async" style="width:100%;display:block;aspect-ratio:16/10;object-fit:cover"><figcaption style="font-size:.82rem;color:var(--mt,#9999CC);padding:.75rem 1rem;text-align:center;border-top:1px solid rgba(255,255,255,.06)">🖼️ สร้าง slash command ของตัวเองเพื่อสั่งงานซ้ำ ๆ</figcaption></figure>
   <div class="block"><h3>สร้าง command</h3><p>สร้างไฟล์ใน <code>.claude/commands/</code> เช่น <code>review.md</code> แล้วเขียน prompt ที่อยากให้ทำ</p><div class="code-block"><button class="ccopy" onclick="cc(this)">📋</button><pre># .claude/commands/review.md
 Review การเปลี่ยนแปลงล่าสุด มองหา bug, security,
 performance แล้วสรุปเป็นภาษาไทย เรียงตามความสำคัญ</pre></div></div><div class="block"><h3>รับ argument</h3><p>ใช้ <code>$ARGUMENTS</code> เพื่อรับค่าที่ส่งมา เช่น <code>/review src/auth.ts</code></p><div class="code-block"><button class="ccopy" onclick="cc(this)">📋</button><pre># .claude/commands/explain.md

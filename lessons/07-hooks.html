@@ -85,6 +85,7 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:2rem 1.5rem;text-align
   <div class="lesson-no">บทเรียน 7.4</div>
   <h1>Hooks — ทำงานอัตโนมัติทุก Action</h1>
   <div class="intro">Hooks คือ script ที่รันอัตโนมัติเมื่อ Claude ทำบางอย่าง เช่น หลังแก้ไฟล์ให้รัน test, หลังเสร็จงานให้แจ้งเตือน — นี่คือ automation ตัวจริง</div>
+  <figure class="lesson-hero" style="margin:0 0 2rem;border:1px solid rgba(108,99,255,.2);border-radius:16px;overflow:hidden;background:var(--cd,#12122A);box-shadow:0 8px 30px rgba(0,0,0,.35)"><img src="../images/07-hooks.webp" alt="Hooks สั่งให้ทำงานอัตโนมัติเมื่อเกิดเหตุการณ์" loading="lazy" decoding="async" style="width:100%;display:block;aspect-ratio:16/10;object-fit:cover"><figcaption style="font-size:.82rem;color:var(--mt,#9999CC);padding:.75rem 1rem;text-align:center;border-top:1px solid rgba(255,255,255,.06)">🖼️ Hooks สั่งให้ทำงานอัตโนมัติเมื่อเกิดเหตุการณ์</figcaption></figure>
   <div class="block"><h3>ประเภทของ hook</h3><ul class='ul'><li><b>PreToolUse</b> — ก่อน Claude ใช้ tool (validate/บล็อก)</li><li><b>PostToolUse</b> — หลังใช้ tool (เช่น แก้ไฟล์เสร็จ → รัน test)</li><li><b>Stop</b> — เมื่อ Claude ทำงานเสร็จ (เช่น แจ้งเตือน/deploy)</li></ul></div><div class="block"><h3>ตัวอย่าง: รัน test หลังแก้ไฟล์</h3><p>ตั้งใน settings.json:</p><div class="code-block"><button class="ccopy" onclick="cc(this)">📋</button><pre>{
   &quot;hooks&quot;: {
     &quot;PostToolUse&quot;: [{

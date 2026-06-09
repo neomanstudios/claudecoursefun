@@ -85,6 +85,7 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:2rem 1.5rem;text-align
   <div class="lesson-no">บทเรียน 2.5</div>
   <h1>Permission System</h1>
   <div class="intro">ระบบ permission ของ Claude Code ป้องกันไม่ให้ AI ทำสิ่งอันตรายโดยไม่ได้รับอนุญาต เข้าใจระบบนี้แล้วจะทำงานได้ทั้งเร็วและปลอดภัย</div>
+  <figure class="lesson-hero" style="margin:0 0 2rem;border:1px solid rgba(108,99,255,.2);border-radius:16px;overflow:hidden;background:var(--cd,#12122A);box-shadow:0 8px 30px rgba(0,0,0,.35)"><img src="../images/02-permissions.webp" alt="ระบบ Permission ควบคุมว่า Claude ทำอะไรได้บ้าง" loading="lazy" decoding="async" style="width:100%;display:block;aspect-ratio:16/10;object-fit:cover"><figcaption style="font-size:.82rem;color:var(--mt,#9999CC);padding:.75rem 1rem;text-align:center;border-top:1px solid rgba(255,255,255,.06)">🖼️ ระบบ Permission ควบคุมว่า Claude ทำอะไรได้บ้าง</figcaption></figure>
   <div class="block"><h3>ระบบทำงานยังไง</h3><p>ทุกครั้งที่ Claude จะรันคำสั่งหรือแก้ไฟล์ ระบบจะถามขออนุญาต (ยกเว้นที่คุณ allow ไว้แล้ว) คุณกด yes/no ได้ทุกครั้ง</p></div><div class="block"><h3>ตั้ง allowlist ให้ทำงานลื่นขึ้น</h3><p>คำสั่งที่ปลอดภัยและใช้บ่อย ใส่ใน allow เพื่อไม่ต้องถามซ้ำ แต่<b>อย่า</b> allow คำสั่งอันตราย เช่น <code>rm</code>:</p><div class="code-block"><button class="ccopy" onclick="cc(this)">📋</button><pre>{
   &quot;permissions&quot;: {
     &quot;allow&quot;: [&quot;Bash(npm:*)&quot;, &quot;Bash(git:*)&quot;, &quot;Read&quot;, &quot;Edit&quot;],
