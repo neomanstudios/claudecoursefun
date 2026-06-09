@@ -122,7 +122,8 @@ def render_workshop(cat, w):
     body, toc = render_blocks(c["blocks"])
     body = declutter_labels(body)
     toc_links = "".join(f'<a href="#{sid}">{html.escape(t)}</a>' for sid, t in toc)
-    toc_links += '<a href="#quiz" class="toc-quiz">แบบทดสอบ</a>'
+    if c.get("quiz"):
+        toc_links += '<a href="#quiz" class="toc-quiz">แบบทดสอบ</a>'
     img = f'../images/{w["slug"]}.webp'
     fig = (f'<figure class="lesson-hero"><img src="{img}" alt="{html.escape(w["title"])}" '
            f'loading="lazy" decoding="async"></figure>') if os.path.exists(
