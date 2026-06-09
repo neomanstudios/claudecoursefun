@@ -49,11 +49,18 @@ def block_keypoint(b, sid):
     return f'<div class="keypoint"><p>{b["text"]}</p></div>'
 
 def block_howto(b, sid):
-    steps = "".join(f'<li><div class="ht">{s}</div></li>' for s in b["steps"])
+    # one-step-at-a-time stepper (Back/Next); full list shown if JS is off.
+    steps = "".join(
+        f'<li class="{"active" if i == 0 else ""}"><span class="ho-n">{i+1}</span>'
+        f'<div class="ht">{s}</div></li>' for i, s in enumerate(b["steps"]))
     badge = f'<span class="badge">{html.escape(b["badge"])}</span>' if b.get("badge") else ""
     title = html.escape(b.get("title", "ลองเลย"))
-    return (f'<div class="howto"><div class="howto-t" id="{sid}">{title} {badge}</div>'
-            f'<ol>{steps}</ol></div>')
+    n = len(b["steps"])
+    nav = (f'<div class="howto-nav"><button class="ho-prev" type="button">← ก่อนหน้า</button>'
+           f'<span class="ho-count">ขั้นที่ 1 / {n}</span>'
+           f'<button class="ho-next" type="button">ถัดไป →</button></div>') if n > 1 else ""
+    return (f'<div class="howto" data-stepper><div class="howto-t" id="{sid}">{title} {badge}</div>'
+            f'<ol>{steps}</ol>{nav}</div>')
 
 def block_prompt(b, sid):
     return (f'<div class="prompt-box"><div class="prompt-label">{html.escape(b.get("label","ลองใช้ Prompt นี้"))}</div>'

@@ -177,8 +177,29 @@
     });
   }
 
+  // ---- hands-on stepper: one step at a time with Back/Next ----
+  function initHowtoStepper(){
+    document.querySelectorAll('.howto[data-stepper]').forEach(function(h){
+      var steps=[].slice.call(h.querySelectorAll('ol > li'));
+      if(!steps.length)return;
+      var nav=h.querySelector('.howto-nav');
+      if(!nav||steps.length<2){steps[0].classList.add('active');return;}
+      var prev=nav.querySelector('.ho-prev'),next=nav.querySelector('.ho-next'),count=nav.querySelector('.ho-count');
+      var i=0;
+      function render(){
+        steps.forEach(function(s,j){s.classList.toggle('active',j===i);});
+        prev.disabled=(i===0);
+        next.textContent=(i===steps.length-1)?'↻ เริ่มใหม่':'ถัดไป →';
+        count.textContent='ขั้นที่ '+(i+1)+' / '+steps.length;
+      }
+      prev.addEventListener('click',function(){if(i>0){i--;render();}});
+      next.addEventListener('click',function(){i=(i===steps.length-1)?0:i+1;render();});
+      render();
+    });
+  }
+
   document.addEventListener('DOMContentLoaded',function(){
     initTheme();refreshSidebar();initComplete();initQuiz();initBar();initNav();
-    openActiveModule();initTOC();initReveal();initAgentDemo();
+    openActiveModule();initTOC();initReveal();initAgentDemo();initHowtoStepper();
   });
 })();

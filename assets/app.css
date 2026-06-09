@@ -565,3 +565,24 @@ footer strong{color:var(--accent)}
     transition:opacity .35s ease,transform .35s ease}
   html.js .agentdemo .ad-log li.show{opacity:1;transform:none}
 }
+
+/* ===== Hands-on stepper: one step at a time with Back/Next ===== */
+.howto .ho-n{flex-shrink:0;width:2rem;height:2rem;border-radius:50%;background:var(--mc);color:#fff;
+  font-family:var(--mono);font-weight:800;font-size:.88rem;display:flex;align-items:center;justify-content:center}
+.howto[data-stepper] li::before{content:none}              /* explicit .ho-n replaces the CSS counter */
+.howto[data-stepper] li{border-top:none;padding:.5rem 0;min-height:3.2rem}
+/* one step at a time only when JS is on; no-JS shows the full list */
+html.js .howto[data-stepper] > ol > li{display:none}
+html.js .howto[data-stepper] > ol > li.active{display:flex}
+.howto-nav{display:none;align-items:center;gap:.8rem;margin-top:1rem;padding-top:1rem;
+  border-top:1px solid var(--line-2)}
+html.js .howto[data-stepper] .howto-nav{display:flex}
+.ho-prev,.ho-next{font-family:var(--font-display);font-weight:700;font-size:.85rem;border-radius:10px;
+  padding:.5rem 1.05rem;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--ink);
+  transition:transform .12s,filter .15s}
+.ho-next{background:var(--mc);color:#fff;border-color:transparent;
+  box-shadow:0 3px 10px color-mix(in srgb,var(--mc) 35%,transparent)}
+.ho-prev:hover,.ho-next:hover{filter:brightness(1.05);transform:translateY(-1px)}
+.ho-prev:active,.ho-next:active{transform:scale(.97)}
+.ho-prev:disabled{opacity:.4;cursor:default;transform:none;filter:none}
+.ho-count{flex:1;text-align:center;font-family:var(--mono);font-size:.82rem;color:var(--muted)}
