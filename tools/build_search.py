@@ -48,8 +48,10 @@ for cat in catalog["categories"]:
             "d": desc[:120], "k": " ".join([title, desc, ct, extra, w["slug"]]).lower()
         })
 
-out = os.path.join(APP, "search-index.json")
-json.dump(entries, open(out, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
-print(f"built app/search-index.json — {len(entries)} entries "
+# URLs are "lessons/x.html" / "workshops/x.html" — relative to each system's root,
+# so the SAME index serves both the dark app (/app/) and the light site (/).
+for out in (os.path.join(APP, "search-index.json"), os.path.join(ROOT, "search-index.json")):
+    json.dump(entries, open(out, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+print(f"built app/ + root search-index.json — {len(entries)} entries "
       f"({sum(1 for e in entries if e['tag']=='บทเรียน')} lessons, "
       f"{sum(1 for e in entries if e['tag']=='เวิร์กช็อป')} workshops)")

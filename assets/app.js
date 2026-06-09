@@ -248,8 +248,67 @@
     });
   }
 
+  // ---- content search: ⌘K / Ctrl-K command palette over lessons + workshops ----
+  function initSearch(){
+    var sub=/\/(lessons|workshops)\//.test(location.pathname), pre=sub?'../':'';
+    var data=null, loaded=false, active=0, results=[];
+    var isMac=/Mac|iPhone|iPad/.test(navigator.platform||'');
+    function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+    var ov=document.createElement('div');ov.className='cmdk';ov.hidden=true;
+    ov.innerHTML='<div class="cmdk-box" role="dialog" aria-label="ค้นหาเนื้อหา"><div class="cmdk-in">'
+      +'<svg class="ic" viewBox="0 0 24 24" style="width:18px"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>'
+      +'<input type="text" placeholder="ค้นหาบทเรียนและเวิร์กช็อป..." aria-label="ค้นหา" autocomplete="off">'
+      +'<kbd>esc</kbd></div><div class="cmdk-results"></div>'
+      +'<div class="cmdk-foot"><span><b>↑↓</b> เลือก</span><span><b>↵</b> เปิด</span><span><b>esc</b> ปิด</span></div></div>';
+    document.body.appendChild(ov);
+    var input=ov.querySelector('input'), box=ov.querySelector('.cmdk-results');
+    function load(){if(loaded)return;loaded=true;
+      fetch(pre+'search-index.json').then(function(r){return r.json();}).then(function(j){data=j;render();}).catch(function(){data=[];render();});}
+    function open(){ov.hidden=false;document.body.classList.add('cmdk-on');load();render();setTimeout(function(){input.focus();input.select();},20);}
+    function close(){ov.hidden=true;document.body.classList.remove('cmdk-on');}
+    function score(e,toks){var k=e.k;for(var i=0;i<toks.length;i++){if(k.indexOf(toks[i])<0)return -1;}
+      var t=e.t.toLowerCase();return t.indexOf(toks[0])===0?3:(t.indexOf(toks[0])>=0?2:1);}
+    function compute(){if(!data)return [];var q=input.value.trim().toLowerCase();
+      if(!q)return data.slice(0,8);
+      var toks=q.split(/\s+/),scored=[];
+      for(var i=0;i<data.length;i++){var s=score(data[i],toks);if(s>0)scored.push([s,i,data[i]]);}
+      scored.sort(function(a,b){return b[0]-a[0]||a[1]-b[1];});
+      return scored.slice(0,24).map(function(x){return x[2];});}
+    function setActive(i){active=i;[].forEach.call(box.querySelectorAll('.cmdk-item'),function(a,j){a.classList.toggle('active',j===i);});
+      var el=box.querySelector('.cmdk-item.active');if(el)el.scrollIntoView({block:'nearest'});}
+    function go(){var el=box.querySelector('.cmdk-item.active');if(el)location.href=el.getAttribute('href');}
+    function render(){results=compute();active=0;
+      if(!data){box.innerHTML='<div class="cmdk-empty">กำลังโหลด...</div>';return;}
+      if(!results.length){box.innerHTML='<div class="cmdk-empty">ไม่พบผลลัพธ์สำหรับ "'+esc(input.value)+'"</div>';return;}
+      var h='';results.forEach(function(e,i){
+        h+='<a class="cmdk-item'+(i===0?' active':'')+'" href="'+pre+e.u+'" data-i="'+i+'">'
+          +'<span class="ci-tag ci-'+(e.tag==='บทเรียน'?'l':'w')+'">'+esc(e.tag)+'</span>'
+          +'<span class="ci-main"><span class="ci-t">'+esc(e.t)+'</span><span class="ci-g">'+esc(e.g)+'</span></span>'
+          +'<svg class="ic ci-go" viewBox="0 0 24 24" style="width:15px"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>';});
+      box.innerHTML=h;
+      [].forEach.call(box.querySelectorAll('.cmdk-item'),function(a,i){a.addEventListener('mousemove',function(){if(active!==i)setActive(i);});});}
+    input.addEventListener('input',render);
+    input.addEventListener('keydown',function(e){
+      if(e.key==='ArrowDown'){e.preventDefault();setActive(Math.min(active+1,results.length-1));}
+      else if(e.key==='ArrowUp'){e.preventDefault();setActive(Math.max(active-1,0));}
+      else if(e.key==='Enter'){e.preventDefault();go();}
+      else if(e.key==='Escape'){e.preventDefault();close();}});
+    ov.addEventListener('click',function(e){if(e.target===ov)close();});
+    document.addEventListener('keydown',function(e){
+      if((e.metaKey||e.ctrlKey)&&(e.key==='k'||e.key==='K')){e.preventDefault();if(ov.hidden)open();else close();}
+      else if(e.key==='/'&&ov.hidden&&!/^(INPUT|TEXTAREA)$/.test(e.target.tagName||'')){e.preventDefault();open();}});
+    var head=document.querySelector('.sidebar .sb-head');
+    if(head){var b=document.createElement('button');b.type='button';b.className='sb-search';
+      b.innerHTML='<svg class="ic" viewBox="0 0 24 24" style="width:16px"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><span>ค้นหาเนื้อหา</span><kbd>'+(isMac?'⌘K':'Ctrl K')+'</kbd>';
+      b.addEventListener('click',open);head.insertAdjacentElement('afterend',b);}
+    var tbt=document.querySelector('.topbar .tb-title');
+    if(tbt){var t=document.createElement('button');t.type='button';t.className='tb-search';t.setAttribute('aria-label','ค้นหา');
+      t.innerHTML='<svg class="ic" viewBox="0 0 24 24" style="width:19px"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>';
+      t.addEventListener('click',open);tbt.insertAdjacentElement('afterend',t);}
+  }
+
   document.addEventListener('DOMContentLoaded',function(){
     initTheme();refreshSidebar();initComplete();initQuiz();initBar();initNav();
-    openActiveModule();initTOC();initReveal();initAgentDemo();initHowtoStepper();initSteps();
+    openActiveModule();initTOC();initReveal();initAgentDemo();initHowtoStepper();initSteps();initSearch();
   });
 })();
