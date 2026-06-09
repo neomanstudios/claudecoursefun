@@ -60,8 +60,19 @@ def block_prompt(b, sid):
             f'<div class="prompt-text" id="{sid}">{html.escape(b["text"])}</div>'
             f'<button class="copy-btn" onclick="cp(\'{sid}\')">คัดลอก Prompt</button></div>')
 
+def block_agentdemo(b, sid):
+    # interactive: learner clicks Run and watches Claude Code work through the task.
+    steps = "".join(f'<li><span class="st">{html.escape(s.get("icon", "›"))}</span>'
+                    f'<span>{s["text"]}</span></li>' for s in b["steps"])
+    return (_sec(b.get("heading"), b.get("lead"), sid) + '<div class="agentdemo">'
+            f'<div class="agentdemo-head"><span class="ad-t">{html.escape(b.get("title", "ดู Claude Code ทำงาน"))}</span>'
+            f'<button class="ad-run" type="button">▶ รัน</button></div>'
+            f'<div class="ad-prompt"><span class="lbl">คุณ</span><span>{b["prompt"]}</span></div>'
+            f'<ul class="ad-log">{steps}</ul></div>')
+
 RENDERERS = {"compare": block_compare, "concept": block_concept,
-             "keypoint": block_keypoint, "howto": block_howto, "prompt": block_prompt}
+             "keypoint": block_keypoint, "howto": block_howto, "prompt": block_prompt,
+             "agentdemo": block_agentdemo}
 
 def render_blocks(blocks):
     out, toc = "", []
@@ -112,7 +123,7 @@ def ws_sidebar(active_slug):
                     f'<span class="mk">▶</span></summary><ul class="sb-les">{"".join(lis)}</ul></details>')
     return ('<aside class="sidebar"><div class="sb-head">'
             '<a href="index.html" class="sb-brand-link"><span class="sb-logo">⚡</span>'
-            '<span class="sb-brand">AI Workshops<small>เรียนใช้ AI ทำงานจริง</small></span></a>'
+            '<span class="sb-brand">Claude Code<small>เวิร์กช็อปลงมือทำ</small></span></a>'
             f'{theme_toggle()}</div>'
             f'<nav class="sb-nav">{"".join(rows)}</nav>'
             '<div class="sb-back"><a href="../index.html">← คอร์ส Claude Code</a></div></aside>')
@@ -131,7 +142,7 @@ def render_workshop(cat, w):
     return f"""<!DOCTYPE html>
 <html lang="th"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{html.escape(w["title"])} | AI Workshops</title>
+<title>{html.escape(w["title"])} | Claude Code Workshops</title>
 <meta name="description" content="{html.escape(w["goal"])}">
 {HEAD_THEME}{FONTS}<link rel="stylesheet" href="../assets/app.css"></head>
 <body data-slug="{w["slug"]}" data-mod="{cat["color"][1:]}">
@@ -150,7 +161,7 @@ def render_workshop(cat, w):
 {ws_quiz(c.get("quiz"))}
 <div class="complete-row"><button class="btn-complete" id="btnComplete">✓ ทำเครื่องหมายว่าเรียนจบ</button></div>
 </article><aside class="toc"><div class="toc-t">ในเวิร์กช็อปนี้</div>{toc_links}</aside></div>
-<footer>AI Workshops · เรียนใช้ AI ทำงานจริง</footer></div>
+<footer>Claude Code Workshops</footer></div>
 <script src="../assets/app.js"></script></body></html>"""
 
 def build_workshops():
@@ -185,24 +196,24 @@ def build_workshops_index():
     page = f"""<!DOCTYPE html>
 <html lang="th"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Workshops | เรียนใช้ AI ทำงานจริง</title>
-<meta name="description" content="{total} เวิร์กช็อปลงมือทำ เรียนใช้ AI กับงานจริง">
+<title>Claude Code Workshops | ลงมือทำจริง</title>
+<meta name="description" content="{total} เวิร์กช็อปลงมือทำกับ Claude Code">
 {HEAD_THEME}{FONTS}<link rel="stylesheet" href="../assets/app.css"></head>
 <body data-slug="__wshome__">
 <div class="reading-bar" id="bar"></div><div class="sb-overlay"></div>
 {ws_sidebar(None)}
 <div class="main"><div class="topbar"><button class="hamb" id="hamb" aria-label="เมนู">☰</button>
-<span class="tb-title">AI Workshops</span>{theme_toggle()}</div>
+<span class="tb-title">Claude Code Workshops</span>{theme_toggle()}</div>
 <div class="home"><section class="home-hero">
-<span class="tag">ลงมือทำได้จริง</span>
-<h1>เรียนใช้ AI ทำงานจริง</h1>
-<p>{total} เวิร์กช็อปสั้น ๆ จับมือทำทีละขั้น ตั้งแต่ออกแบบ เขียน งานอาชีพ ระบบอัตโนมัติ ไปจนถึงสร้างแอป</p>
+<span class="tag">ทำงานจริงด้วย Claude Code</span>
+<h1>เรียนทำงานจริงด้วย Claude Code</h1>
+<p>เวิร์กช็อปสั้น ๆ จับมือทำ ใช้ Claude Code เป็นตัวหลักในทุกงาน เรียกเครื่องมืออื่นเฉพาะตอนที่มันทำเองไม่ได้ เช่น สร้างรูป</p>
 <div class="home-stats"><div><b>{total}</b> เวิร์กช็อป</div><div><b>{len(catalog['categories'])}</b> หมวด</div><div><b>ฟรี</b> ทุกบท</div></div>
 </section>
 <h2 class="home-sec-h">หมวดเวิร์กช็อป</h2>
 <p class="home-sec-sub">เลือกหมวดที่ตรงกับงานของคุณ</p>
 <div class="mod-grid">{''.join(cards)}</div>
-<footer style="border:none">AI Workshops · เรียนใช้ AI ทำงานจริง</footer></div></div>
+<footer style="border:none">Claude Code Workshops</footer></div></div>
 <script src="../assets/app.js"></script></body></html>"""
     open(os.path.join(ROOT, "workshops", "index.html"), "w", encoding="utf-8").write(page)
     print("built workshops/index.html")

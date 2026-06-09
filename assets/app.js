@@ -154,8 +154,31 @@
     window.addEventListener('scroll',onScroll,{passive:true});onScroll();
   }
 
+  // ---- interactive "watch Claude Code work" demo ----
+  function initAgentDemo(){
+    var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('.agentdemo').forEach(function(d){
+      var btn=d.querySelector('.ad-run');
+      var items=[].slice.call(d.querySelectorAll('.ad-log li'));
+      if(!btn||!items.length)return;
+      var timers=[];
+      btn.addEventListener('click',function(){
+        timers.forEach(clearTimeout);timers=[];
+        items.forEach(function(li){li.classList.remove('show','is-done');});
+        btn.disabled=true;
+        items.forEach(function(li,i){
+          timers.push(setTimeout(function(){
+            li.classList.add('show');
+            if(i>0)items[i-1].classList.add('is-done');
+            if(i===items.length-1){li.classList.add('is-done');btn.disabled=false;btn.textContent='↻ เล่นอีกครั้ง';}
+          }, reduce?0:i*650));
+        });
+      });
+    });
+  }
+
   document.addEventListener('DOMContentLoaded',function(){
     initTheme();refreshSidebar();initComplete();initQuiz();initBar();initNav();
-    openActiveModule();initTOC();initReveal();
+    openActiveModule();initTOC();initReveal();initAgentDemo();
   });
 })();
