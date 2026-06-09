@@ -1,0 +1,246 @@
+#!/usr/bin/env python3
+"""สร้างหน้าเว็บใหม่ทั้งหมดเป็นธีม e-learning (light + sidebar)
+- regenerate ทุกบทใน lessons/ จาก data/course.json + data/meta.json
+- สร้าง index.html (หน้าหลักคอร์ส) ใหม่
+- เนื้อหาเดิม (block/prompt/note/takeaways) ถูกนำกลับมาใช้ พร้อมโครงสร้างใหม่
+ใช้คู่กับ assets/app.css และ assets/app.js
+"""
+import os, re, json, html
+from gen_images import LESSONS as IMG_CAPS, DEPLOY as IMG_DEPLOY
+
+ROOT = os.path.join(os.path.dirname(__file__), "..")
+course = json.load(open(os.path.join(ROOT,"data","course.json"),encoding="utf-8"))
+meta = json.load(open(os.path.join(ROOT,"data","meta.json"),encoding="utf-8")) if \
+       os.path.exists(os.path.join(ROOT,"data","meta.json")) else {}
+CAPS = {**IMG_CAPS, **IMG_DEPLOY}
+
+FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
+ '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
+ '<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&'
+ 'family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">')
+
+def rel(href, from_lessons):
+    """แปลง href ที่อ้างอิงจาก root ให้ถูกต้องตามตำแหน่งไฟล์"""
+    if from_lessons:
+        if href.startswith("lessons/"): return href[len("lessons/"):]
+        return "../" + href            # deploy.html, index.html
+    return href                         # already root-relative
+
+def sidebar(active_slug, from_lessons):
+    home = "../index.html" if from_lessons else "index.html"
+    asset = "../assets/" if from_lessons else "assets/"
+    rows = []
+    for mod in course["modules"]:
+        active_in = any(l["slug"]==active_slug for l in mod["lessons"])
+        op = " open" if active_in else ""
+        lis = []
+        for l in mod["lessons"]:
+            cls = " active" if l["slug"]==active_slug else ""
+            href = rel(l["href"], from_lessons)
+            lis.append(
+              f'<li><a href="{href}" data-slug="{l["slug"]}" class="{cls.strip()}">'
+              f'<span class="dot"></span><span class="ln">{l["num"]}</span>'
+              f'<span>{html.escape(l["title"])}</span></a></li>')
+        rows.append(
+          f'<details class="sb-mod"{op}><summary>'
+          f'<span class="mn">{mod["num"]}</span>'
+          f'<span class="mt">{html.escape(mod["title"])}</span>'
+          f'<span class="mk">▶</span></summary>'
+          f'<ul class="sb-les">{"".join(lis)}</ul></details>')
+    return (
+    '<aside class="sidebar">'
+      f'<a href="{home}" class="sb-head" style="text-decoration:none;color:inherit">'
+        '<span class="sb-logo">⚡</span>'
+        '<span class="sb-brand">Claude Code Hub<small>คอร์สเรียนภาษาไทย</small></span></a>'
+      '<div class="sb-progress"><div class="lbl"><span>ความคืบหน้า</span><b>0/0 บท</b></div>'
+        '<div class="sb-bar"><i></i></div></div>'
+      f'<nav class="sb-nav">{"".join(rows)}</nav>'
+      f'<div class="sb-back"><a href="{home}">🏠 หน้าหลักคอร์ส</a></div>'
+    '</aside>')
+
+def figure(slug, from_lessons):
+    img = ("../images/" if from_lessons else "images/") + slug + ".webp"
+    cap = CAPS.get(slug, ("",""))[1]
+    if not os.path.exists(os.path.join(ROOT,"images",slug+".webp")):
+        return ""
+    return (f'<figure class="lesson-hero"><img src="{img}" alt="{html.escape(cap)}" '
+            f'loading="lazy" decoding="async">'
+            f'<figcaption>🖼️ {html.escape(cap)}</figcaption></figure>')
+
+def objectives_html(slug):
+    m = meta.get(slug)
+    if not m or not m.get("objectives"): return ""
+    items = "".join(f"<li>{html.escape(o)}</li>" for o in m["objectives"])
+    return ('<div class="objectives"><h2>🎯 เมื่อเรียนจบบทนี้ คุณจะ…</h2>'
+            f'<ul>{items}</ul></div>')
+
+def quiz_html(slug):
+    m = meta.get(slug)
+    if not m or not m.get("quiz"): return ""
+    qs = []
+    for i,q in enumerate(m["quiz"],1):
+        choices = []
+        letters = "ABCD"
+        for j,c in enumerate(q["choices"]):
+            choices.append(
+              f'<button class="choice"><span class="mk">{letters[j]}</span>'
+              f'<span>{html.escape(c)}</span></button>')
+        qs.append(
+          f'<div class="q" data-answer="{q["answer"]}">'
+          f'<div class="q-text"><span class="qn">ข้อ {i}.</span>{html.escape(q["q"])}</div>'
+          f'<div class="choices">{"".join(choices)}</div>'
+          f'<div class="q-explain"><strong>เฉลย:</strong> {html.escape(q.get("explain",""))}</div>'
+          '</div>')
+    return ('<div class="quiz"><div class="quiz-h">🧠 แบบทดสอบท้ายบท</div>'
+            '<div class="quiz-sub">ลองตอบดู แล้วระบบจะเฉลยให้ทันที</div>'
+            f'{"".join(qs)}</div>')
+
+def pagenav(les, from_lessons):
+    def btn(href, title, nxt):
+        if not href:
+            d = "ถัดไป →" if nxt else "← ก่อนหน้า"
+            return f'<span class="pn-btn disabled {"pn-next" if nxt else ""}"><span class="pn-dir">{d}</span><span class="pn-title">—</span></span>'
+        cls = "pn-next" if nxt else ""
+        d = "ถัดไป →" if nxt else "← ก่อนหน้า"
+        return (f'<a href="{rel(href,from_lessons)}" class="pn-btn {cls}">'
+                f'<span class="pn-dir">{d}</span><span class="pn-title">{html.escape(title or "")}</span></a>')
+    return ('<div class="pagenav">'
+            + btn(les.get("prev"), les.get("prev_title"), False)
+            + btn(les.get("next"), les.get("next_title"), True) + '</div>')
+
+def render_lesson(les):
+    c = les["content"]; slug = les["slug"]
+    title = c.get("h1") or les["title"]
+    page = f"""<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{html.escape(title)} | Claude Code Hub</title>
+<meta name="description" content="{html.escape(c.get('intro','')[:150])}">
+{FONTS}
+<link rel="stylesheet" href="../assets/app.css">
+</head>
+<body data-slug="{slug}">
+<div class="reading-bar" id="bar"></div>
+<div class="sb-overlay"></div>
+{sidebar(slug, True)}
+<div class="main">
+  <div class="topbar"><button class="hamb" id="hamb" aria-label="เมนู">☰</button>
+    <span class="tb-title">{html.escape(les['module_num'])}. {html.escape(les['module_title'])}</span></div>
+  <article class="reading">
+    <div class="crumb"><a href="../index.html">หน้าหลัก</a> › โมดูล {html.escape(les['module_num'])}: {html.escape(les['module_title'])}</div>
+    <span class="les-no">บทเรียน {html.escape(c.get('lesson_no','').replace('บทเรียน','').strip() or les['num'])}</span>
+    <h1>{html.escape(title)}</h1>
+    <p class="lead">{html.escape(c.get('intro',''))}</p>
+    {objectives_html(slug)}
+    {figure(slug, True)}
+    {c.get('body_html','')}
+    {quiz_html(slug)}
+    <div class="complete-row"><button class="btn-complete" id="btnComplete">✓ ทำเครื่องหมายว่าเรียนจบ</button></div>
+    {pagenav(les, True)}
+  </article>
+  <footer>Claude Code Learning Hub · เรียนฟรี · Curated by <strong>Chetaphong Preecha</strong> &amp; Beyond Team</footer>
+</div>
+<script src="../assets/app.js"></script>
+</body>
+</html>"""
+    return page
+
+def build_lessons():
+    n = 0
+    for mod in course["modules"]:
+        for les in mod["lessons"]:
+            if les["slug"] == "deploy":   # special page, handled separately
+                continue
+            path = os.path.join(ROOT, les["href"])
+            if not les.get("content",{}).get("body_html"):
+                print("  ! no body for", les["slug"], "- skip"); continue
+            open(path,"w",encoding="utf-8").write(render_lesson(les))
+            n += 1
+    print(f"built {n} lesson pages")
+
+def build_index():
+    cards = []
+    for mod in course["modules"]:
+        lis = []
+        for l in mod["lessons"]:
+            lis.append(f'<li><a href="{l["href"]}" data-slug="{l["slug"]}">'
+                       f'<span class="dot"></span><span class="ln">{l["num"]}</span>'
+                       f'<span>{html.escape(l["title"])}</span></a></li>')
+        cards.append(
+          '<section class="mod-card">'
+          f'<div class="mc-head"><span class="mn">{mod["num"]}</span>'
+          f'<div><h3>{html.escape(mod["title"])}</h3>'
+          f'<p>{html.escape(mod["sub"])}</p></div>'
+          f'<span class="mc-count">{len(mod["lessons"])} บท</span></div>'
+          f'<ul class="sb-les mc-list">{"".join(lis)}</ul></section>')
+    first = course["modules"][0]["lessons"][0]["href"]
+    page = f"""<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code Learning Hub | คอร์สเรียนภาษาไทย</title>
+<meta name="description" content="คอร์สเรียน Claude Code ภาษาไทย สำหรับมือใหม่ เรียนฟรี มีภาพประกอบ แบบทดสอบ และติดตามความคืบหน้าได้">
+{FONTS}
+<link rel="stylesheet" href="assets/app.css">
+<style>
+.home-hero{{background:linear-gradient(135deg,var(--p-soft),var(--teal-soft));border:1px solid var(--line);
+  border-radius:18px;padding:2.2rem;margin-bottom:2rem}}
+.home-hero .tag{{display:inline-block;background:#fff;border:1px solid var(--line);color:var(--p);
+  font-weight:700;font-size:.78rem;padding:.3rem .8rem;border-radius:20px;margin-bottom:.9rem}}
+.home-hero h1{{font-size:clamp(1.8rem,5vw,2.5rem);font-weight:800;line-height:1.2;margin-bottom:.7rem}}
+.home-hero p{{color:var(--ink-2);font-size:1.05rem;max-width:48ch;margin-bottom:1.3rem}}
+.home-cta{{display:inline-flex;align-items:center;gap:.5rem;background:var(--p);color:#fff;
+  font-weight:700;padding:.75rem 1.5rem;border-radius:12px}}
+.home-stats{{display:flex;gap:1.6rem;margin-top:1.4rem;flex-wrap:wrap}}
+.home-stats div{{font-size:.85rem;color:var(--ink-2)}}
+.home-stats b{{display:block;font-size:1.4rem;color:var(--ink);font-weight:800}}
+.mod-card{{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:1.2rem 1.3rem;margin-bottom:1.1rem;box-shadow:var(--shadow)}}
+.mc-head{{display:flex;align-items:center;gap:.9rem;margin-bottom:.6rem}}
+.mc-head .mn{{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--p),var(--teal));
+  color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}}
+.mc-head h3{{font-size:1.08rem;font-weight:800}}
+.mc-head p{{font-size:.85rem;color:var(--muted)}}
+.mc-count{{margin-left:auto;font-size:.78rem;color:var(--p);background:var(--p-soft);
+  padding:.25rem .7rem;border-radius:20px;font-weight:700;align-self:flex-start}}
+.mc-list{{padding-left:0}}
+.mc-list a{{padding:.45rem .55rem}}
+</style>
+</head>
+<body data-slug="__home__">
+<div class="reading-bar" id="bar"></div>
+<div class="sb-overlay"></div>
+{sidebar(None, False)}
+<div class="main">
+  <div class="topbar"><button class="hamb" id="hamb" aria-label="เมนู">☰</button>
+    <span class="tb-title">Claude Code Hub</span></div>
+  <div class="reading">
+    <div class="home-hero">
+      <span class="tag">🇹🇭 เรียนฟรี · มือใหม่ทำตามได้</span>
+      <h1>เรียน Claude Code <br>สร้างเว็บแอปด้วย AI</h1>
+      <p>คอร์สภาษาไทยที่พามือใหม่ไม่มีพื้นฐาน ใช้ Claude Code สร้างงานจริงได้ทีละขั้น
+         มีภาพประกอบทุกบท แบบทดสอบท้ายบท และติดตามความคืบหน้าได้</p>
+      <a href="{first}" class="home-cta">เริ่มเรียนบทแรก →</a>
+      <div class="home-stats">
+        <div><b>{course['total']}</b> บทเรียน</div>
+        <div><b>{len(course['modules'])}</b> โมดูล</div>
+        <div><b>ฟรี</b> ทุกบท</div>
+      </div>
+    </div>
+    {''.join(cards)}
+    <footer style="border:none">Claude Code Learning Hub · Curated by <strong>Chetaphong Preecha</strong> &amp; Beyond Team</footer>
+  </div>
+</div>
+<script src="assets/app.js"></script>
+</body>
+</html>"""
+    open(os.path.join(ROOT,"index.html"),"w",encoding="utf-8").write(page)
+    print("built index.html")
+
+if __name__ == "__main__":
+    build_lessons()
+    build_index()
+    print("done")

@@ -1,0 +1,969 @@
+{
+ "modules": [
+  {
+   "num": "1",
+   "title": "🧠 Claude Code คืออะไร ทำไมต้องใช้",
+   "sub": "พื้นฐานที่ทุกคนต้องรู้ก่อนเริ่ม",
+   "lessons": [
+    {
+     "href": "lessons/01-what-is-claude-code.html",
+     "slug": "01-what-is-claude-code",
+     "icon": "📖",
+     "num": "1.1",
+     "title": "Claude Code vs Copilot vs Cursor",
+     "content": {
+      "lesson_no": "บทเรียน 1.1",
+      "h1": "Claude Code vs Copilot vs Cursor",
+      "intro": "Claude Code, GitHub Copilot และ Cursor ต่างก็ช่วยเขียนโค้ด แต่ทำงานคนละแบบ บทนี้จะอธิบายว่าแต่ละตัวเหมาะกับอะไร และทำไม Claude Code ถึงเป็น agent ไม่ใช่แค่ autocomplete",
+      "body_html": "<div class=\"block\"><h3>ความต่างหลัก 3 แบบ</h3><ul class='ul'><li><b>Copilot</b> = autocomplete อัจฉริยะ เติมโค้ดให้ขณะพิมพ์ ทำงานในระดับบรรทัด/ฟังก์ชัน</li><li><b>Cursor</b> = editor ที่ฝัง AI ช่วยแก้หลายไฟล์ผ่าน chat แต่ยังยึด editor เป็นหลัก</li><li><b>Claude Code</b> = <b>agent</b> ที่อยู่ใน terminal รับคำสั่งเป็นเป้าหมาย แล้วลงมือทำเอง — อ่านไฟล์ แก้โค้ด รันคำสั่ง รัน test เป็นลูป จนงานเสร็จ</li></ul></div><div class=\"block\"><h3>Claude Code ทำอะไรได้ที่อื่นทำไม่ได้</h3><p>เพราะมันรันใน terminal และเข้าถึงเครื่องมือจริง (อ่าน/เขียนไฟล์, git, รัน build, รัน test) Claude Code จึงทำงานหลายขั้นตอนต่อเนื่องได้เอง เช่น \"แก้ bug นี้\" แล้วมันจะหาไฟล์ที่เกี่ยว แก้ รัน test ดู ถ้าพังก็แก้ต่อ — โดยคุณไม่ต้องสั่งทีละขั้น</p></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">อธิบายโครงสร้างโปรเจกต์นี้ให้ฟังหน่อย มีไฟล์สำคัญอะไรบ้าง และแต่ละส่วนทำหน้าที่อะไร</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> ถ้าเพิ่งเริ่ม ไม่ต้องเลือกอย่างใดอย่างหนึ่ง — หลายคนใช้ Copilot เติมโค้ดระหว่างพิมพ์ และใช้ Claude Code ทำงานใหญ่ๆ ที่ต้องคิดหลายขั้น</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>Copilot=autocomplete, Cursor=AI editor, Claude Code=agent</li><li>Claude Code ทำงานหลายขั้นตอนเองในระดับโปรเจกต์</li><li>เลือกเครื่องมือตามขนาดงาน</li></ul></div>",
+      "body_text": "ความต่างหลัก 3 แบบ Copilot = autocomplete อัจฉริยะ เติมโค้ดให้ขณะพิมพ์ ทำงานในระดับบรรทัด/ฟังก์ชัน Cursor = editor ที่ฝัง AI ช่วยแก้หลายไฟล์ผ่าน chat แต่ยังยึด editor เป็นหลัก Claude Code = agent ที่อยู่ใน terminal รับคำสั่งเป็นเป้าหมาย แล้วลงมือทำเอง — อ่านไฟล์ แก้โค้ด รันคำสั่ง รัน test เป็นลูป จนงานเสร็จ Claude Code ทำอะไรได้ที่อื่นทำไม่ได้ เพราะมันรันใน terminal และเข้าถึงเครื่องมือจริง (อ่าน/เขียนไฟล์, git, รัน build, รัน test) Claude Code จึงทำงานหลายขั้นตอนต่อเนื่องได้เอง เช่น \"แก้ bug นี้\" แล้วมันจะหาไฟล์ที่เกี่ยว แก้ รัน test ดู ถ้าพังก็แก้ต่อ — โดยคุณไม่ต้องสั่งทีละขั้น 💬 ลองใช้ Prompt นี้กับ Claude อธิบายโครงสร้างโปรเจกต์นี้ให้ฟังหน่อย มีไฟล์สำคัญอะไรบ้าง และแต่ละส่วนทำหน้าที่อะไร 📋 คัดลอก Prompt 💡 เคล็ดลับ: ถ้าเพิ่งเริ่ม ไม่ต้องเลือกอย่างใดอย่างหนึ่ง — หลายคนใช้ Copilot เติมโค้ดระหว่างพิมพ์ และใช้ Claude Code ทำงานใหญ่ๆ ที่ต้องคิดหลายขั้น 📌 สรุปบทนี้ Copilot=autocomplete, Cursor=AI editor, Claude Code=agent Claude Code ทำงานหลายขั้นตอนเองในระดับโปรเจกต์ เลือกเครื่องมือตามขนาดงาน",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "ความต่างหลัก 3 แบบ",
+       "Claude Code ทำอะไรได้ที่อื่นทำไม่ได้"
+      ]
+     },
+     "module_title": "🧠 Claude Code คืออะไร ทำไมต้องใช้",
+     "module_num": "1",
+     "global_index": 0,
+     "prev": null,
+     "prev_title": null,
+     "next": "lessons/01-agentic-mode.html",
+     "next_title": "Agentic Mode คืออะไร"
+    },
+    {
+     "href": "lessons/01-agentic-mode.html",
+     "slug": "01-agentic-mode",
+     "icon": "🤖",
+     "num": "1.2",
+     "title": "Agentic Mode คืออะไร",
+     "content": {
+      "lesson_no": "บทเรียน 1.2",
+      "h1": "Agentic Mode คืออะไร ทำงานยังไง",
+      "intro": "หัวใจของ Claude Code คือ 'agentic loop' — วงจรที่ AI วางแผน ลงมือ ตรวจผล แล้วปรับ จนกว่างานจะเสร็จ เข้าใจสิ่งนี้แล้วจะใช้ Claude Code ได้เก่งขึ้นมาก",
+      "body_html": "<div class=\"block\"><h3>Agentic Loop ทำงานยังไง</h3><ol class='ol'><li><b>เข้าใจเป้าหมาย</b> — อ่านคำสั่งและ context ของโปรเจกต์</li><li><b>วางแผน</b> — แตกงานเป็นขั้นตอนย่อย</li><li><b>ลงมือ</b> — อ่านไฟล์ แก้โค้ด รันคำสั่ง</li><li><b>ตรวจผล</b> — รัน test/build ดูว่าได้ผลไหม</li><li><b>ปรับแก้</b> — ถ้าไม่ผ่าน วนกลับไปแก้</li></ol></div><div class=\"block\"><h3>ทำไมต้องสนใจ</h3><p>เมื่อคุณรู้ว่ามันทำงานเป็นลูป คุณจะ <b>ให้เครื่องมือที่ช่วยตรวจผล</b> เช่น มี test ที่รันได้ มี linter — ยิ่ง Claude ตรวจผลตัวเองได้ดี งานยิ่งออกมาถูก เพราะมันแก้เองจนผ่าน</p></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">ก่อนเริ่มแก้ ช่วยวางแผนเป็นขั้นตอนให้ดูก่อน ว่าจะทำอะไรบ้าง แล้วรอให้ฉันยืนยัน</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> ให้ Claude มี 'feedback loop' เสมอ — โปรเจกต์ที่มี test/build ที่รันได้ จะได้งานคุณภาพสูงกว่ามาก</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>Agentic = วางแผน→ทำ→ตรวจ→ปรับ เป็นลูป</li><li>ยิ่งมีเครื่องมือตรวจผล งานยิ่งแม่น</li><li>ขอดูแผนก่อนลงมือได้เสมอ</li></ul></div>",
+      "body_text": "Agentic Loop ทำงานยังไง เข้าใจเป้าหมาย — อ่านคำสั่งและ context ของโปรเจกต์ วางแผน — แตกงานเป็นขั้นตอนย่อย ลงมือ — อ่านไฟล์ แก้โค้ด รันคำสั่ง ตรวจผล — รัน test/build ดูว่าได้ผลไหม ปรับแก้ — ถ้าไม่ผ่าน วนกลับไปแก้ ทำไมต้องสนใจ เมื่อคุณรู้ว่ามันทำงานเป็นลูป คุณจะ ให้เครื่องมือที่ช่วยตรวจผล เช่น มี test ที่รันได้ มี linter — ยิ่ง Claude ตรวจผลตัวเองได้ดี งานยิ่งออกมาถูก เพราะมันแก้เองจนผ่าน 💬 ลองใช้ Prompt นี้กับ Claude ก่อนเริ่มแก้ ช่วยวางแผนเป็นขั้นตอนให้ดูก่อน ว่าจะทำอะไรบ้าง แล้วรอให้ฉันยืนยัน 📋 คัดลอก Prompt 💡 เคล็ดลับ: ให้ Claude มี 'feedback loop' เสมอ — โปรเจกต์ที่มี test/build ที่รันได้ จะได้งานคุณภาพสูงกว่ามาก 📌 สรุปบทนี้ Agentic = วางแผน→ทำ→ตรวจ→ปรับ เป็นลูป ยิ่งมีเครื่องมือตรวจผล งานยิ่งแม่น ขอดูแผนก่อนลงมือได้เสมอ",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "Agentic Loop ทำงานยังไง",
+       "ทำไมต้องสนใจ"
+      ]
+     },
+     "module_title": "🧠 Claude Code คืออะไร ทำไมต้องใช้",
+     "module_num": "1",
+     "global_index": 1,
+     "prev": "lessons/01-what-is-claude-code.html",
+     "prev_title": "Claude Code vs Copilot vs Cursor",
+     "next": "lessons/01-real-use-cases.html",
+     "next_title": "Use cases จริงที่ได้ผล"
+    },
+    {
+     "href": "lessons/01-real-use-cases.html",
+     "slug": "01-real-use-cases",
+     "icon": "💡",
+     "num": "1.3",
+     "title": "Use cases จริงที่ได้ผล",
+     "content": {
+      "lesson_no": "บทเรียน 1.3",
+      "h1": "Use Cases จริงที่ได้ผล",
+      "intro": "Claude Code ไม่ได้เก่งทุกอย่างเท่ากัน บทนี้รวม use case ที่ได้ผลจริงจากการใช้งานจริง เพื่อให้คุณรู้ว่าควรเริ่มใช้กับงานแบบไหน",
+      "body_html": "<div class=\"block\"><h3>งานที่ Claude Code ทำได้ดีมาก</h3><ul class='ul'><li>สร้างฟีเจอร์ใหม่จากศูนย์ (มี spec ชัด)</li><li>แก้ bug ที่มี error message</li><li>เขียน test ให้โค้ดที่มีอยู่</li><li>Refactor โค้ดซ้ำๆ ทั้งโปรเจกต์</li><li>เขียน/อัปเดต documentation</li><li>แปลงภาษา/เฟรมเวิร์ก (เช่น JS→TS)</li><li>ตั้งค่า boilerplate, config, CI/CD</li></ul></div><div class=\"block\"><h3>ตัวอย่างจริง</h3><p><b>\"เพิ่มระบบ login ด้วย JWT\"</b> → Claude สร้าง middleware, route, test ครบ</p><p><b>\"test นี้พัง ช่วยดูให้ที\"</b> → อ่าน error, หาสาเหตุ, แก้, รัน test จนผ่าน</p><p><b>\"เว็บโหลดช้า หาสาเหตุหน่อย\"</b> → วิเคราะห์ bundle, หา bottleneck, เสนอแนวทาง</p></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">ฉันอยากเพิ่มฟีเจอร์ [อธิบายฟีเจอร์] ช่วยวางแผนและลงมือทำ พร้อมเขียน test ด้วย</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> เริ่มจากงานที่ 'ตรวจผลง่าย' ก่อน เช่น แก้ bug ที่มี test — คุณจะเห็นพลังของ Claude Code เร็วที่สุด</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>เหมาะกับฟีเจอร์ใหม่, แก้ bug, test, refactor, docs</li><li>งานที่ตรวจผลได้ = ได้ผลดีที่สุด</li><li>เริ่มจากงานเล็กที่วัดผลง่าย</li></ul></div>",
+      "body_text": "งานที่ Claude Code ทำได้ดีมาก สร้างฟีเจอร์ใหม่จากศูนย์ (มี spec ชัด) แก้ bug ที่มี error message เขียน test ให้โค้ดที่มีอยู่ Refactor โค้ดซ้ำๆ ทั้งโปรเจกต์ เขียน/อัปเดต documentation แปลงภาษา/เฟรมเวิร์ก (เช่น JS→TS) ตั้งค่า boilerplate, config, CI/CD ตัวอย่างจริง \"เพิ่มระบบ login ด้วย JWT\" → Claude สร้าง middleware, route, test ครบ \"test นี้พัง ช่วยดูให้ที\" → อ่าน error, หาสาเหตุ, แก้, รัน test จนผ่าน \"เว็บโหลดช้า หาสาเหตุหน่อย\" → วิเคราะห์ bundle, หา bottleneck, เสนอแนวทาง 💬 ลองใช้ Prompt นี้กับ Claude ฉันอยากเพิ่มฟีเจอร์ [อธิบายฟีเจอร์] ช่วยวางแผนและลงมือทำ พร้อมเขียน test ด้วย 📋 คัดลอก Prompt 💡 เคล็ดลับ: เริ่มจากงานที่ 'ตรวจผลง่าย' ก่อน เช่น แก้ bug ที่มี test — คุณจะเห็นพลังของ Claude Code เร็วที่สุด 📌 สรุปบทนี้ เหมาะกับฟีเจอร์ใหม่, แก้ bug, test, refactor, docs งานที่ตรวจผลได้ = ได้ผลดีที่สุด เริ่มจากงานเล็กที่วัดผลง่าย",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "งานที่ Claude Code ทำได้ดีมาก",
+       "ตัวอย่างจริง"
+      ]
+     },
+     "module_title": "🧠 Claude Code คืออะไร ทำไมต้องใช้",
+     "module_num": "1",
+     "global_index": 2,
+     "prev": "lessons/01-agentic-mode.html",
+     "prev_title": "Agentic Mode คืออะไร",
+     "next": "lessons/01-limitations.html",
+     "next_title": "ข้อจำกัดที่ต้องรู้"
+    },
+    {
+     "href": "lessons/01-limitations.html",
+     "slug": "01-limitations",
+     "icon": "⚠️",
+     "num": "1.4",
+     "title": "ข้อจำกัดที่ต้องรู้",
+     "content": {
+      "lesson_no": "บทเรียน 1.4",
+      "h1": "ข้อจำกัดที่ต้องรู้ก่อนใช้",
+      "intro": "รู้ข้อจำกัดก่อนใช้ จะช่วยให้คุณใช้ Claude Code ได้อย่างปลอดภัยและไม่ผิดหวัง บทนี้พูดตรงๆ ว่าอะไรที่ต้องระวัง",
+      "body_html": "<div class=\"block\"><h3>ข้อจำกัดที่ต้องรู้</h3><ul class='ul'><li><b>Context มีจำกัด</b> — โปรเจกต์ใหญ่มากอาจต้องบอกให้โฟกัสเฉพาะส่วน</li><li><b>ไม่รู้ข้อมูลล่าสุดเสมอ</b> — library version ใหม่มากอาจต้องใช้ /context7 ช่วย</li><li><b>อาจมั่นใจผิด</b> — ตรวจงานสำคัญเสมอ โดยเฉพาะ logic ธุรกิจและ security</li><li><b>ไม่เห็นภาพรวมที่คุณไม่ได้บอก</b> — context ดี = ผลดี</li></ul></div><div class=\"block\"><h3>วิธีรับมือ</h3><p>เขียน CLAUDE.md ให้ดี, ให้ test เป็นตัวตรวจ, review โค้ดก่อน merge, และอย่าให้สิทธิ์รันคำสั่งอันตราย (เช่น <code>rm -rf</code>) แบบอัตโนมัติ</p></div>\n  \n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> กฎทอง: Claude Code คือ junior dev ที่เร็วมากและขยันมาก — แต่คุณยังเป็นคน review</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>Context จำกัด → โฟกัสให้ถูกจุด</li><li>ตรวจงาน security/logic เสมอ</li><li>ตั้ง permission ระวังคำสั่งอันตราย</li></ul></div>",
+      "body_text": "ข้อจำกัดที่ต้องรู้ Context มีจำกัด — โปรเจกต์ใหญ่มากอาจต้องบอกให้โฟกัสเฉพาะส่วน ไม่รู้ข้อมูลล่าสุดเสมอ — library version ใหม่มากอาจต้องใช้ /context7 ช่วย อาจมั่นใจผิด — ตรวจงานสำคัญเสมอ โดยเฉพาะ logic ธุรกิจและ security ไม่เห็นภาพรวมที่คุณไม่ได้บอก — context ดี = ผลดี วิธีรับมือ เขียน CLAUDE.md ให้ดี, ให้ test เป็นตัวตรวจ, review โค้ดก่อน merge, และอย่าให้สิทธิ์รันคำสั่งอันตราย (เช่น rm -rf ) แบบอัตโนมัติ 💡 เคล็ดลับ: กฎทอง: Claude Code คือ junior dev ที่เร็วมากและขยันมาก — แต่คุณยังเป็นคน review 📌 สรุปบทนี้ Context จำกัด → โฟกัสให้ถูกจุด ตรวจงาน security/logic เสมอ ตั้ง permission ระวังคำสั่งอันตราย",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "ข้อจำกัดที่ต้องรู้",
+       "วิธีรับมือ"
+      ]
+     },
+     "module_title": "🧠 Claude Code คืออะไร ทำไมต้องใช้",
+     "module_num": "1",
+     "global_index": 3,
+     "prev": "lessons/01-real-use-cases.html",
+     "prev_title": "Use cases จริงที่ได้ผล",
+     "next": "lessons/02-install.html",
+     "next_title": "ติดตั้ง CLI + VS Code Extension"
+    }
+   ]
+  },
+  {
+   "num": "2",
+   "title": "⚙️ Setup & Configuration",
+   "sub": "ติดตั้งและตั้งค่าครั้งแรก",
+   "lessons": [
+    {
+     "href": "lessons/02-install.html",
+     "slug": "02-install",
+     "icon": "💻",
+     "num": "2.1",
+     "title": "ติดตั้ง CLI + VS Code Extension",
+     "content": {
+      "lesson_no": "บทเรียน 2.1",
+      "h1": "ติดตั้ง Claude Code CLI + Extension",
+      "intro": "ติดตั้ง Claude Code ให้พร้อมใช้งานบนเครื่องคุณ บทนี้ครอบคลุมทั้ง Mac และ Windows พร้อม extension ที่ช่วยให้ทำงานสะดวกขึ้น",
+      "body_html": "<div class=\"block\"><h3>ติดตั้งผ่าน npm (วิธีหลัก)</h3><p>ต้องมี Node.js 18+ ก่อน (โหลดจาก nodejs.org) แล้วรัน:</p><div class=\"code-block\"><button class=\"ccopy\" onclick=\"cc(this)\">📋</button><pre>npm install -g @anthropic-ai/claude-code</pre></div></div><div class=\"block\"><h3>เริ่มใช้งาน</h3><p>เข้าไปในโฟลเดอร์โปรเจกต์ แล้วพิมพ์ <code>claude</code> ครั้งแรกจะให้ login ผ่านเบราว์เซอร์</p><div class=\"code-block\"><button class=\"ccopy\" onclick=\"cc(this)\">📋</button><pre>claude</pre></div></div><div class=\"block\"><h3>VS Code Extension</h3><p>ติดตั้ง extension 'Claude Code' จาก marketplace เพื่อใช้งานในตัว editor — เห็น diff สวยงาม และสั่งงานจากในไฟล์ได้</p></div>\n  \n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> มือใหม่ไม่มีพื้นฐานเลย? ไปที่หน้า 'เริ่มจากศูนย์' จะจับมือทำทีละขั้นแบบละเอียดกว่า</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>ต้องมี Node.js 18+ ก่อน</li><li>ติดตั้งด้วย npm install -g @anthropic-ai/claude-code</li><li>พิมพ์ claude เพื่อเริ่ม</li></ul></div>",
+      "body_text": "ติดตั้งผ่าน npm (วิธีหลัก) ต้องมี Node.js 18+ ก่อน (โหลดจาก nodejs.org) แล้วรัน: 📋 npm install -g @anthropic-ai/claude-code เริ่มใช้งาน เข้าไปในโฟลเดอร์โปรเจกต์ แล้วพิมพ์ claude ครั้งแรกจะให้ login ผ่านเบราว์เซอร์ 📋 claude VS Code Extension ติดตั้ง extension 'Claude Code' จาก marketplace เพื่อใช้งานในตัว editor — เห็น diff สวยงาม และสั่งงานจากในไฟล์ได้ 💡 เคล็ดลับ: มือใหม่ไม่มีพื้นฐานเลย? ไปที่หน้า 'เริ่มจากศูนย์' จะจับมือทำทีละขั้นแบบละเอียดกว่า 📌 สรุปบทนี้ ต้องมี Node.js 18+ ก่อน ติดตั้งด้วย npm install -g @anthropic-ai/claude-code พิมพ์ claude เพื่อเริ่ม",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "ติดตั้งผ่าน npm (วิธีหลัก)",
+       "เริ่มใช้งาน",
+       "VS Code Extension"
+      ]
+     },
+     "module_title": "⚙️ Setup & Configuration",
+     "module_num": "2",
+     "global_index": 4,
+     "prev": "lessons/01-limitations.html",
+     "prev_title": "ข้อจำกัดที่ต้องรู้",
+     "next": "lessons/02-api-key.html",
+     "next_title": "ตั้งค่า Login และ Billing"
+    },
+    {
+     "href": "lessons/02-api-key.html",
+     "slug": "02-api-key",
+     "icon": "🔑",
+     "num": "2.2",
+     "title": "ตั้งค่า Login และ Billing",
+     "content": {
+      "lesson_no": "บทเรียน 2.2",
+      "h1": "ตั้งค่า Login และ Billing",
+      "intro": "Claude Code เข้าสู่ระบบได้ 2 แบบ: ผ่านบัญชี Claude (subscription) หรือผ่าน API key บทนี้อธิบายว่าควรเลือกแบบไหน",
+      "body_html": "<div class=\"block\"><h3>2 วิธี Login</h3><ul class='ul'><li><b>บัญชี Claude (แนะนำ)</b> — login ผ่านเบราว์เซอร์ ใช้โควต้าจาก subscription (Pro/Max) เหมาะกับงานส่วนตัว</li><li><b>API Key</b> — จ่ายตามการใช้งานจริง (pay-as-you-go) เหมาะกับทีม, automation, CI/CD</li></ul></div><div class=\"block\"><h3>ตั้งค่า API Key</h3><p>สร้าง key ที่ console.anthropic.com แล้วตั้งเป็น environment variable:</p><div class=\"code-block\"><button class=\"ccopy\" onclick=\"cc(this)\">📋</button><pre>export ANTHROPIC_API_KEY=sk-ant-...</pre></div></div>\n  \n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> ใช้งานคนเดียวเริ่มด้วย login บัญชี Claude ง่ายสุด — API key ค่อยใช้ตอนทำ automation/CI</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>บัญชี Claude เหมาะงานส่วนตัว</li><li>API key เหมาะ automation/CI</li><li>API key = จ่ายตามใช้จริง</li></ul></div>",
+      "body_text": "2 วิธี Login บัญชี Claude (แนะนำ) — login ผ่านเบราว์เซอร์ ใช้โควต้าจาก subscription (Pro/Max) เหมาะกับงานส่วนตัว API Key — จ่ายตามการใช้งานจริง (pay-as-you-go) เหมาะกับทีม, automation, CI/CD ตั้งค่า API Key สร้าง key ที่ console.anthropic.com แล้วตั้งเป็น environment variable: 📋 export ANTHROPIC_API_KEY=sk-ant-... 💡 เคล็ดลับ: ใช้งานคนเดียวเริ่มด้วย login บัญชี Claude ง่ายสุด — API key ค่อยใช้ตอนทำ automation/CI 📌 สรุปบทนี้ บัญชี Claude เหมาะงานส่วนตัว API key เหมาะ automation/CI API key = จ่ายตามใช้จริง",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "2 วิธี Login",
+       "ตั้งค่า API Key"
+      ]
+     },
+     "module_title": "⚙️ Setup & Configuration",
+     "module_num": "2",
+     "global_index": 5,
+     "prev": "lessons/02-install.html",
+     "prev_title": "ติดตั้ง CLI + VS Code Extension",
+     "next": "lessons/02-claude-md.html",
+     "next_title": "สร้าง CLAUDE.md ที่ดี"
+    },
+    {
+     "href": "lessons/02-claude-md.html",
+     "slug": "02-claude-md",
+     "icon": "📋",
+     "num": "2.3",
+     "title": "สร้าง CLAUDE.md ที่ดี",
+     "content": {
+      "lesson_no": "บทเรียน 2.3",
+      "h1": "สร้าง CLAUDE.md ที่ดี",
+      "intro": "CLAUDE.md คือไฟล์ที่ Claude อ่านทุกครั้งที่เริ่มทำงาน เปรียบเหมือน 'คู่มือพนักงานใหม่' ของโปรเจกต์ ยิ่งเขียนดี Claude ยิ่งทำงานตรงใจ",
+      "body_html": "<div class=\"block\"><h3>ควรใส่อะไรบ้าง</h3><ul class='ul'><li><b>Tech stack</b> — ภาษา, เฟรมเวิร์ก, version</li><li><b>Conventions</b> — naming, code style, โครงสร้างโฟลเดอร์</li><li><b>คำสั่งสำคัญ</b> — วิธี build, test, run dev</li><li><b>NEVER</b> — สิ่งที่ห้ามทำเด็ดขาด</li></ul></div><div class=\"block\"><h3>ตัวอย่าง CLAUDE.md</h3><p>วางไว้ที่ root ของโปรเจกต์ ชื่อ <code>CLAUDE.md</code></p><div class=\"code-block\"><button class=\"ccopy\" onclick=\"cc(this)\">📋</button><pre># My Project\n## Stack\n- Node 22, TypeScript strict\n- React 19 + TailwindCSS\n## Commands\n- dev: npm run dev\n- test: npm test\n## NEVER\n- อย่าใช้ any\n- อย่า commit โดยไม่รัน test</pre></div></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">ช่วยอ่านโปรเจกต์นี้แล้วสร้างไฟล์ CLAUDE.md ที่เหมาะสมให้หน่อย ใส่ tech stack, conventions, และคำสั่งสำคัญ</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> ให้ Claude สร้าง CLAUDE.md ร่างแรกให้ก่อน แล้วคุณค่อยแก้เพิ่ม — เร็วกว่าเขียนเองจากศูนย์</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>CLAUDE.md = คู่มือโปรเจกต์ที่ Claude อ่านทุกครั้ง</li><li>ใส่ stack, conventions, commands, NEVER</li><li>ให้ Claude ช่วยร่างได้</li></ul></div>",
+      "body_text": "ควรใส่อะไรบ้าง Tech stack — ภาษา, เฟรมเวิร์ก, version Conventions — naming, code style, โครงสร้างโฟลเดอร์ คำสั่งสำคัญ — วิธี build, test, run dev NEVER — สิ่งที่ห้ามทำเด็ดขาด ตัวอย่าง CLAUDE.md วางไว้ที่ root ของโปรเจกต์ ชื่อ CLAUDE.md 📋 # My Project ## Stack - Node 22, TypeScript strict - React 19 + TailwindCSS ## Commands - dev: npm run dev - test: npm test ## NEVER - อย่าใช้ any - อย่า commit โดยไม่รัน test 💬 ลองใช้ Prompt นี้กับ Claude ช่วยอ่านโปรเจกต์นี้แล้วสร้างไฟล์ CLAUDE.md ที่เหมาะสมให้หน่อย ใส่ tech stack, conventions, และคำสั่งสำคัญ 📋 คัดลอก Prompt 💡 เคล็ดลับ: ให้ Claude สร้าง CLAUDE.md ร่างแรกให้ก่อน แล้วคุณค่อยแก้เพิ่ม — เร็วกว่าเขียนเองจากศูนย์ 📌 สรุปบทนี้ CLAUDE.md = คู่มือโปรเจกต์ที่ Claude อ่านทุกครั้ง ใส่ stack, conventions, commands, NEVER ให้ Claude ช่วยร่างได้",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "ควรใส่อะไรบ้าง",
+       "ตัวอย่าง CLAUDE.md"
+      ]
+     },
+     "module_title": "⚙️ Setup & Configuration",
+     "module_num": "2",
+     "global_index": 6,
+     "prev": "lessons/02-api-key.html",
+     "prev_title": "ตั้งค่า Login และ Billing",
+     "next": "lessons/02-settings.html",
+     "next_title": "settings.json ปรับ behavior"
+    },
+    {
+     "href": "lessons/02-settings.html",
+     "slug": "02-settings",
+     "icon": "⚙️",
+     "num": "2.4",
+     "title": "settings.json ปรับ behavior",
+     "content": {
+      "lesson_no": "บทเรียน 2.4",
+      "h1": "settings.json — ปรับ behavior",
+      "intro": "settings.json ให้คุณปรับพฤติกรรมของ Claude Code ได้ เช่น สิทธิ์การใช้ tool, hooks, และ environment ต่างๆ",
+      "body_html": "<div class=\"block\"><h3>ที่อยู่ของ settings</h3><ul class='ul'><li><code>~/.claude/settings.json</code> — ตั้งค่าระดับ user (ทุกโปรเจกต์)</li><li><code>.claude/settings.json</code> — ตั้งค่าเฉพาะโปรเจกต์ (commit ขึ้น git ได้)</li><li><code>.claude/settings.local.json</code> — เฉพาะเครื่องคุณ (ไม่ commit)</li></ul></div><div class=\"block\"><h3>ตัวอย่างพื้นฐาน</h3><p>กำหนด tool ที่อนุญาตให้ใช้โดยไม่ต้องถาม:</p><div class=\"code-block\"><button class=\"ccopy\" onclick=\"cc(this)\">📋</button><pre>{\n  &quot;permissions&quot;: {\n    &quot;allow&quot;: [&quot;Bash(npm:*)&quot;, &quot;Bash(git:*)&quot;]\n  }\n}</pre></div></div>\n  \n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> ตั้งค่าเฉพาะโปรเจกต์ใน .claude/settings.json แล้ว commit ขึ้น git ทีมจะได้ใช้ค่าเดียวกัน</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>settings มี 3 ระดับ: user, project, local</li><li>ใช้กำหนด permission, hooks, env</li><li>commit project settings ให้ทีมใช้ร่วม</li></ul></div>",
+      "body_text": "ที่อยู่ของ settings ~/.claude/settings.json — ตั้งค่าระดับ user (ทุกโปรเจกต์) .claude/settings.json — ตั้งค่าเฉพาะโปรเจกต์ (commit ขึ้น git ได้) .claude/settings.local.json — เฉพาะเครื่องคุณ (ไม่ commit) ตัวอย่างพื้นฐาน กำหนด tool ที่อนุญาตให้ใช้โดยไม่ต้องถาม: 📋 { \"permissions\": { \"allow\": [\"Bash(npm:*)\", \"Bash(git:*)\"] } } 💡 เคล็ดลับ: ตั้งค่าเฉพาะโปรเจกต์ใน .claude/settings.json แล้ว commit ขึ้น git ทีมจะได้ใช้ค่าเดียวกัน 📌 สรุปบทนี้ settings มี 3 ระดับ: user, project, local ใช้กำหนด permission, hooks, env commit project settings ให้ทีมใช้ร่วม",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "ที่อยู่ของ settings",
+       "ตัวอย่างพื้นฐาน"
+      ]
+     },
+     "module_title": "⚙️ Setup & Configuration",
+     "module_num": "2",
+     "global_index": 7,
+     "prev": "lessons/02-claude-md.html",
+     "prev_title": "สร้าง CLAUDE.md ที่ดี",
+     "next": "lessons/02-permissions.html",
+     "next_title": "Permission System"
+    },
+    {
+     "href": "lessons/02-permissions.html",
+     "slug": "02-permissions",
+     "icon": "🛡️",
+     "num": "2.5",
+     "title": "Permission System",
+     "content": {
+      "lesson_no": "บทเรียน 2.5",
+      "h1": "Permission System",
+      "intro": "ระบบ permission ของ Claude Code ป้องกันไม่ให้ AI ทำสิ่งอันตรายโดยไม่ได้รับอนุญาต เข้าใจระบบนี้แล้วจะทำงานได้ทั้งเร็วและปลอดภัย",
+      "body_html": "<div class=\"block\"><h3>ระบบทำงานยังไง</h3><p>ทุกครั้งที่ Claude จะรันคำสั่งหรือแก้ไฟล์ ระบบจะถามขออนุญาต (ยกเว้นที่คุณ allow ไว้แล้ว) คุณกด yes/no ได้ทุกครั้ง</p></div><div class=\"block\"><h3>ตั้ง allowlist ให้ทำงานลื่นขึ้น</h3><p>คำสั่งที่ปลอดภัยและใช้บ่อย ใส่ใน allow เพื่อไม่ต้องถามซ้ำ แต่<b>อย่า</b> allow คำสั่งอันตราย เช่น <code>rm</code>:</p><div class=\"code-block\"><button class=\"ccopy\" onclick=\"cc(this)\">📋</button><pre>{\n  &quot;permissions&quot;: {\n    &quot;allow&quot;: [&quot;Bash(npm:*)&quot;, &quot;Bash(git:*)&quot;, &quot;Read&quot;, &quot;Edit&quot;],\n    &quot;deny&quot;: [&quot;Bash(rm:*)&quot;]\n  }\n}</pre></div></div>\n  \n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> เริ่มจากเข้มไว้ก่อน แล้วค่อยๆ allow คำสั่งที่เจอบ่อยและมั่นใจว่าปลอดภัย</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>Claude ถามก่อนทำสิ่งสำคัญเสมอ</li><li>allowlist ลดการถามซ้ำ</li><li>อย่า allow คำสั่งอันตรายอัตโนมัติ</li></ul></div>",
+      "body_text": "ระบบทำงานยังไง ทุกครั้งที่ Claude จะรันคำสั่งหรือแก้ไฟล์ ระบบจะถามขออนุญาต (ยกเว้นที่คุณ allow ไว้แล้ว) คุณกด yes/no ได้ทุกครั้ง ตั้ง allowlist ให้ทำงานลื่นขึ้น คำสั่งที่ปลอดภัยและใช้บ่อย ใส่ใน allow เพื่อไม่ต้องถามซ้ำ แต่ อย่า allow คำสั่งอันตราย เช่น rm : 📋 { \"permissions\": { \"allow\": [\"Bash(npm:*)\", \"Bash(git:*)\", \"Read\", \"Edit\"], \"deny\": [\"Bash(rm:*)\"] } } 💡 เคล็ดลับ: เริ่มจากเข้มไว้ก่อน แล้วค่อยๆ allow คำสั่งที่เจอบ่อยและมั่นใจว่าปลอดภัย 📌 สรุปบทนี้ Claude ถามก่อนทำสิ่งสำคัญเสมอ allowlist ลดการถามซ้ำ อย่า allow คำสั่งอันตรายอัตโนมัติ",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "ระบบทำงานยังไง",
+       "ตั้ง allowlist ให้ทำงานลื่นขึ้น"
+      ]
+     },
+     "module_title": "⚙️ Setup & Configuration",
+     "module_num": "2",
+     "global_index": 8,
+     "prev": "lessons/02-settings.html",
+     "prev_title": "settings.json ปรับ behavior",
+     "next": "lessons/03-context-first.html",
+     "next_title": "Context-first prompting"
+    }
+   ]
+  },
+  {
+   "num": "3",
+   "title": "💬 Prompt Engineering",
+   "sub": "คุยกับ Claude ให้ได้ผลที่ต้องการ",
+   "lessons": [
+    {
+     "href": "lessons/03-context-first.html",
+     "slug": "03-context-first",
+     "icon": "🎯",
+     "num": "3.1",
+     "title": "Context-first prompting",
+     "content": {
+      "lesson_no": "บทเรียน 3.1",
+      "h1": "Context-First Prompting",
+      "intro": "เทคนิคที่ทรงพลังที่สุดในการคุยกับ Claude Code คือการให้ context ก่อนสั่งงาน ยิ่ง Claude เข้าใจสถานการณ์ ยิ่งทำงานตรงใจ",
+      "body_html": "<div class=\"block\"><h3>Context-First คืออะไร</h3><p>แทนที่จะสั่งงานลอยๆ ให้บอกบริบทก่อน: นี่คือโปรเจกต์อะไร, ตอนนี้มีอะไรอยู่, อยากได้ผลลัพธ์แบบไหน, มีข้อจำกัดอะไร</p></div><div class=\"block\"><h3>เปรียบเทียบ</h3><p><b>❌ ไม่ดี:</b> \"สร้างฟอร์ม login\"</p><p><b>✅ ดี:</b> \"โปรเจกต์นี้ใช้ React + TailwindCSS เรามี component Button อยู่แล้วใน components/ui ช่วยสร้างฟอร์ม login ที่ใช้ Button ตัวนั้น มี validation อีเมล/รหัสผ่าน และเรียก API ที่ /api/auth/login\"</p></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">โปรเจกต์นี้ใช้ [stack] เรามี [สิ่งที่มีอยู่] ฉันอยากได้ [เป้าหมาย] โดยมีข้อจำกัดคือ [ข้อจำกัด] ช่วยทำให้หน่อย</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> ถ้าขี้เกียจพิมพ์ context ยาวๆ ให้เขียนไว้ใน CLAUDE.md ครั้งเดียว Claude จะรู้เองทุกครั้ง</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>ให้บริบทก่อนสั่งงาน</li><li>ระบุ stack, สิ่งที่มี, เป้าหมาย, ข้อจำกัด</li><li>context ซ้ำๆ เก็บไว้ใน CLAUDE.md</li></ul></div>",
+      "body_text": "Context-First คืออะไร แทนที่จะสั่งงานลอยๆ ให้บอกบริบทก่อน: นี่คือโปรเจกต์อะไร, ตอนนี้มีอะไรอยู่, อยากได้ผลลัพธ์แบบไหน, มีข้อจำกัดอะไร เปรียบเทียบ ❌ ไม่ดี: \"สร้างฟอร์ม login\" ✅ ดี: \"โปรเจกต์นี้ใช้ React + TailwindCSS เรามี component Button อยู่แล้วใน components/ui ช่วยสร้างฟอร์ม login ที่ใช้ Button ตัวนั้น มี validation อีเมล/รหัสผ่าน และเรียก API ที่ /api/auth/login\" 💬 ลองใช้ Prompt นี้กับ Claude โปรเจกต์นี้ใช้ [stack] เรามี [สิ่งที่มีอยู่] ฉันอยากได้ [เป้าหมาย] โดยมีข้อจำกัดคือ [ข้อจำกัด] ช่วยทำให้หน่อย 📋 คัดลอก Prompt 💡 เคล็ดลับ: ถ้าขี้เกียจพิมพ์ context ยาวๆ ให้เขียนไว้ใน CLAUDE.md ครั้งเดียว Claude จะรู้เองทุกครั้ง 📌 สรุปบทนี้ ให้บริบทก่อนสั่งงาน ระบุ stack, สิ่งที่มี, เป้าหมาย, ข้อจำกัด context ซ้ำๆ เก็บไว้ใน CLAUDE.md",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "Context-First คืออะไร",
+       "เปรียบเทียบ"
+      ]
+     },
+     "module_title": "💬 Prompt Engineering",
+     "module_num": "3",
+     "global_index": 9,
+     "prev": "lessons/02-permissions.html",
+     "prev_title": "Permission System",
+     "next": "lessons/03-constraints.html",
+     "next_title": "ให้ constraints ที่ชัดเจน"
+    },
+    {
+     "href": "lessons/03-constraints.html",
+     "slug": "03-constraints",
+     "icon": "📌",
+     "num": "3.2",
+     "title": "ให้ constraints ที่ชัดเจน",
+     "content": {
+      "lesson_no": "บทเรียน 3.2",
+      "h1": "ให้ Constraints ที่ชัดเจน",
+      "intro": "การบอก Claude ว่า 'ห้ามทำอะไร' สำคัญพอๆ กับบอกว่า 'ให้ทำอะไร' constraints ที่ชัดเจนช่วยให้ได้โค้ดที่เข้ากับโปรเจกต์",
+      "body_html": "<div class=\"block\"><h3>ประเภทของ constraints</h3><ul class='ul'><li><b>เทคนิค</b> — \"ใช้ TypeScript เท่านั้น ห้ามใช้ any\"</li><li><b>ขอบเขต</b> — \"แก้เฉพาะไฟล์นี้ อย่าแตะไฟล์อื่น\"</li><li><b>สไตล์</b> — \"ตามรูปแบบ code ที่มีอยู่ ห้ามเพิ่ม dependency ใหม่\"</li><li><b>ความปลอดภัย</b> — \"อย่า hardcode secret อย่าลบ data\"</li></ul></div><div class=\"block\"><h3>ตัวอย่างใช้งาน</h3><p>ใส่ constraints ท้าย prompt เสมอเมื่องานสำคัญ</p></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">ช่วยแก้ฟังก์ชันนี้ให้เร็วขึ้น โดยมีข้อจำกัด: ห้ามเปลี่ยน signature ของฟังก์ชัน, ห้ามเพิ่ม library ใหม่, ต้องผ่าน test เดิมทั้งหมด</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> constraints ที่ใช้ทุกครั้ง เช่น 'ห้ามใช้ any' ให้ใส่ในส่วน NEVER ของ CLAUDE.md</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>บอก 'ห้ามทำอะไร' ด้วย</li><li>มี constraints แบบเทคนิค/ขอบเขต/สไตล์/security</li><li>constraints ประจำใส่ใน CLAUDE.md</li></ul></div>",
+      "body_text": "ประเภทของ constraints เทคนิค — \"ใช้ TypeScript เท่านั้น ห้ามใช้ any\" ขอบเขต — \"แก้เฉพาะไฟล์นี้ อย่าแตะไฟล์อื่น\" สไตล์ — \"ตามรูปแบบ code ที่มีอยู่ ห้ามเพิ่ม dependency ใหม่\" ความปลอดภัย — \"อย่า hardcode secret อย่าลบ data\" ตัวอย่างใช้งาน ใส่ constraints ท้าย prompt เสมอเมื่องานสำคัญ 💬 ลองใช้ Prompt นี้กับ Claude ช่วยแก้ฟังก์ชันนี้ให้เร็วขึ้น โดยมีข้อจำกัด: ห้ามเปลี่ยน signature ของฟังก์ชัน, ห้ามเพิ่ม library ใหม่, ต้องผ่าน test เดิมทั้งหมด 📋 คัดลอก Prompt 💡 เคล็ดลับ: constraints ที่ใช้ทุกครั้ง เช่น 'ห้ามใช้ any' ให้ใส่ในส่วน NEVER ของ CLAUDE.md 📌 สรุปบทนี้ บอก 'ห้ามทำอะไร' ด้วย มี constraints แบบเทคนิค/ขอบเขต/สไตล์/security constraints ประจำใส่ใน CLAUDE.md",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "ประเภทของ constraints",
+       "ตัวอย่างใช้งาน"
+      ]
+     },
+     "module_title": "💬 Prompt Engineering",
+     "module_num": "3",
+     "global_index": 10,
+     "prev": "lessons/03-context-first.html",
+     "prev_title": "Context-first prompting",
+     "next": "lessons/03-think-first.html",
+     "next_title": "คิดก่อน แล้วค่อยทำ"
+    },
+    {
+     "href": "lessons/03-think-first.html",
+     "slug": "03-think-first",
+     "icon": "🤔",
+     "num": "3.3",
+     "title": "คิดก่อน แล้วค่อยทำ",
+     "content": {
+      "lesson_no": "บทเรียน 3.3",
+      "h1": "คิดก่อน แล้วค่อยทำ",
+      "intro": "สำหรับงานซับซ้อน การให้ Claude 'คิดและวางแผนก่อนลงมือ' ช่วยให้ได้ผลดีกว่ามาก และคุณ redirect ได้ก่อนที่มันจะทำผิดทาง",
+      "body_html": "<div class=\"block\"><h3>ทำไมต้องให้คิดก่อน</h3><p>เมื่อ Claude วางแผนออกมาให้ดูก่อน คุณจะเห็นว่ามันเข้าใจถูกไหม ถ้าผิดทางก็แก้ได้ทันทีก่อนเสียเวลาเขียนโค้ด</p></div><div class=\"block\"><h3>วิธีกระตุ้นให้คิด</h3><p>เติมประโยคพวกนี้ท้าย prompt: \"อธิบาย approach ก่อนเขียนโค้ด\", \"เสนอ 2-3 ทางเลือกพร้อมข้อดีข้อเสีย\", \"วางแผนเป็นขั้นตอนแล้วรอฉันยืนยัน\"</p></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">ฉันอยาก [เป้าหมาย] ก่อนเขียนโค้ด ช่วยอธิบาย approach และ trade-offs ของแต่ละทางเลือกก่อน แล้วรอให้ฉันเลือก</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> ยิ่งงานใหญ่/สำคัญ ยิ่งควรให้วางแผนก่อน — งานเล็กๆ สั่งทำเลยก็ได้</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>ให้วางแผนก่อนงานซับซ้อน</li><li>เห็นแผน = redirect ได้ทัน</li><li>ขอทางเลือกพร้อมข้อดีข้อเสีย</li></ul></div>",
+      "body_text": "ทำไมต้องให้คิดก่อน เมื่อ Claude วางแผนออกมาให้ดูก่อน คุณจะเห็นว่ามันเข้าใจถูกไหม ถ้าผิดทางก็แก้ได้ทันทีก่อนเสียเวลาเขียนโค้ด วิธีกระตุ้นให้คิด เติมประโยคพวกนี้ท้าย prompt: \"อธิบาย approach ก่อนเขียนโค้ด\", \"เสนอ 2-3 ทางเลือกพร้อมข้อดีข้อเสีย\", \"วางแผนเป็นขั้นตอนแล้วรอฉันยืนยัน\" 💬 ลองใช้ Prompt นี้กับ Claude ฉันอยาก [เป้าหมาย] ก่อนเขียนโค้ด ช่วยอธิบาย approach และ trade-offs ของแต่ละทางเลือกก่อน แล้วรอให้ฉันเลือก 📋 คัดลอก Prompt 💡 เคล็ดลับ: ยิ่งงานใหญ่/สำคัญ ยิ่งควรให้วางแผนก่อน — งานเล็กๆ สั่งทำเลยก็ได้ 📌 สรุปบทนี้ ให้วางแผนก่อนงานซับซ้อน เห็นแผน = redirect ได้ทัน ขอทางเลือกพร้อมข้อดีข้อเสีย",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "ทำไมต้องให้คิดก่อน",
+       "วิธีกระตุ้นให้คิด"
+      ]
+     },
+     "module_title": "💬 Prompt Engineering",
+     "module_num": "3",
+     "global_index": 11,
+     "prev": "lessons/03-constraints.html",
+     "prev_title": "ให้ constraints ที่ชัดเจน",
+     "next": "lessons/03-iterative.html",
+     "next_title": "Iterative refinement"
+    },
+    {
+     "href": "lessons/03-iterative.html",
+     "slug": "03-iterative",
+     "icon": "🔄",
+     "num": "3.4",
+     "title": "Iterative refinement",
+     "content": {
+      "lesson_no": "บทเรียน 3.4",
+      "h1": "Iterative Refinement Workflow",
+      "intro": "การทำงานกับ Claude Code ที่ดีคือการทำเป็นรอบๆ (iterate) ไม่ใช่หวังได้ผลสมบูรณ์ในครั้งเดียว บทนี้สอน workflow การปรับแก้ทีละรอบ",
+      "body_html": "<div class=\"block\"><h3>Workflow แบบ iterative</h3><ol class='ol'><li>เริ่มจากเป้าหมายกว้างๆ ให้ Claude ทำร่างแรก</li><li>ดูผล แล้วบอกสิ่งที่อยากปรับ (เฉพาะเจาะจง)</li><li>ทำซ้ำจนพอใจ</li></ol><p>แต่ละรอบเล็กและชัด ดีกว่าสั่งใหญ่ทีเดียว</p></div><div class=\"block\"><h3>ตัวอย่างการ iterate</h3><p>\"ทำหน้า dashboard\" → ดู → \"ย้าย chart ไปบน\" → ดู → \"เพิ่ม filter วันที่\" → ดู → \"สีเข้มไป ใช้โทนอ่อน\"</p></div>\n  \n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> ถ้า Claude หลงทางมากๆ อย่าฝืนแก้ต่อ — กด /clear เริ่มใหม่พร้อม context ที่ชัดกว่าเดิม จะเร็วกว่า</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>ทำเป็นรอบๆ ไม่หวังครั้งเดียวจบ</li><li>แต่ละรอบเล็กและเจาะจง</li><li>หลงทางมาก = /clear เริ่มใหม่</li></ul></div>",
+      "body_text": "Workflow แบบ iterative เริ่มจากเป้าหมายกว้างๆ ให้ Claude ทำร่างแรก ดูผล แล้วบอกสิ่งที่อยากปรับ (เฉพาะเจาะจง) ทำซ้ำจนพอใจ แต่ละรอบเล็กและชัด ดีกว่าสั่งใหญ่ทีเดียว ตัวอย่างการ iterate \"ทำหน้า dashboard\" → ดู → \"ย้าย chart ไปบน\" → ดู → \"เพิ่ม filter วันที่\" → ดู → \"สีเข้มไป ใช้โทนอ่อน\" 💡 เคล็ดลับ: ถ้า Claude หลงทางมากๆ อย่าฝืนแก้ต่อ — กด /clear เริ่มใหม่พร้อม context ที่ชัดกว่าเดิม จะเร็วกว่า 📌 สรุปบทนี้ ทำเป็นรอบๆ ไม่หวังครั้งเดียวจบ แต่ละรอบเล็กและเจาะจง หลงทางมาก = /clear เริ่มใหม่",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "Workflow แบบ iterative",
+       "ตัวอย่างการ iterate"
+      ]
+     },
+     "module_title": "💬 Prompt Engineering",
+     "module_num": "3",
+     "global_index": 12,
+     "prev": "lessons/03-think-first.html",
+     "prev_title": "คิดก่อน แล้วค่อยทำ",
+     "next": "lessons/03-mistakes.html",
+     "next_title": "Mistakes ที่ต้องเลี่ยง"
+    },
+    {
+     "href": "lessons/03-mistakes.html",
+     "slug": "03-mistakes",
+     "icon": "❌",
+     "num": "3.5",
+     "title": "Mistakes ที่ต้องเลี่ยง",
+     "content": {
+      "lesson_no": "บทเรียน 3.5",
+      "h1": "Common Mistakes ที่ต้องเลี่ยง",
+      "intro": "รวมข้อผิดพลาดที่มือใหม่ทำบ่อยเวลาคุยกับ Claude Code พร้อมวิธีแก้ เพื่อให้คุณข้ามหลุมพวกนี้ไปได้เลย",
+      "body_html": "<div class=\"block\"><h3>5 ข้อผิดพลาดที่พบบ่อย</h3><ul class='ul'><li><b>สั่งกว้างเกินไป</b> — \"ทำให้ดีขึ้น\" → บอกให้เจาะจง</li><li>ไม่ให้ context — Claude เดาเอง อาจผิด</li><li>ไม่มี test/วิธีตรวจผล — ไม่รู้ว่าถูกไหม</li><li>ปล่อย context ยาวเกิน — ใช้ /compact หรือ /clear</li><li>ไม่ review โค้ดก่อน merge — เชื่อ 100% โดยไม่ตรวจ</li></ul></div><div class=\"block\"><h3>กฎง่ายๆ</h3><p>เจาะจง + ให้ context + มีวิธีตรวจผล = ได้งานดี</p></div>\n  \n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> ถ้าผลออกมาไม่ดีบ่อยๆ ปัญหามักอยู่ที่ prompt กว้างหรือ context ไม่พอ ไม่ใช่ที่ Claude</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>เจาะจงเข้าไว้</li><li>ให้ context และวิธีตรวจผล</li><li>review ก่อน merge เสมอ</li></ul></div>",
+      "body_text": "5 ข้อผิดพลาดที่พบบ่อย สั่งกว้างเกินไป — \"ทำให้ดีขึ้น\" → บอกให้เจาะจง ไม่ให้ context — Claude เดาเอง อาจผิด ไม่มี test/วิธีตรวจผล — ไม่รู้ว่าถูกไหม ปล่อย context ยาวเกิน — ใช้ /compact หรือ /clear ไม่ review โค้ดก่อน merge — เชื่อ 100% โดยไม่ตรวจ กฎง่ายๆ เจาะจง + ให้ context + มีวิธีตรวจผล = ได้งานดี 💡 เคล็ดลับ: ถ้าผลออกมาไม่ดีบ่อยๆ ปัญหามักอยู่ที่ prompt กว้างหรือ context ไม่พอ ไม่ใช่ที่ Claude 📌 สรุปบทนี้ เจาะจงเข้าไว้ ให้ context และวิธีตรวจผล review ก่อน merge เสมอ",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "5 ข้อผิดพลาดที่พบบ่อย",
+       "กฎง่ายๆ"
+      ]
+     },
+     "module_title": "💬 Prompt Engineering",
+     "module_num": "3",
+     "global_index": 13,
+     "prev": "lessons/03-iterative.html",
+     "prev_title": "Iterative refinement",
+     "next": "lessons/04-error-debug.html",
+     "next_title": "หา root cause ของ error"
+    }
+   ]
+  },
+  {
+   "num": "4",
+   "title": "🔍 Debugging & Code Review",
+   "sub": "ใช้ Claude เป็น senior dev",
+   "lessons": [
+    {
+     "href": "lessons/04-error-debug.html",
+     "slug": "04-error-debug",
+     "icon": "🐛",
+     "num": "4.1",
+     "title": "หา root cause ของ error",
+     "content": {
+      "lesson_no": "บทเรียน 4.1",
+      "h1": "ให้ Claude หา Root Cause ของ Error",
+      "intro": "หนึ่งในงานที่ Claude Code เก่งที่สุดคือ debug ให้มันอ่าน error message แล้วหา root cause พร้อมแก้ บทนี้สอนวิธีใช้ให้ได้ผลสูงสุด",
+      "body_html": "<div class=\"block\"><h3>วิธีที่ได้ผล</h3><p>วาง error message เต็มๆ (อย่าตัด) แล้วให้ context ว่าทำอะไรอยู่ตอนเกิด error</p></div><div class=\"block\"><h3>ให้ Claude หาเอง</h3><p>ถ้าเป็น error ตอนรัน ให้ Claude รันคำสั่งเองเพื่อ reproduce แล้วมันจะ debug เป็นลูปจนแก้ได้</p></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">รันคำสั่ง [คำสั่ง] แล้วเจอ error นี้:\n[วาง error เต็มๆ]\nช่วยหาสาเหตุที่แท้จริงแล้วแก้ให้หน่อย ถ้าจำเป็นรันคำสั่งเพื่อตรวจสอบได้</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> อย่าแค่ขอให้ 'แก้ error' — ขอให้ 'หา root cause' ด้วย จะได้แก้ที่ต้นเหตุ ไม่ใช่กลบอาการ</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>วาง error เต็มๆ ไม่ตัด</li><li>ให้ context ว่าทำอะไรตอนเกิด</li><li>ขอ root cause ไม่ใช่แค่กลบอาการ</li></ul></div>",
+      "body_text": "วิธีที่ได้ผล วาง error message เต็มๆ (อย่าตัด) แล้วให้ context ว่าทำอะไรอยู่ตอนเกิด error ให้ Claude หาเอง ถ้าเป็น error ตอนรัน ให้ Claude รันคำสั่งเองเพื่อ reproduce แล้วมันจะ debug เป็นลูปจนแก้ได้ 💬 ลองใช้ Prompt นี้กับ Claude รันคำสั่ง [คำสั่ง] แล้วเจอ error นี้: [วาง error เต็มๆ] ช่วยหาสาเหตุที่แท้จริงแล้วแก้ให้หน่อย ถ้าจำเป็นรันคำสั่งเพื่อตรวจสอบได้ 📋 คัดลอก Prompt 💡 เคล็ดลับ: อย่าแค่ขอให้ 'แก้ error' — ขอให้ 'หา root cause' ด้วย จะได้แก้ที่ต้นเหตุ ไม่ใช่กลบอาการ 📌 สรุปบทนี้ วาง error เต็มๆ ไม่ตัด ให้ context ว่าทำอะไรตอนเกิด ขอ root cause ไม่ใช่แค่กลบอาการ",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "วิธีที่ได้ผล",
+       "ให้ Claude หาเอง"
+      ]
+     },
+     "module_title": "🔍 Debugging & Code Review",
+     "module_num": "4",
+     "global_index": 14,
+     "prev": "lessons/03-mistakes.html",
+     "prev_title": "Mistakes ที่ต้องเลี่ยง",
+     "next": "lessons/04-code-review.html",
+     "next_title": "Code review workflow"
+    },
+    {
+     "href": "lessons/04-code-review.html",
+     "slug": "04-code-review",
+     "icon": "👁️",
+     "num": "4.2",
+     "title": "Code review workflow",
+     "content": {
+      "lesson_no": "บทเรียน 4.2",
+      "h1": "Code Review Workflow",
+      "intro": "ใช้ Claude Code เป็น reviewer ช่วยจับ bug, ปัญหา security, และจุดที่ปรับปรุงได้ ก่อนโค้ดจะขึ้น production",
+      "body_html": "<div class=\"block\"><h3>ขอ review ก่อน commit</h3><p>ให้ Claude ดู diff ปัจจุบันแล้ว review ในมุมต่างๆ: correctness, security, performance, readability</p></div><div class=\"block\"><h3>ใช้ slash command ในตัว</h3><p>Claude Code มี <code>/review</code> สำหรับ review PR และคุณสร้าง custom command เองได้ (ดูบท 7.3)</p></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">ช่วย review การเปลี่ยนแปลงที่ฉันเพิ่งทำ (git diff) มองหา: bug ที่อาจเกิด, ช่องโหว่ security, ปัญหา performance, และจุดที่อ่านยาก เรียงตามความสำคัญ</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> ให้ review ทีละด้านจะได้ผลลึกกว่า เช่น รอบแรกเน้น security รอบสองเน้น performance</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>ให้ Claude review diff ก่อน commit</li><li>ระบุมุมที่อยาก review</li><li>มี /review ในตัว + custom ได้</li></ul></div>",
+      "body_text": "ขอ review ก่อน commit ให้ Claude ดู diff ปัจจุบันแล้ว review ในมุมต่างๆ: correctness, security, performance, readability ใช้ slash command ในตัว Claude Code มี /review สำหรับ review PR และคุณสร้าง custom command เองได้ (ดูบท 7.3) 💬 ลองใช้ Prompt นี้กับ Claude ช่วย review การเปลี่ยนแปลงที่ฉันเพิ่งทำ (git diff) มองหา: bug ที่อาจเกิด, ช่องโหว่ security, ปัญหา performance, และจุดที่อ่านยาก เรียงตามความสำคัญ 📋 คัดลอก Prompt 💡 เคล็ดลับ: ให้ review ทีละด้านจะได้ผลลึกกว่า เช่น รอบแรกเน้น security รอบสองเน้น performance 📌 สรุปบทนี้ ให้ Claude review diff ก่อน commit ระบุมุมที่อยาก review มี /review ในตัว + custom ได้",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "ขอ review ก่อน commit",
+       "ใช้ slash command ในตัว"
+      ]
+     },
+     "module_title": "🔍 Debugging & Code Review",
+     "module_num": "4",
+     "global_index": 15,
+     "prev": "lessons/04-error-debug.html",
+     "prev_title": "หา root cause ของ error",
+     "next": "lessons/04-security.html",
+     "next_title": "Security scanning"
+    },
+    {
+     "href": "lessons/04-security.html",
+     "slug": "04-security",
+     "icon": "🔒",
+     "num": "4.3",
+     "title": "Security scanning",
+     "content": {
+      "lesson_no": "บทเรียน 4.3",
+      "h1": "Security Vulnerability Scanning",
+      "intro": "Claude Code ช่วยสแกนหาช่องโหว่ความปลอดภัยในโค้ดได้ ตั้งแต่ SQL injection, XSS, จนถึง secret ที่หลุด",
+      "body_html": "<div class=\"block\"><h3>สิ่งที่ Claude ตรวจได้</h3><ul class='ul'><li>SQL/command injection</li><li>XSS, CSRF</li><li>Secret/API key ที่ hardcode</li><li>Input ที่ไม่ได้ validate</li><li>Dependency ที่มีช่องโหว่</li><li>สิทธิ์การเข้าถึงที่หละหลวม</li></ul></div><div class=\"block\"><h3>ใช้เป็นประจำ</h3><p>รัน security review ก่อน deploy ทุกครั้ง โดยเฉพาะโค้ดที่รับ input จากผู้ใช้หรือจัดการเงิน/ข้อมูลส่วนตัว</p></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">ช่วยสแกนโค้ดส่วนที่รับ input จากผู้ใช้ หาช่องโหว่ security ทั้งหมด (injection, XSS, secret หลุด, input ไม่ validate) แล้วเสนอวิธีแก้</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> อย่าพึ่ง Claude อย่างเดียวสำหรับ security ที่สำคัญมาก — ใช้ควบคู่กับ tool เฉพาะทางและ human review</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>ตรวจ injection, XSS, secret, validation</li><li>สแกนก่อน deploy เสมอ</li><li>security สำคัญมาก = ใช้หลายชั้น</li></ul></div>",
+      "body_text": "สิ่งที่ Claude ตรวจได้ SQL/command injection XSS, CSRF Secret/API key ที่ hardcode Input ที่ไม่ได้ validate Dependency ที่มีช่องโหว่ สิทธิ์การเข้าถึงที่หละหลวม ใช้เป็นประจำ รัน security review ก่อน deploy ทุกครั้ง โดยเฉพาะโค้ดที่รับ input จากผู้ใช้หรือจัดการเงิน/ข้อมูลส่วนตัว 💬 ลองใช้ Prompt นี้กับ Claude ช่วยสแกนโค้ดส่วนที่รับ input จากผู้ใช้ หาช่องโหว่ security ทั้งหมด (injection, XSS, secret หลุด, input ไม่ validate) แล้วเสนอวิธีแก้ 📋 คัดลอก Prompt 💡 เคล็ดลับ: อย่าพึ่ง Claude อย่างเดียวสำหรับ security ที่สำคัญมาก — ใช้ควบคู่กับ tool เฉพาะทางและ human review 📌 สรุปบทนี้ ตรวจ injection, XSS, secret, validation สแกนก่อน deploy เสมอ security สำคัญมาก = ใช้หลายชั้น",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "สิ่งที่ Claude ตรวจได้",
+       "ใช้เป็นประจำ"
+      ]
+     },
+     "module_title": "🔍 Debugging & Code Review",
+     "module_num": "4",
+     "global_index": 16,
+     "prev": "lessons/04-code-review.html",
+     "prev_title": "Code review workflow",
+     "next": "lessons/04-performance.html",
+     "next_title": "Performance optimization"
+    },
+    {
+     "href": "lessons/04-performance.html",
+     "slug": "04-performance",
+     "icon": "⚡",
+     "num": "4.4",
+     "title": "Performance optimization",
+     "content": {
+      "lesson_no": "บทเรียน 4.4",
+      "h1": "Performance Optimization",
+      "intro": "ให้ Claude วิเคราะห์และปรับ performance ของโค้ด ตั้งแต่ลด re-render, แก้ N+1 query, จนถึงลดขนาด bundle",
+      "body_html": "<div class=\"block\"><h3>จุดที่มักช้า</h3><ul class='ul'><li>Database: N+1 query, ไม่มี index</li><li>Frontend: re-render เกินจำเป็น, bundle ใหญ่</li><li>Backend: blocking I/O, ไม่ cache</li></ul></div><div class=\"block\"><h3>วิธีใช้</h3><p>บอก Claude ว่าช้าตรงไหน (ถ้ารู้) หรือให้มันหาเอง แล้วขอแนวทางปรับพร้อมเหตุผล</p></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">หน้านี้/ฟังก์ชันนี้ทำงานช้า ช่วยวิเคราะห์หา bottleneck แล้วเสนอวิธีปรับ performance พร้อมอธิบายว่าทำไมถึงช้าและแก้แล้วดีขึ้นยังไง</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> วัดผลก่อน-หลังเสมอ — ขอให้ Claude บอกวิธีวัด (เช่น ใส่ timing log) เพื่อยืนยันว่าเร็วขึ้นจริง</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>จุดช้าหลัก: DB query, re-render, bundle</li><li>ให้ Claude หา bottleneck + เหตุผล</li><li>วัดผลก่อน-หลังเสมอ</li></ul></div>",
+      "body_text": "จุดที่มักช้า Database: N+1 query, ไม่มี index Frontend: re-render เกินจำเป็น, bundle ใหญ่ Backend: blocking I/O, ไม่ cache วิธีใช้ บอก Claude ว่าช้าตรงไหน (ถ้ารู้) หรือให้มันหาเอง แล้วขอแนวทางปรับพร้อมเหตุผล 💬 ลองใช้ Prompt นี้กับ Claude หน้านี้/ฟังก์ชันนี้ทำงานช้า ช่วยวิเคราะห์หา bottleneck แล้วเสนอวิธีปรับ performance พร้อมอธิบายว่าทำไมถึงช้าและแก้แล้วดีขึ้นยังไง 📋 คัดลอก Prompt 💡 เคล็ดลับ: วัดผลก่อน-หลังเสมอ — ขอให้ Claude บอกวิธีวัด (เช่น ใส่ timing log) เพื่อยืนยันว่าเร็วขึ้นจริง 📌 สรุปบทนี้ จุดช้าหลัก: DB query, re-render, bundle ให้ Claude หา bottleneck + เหตุผล วัดผลก่อน-หลังเสมอ",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "จุดที่มักช้า",
+       "วิธีใช้"
+      ]
+     },
+     "module_title": "🔍 Debugging & Code Review",
+     "module_num": "4",
+     "global_index": 17,
+     "prev": "lessons/04-security.html",
+     "prev_title": "Security scanning",
+     "next": "lessons/05-unit-tests.html",
+     "next_title": "Generate unit tests"
+    }
+   ]
+  },
+  {
+   "num": "5",
+   "title": "🧪 Testing & Documentation",
+   "sub": "Claude เขียน test แทนคุณ",
+   "lessons": [
+    {
+     "href": "lessons/05-unit-tests.html",
+     "slug": "05-unit-tests",
+     "icon": "✅",
+     "num": "5.1",
+     "title": "Generate unit tests",
+     "content": {
+      "lesson_no": "บทเรียน 5.1",
+      "h1": "Generate Unit Tests",
+      "intro": "ให้ Claude เขียน unit test ให้โค้ดที่มีอยู่ ช่วยเพิ่ม coverage และจับ bug ก่อนถึงมือผู้ใช้ โดยคุณแทบไม่ต้องเขียนเอง",
+      "body_html": "<div class=\"block\"><h3>วิธีขอ test ที่ดี</h3><p>บอก framework ที่ใช้ (Jest, Vitest, Pytest...) และให้ครอบคลุม edge case ไม่ใช่แค่ happy path</p></div><div class=\"block\"><h3>ตรวจ coverage</h3><p>ให้ Claude รัน coverage แล้วเขียน test เพิ่มเฉพาะส่วนที่ยังไม่ครอบคลุม</p></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">ช่วยเขียน unit test ให้ฟังก์ชันนี้ด้วย [Jest/Vitest/Pytest] ครอบคลุมทั้ง happy path, edge case, และ error case แล้วรัน test ให้ผ่านด้วย</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> ขอให้เขียน test ที่ 'อ่านแล้วเข้าใจ requirement' — test ที่ดีคือ documentation อย่างหนึ่ง</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>ระบุ test framework</li><li>ครอบคลุม edge + error case ไม่ใช่แค่ happy</li><li>ใช้ coverage หาจุดที่ขาด</li></ul></div>",
+      "body_text": "วิธีขอ test ที่ดี บอก framework ที่ใช้ (Jest, Vitest, Pytest...) และให้ครอบคลุม edge case ไม่ใช่แค่ happy path ตรวจ coverage ให้ Claude รัน coverage แล้วเขียน test เพิ่มเฉพาะส่วนที่ยังไม่ครอบคลุม 💬 ลองใช้ Prompt นี้กับ Claude ช่วยเขียน unit test ให้ฟังก์ชันนี้ด้วย [Jest/Vitest/Pytest] ครอบคลุมทั้ง happy path, edge case, และ error case แล้วรัน test ให้ผ่านด้วย 📋 คัดลอก Prompt 💡 เคล็ดลับ: ขอให้เขียน test ที่ 'อ่านแล้วเข้าใจ requirement' — test ที่ดีคือ documentation อย่างหนึ่ง 📌 สรุปบทนี้ ระบุ test framework ครอบคลุม edge + error case ไม่ใช่แค่ happy ใช้ coverage หาจุดที่ขาด",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "วิธีขอ test ที่ดี",
+       "ตรวจ coverage"
+      ]
+     },
+     "module_title": "🧪 Testing & Documentation",
+     "module_num": "5",
+     "global_index": 18,
+     "prev": "lessons/04-performance.html",
+     "prev_title": "Performance optimization",
+     "next": "lessons/05-e2e.html",
+     "next_title": "E2E tests ด้วย Playwright"
+    },
+    {
+     "href": "lessons/05-e2e.html",
+     "slug": "05-e2e",
+     "icon": "🌐",
+     "num": "5.2",
+     "title": "E2E tests ด้วย Playwright",
+     "content": {
+      "lesson_no": "บทเรียน 5.2",
+      "h1": "E2E Tests ด้วย Playwright",
+      "intro": "End-to-end test จำลองการใช้งานจริงของผู้ใช้ ตั้งแต่เปิดหน้าเว็บจนกดปุ่มเสร็จงาน Claude เขียน Playwright test ให้ได้",
+      "body_html": "<div class=\"block\"><h3>E2E ต่างจาก unit ยังไง</h3><p>Unit test ทดสอบฟังก์ชันเดี่ยวๆ ส่วน E2E ทดสอบ flow ทั้งหมดผ่านเบราว์เซอร์จริง เช่น \"ผู้ใช้ login → เพิ่มสินค้าลงตะกร้า → checkout\"</p></div><div class=\"block\"><h3>ให้ Claude เขียน Playwright</h3><p>บอก flow ที่อยากทดสอบ Claude จะเขียน test และรันให้ดูผล</p></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">ช่วยเขียน E2E test ด้วย Playwright สำหรับ flow นี้: [อธิบายขั้นตอนที่ผู้ใช้ทำ] แล้วรัน test ให้ผ่าน</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> เริ่มจาก E2E ของ flow สำคัญที่สุด (เช่น checkout, login) ก่อน — คุ้มค่าที่สุด</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>E2E ทดสอบ flow ทั้งหมดผ่านเบราว์เซอร์</li><li>Playwright = เครื่องมือยอดนิยม</li><li>เริ่มจาก flow สำคัญสุด</li></ul></div>",
+      "body_text": "E2E ต่างจาก unit ยังไง Unit test ทดสอบฟังก์ชันเดี่ยวๆ ส่วน E2E ทดสอบ flow ทั้งหมดผ่านเบราว์เซอร์จริง เช่น \"ผู้ใช้ login → เพิ่มสินค้าลงตะกร้า → checkout\" ให้ Claude เขียน Playwright บอก flow ที่อยากทดสอบ Claude จะเขียน test และรันให้ดูผล 💬 ลองใช้ Prompt นี้กับ Claude ช่วยเขียน E2E test ด้วย Playwright สำหรับ flow นี้: [อธิบายขั้นตอนที่ผู้ใช้ทำ] แล้วรัน test ให้ผ่าน 📋 คัดลอก Prompt 💡 เคล็ดลับ: เริ่มจาก E2E ของ flow สำคัญที่สุด (เช่น checkout, login) ก่อน — คุ้มค่าที่สุด 📌 สรุปบทนี้ E2E ทดสอบ flow ทั้งหมดผ่านเบราว์เซอร์ Playwright = เครื่องมือยอดนิยม เริ่มจาก flow สำคัญสุด",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "E2E ต่างจาก unit ยังไง",
+       "ให้ Claude เขียน Playwright"
+      ]
+     },
+     "module_title": "🧪 Testing & Documentation",
+     "module_num": "5",
+     "global_index": 19,
+     "prev": "lessons/05-unit-tests.html",
+     "prev_title": "Generate unit tests",
+     "next": "lessons/05-api-docs.html",
+     "next_title": "Auto-generate API docs"
+    },
+    {
+     "href": "lessons/05-api-docs.html",
+     "slug": "05-api-docs",
+     "icon": "📄",
+     "num": "5.3",
+     "title": "Auto-generate API docs",
+     "content": {
+      "lesson_no": "บทเรียน 5.3",
+      "h1": "Auto-generate API Docs",
+      "intro": "ให้ Claude สร้างเอกสาร API อัตโนมัติจากโค้ด ทั้ง OpenAPI spec, README, และคำอธิบาย endpoint",
+      "body_html": "<div class=\"block\"><h3>สิ่งที่สร้างได้</h3><ul class='ul'><li>OpenAPI/Swagger spec</li><li>README พร้อมตัวอย่างการเรียก</li><li>คำอธิบาย endpoint, params, response</li><li>ตัวอย่าง curl/fetch</li></ul></div><div class=\"block\"><h3>ให้สร้างจากโค้ดจริง</h3><p>Claude อ่าน route/controller จริงแล้วสร้าง docs ที่ตรงกับโค้ด ไม่ใช่เดา</p></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">ช่วยสร้าง API documentation จาก route ทั้งหมดในโปรเจกต์นี้ ทำเป็น README ที่มี: endpoint, method, params, ตัวอย่าง request/response เป็นภาษาไทย</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> ให้ Claude อัปเดต docs ทุกครั้งที่แก้ API — หรือตั้ง hook ให้ทำอัตโนมัติ (บท 7.4)</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>สร้าง OpenAPI, README, ตัวอย่างได้</li><li>สร้างจากโค้ดจริง ไม่เดา</li><li>อัปเดต docs พร้อมโค้ดเสมอ</li></ul></div>",
+      "body_text": "สิ่งที่สร้างได้ OpenAPI/Swagger spec README พร้อมตัวอย่างการเรียก คำอธิบาย endpoint, params, response ตัวอย่าง curl/fetch ให้สร้างจากโค้ดจริง Claude อ่าน route/controller จริงแล้วสร้าง docs ที่ตรงกับโค้ด ไม่ใช่เดา 💬 ลองใช้ Prompt นี้กับ Claude ช่วยสร้าง API documentation จาก route ทั้งหมดในโปรเจกต์นี้ ทำเป็น README ที่มี: endpoint, method, params, ตัวอย่าง request/response เป็นภาษาไทย 📋 คัดลอก Prompt 💡 เคล็ดลับ: ให้ Claude อัปเดต docs ทุกครั้งที่แก้ API — หรือตั้ง hook ให้ทำอัตโนมัติ (บท 7.4) 📌 สรุปบทนี้ สร้าง OpenAPI, README, ตัวอย่างได้ สร้างจากโค้ดจริง ไม่เดา อัปเดต docs พร้อมโค้ดเสมอ",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "สิ่งที่สร้างได้",
+       "ให้สร้างจากโค้ดจริง"
+      ]
+     },
+     "module_title": "🧪 Testing & Documentation",
+     "module_num": "5",
+     "global_index": 20,
+     "prev": "lessons/05-e2e.html",
+     "prev_title": "E2E tests ด้วย Playwright",
+     "next": "lessons/05-tdd.html",
+     "next_title": "TDD — test ก่อน code"
+    },
+    {
+     "href": "lessons/05-tdd.html",
+     "slug": "05-tdd",
+     "icon": "🔴",
+     "num": "5.4",
+     "title": "TDD — test ก่อน code",
+     "content": {
+      "lesson_no": "บทเรียน 5.4",
+      "h1": "TDD Workflow — Test ก่อน Code",
+      "intro": "Test-Driven Development คือการเขียน test ก่อนเขียนโค้ด Claude Code ทำ TDD ได้ดีมาก เพราะ test กลายเป็น 'เป้า' ที่มันเขียนโค้ดให้ผ่าน",
+      "body_html": "<div class=\"block\"><h3>TDD loop</h3><ol class='ol'><li>เขียน test ที่อธิบาย behavior ที่ต้องการ (test จะ fail ก่อน)</li><li>เขียนโค้ดให้ test ผ่าน</li><li>refactor ให้สวยโดย test ยังผ่าน</li></ol></div><div class=\"block\"><h3>ทำไม TDD เข้ากับ Claude</h3><p>เพราะ test เป็น feedback loop ที่ชัดเจน Claude เขียนโค้ด รัน test ถ้า fail ก็แก้เอง จนผ่าน — ตรงกับ agentic loop พอดี</p></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">เราจะทำ TDD: ก่อนอื่นช่วยเขียน test ที่อธิบาย behavior นี้ [อธิบาย] ให้ test fail ก่อน แล้วค่อยเขียนโค้ดให้ผ่าน</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> TDD เหมาะมากกับ logic ที่กฎชัดเจน เช่น การคำนวณ, validation, business rule</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>เขียน test ก่อน → code → refactor</li><li>test = เป้าให้ Claude เขียนโค้ดให้ผ่าน</li><li>เหมาะกับ logic ที่กฎชัด</li></ul></div>",
+      "body_text": "TDD loop เขียน test ที่อธิบาย behavior ที่ต้องการ (test จะ fail ก่อน) เขียนโค้ดให้ test ผ่าน refactor ให้สวยโดย test ยังผ่าน ทำไม TDD เข้ากับ Claude เพราะ test เป็น feedback loop ที่ชัดเจน Claude เขียนโค้ด รัน test ถ้า fail ก็แก้เอง จนผ่าน — ตรงกับ agentic loop พอดี 💬 ลองใช้ Prompt นี้กับ Claude เราจะทำ TDD: ก่อนอื่นช่วยเขียน test ที่อธิบาย behavior นี้ [อธิบาย] ให้ test fail ก่อน แล้วค่อยเขียนโค้ดให้ผ่าน 📋 คัดลอก Prompt 💡 เคล็ดลับ: TDD เหมาะมากกับ logic ที่กฎชัดเจน เช่น การคำนวณ, validation, business rule 📌 สรุปบทนี้ เขียน test ก่อน → code → refactor test = เป้าให้ Claude เขียนโค้ดให้ผ่าน เหมาะกับ logic ที่กฎชัด",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "TDD loop",
+       "ทำไม TDD เข้ากับ Claude"
+      ]
+     },
+     "module_title": "🧪 Testing & Documentation",
+     "module_num": "5",
+     "global_index": 21,
+     "prev": "lessons/05-api-docs.html",
+     "prev_title": "Auto-generate API docs",
+     "next": "lessons/06-system-design.html",
+     "next_title": "System design consultation"
+    }
+   ]
+  },
+  {
+   "num": "6",
+   "title": "🏗️ Architecture & Refactoring",
+   "sub": "ออกแบบระบบและ refactor",
+   "lessons": [
+    {
+     "href": "lessons/06-system-design.html",
+     "slug": "06-system-design",
+     "icon": "🗺️",
+     "num": "6.1",
+     "title": "System design consultation",
+     "content": {
+      "lesson_no": "บทเรียน 6.1",
+      "h1": "System Design Consultation",
+      "intro": "ก่อนเขียนโค้ดระบบใหญ่ ใช้ Claude เป็นที่ปรึกษาออกแบบ system ช่วยคิดสถาปัตยกรรม, เลือก tech, และเห็น trade-offs",
+      "body_html": "<div class=\"block\"><h3>ใช้เป็นที่ปรึกษา</h3><p>อธิบายสิ่งที่อยากสร้าง + ข้อจำกัด (scale, budget, ทีม) แล้วให้ Claude เสนอสถาปัตยกรรมพร้อมเหตุผลและทางเลือก</p></div><div class=\"block\"><h3>ขอ diagram และ trade-offs</h3><p>Claude วาด diagram (เป็น text/mermaid), เปรียบเทียบทางเลือก, และเตือนจุดเสี่ยงได้</p></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">ฉันอยากสร้าง [ระบบ] ที่ต้องรองรับ [scale/requirement] มีข้อจำกัด [budget/ทีม/เวลา] ช่วยเสนอ system architecture 2-3 แบบ พร้อมข้อดีข้อเสียและคำแนะนำ</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> อย่าเพิ่งให้เขียนโค้ด — คุยเรื่อง design ให้ตกผลึกก่อน ประหยัดเวลาแก้ทีหลังมหาศาล</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>ใช้ Claude ปรึกษา design ก่อนเขียน</li><li>ให้ requirement + ข้อจำกัดครบ</li><li>ขอทางเลือกพร้อม trade-offs</li></ul></div>",
+      "body_text": "ใช้เป็นที่ปรึกษา อธิบายสิ่งที่อยากสร้าง + ข้อจำกัด (scale, budget, ทีม) แล้วให้ Claude เสนอสถาปัตยกรรมพร้อมเหตุผลและทางเลือก ขอ diagram และ trade-offs Claude วาด diagram (เป็น text/mermaid), เปรียบเทียบทางเลือก, และเตือนจุดเสี่ยงได้ 💬 ลองใช้ Prompt นี้กับ Claude ฉันอยากสร้าง [ระบบ] ที่ต้องรองรับ [scale/requirement] มีข้อจำกัด [budget/ทีม/เวลา] ช่วยเสนอ system architecture 2-3 แบบ พร้อมข้อดีข้อเสียและคำแนะนำ 📋 คัดลอก Prompt 💡 เคล็ดลับ: อย่าเพิ่งให้เขียนโค้ด — คุยเรื่อง design ให้ตกผลึกก่อน ประหยัดเวลาแก้ทีหลังมหาศาล 📌 สรุปบทนี้ ใช้ Claude ปรึกษา design ก่อนเขียน ให้ requirement + ข้อจำกัดครบ ขอทางเลือกพร้อม trade-offs",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "ใช้เป็นที่ปรึกษา",
+       "ขอ diagram และ trade-offs"
+      ]
+     },
+     "module_title": "🏗️ Architecture & Refactoring",
+     "module_num": "6",
+     "global_index": 22,
+     "prev": "lessons/05-tdd.html",
+     "prev_title": "TDD — test ก่อน code",
+     "next": "lessons/06-refactor.html",
+     "next_title": "Refactor codebase ใหญ่"
+    },
+    {
+     "href": "lessons/06-refactor.html",
+     "slug": "06-refactor",
+     "icon": "♻️",
+     "num": "6.2",
+     "title": "Refactor codebase ใหญ่",
+     "content": {
+      "lesson_no": "บทเรียน 6.2",
+      "h1": "Refactor Codebase ขนาดใหญ่",
+      "intro": "Claude Code เก่งเรื่อง refactor โค้ดซ้ำๆ ทั้งโปรเจกต์ ที่ถ้าทำมือจะเสียเวลาและพลาดง่าย",
+      "body_html": "<div class=\"block\"><h3>งาน refactor ที่เหมาะ</h3><ul class='ul'><li>เปลี่ยนชื่อ/ย้าย function ทั้งโปรเจกต์</li><li>แยกโค้ดซ้ำเป็น utility</li><li>เปลี่ยน pattern (เช่น callback → async/await)</li><li>จัดโครงสร้างโฟลเดอร์ใหม่</li></ul></div><div class=\"block\"><h3>ทำอย่างปลอดภัย</h3><p>มี test ก่อน refactor เสมอ — Claude refactor แล้วรัน test ยืนยันว่า behavior ไม่เปลี่ยน</p></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">ช่วย refactor [สิ่งที่ต้องการ] ทั้งโปรเจกต์ โดยต้องไม่เปลี่ยน behavior — รัน test หลัง refactor เพื่อยืนยันว่าทุกอย่างยังผ่าน</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> refactor ทีละเรื่อง + commit บ่อยๆ ถ้าพังจะย้อนกลับง่าย</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>เหมาะกับงานซ้ำๆ ทั้งโปรเจกต์</li><li>มี test ก่อน refactor</li><li>ทำทีละเรื่อง commit บ่อย</li></ul></div>",
+      "body_text": "งาน refactor ที่เหมาะ เปลี่ยนชื่อ/ย้าย function ทั้งโปรเจกต์ แยกโค้ดซ้ำเป็น utility เปลี่ยน pattern (เช่น callback → async/await) จัดโครงสร้างโฟลเดอร์ใหม่ ทำอย่างปลอดภัย มี test ก่อน refactor เสมอ — Claude refactor แล้วรัน test ยืนยันว่า behavior ไม่เปลี่ยน 💬 ลองใช้ Prompt นี้กับ Claude ช่วย refactor [สิ่งที่ต้องการ] ทั้งโปรเจกต์ โดยต้องไม่เปลี่ยน behavior — รัน test หลัง refactor เพื่อยืนยันว่าทุกอย่างยังผ่าน 📋 คัดลอก Prompt 💡 เคล็ดลับ: refactor ทีละเรื่อง + commit บ่อยๆ ถ้าพังจะย้อนกลับง่าย 📌 สรุปบทนี้ เหมาะกับงานซ้ำๆ ทั้งโปรเจกต์ มี test ก่อน refactor ทำทีละเรื่อง commit บ่อย",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "งาน refactor ที่เหมาะ",
+       "ทำอย่างปลอดภัย"
+      ]
+     },
+     "module_title": "🏗️ Architecture & Refactoring",
+     "module_num": "6",
+     "global_index": 23,
+     "prev": "lessons/06-system-design.html",
+     "prev_title": "System design consultation",
+     "next": "lessons/06-migration.html",
+     "next_title": "Migration JS→TS, Class→Hooks"
+    },
+    {
+     "href": "lessons/06-migration.html",
+     "slug": "06-migration",
+     "icon": "🚀",
+     "num": "6.3",
+     "title": "Migration JS→TS, Class→Hooks",
+     "content": {
+      "lesson_no": "บทเรียน 6.3",
+      "h1": "Migration: JS→TS, Class→Hooks",
+      "intro": "งาน migration เช่น JavaScript→TypeScript หรือ class component→hooks เป็นงานน่าเบื่อที่ Claude ทำแทนได้ดีและเร็ว",
+      "body_html": "<div class=\"block\"><h3>ตัวอย่าง migration ยอดนิยม</h3><ul class='ul'><li>JS → TS (เพิ่ม type ทีละไฟล์)</li><li>React class → function + hooks</li><li>REST → GraphQL</li><li>library เก่า → ใหม่ (เช่น moment → date-fns)</li></ul></div><div class=\"block\"><h3>ทำเป็นเฟส</h3><p>migrate ทีละส่วน ทดสอบ แล้วค่อยไปต่อ — อย่าทำทั้งหมดทีเดียว</p></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">ช่วย migrate ไฟล์นี้จาก [เดิม] เป็น [ใหม่] รักษา behavior เดิมไว้ทั้งหมด ทำให้ดูเป็นตัวอย่างก่อน 1 ไฟล์ แล้วฉันจะให้ทำต่อ</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> ให้ Claude ทำ 1 ไฟล์เป็นตัวอย่างก่อน ดูว่าแนวทางถูกใจ แล้วค่อยบอกให้ทำที่เหลือ</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>เหมาะกับ migration น่าเบื่อ</li><li>ทำเป็นเฟส ทดสอบระหว่างทาง</li><li>ทำตัวอย่าง 1 ไฟล์ก่อน</li></ul></div>",
+      "body_text": "ตัวอย่าง migration ยอดนิยม JS → TS (เพิ่ม type ทีละไฟล์) React class → function + hooks REST → GraphQL library เก่า → ใหม่ (เช่น moment → date-fns) ทำเป็นเฟส migrate ทีละส่วน ทดสอบ แล้วค่อยไปต่อ — อย่าทำทั้งหมดทีเดียว 💬 ลองใช้ Prompt นี้กับ Claude ช่วย migrate ไฟล์นี้จาก [เดิม] เป็น [ใหม่] รักษา behavior เดิมไว้ทั้งหมด ทำให้ดูเป็นตัวอย่างก่อน 1 ไฟล์ แล้วฉันจะให้ทำต่อ 📋 คัดลอก Prompt 💡 เคล็ดลับ: ให้ Claude ทำ 1 ไฟล์เป็นตัวอย่างก่อน ดูว่าแนวทางถูกใจ แล้วค่อยบอกให้ทำที่เหลือ 📌 สรุปบทนี้ เหมาะกับ migration น่าเบื่อ ทำเป็นเฟส ทดสอบระหว่างทาง ทำตัวอย่าง 1 ไฟล์ก่อน",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "ตัวอย่าง migration ยอดนิยม",
+       "ทำเป็นเฟส"
+      ]
+     },
+     "module_title": "🏗️ Architecture & Refactoring",
+     "module_num": "6",
+     "global_index": 24,
+     "prev": "lessons/06-refactor.html",
+     "prev_title": "Refactor codebase ใหญ่",
+     "next": "lessons/06-db-design.html",
+     "next_title": "Database schema design"
+    },
+    {
+     "href": "lessons/06-db-design.html",
+     "slug": "06-db-design",
+     "icon": "🗄️",
+     "num": "6.4",
+     "title": "Database schema design",
+     "content": {
+      "lesson_no": "บทเรียน 6.4",
+      "h1": "Database Schema Design",
+      "intro": "ออกแบบ database schema ที่ดีตั้งแต่ต้นช่วยประหยัดปัญหามหาศาล Claude ช่วยออกแบบ table, ความสัมพันธ์, index และ migration",
+      "body_html": "<div class=\"block\"><h3>สิ่งที่ Claude ช่วยได้</h3><ul class='ul'><li>ออกแบบ table + ความสัมพันธ์</li><li>เลือก data type ที่เหมาะ</li><li>วาง index ให้ query เร็ว</li><li>เขียน migration script</li><li>เตือนเรื่อง normalization</li></ul></div><div class=\"block\"><h3>เริ่มจาก requirement</h3><p>อธิบายข้อมูลและการใช้งาน แล้วให้ Claude เสนอ schema พร้อมเหตุผล</p></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">ฉันกำลังทำ [ระบบ] ต้องเก็บข้อมูล [อธิบาย] และ query บ่อยคือ [pattern] ช่วยออกแบบ database schema พร้อม index ที่เหมาะ และเขียน migration ด้วย</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> บอก query pattern ที่ใช้บ่อยให้ Claude รู้ มันจะวาง index ได้ตรงจุด ทำให้เว็บเร็วขึ้นมาก</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>ออกแบบ table, relation, index, migration</li><li>เริ่มจาก requirement + query pattern</li><li>schema ดีตั้งแต่ต้น = ประหยัดปัญหา</li></ul></div>",
+      "body_text": "สิ่งที่ Claude ช่วยได้ ออกแบบ table + ความสัมพันธ์ เลือก data type ที่เหมาะ วาง index ให้ query เร็ว เขียน migration script เตือนเรื่อง normalization เริ่มจาก requirement อธิบายข้อมูลและการใช้งาน แล้วให้ Claude เสนอ schema พร้อมเหตุผล 💬 ลองใช้ Prompt นี้กับ Claude ฉันกำลังทำ [ระบบ] ต้องเก็บข้อมูล [อธิบาย] และ query บ่อยคือ [pattern] ช่วยออกแบบ database schema พร้อม index ที่เหมาะ และเขียน migration ด้วย 📋 คัดลอก Prompt 💡 เคล็ดลับ: บอก query pattern ที่ใช้บ่อยให้ Claude รู้ มันจะวาง index ได้ตรงจุด ทำให้เว็บเร็วขึ้นมาก 📌 สรุปบทนี้ ออกแบบ table, relation, index, migration เริ่มจาก requirement + query pattern schema ดีตั้งแต่ต้น = ประหยัดปัญหา",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "สิ่งที่ Claude ช่วยได้",
+       "เริ่มจาก requirement"
+      ]
+     },
+     "module_title": "🏗️ Architecture & Refactoring",
+     "module_num": "6",
+     "global_index": 25,
+     "prev": "lessons/06-migration.html",
+     "prev_title": "Migration JS→TS, Class→Hooks",
+     "next": "lessons/07-mcp-intro.html",
+     "next_title": "MCP Servers คืออะไร"
+    }
+   ]
+  },
+  {
+   "num": "7",
+   "title": "⚡ Superpower Skills",
+   "sub": "MCP · Hooks · Commands · Multi-agent",
+   "lessons": [
+    {
+     "href": "lessons/07-mcp-intro.html",
+     "slug": "07-mcp-intro",
+     "icon": "🔌",
+     "num": "7.1",
+     "title": "MCP Servers คืออะไร",
+     "content": {
+      "lesson_no": "บทเรียน 7.1",
+      "h1": "MCP Servers คืออะไร ติดตั้งยังไง",
+      "intro": "MCP (Model Context Protocol) คือมาตรฐานที่ให้ Claude เชื่อมต่อกับเครื่องมือภายนอก เช่น database, GitHub, Slack ทำให้ Claude ทำงานกับระบบจริงได้โดยตรง",
+      "body_html": "<div class=\"block\"><h3>MCP คืออะไร</h3><p>เหมือน 'ปลั๊ก' มาตรฐานที่เสียบเครื่องมือเข้ากับ Claude เมื่อเชื่อม MCP server แล้ว Claude จะใช้ความสามารถนั้นได้ เช่น query database, สร้าง PR, ส่ง Slack</p></div><div class=\"block\"><h3>ติดตั้ง MCP server</h3><p>เพิ่ม server ด้วยคำสั่ง:</p><div class=\"code-block\"><button class=\"ccopy\" onclick=\"cc(this)\">📋</button><pre>claude mcp add --transport stdio postgres -- npx -y @modelcontextprotocol/server-postgres</pre></div></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">ช่วยอธิบายว่ามี MCP server อะไรบ้างที่เหมาะกับโปรเจกต์นี้ และช่วยตั้งค่าตัวที่มีประโยชน์ที่สุดให้หน่อย</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> MCP ที่นิยม: GitHub, Postgres, Filesystem, Slack, Puppeteer — เลือกที่ตรงกับงานคุณ</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>MCP = ปลั๊กมาตรฐานเชื่อม tool เข้า Claude</li><li>ทำให้ Claude ใช้ระบบจริงได้</li><li>เพิ่มด้วย claude mcp add</li></ul></div>",
+      "body_text": "MCP คืออะไร เหมือน 'ปลั๊ก' มาตรฐานที่เสียบเครื่องมือเข้ากับ Claude เมื่อเชื่อม MCP server แล้ว Claude จะใช้ความสามารถนั้นได้ เช่น query database, สร้าง PR, ส่ง Slack ติดตั้ง MCP server เพิ่ม server ด้วยคำสั่ง: 📋 claude mcp add --transport stdio postgres -- npx -y @modelcontextprotocol/server-postgres 💬 ลองใช้ Prompt นี้กับ Claude ช่วยอธิบายว่ามี MCP server อะไรบ้างที่เหมาะกับโปรเจกต์นี้ และช่วยตั้งค่าตัวที่มีประโยชน์ที่สุดให้หน่อย 📋 คัดลอก Prompt 💡 เคล็ดลับ: MCP ที่นิยม: GitHub, Postgres, Filesystem, Slack, Puppeteer — เลือกที่ตรงกับงานคุณ 📌 สรุปบทนี้ MCP = ปลั๊กมาตรฐานเชื่อม tool เข้า Claude ทำให้ Claude ใช้ระบบจริงได้ เพิ่มด้วย claude mcp add",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "MCP คืออะไร",
+       "ติดตั้ง MCP server"
+      ]
+     },
+     "module_title": "⚡ Superpower Skills",
+     "module_num": "7",
+     "global_index": 26,
+     "prev": "lessons/06-db-design.html",
+     "prev_title": "Database schema design",
+     "next": "lessons/07-mcp-db.html",
+     "next_title": "เชื่อม Database เข้า Claude"
+    },
+    {
+     "href": "lessons/07-mcp-db.html",
+     "slug": "07-mcp-db",
+     "icon": "🗄️",
+     "num": "7.2",
+     "title": "เชื่อม Database เข้า Claude",
+     "content": {
+      "lesson_no": "บทเรียน 7.2",
+      "h1": "เชื่อม Database เข้า Claude",
+      "intro": "ตัวอย่างพลังของ MCP ที่ชัดที่สุดคือการเชื่อม database — Claude query ข้อมูลจริง, ดู schema, และช่วย debug ได้โดยไม่ต้อง copy-paste",
+      "body_html": "<div class=\"block\"><h3>ทำอะไรได้บ้าง</h3><ul class='ul'><li>ดู schema ของ database จริง</li><li>รัน query ดูข้อมูลตัวอย่าง</li><li>เขียน query ที่ถูกต้องเพราะเห็น schema จริง</li><li>debug ปัญหา data</li></ul></div><div class=\"block\"><h3>ความปลอดภัย</h3><p>ใช้ connection แบบ read-only กับ production เสมอ และอย่าให้ Claude แตะ data จริงโดยไม่ review</p></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">ดู schema ของ database แล้วช่วยเขียน query ที่ดึง [ข้อมูลที่ต้องการ] ให้หน่อย ทดสอบกับข้อมูลจริงด้วยว่าได้ผลถูกต้อง</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> เชื่อม database แบบ read-only ก่อนเสมอ โดยเฉพาะ production — ปลอดภัยไว้ก่อน</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>Claude เห็น schema จริง = query แม่น</li><li>ใช้ read-only กับ production</li><li>review ก่อนแตะ data จริง</li></ul></div>",
+      "body_text": "ทำอะไรได้บ้าง ดู schema ของ database จริง รัน query ดูข้อมูลตัวอย่าง เขียน query ที่ถูกต้องเพราะเห็น schema จริง debug ปัญหา data ความปลอดภัย ใช้ connection แบบ read-only กับ production เสมอ และอย่าให้ Claude แตะ data จริงโดยไม่ review 💬 ลองใช้ Prompt นี้กับ Claude ดู schema ของ database แล้วช่วยเขียน query ที่ดึง [ข้อมูลที่ต้องการ] ให้หน่อย ทดสอบกับข้อมูลจริงด้วยว่าได้ผลถูกต้อง 📋 คัดลอก Prompt 💡 เคล็ดลับ: เชื่อม database แบบ read-only ก่อนเสมอ โดยเฉพาะ production — ปลอดภัยไว้ก่อน 📌 สรุปบทนี้ Claude เห็น schema จริง = query แม่น ใช้ read-only กับ production review ก่อนแตะ data จริง",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "ทำอะไรได้บ้าง",
+       "ความปลอดภัย"
+      ]
+     },
+     "module_title": "⚡ Superpower Skills",
+     "module_num": "7",
+     "global_index": 27,
+     "prev": "lessons/07-mcp-intro.html",
+     "prev_title": "MCP Servers คืออะไร",
+     "next": "lessons/07-slash-commands.html",
+     "next_title": "Custom Slash Commands"
+    },
+    {
+     "href": "lessons/07-slash-commands.html",
+     "slug": "07-slash-commands",
+     "icon": "⚡",
+     "num": "7.3",
+     "title": "Custom Slash Commands",
+     "content": {
+      "lesson_no": "บทเรียน 7.3",
+      "h1": "สร้าง Custom Slash Commands",
+      "intro": "Custom slash command ให้คุณบันทึก workflow ที่ใช้บ่อยเป็นคำสั่งสั้นๆ เช่น /review, /deploy แล้วเรียกใช้ได้ทุกเมื่อ",
+      "body_html": "<div class=\"block\"><h3>สร้าง command</h3><p>สร้างไฟล์ใน <code>.claude/commands/</code> เช่น <code>review.md</code> แล้วเขียน prompt ที่อยากให้ทำ</p><div class=\"code-block\"><button class=\"ccopy\" onclick=\"cc(this)\">📋</button><pre># .claude/commands/review.md\nReview การเปลี่ยนแปลงล่าสุด มองหา bug, security,\nperformance แล้วสรุปเป็นภาษาไทย เรียงตามความสำคัญ</pre></div></div><div class=\"block\"><h3>รับ argument</h3><p>ใช้ <code>$ARGUMENTS</code> เพื่อรับค่าที่ส่งมา เช่น <code>/review src/auth.ts</code></p><div class=\"code-block\"><button class=\"ccopy\" onclick=\"cc(this)\">📋</button><pre># .claude/commands/explain.md\nอธิบายโค้ดในไฟล์ $ARGUMENTS แบบละเอียดเป็นภาษาไทย</pre></div></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">ช่วยสร้าง custom slash command ชื่อ /deploy ที่: รัน test, ถ้าผ่านให้ build, แล้ว deploy ขึ้น production พร้อมแจ้งผล</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> เก็บ command ที่ทีมใช้ร่วมใน .claude/commands/ แล้ว commit ขึ้น git ทุกคนจะได้ใช้</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>สร้างไฟล์ใน .claude/commands/</li><li>ใช้ $ARGUMENTS รับค่า</li><li>commit ให้ทีมใช้ร่วม</li></ul></div>",
+      "body_text": "สร้าง command สร้างไฟล์ใน .claude/commands/ เช่น review.md แล้วเขียน prompt ที่อยากให้ทำ 📋 # .claude/commands/review.md Review การเปลี่ยนแปลงล่าสุด มองหา bug, security, performance แล้วสรุปเป็นภาษาไทย เรียงตามความสำคัญ รับ argument ใช้ $ARGUMENTS เพื่อรับค่าที่ส่งมา เช่น /review src/auth.ts 📋 # .claude/commands/explain.md อธิบายโค้ดในไฟล์ $ARGUMENTS แบบละเอียดเป็นภาษาไทย 💬 ลองใช้ Prompt นี้กับ Claude ช่วยสร้าง custom slash command ชื่อ /deploy ที่: รัน test, ถ้าผ่านให้ build, แล้ว deploy ขึ้น production พร้อมแจ้งผล 📋 คัดลอก Prompt 💡 เคล็ดลับ: เก็บ command ที่ทีมใช้ร่วมใน .claude/commands/ แล้ว commit ขึ้น git ทุกคนจะได้ใช้ 📌 สรุปบทนี้ สร้างไฟล์ใน .claude/commands/ ใช้ $ARGUMENTS รับค่า commit ให้ทีมใช้ร่วม",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "สร้าง command",
+       "รับ argument"
+      ]
+     },
+     "module_title": "⚡ Superpower Skills",
+     "module_num": "7",
+     "global_index": 28,
+     "prev": "lessons/07-mcp-db.html",
+     "prev_title": "เชื่อม Database เข้า Claude",
+     "next": "lessons/07-hooks.html",
+     "next_title": "Hooks ทำงานอัตโนมัติ"
+    },
+    {
+     "href": "lessons/07-hooks.html",
+     "slug": "07-hooks",
+     "icon": "🪝",
+     "num": "7.4",
+     "title": "Hooks ทำงานอัตโนมัติ",
+     "content": {
+      "lesson_no": "บทเรียน 7.4",
+      "h1": "Hooks — ทำงานอัตโนมัติทุก Action",
+      "intro": "Hooks คือ script ที่รันอัตโนมัติเมื่อ Claude ทำบางอย่าง เช่น หลังแก้ไฟล์ให้รัน test, หลังเสร็จงานให้แจ้งเตือน — นี่คือ automation ตัวจริง",
+      "body_html": "<div class=\"block\"><h3>ประเภทของ hook</h3><ul class='ul'><li><b>PreToolUse</b> — ก่อน Claude ใช้ tool (validate/บล็อก)</li><li><b>PostToolUse</b> — หลังใช้ tool (เช่น แก้ไฟล์เสร็จ → รัน test)</li><li><b>Stop</b> — เมื่อ Claude ทำงานเสร็จ (เช่น แจ้งเตือน/deploy)</li></ul></div><div class=\"block\"><h3>ตัวอย่าง: รัน test หลังแก้ไฟล์</h3><p>ตั้งใน settings.json:</p><div class=\"code-block\"><button class=\"ccopy\" onclick=\"cc(this)\">📋</button><pre>{\n  &quot;hooks&quot;: {\n    &quot;PostToolUse&quot;: [{\n      &quot;matcher&quot;: &quot;Edit|Write&quot;,\n      &quot;hooks&quot;: [{&quot;type&quot;:&quot;command&quot;,&quot;command&quot;:&quot;npm test&quot;}]\n    }]\n  }\n}</pre></div></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">ช่วยตั้งค่า hook ใน settings.json ให้: ทุกครั้งที่แก้ไฟล์ .ts ให้รัน prettier และ eslint อัตโนมัติ</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> hook ที่นิยม: auto-format หลังแก้, รัน test หลังเขียนโค้ด, แจ้งเตือนเมื่อเสร็จงานยาวๆ</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>Hook = script อัตโนมัติเมื่อ Claude ทำ action</li><li>มี PreToolUse, PostToolUse, Stop</li><li>ตั้งใน settings.json</li></ul></div>",
+      "body_text": "ประเภทของ hook PreToolUse — ก่อน Claude ใช้ tool (validate/บล็อก) PostToolUse — หลังใช้ tool (เช่น แก้ไฟล์เสร็จ → รัน test) Stop — เมื่อ Claude ทำงานเสร็จ (เช่น แจ้งเตือน/deploy) ตัวอย่าง: รัน test หลังแก้ไฟล์ ตั้งใน settings.json: 📋 { \"hooks\": { \"PostToolUse\": [{ \"matcher\": \"Edit|Write\", \"hooks\": [{\"type\":\"command\",\"command\":\"npm test\"}] }] } } 💬 ลองใช้ Prompt นี้กับ Claude ช่วยตั้งค่า hook ใน settings.json ให้: ทุกครั้งที่แก้ไฟล์ .ts ให้รัน prettier และ eslint อัตโนมัติ 📋 คัดลอก Prompt 💡 เคล็ดลับ: hook ที่นิยม: auto-format หลังแก้, รัน test หลังเขียนโค้ด, แจ้งเตือนเมื่อเสร็จงานยาวๆ 📌 สรุปบทนี้ Hook = script อัตโนมัติเมื่อ Claude ทำ action มี PreToolUse, PostToolUse, Stop ตั้งใน settings.json",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "ประเภทของ hook",
+       "ตัวอย่าง: รัน test หลังแก้ไฟล์"
+      ]
+     },
+     "module_title": "⚡ Superpower Skills",
+     "module_num": "7",
+     "global_index": 29,
+     "prev": "lessons/07-slash-commands.html",
+     "prev_title": "Custom Slash Commands",
+     "next": "lessons/07-multi-agent.html",
+     "next_title": "Multi-agent workflows"
+    },
+    {
+     "href": "lessons/07-multi-agent.html",
+     "slug": "07-multi-agent",
+     "icon": "🤖",
+     "num": "7.5",
+     "title": "Multi-agent workflows",
+     "content": {
+      "lesson_no": "บทเรียน 7.5",
+      "h1": "Multi-agent Workflows",
+      "intro": "สำหรับงานใหญ่ คุณให้ Claude หลายตัวทำงานพร้อมกันได้ เช่น ตัวหนึ่งทำ frontend อีกตัวทำ backend ทำงานขนานกันเร็วขึ้นหลายเท่า",
+      "body_html": "<div class=\"block\"><h3>เมื่อไรควรใช้</h3><p>งานที่แตกเป็นส่วนอิสระได้ เช่น สร้างหลายฟีเจอร์พร้อมกัน, หรือให้ตัวหนึ่งเขียนโค้ดอีกตัว review</p></div><div class=\"block\"><h3>วิธีใช้ในตัว</h3><p>Claude Code สั่ง sub-agent ทำงานย่อยได้ในตัว — บอกให้แตกงานและทำขนานกัน หรือใช้ git worktree แยก session</p></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">งานนี้ใหญ่ ช่วยแตกเป็นงานย่อยที่ทำขนานกันได้ แล้วใช้ sub-agent ทำแต่ละส่วนพร้อมกัน สรุปผลรวมเมื่อเสร็จ</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> งานที่ depend กันมากๆ ไม่เหมาะทำขนาน — เลือกงานที่แยกอิสระได้จริง</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>หลาย agent ทำงานขนานกัน</li><li>เหมาะกับงานที่แตกเป็นส่วนอิสระ</li><li>มี sub-agent ในตัว + git worktree</li></ul></div>",
+      "body_text": "เมื่อไรควรใช้ งานที่แตกเป็นส่วนอิสระได้ เช่น สร้างหลายฟีเจอร์พร้อมกัน, หรือให้ตัวหนึ่งเขียนโค้ดอีกตัว review วิธีใช้ในตัว Claude Code สั่ง sub-agent ทำงานย่อยได้ในตัว — บอกให้แตกงานและทำขนานกัน หรือใช้ git worktree แยก session 💬 ลองใช้ Prompt นี้กับ Claude งานนี้ใหญ่ ช่วยแตกเป็นงานย่อยที่ทำขนานกันได้ แล้วใช้ sub-agent ทำแต่ละส่วนพร้อมกัน สรุปผลรวมเมื่อเสร็จ 📋 คัดลอก Prompt 💡 เคล็ดลับ: งานที่ depend กันมากๆ ไม่เหมาะทำขนาน — เลือกงานที่แยกอิสระได้จริง 📌 สรุปบทนี้ หลาย agent ทำงานขนานกัน เหมาะกับงานที่แตกเป็นส่วนอิสระ มี sub-agent ในตัว + git worktree",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "เมื่อไรควรใช้",
+       "วิธีใช้ในตัว"
+      ]
+     },
+     "module_title": "⚡ Superpower Skills",
+     "module_num": "7",
+     "global_index": 30,
+     "prev": "lessons/07-hooks.html",
+     "prev_title": "Hooks ทำงานอัตโนมัติ",
+     "next": "lessons/07-headless.html",
+     "next_title": "Headless mode ใน CI/CD"
+    },
+    {
+     "href": "lessons/07-headless.html",
+     "slug": "07-headless",
+     "icon": "🔄",
+     "num": "7.6",
+     "title": "Headless mode ใน CI/CD",
+     "content": {
+      "lesson_no": "บทเรียน 7.6",
+      "h1": "Headless Mode ใน CI/CD",
+      "intro": "Headless mode ให้ Claude Code ทำงานแบบไม่ต้องมีคนนั่งเฝ้า เหมาะกับ CI/CD เช่น auto-fix test ที่พัง, review PR อัตโนมัติ, สร้าง release notes",
+      "body_html": "<div class=\"block\"><h3>รันแบบ headless</h3><p>ใช้ flag <code>-p</code> (print mode) ส่ง prompt เข้าไปแล้วรับผลออกมา เหมาะใส่ใน script/pipeline:</p><div class=\"code-block\"><button class=\"ccopy\" onclick=\"cc(this)\">📋</button><pre>claude -p &quot;รัน test ถ้าพังให้แก้จนผ่าน&quot; --output-format json</pre></div></div><div class=\"block\"><h3>ใช้ใน GitHub Actions</h3><p>ตั้งใน workflow ให้ Claude review PR หรือ fix CI ที่พังอัตโนมัติ ใช้ API key ในการ auth</p></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">ช่วยสร้าง GitHub Actions workflow ที่ใช้ Claude Code review ทุก PR อัตโนมัติ แล้ว comment ผล review ลงใน PR</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> headless ใช้ API key (ไม่ใช่ login บัญชี) และควรจำกัด permission ให้แคบที่สุดเพื่อความปลอดภัย</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>-p = print/headless mode</li><li>เหมาะ CI/CD: auto-fix, review, release notes</li><li>ใช้ API key + permission แคบ</li></ul></div>",
+      "body_text": "รันแบบ headless ใช้ flag -p (print mode) ส่ง prompt เข้าไปแล้วรับผลออกมา เหมาะใส่ใน script/pipeline: 📋 claude -p \"รัน test ถ้าพังให้แก้จนผ่าน\" --output-format json ใช้ใน GitHub Actions ตั้งใน workflow ให้ Claude review PR หรือ fix CI ที่พังอัตโนมัติ ใช้ API key ในการ auth 💬 ลองใช้ Prompt นี้กับ Claude ช่วยสร้าง GitHub Actions workflow ที่ใช้ Claude Code review ทุก PR อัตโนมัติ แล้ว comment ผล review ลงใน PR 📋 คัดลอก Prompt 💡 เคล็ดลับ: headless ใช้ API key (ไม่ใช่ login บัญชี) และควรจำกัด permission ให้แคบที่สุดเพื่อความปลอดภัย 📌 สรุปบทนี้ -p = print/headless mode เหมาะ CI/CD: auto-fix, review, release notes ใช้ API key + permission แคบ",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "รันแบบ headless",
+       "ใช้ใน GitHub Actions"
+      ]
+     },
+     "module_title": "⚡ Superpower Skills",
+     "module_num": "7",
+     "global_index": 31,
+     "prev": "lessons/07-multi-agent.html",
+     "prev_title": "Multi-agent workflows",
+     "next": "lessons/08-design.html",
+     "next_title": "Phase 1: Design กับ Claude"
+    }
+   ]
+  },
+  {
+   "num": "8",
+   "title": "🌐 Workshop: สร้าง Portfolio Website",
+   "sub": "Design → Code → Deploy ใน 90 นาที",
+   "lessons": [
+    {
+     "href": "lessons/08-design.html",
+     "slug": "08-design",
+     "icon": "🎨",
+     "num": "8.1",
+     "title": "Phase 1: Design กับ Claude",
+     "content": {
+      "lesson_no": "บทเรียน 8.1",
+      "h1": "Phase 1: Design กับ Claude",
+      "intro": "Workshop Phase 1: เริ่มสร้าง portfolio website โดยให้ Claude ช่วยออกแบบก่อน — คุณแค่บอกว่าคุณเป็นใคร อยากได้สไตล์ไหน",
+      "body_html": "<div class=\"block\"><h3>บอก Claude เรื่องคุณ</h3><p>ไม่ต้องออกแบบเอง บอกตัวตน + สไตล์ที่ชอบ แล้วให้ Claude เสนอ design ก่อนลงมือเขียน</p></div><div class=\"block\"><h3>เลือกทิศทาง</h3><p>ขอให้ Claude เสนอ 2-3 ทิศทาง design (สี, layout, mood) แล้วเลือกที่ชอบก่อนไป build</p></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">ฉันเป็น [อาชีพ] อยากได้ portfolio website สไตล์ [modern/minimal/playful] สีโทน [สี] มี section: hero, about, projects, contact ช่วยเสนอแนวทาง design 2-3 แบบก่อน แล้วฉันจะเลือก</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> ใช้ /taste-design และ /uxui-promax ช่วยในขั้นนี้ จะได้ design ที่มีรสนิยมขึ้นมาก</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>บอกตัวตน + สไตล์ ให้ Claude design</li><li>เลือกทิศทางก่อน build</li><li>ใช้ skill design ช่วยได้</li></ul></div>",
+      "body_text": "บอก Claude เรื่องคุณ ไม่ต้องออกแบบเอง บอกตัวตน + สไตล์ที่ชอบ แล้วให้ Claude เสนอ design ก่อนลงมือเขียน เลือกทิศทาง ขอให้ Claude เสนอ 2-3 ทิศทาง design (สี, layout, mood) แล้วเลือกที่ชอบก่อนไป build 💬 ลองใช้ Prompt นี้กับ Claude ฉันเป็น [อาชีพ] อยากได้ portfolio website สไตล์ [modern/minimal/playful] สีโทน [สี] มี section: hero, about, projects, contact ช่วยเสนอแนวทาง design 2-3 แบบก่อน แล้วฉันจะเลือก 📋 คัดลอก Prompt 💡 เคล็ดลับ: ใช้ /taste-design และ /uxui-promax ช่วยในขั้นนี้ จะได้ design ที่มีรสนิยมขึ้นมาก 📌 สรุปบทนี้ บอกตัวตน + สไตล์ ให้ Claude design เลือกทิศทางก่อน build ใช้ skill design ช่วยได้",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "บอก Claude เรื่องคุณ",
+       "เลือกทิศทาง"
+      ]
+     },
+     "module_title": "🌐 Workshop: สร้าง Portfolio Website",
+     "module_num": "8",
+     "global_index": 32,
+     "prev": "lessons/07-headless.html",
+     "prev_title": "Headless mode ใน CI/CD",
+     "next": "lessons/08-build.html",
+     "next_title": "Phase 2: Build & Iterate"
+    },
+    {
+     "href": "lessons/08-build.html",
+     "slug": "08-build",
+     "icon": "⚙️",
+     "num": "8.2",
+     "title": "Phase 2: Build & Iterate",
+     "content": {
+      "lesson_no": "บทเรียน 8.2",
+      "h1": "Phase 2: Build & Iterate",
+      "intro": "Workshop Phase 2: ลงมือ build จริง Claude เขียนโค้ดทีละ section คุณ review และขอปรับจนได้ portfolio ที่ใช้งานได้",
+      "body_html": "<div class=\"block\"><h3>Build ทีละ section</h3><p>ให้ Claude สร้างทีละส่วน (hero → about → projects → contact) ดูผลแต่ละขั้น ปรับไปเรื่อยๆ</p></div><div class=\"block\"><h3>เพิ่มลูกเล่น</h3><p>เมื่อโครงเสร็จ ขอเพิ่ม: scroll animation, hover effect, responsive mobile, dark mode</p></div>\n  <div class=\"prompt-box\"><div class=\"prompt-label\">💬 ลองใช้ Prompt นี้กับ Claude</div><div class=\"prompt-text\" id=\"pt\">เริ่ม build portfolio ตาม design ที่เลือก ใช้ React + TailwindCSS ทำทีละ section เริ่มจาก hero ก่อน เสร็จแล้วเปิดให้ดูใน localhost</div><button class=\"copy-btn\" onclick=\"cp()\">📋 คัดลอก Prompt</button></div>\n  <div class=\"note\"><span class=\"ni\">💡</span><div class=\"note-body\"><strong>เคล็ดลับ:</strong> รันบน localhost แล้วเปิดทิ้งไว้ — แก้โค้ดปุ๊บเว็บอัปเดตปั๊บ เห็นผลทันที (ดูบทเรียน Deploy เมื่อพร้อมขึ้นออนไลน์)</div></div>\n  <div class=\"takeaways\"><div class=\"tk-title\">📌 สรุปบทนี้</div><ul><li>build ทีละ section, review ทีละขั้น</li><li>เพิ่ม animation/responsive/dark mode ทีหลัง</li><li>รัน localhost ดูผลสด</li></ul></div>",
+      "body_text": "Build ทีละ section ให้ Claude สร้างทีละส่วน (hero → about → projects → contact) ดูผลแต่ละขั้น ปรับไปเรื่อยๆ เพิ่มลูกเล่น เมื่อโครงเสร็จ ขอเพิ่ม: scroll animation, hover effect, responsive mobile, dark mode 💬 ลองใช้ Prompt นี้กับ Claude เริ่ม build portfolio ตาม design ที่เลือก ใช้ React + TailwindCSS ทำทีละ section เริ่มจาก hero ก่อน เสร็จแล้วเปิดให้ดูใน localhost 📋 คัดลอก Prompt 💡 เคล็ดลับ: รันบน localhost แล้วเปิดทิ้งไว้ — แก้โค้ดปุ๊บเว็บอัปเดตปั๊บ เห็นผลทันที (ดูบทเรียน Deploy เมื่อพร้อมขึ้นออนไลน์) 📌 สรุปบทนี้ build ทีละ section, review ทีละขั้น เพิ่ม animation/responsive/dark mode ทีหลัง รัน localhost ดูผลสด",
+      "takeaways_text": "📌 สรุปบทนี้",
+      "headings": [
+       "Build ทีละ section",
+       "เพิ่มลูกเล่น"
+      ]
+     },
+     "module_title": "🌐 Workshop: สร้าง Portfolio Website",
+     "module_num": "8",
+     "global_index": 33,
+     "prev": "lessons/08-design.html",
+     "prev_title": "Phase 1: Design กับ Claude",
+     "next": "deploy.html",
+     "next_title": "Phase 3: Deploy ออนไลน์"
+    },
+    {
+     "href": "deploy.html",
+     "slug": "deploy",
+     "icon": "🚀",
+     "num": "8.3",
+     "title": "Phase 3: Deploy ออนไลน์",
+     "content": {
+      "lesson_no": "",
+      "h1": "เอาเว็บขึ้น ออนไลน์ ให้คนทั้งโลกเห็น",
+      "intro": "",
+      "body_html": "",
+      "body_text": "",
+      "takeaways_text": "",
+      "headings": []
+     },
+     "module_title": "🌐 Workshop: สร้าง Portfolio Website",
+     "module_num": "8",
+     "global_index": 34,
+     "prev": "lessons/08-build.html",
+     "prev_title": "Phase 2: Build & Iterate",
+     "next": null,
+     "next_title": null
+    }
+   ]
+  }
+ ],
+ "total": 35
+}

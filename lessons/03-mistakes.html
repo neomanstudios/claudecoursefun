@@ -4,101 +4,34 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Common Mistakes ที่ต้องเลี่ยง | Claude Code Hub</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<style>
-:root{--p:#6C63FF;--s:#FF6B6B;--a:#4ECDC4;--g:#FFD700;--green:#27C93F;--dkr:#050510;--cd:#12122A;--cd2:#1A1A35;--tx:#E8E8FF;--mt:#9999CC;--g1:linear-gradient(135deg,#6C63FF,#4ECDC4);--glow:0 0 40px rgba(108,99,255,.35)}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'Sarabun',sans-serif;background:var(--dkr);color:var(--tx);line-height:1.85;font-size:16.5px}
-.stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-.star{position:absolute;border-radius:50%;background:#fff;animation:tw var(--d) ease-in-out infinite}
-@keyframes tw{0%,100%{opacity:.08}50%{opacity:.55}}
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(5,5,16,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(108,99,255,.15);padding:.7rem 1.5rem;display:flex;align-items:center;justify-content:space-between}
-.nav-brand{display:flex;align-items:center;gap:.6rem;text-decoration:none}
-.nav-logo{width:30px;height:30px;border-radius:8px;background:var(--g1);display:flex;align-items:center;justify-content:center;font-size:.95rem}
-.nav-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.92rem;background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.nav-home{color:var(--mt);text-decoration:none;font-size:.82rem;padding:.4rem .9rem;border-radius:8px;transition:all .2s}
-.nav-home:hover{color:var(--tx);background:rgba(255,255,255,.05)}
-.reading-bar{position:fixed;top:0;left:0;height:3px;z-index:9999;background:var(--g1);transition:width .1s}
-.wrap{max-width:720px;margin:0 auto;padding:6.5rem 1.5rem 3rem;position:relative;z-index:2}
-.crumb{font-size:.78rem;color:var(--mt);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
-.crumb a{color:var(--mt);text-decoration:none}
-.crumb a:hover{color:var(--p)}
-.crumb .mod-pill{background:rgba(108,99,255,.12);color:var(--p);border:1px solid rgba(108,99,255,.25);padding:.15rem .7rem;border-radius:20px;font-weight:600}
-.lesson-progress{display:flex;align-items:center;gap:.8rem;margin-bottom:1.5rem;font-size:.75rem;color:var(--mt)}
-.lp-bar{flex:1;height:5px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden}
-.lp-fill{height:100%;background:var(--g1);border-radius:3px;width:41%}
-h1{font-size:clamp(1.7rem,4vw,2.4rem);font-weight:800;line-height:1.25;margin-bottom:1rem}
-.lesson-no{font-family:'Space Grotesk',sans-serif;font-size:.85rem;color:var(--p);font-weight:700;letter-spacing:.05em}
-.intro{color:var(--mt);font-size:1.05rem;line-height:1.9;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(255,255,255,.08)}
-.block{margin-bottom:2rem}
-.block h3{font-size:1.2rem;font-weight:700;margin-bottom:.8rem;color:var(--tx);display:flex;align-items:center;gap:.5rem}
-.block h3::before{content:'';width:4px;height:20px;background:var(--g1);border-radius:2px}
-.block p{color:var(--mt);margin-bottom:.8rem}
-.block b{color:var(--tx)}
-.ul,.ol{color:var(--mt);margin:.5rem 0 .8rem 1.3rem}
-.ul li,.ol li{margin-bottom:.5rem}
-.ul li b,.ol li b{color:var(--tx)}
-code{background:rgba(108,99,255,.12);color:#A89FFF;padding:.1rem .45rem;border-radius:5px;font-family:'JetBrains Mono',monospace;font-size:.85rem}
-.code-block{background:#0a0a18;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.1rem 1.2rem;margin:.9rem 0;position:relative;overflow-x:auto}
-.code-block pre{font-family:'JetBrains Mono',monospace;font-size:.82rem;line-height:1.7;color:#E8E8FF;white-space:pre-wrap}
-.ccopy{position:absolute;top:.6rem;right:.6rem;background:rgba(108,99,255,.15);border:1px solid rgba(108,99,255,.3);color:var(--p);border-radius:6px;padding:.2rem .5rem;font-size:.75rem;cursor:pointer}
-.ccopy:hover{background:rgba(108,99,255,.3)}
-.prompt-box{background:linear-gradient(135deg,rgba(108,99,255,.1),rgba(78,205,196,.06));border:1.5px solid rgba(108,99,255,.3);border-radius:14px;padding:1.3rem;margin:1.5rem 0}
-.prompt-label{display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--p);font-weight:700;margin-bottom:.7rem}
-.prompt-text{font-size:.92rem;color:var(--tx);line-height:1.8;background:rgba(0,0,0,.25);border-radius:10px;padding:1rem;font-family:'Sarabun',sans-serif;white-space:pre-wrap}
-.copy-btn{margin-top:.7rem;background:var(--p);color:#fff;border:none;border-radius:10px;padding:.55rem 1.2rem;font-size:.82rem;font-weight:700;font-family:'Sarabun',sans-serif;cursor:pointer;transition:all .2s}
-.copy-btn:hover{background:#5a52e0}
-.copy-btn.done{background:var(--green)}
-.note{background:rgba(78,205,196,.07);border:1px solid rgba(78,205,196,.25);border-radius:12px;padding:1rem 1.2rem;margin:1.5rem 0;font-size:.9rem;display:flex;gap:.7rem;align-items:flex-start}
-.note .ni{font-size:1.2rem;flex-shrink:0}
-.note-body strong{color:var(--a)}
-.takeaways{background:var(--cd);border:1px solid rgba(108,99,255,.2);border-radius:16px;padding:1.5rem;margin:2rem 0}
-.tk-title{font-weight:700;font-size:1rem;margin-bottom:.8rem}
-.takeaways ul{list-style:none}
-.takeaways li{padding:.35rem 0;padding-left:1.6rem;position:relative;color:var(--mt);font-size:.9rem}
-.takeaways li::before{content:'✓';position:absolute;left:0;color:var(--green);font-weight:700}
-.pagenav{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.08)}
-.pn-btn{display:flex;flex-direction:column;gap:.3rem;background:var(--cd);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:1rem 1.2rem;text-decoration:none;transition:all .3s}
-.pn-btn:hover{border-color:rgba(108,99,255,.3);transform:translateY(-2px)}
-.pn-next{text-align:right}
-.pn-dir{font-size:.72rem;color:var(--p);font-weight:700}
-.pn-title{font-size:.88rem;color:var(--tx);font-weight:600}
-footer{border-top:1px solid rgba(255,255,255,.05);padding:2rem 1.5rem;text-align:center;position:relative;z-index:2}
-.footer-credit{color:var(--mt);font-size:.78rem;opacity:.7}
-.footer-credit strong{color:var(--p);opacity:1}
-@media(max-width:600px){.pagenav{grid-template-columns:1fr}}
-</style>
+<meta name="description" content="รวมข้อผิดพลาดที่มือใหม่ทำบ่อยเวลาคุยกับ Claude Code พร้อมวิธีแก้ เพื่อให้คุณข้ามหลุมพวกนี้ไปได้เลย">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/app.css">
 </head>
-<body>
+<body data-slug="03-mistakes">
 <div class="reading-bar" id="bar"></div>
-<div class="stars" id="stars"></div>
-<nav>
-  <a href="../index.html" class="nav-brand"><div class="nav-logo">⚡</div><span class="nav-name">Claude Code Hub</span></a>
-  <a href="../index.html#modules" class="nav-home">← บทเรียนทั้งหมด</a>
-</nav>
-<div class="wrap">
-  <div class="crumb"><a href="../index.html">หน้าหลัก</a> › <a href="../index.html#modules">บทเรียน</a> › <span class="mod-pill">Module 3: Prompt Engineering</span></div>
-  <div class="lesson-progress"><span>บทที่ 14/34</span><div class="lp-bar"><div class="lp-fill"></div></div><span>41%</span></div>
-  <div class="lesson-no">บทเรียน 3.5</div>
-  <h1>Common Mistakes ที่ต้องเลี่ยง</h1>
-  <div class="intro">รวมข้อผิดพลาดที่มือใหม่ทำบ่อยเวลาคุยกับ Claude Code พร้อมวิธีแก้ เพื่อให้คุณข้ามหลุมพวกนี้ไปได้เลย</div>
-  <figure class="lesson-hero" style="margin:0 0 2rem;border:1px solid rgba(108,99,255,.2);border-radius:16px;overflow:hidden;background:var(--cd,#12122A);box-shadow:0 8px 30px rgba(0,0,0,.35)"><img src="../images/03-mistakes.webp" alt="เลี่ยงข้อผิดพลาดที่พบบ่อยเวลาสั่งงาน Claude" loading="lazy" decoding="async" style="width:100%;display:block;aspect-ratio:16/10;object-fit:cover"><figcaption style="font-size:.82rem;color:var(--mt,#9999CC);padding:.75rem 1rem;text-align:center;border-top:1px solid rgba(255,255,255,.06)">🖼️ เลี่ยงข้อผิดพลาดที่พบบ่อยเวลาสั่งงาน Claude</figcaption></figure>
-  <div class="block"><h3>5 ข้อผิดพลาดที่พบบ่อย</h3><ul class='ul'><li><b>สั่งกว้างเกินไป</b> — "ทำให้ดีขึ้น" → บอกให้เจาะจง</li><li>ไม่ให้ context — Claude เดาเอง อาจผิด</li><li>ไม่มี test/วิธีตรวจผล — ไม่รู้ว่าถูกไหม</li><li>ปล่อย context ยาวเกิน — ใช้ /compact หรือ /clear</li><li>ไม่ review โค้ดก่อน merge — เชื่อ 100% โดยไม่ตรวจ</li></ul></div><div class="block"><h3>กฎง่ายๆ</h3><p>เจาะจง + ให้ context + มีวิธีตรวจผล = ได้งานดี</p></div>
+<div class="sb-overlay"></div>
+<aside class="sidebar"><a href="../index.html" class="sb-head" style="text-decoration:none;color:inherit"><span class="sb-logo">⚡</span><span class="sb-brand">Claude Code Hub<small>คอร์สเรียนภาษาไทย</small></span></a><div class="sb-progress"><div class="lbl"><span>ความคืบหน้า</span><b>0/0 บท</b></div><div class="sb-bar"><i></i></div></div><nav class="sb-nav"><details class="sb-mod"><summary><span class="mn">1</span><span class="mt">🧠 Claude Code คืออะไร ทำไมต้องใช้</span><span class="mk">▶</span></summary><ul class="sb-les"><li><a href="01-what-is-claude-code.html" data-slug="01-what-is-claude-code" class=""><span class="dot"></span><span class="ln">1.1</span><span>Claude Code vs Copilot vs Cursor</span></a></li><li><a href="01-agentic-mode.html" data-slug="01-agentic-mode" class=""><span class="dot"></span><span class="ln">1.2</span><span>Agentic Mode คืออะไร</span></a></li><li><a href="01-real-use-cases.html" data-slug="01-real-use-cases" class=""><span class="dot"></span><span class="ln">1.3</span><span>Use cases จริงที่ได้ผล</span></a></li><li><a href="01-limitations.html" data-slug="01-limitations" class=""><span class="dot"></span><span class="ln">1.4</span><span>ข้อจำกัดที่ต้องรู้</span></a></li></ul></details><details class="sb-mod"><summary><span class="mn">2</span><span class="mt">⚙️ Setup &amp; Configuration</span><span class="mk">▶</span></summary><ul class="sb-les"><li><a href="02-install.html" data-slug="02-install" class=""><span class="dot"></span><span class="ln">2.1</span><span>ติดตั้ง CLI + VS Code Extension</span></a></li><li><a href="02-api-key.html" data-slug="02-api-key" class=""><span class="dot"></span><span class="ln">2.2</span><span>ตั้งค่า Login และ Billing</span></a></li><li><a href="02-claude-md.html" data-slug="02-claude-md" class=""><span class="dot"></span><span class="ln">2.3</span><span>สร้าง CLAUDE.md ที่ดี</span></a></li><li><a href="02-settings.html" data-slug="02-settings" class=""><span class="dot"></span><span class="ln">2.4</span><span>settings.json ปรับ behavior</span></a></li><li><a href="02-permissions.html" data-slug="02-permissions" class=""><span class="dot"></span><span class="ln">2.5</span><span>Permission System</span></a></li></ul></details><details class="sb-mod" open><summary><span class="mn">3</span><span class="mt">💬 Prompt Engineering</span><span class="mk">▶</span></summary><ul class="sb-les"><li><a href="03-context-first.html" data-slug="03-context-first" class=""><span class="dot"></span><span class="ln">3.1</span><span>Context-first prompting</span></a></li><li><a href="03-constraints.html" data-slug="03-constraints" class=""><span class="dot"></span><span class="ln">3.2</span><span>ให้ constraints ที่ชัดเจน</span></a></li><li><a href="03-think-first.html" data-slug="03-think-first" class=""><span class="dot"></span><span class="ln">3.3</span><span>คิดก่อน แล้วค่อยทำ</span></a></li><li><a href="03-iterative.html" data-slug="03-iterative" class=""><span class="dot"></span><span class="ln">3.4</span><span>Iterative refinement</span></a></li><li><a href="03-mistakes.html" data-slug="03-mistakes" class="active"><span class="dot"></span><span class="ln">3.5</span><span>Mistakes ที่ต้องเลี่ยง</span></a></li></ul></details><details class="sb-mod"><summary><span class="mn">4</span><span class="mt">🔍 Debugging &amp; Code Review</span><span class="mk">▶</span></summary><ul class="sb-les"><li><a href="04-error-debug.html" data-slug="04-error-debug" class=""><span class="dot"></span><span class="ln">4.1</span><span>หา root cause ของ error</span></a></li><li><a href="04-code-review.html" data-slug="04-code-review" class=""><span class="dot"></span><span class="ln">4.2</span><span>Code review workflow</span></a></li><li><a href="04-security.html" data-slug="04-security" class=""><span class="dot"></span><span class="ln">4.3</span><span>Security scanning</span></a></li><li><a href="04-performance.html" data-slug="04-performance" class=""><span class="dot"></span><span class="ln">4.4</span><span>Performance optimization</span></a></li></ul></details><details class="sb-mod"><summary><span class="mn">5</span><span class="mt">🧪 Testing &amp; Documentation</span><span class="mk">▶</span></summary><ul class="sb-les"><li><a href="05-unit-tests.html" data-slug="05-unit-tests" class=""><span class="dot"></span><span class="ln">5.1</span><span>Generate unit tests</span></a></li><li><a href="05-e2e.html" data-slug="05-e2e" class=""><span class="dot"></span><span class="ln">5.2</span><span>E2E tests ด้วย Playwright</span></a></li><li><a href="05-api-docs.html" data-slug="05-api-docs" class=""><span class="dot"></span><span class="ln">5.3</span><span>Auto-generate API docs</span></a></li><li><a href="05-tdd.html" data-slug="05-tdd" class=""><span class="dot"></span><span class="ln">5.4</span><span>TDD — test ก่อน code</span></a></li></ul></details><details class="sb-mod"><summary><span class="mn">6</span><span class="mt">🏗️ Architecture &amp; Refactoring</span><span class="mk">▶</span></summary><ul class="sb-les"><li><a href="06-system-design.html" data-slug="06-system-design" class=""><span class="dot"></span><span class="ln">6.1</span><span>System design consultation</span></a></li><li><a href="06-refactor.html" data-slug="06-refactor" class=""><span class="dot"></span><span class="ln">6.2</span><span>Refactor codebase ใหญ่</span></a></li><li><a href="06-migration.html" data-slug="06-migration" class=""><span class="dot"></span><span class="ln">6.3</span><span>Migration JS→TS, Class→Hooks</span></a></li><li><a href="06-db-design.html" data-slug="06-db-design" class=""><span class="dot"></span><span class="ln">6.4</span><span>Database schema design</span></a></li></ul></details><details class="sb-mod"><summary><span class="mn">7</span><span class="mt">⚡ Superpower Skills</span><span class="mk">▶</span></summary><ul class="sb-les"><li><a href="07-mcp-intro.html" data-slug="07-mcp-intro" class=""><span class="dot"></span><span class="ln">7.1</span><span>MCP Servers คืออะไร</span></a></li><li><a href="07-mcp-db.html" data-slug="07-mcp-db" class=""><span class="dot"></span><span class="ln">7.2</span><span>เชื่อม Database เข้า Claude</span></a></li><li><a href="07-slash-commands.html" data-slug="07-slash-commands" class=""><span class="dot"></span><span class="ln">7.3</span><span>Custom Slash Commands</span></a></li><li><a href="07-hooks.html" data-slug="07-hooks" class=""><span class="dot"></span><span class="ln">7.4</span><span>Hooks ทำงานอัตโนมัติ</span></a></li><li><a href="07-multi-agent.html" data-slug="07-multi-agent" class=""><span class="dot"></span><span class="ln">7.5</span><span>Multi-agent workflows</span></a></li><li><a href="07-headless.html" data-slug="07-headless" class=""><span class="dot"></span><span class="ln">7.6</span><span>Headless mode ใน CI/CD</span></a></li></ul></details><details class="sb-mod"><summary><span class="mn">8</span><span class="mt">🌐 Workshop: สร้าง Portfolio Website</span><span class="mk">▶</span></summary><ul class="sb-les"><li><a href="08-design.html" data-slug="08-design" class=""><span class="dot"></span><span class="ln">8.1</span><span>Phase 1: Design กับ Claude</span></a></li><li><a href="08-build.html" data-slug="08-build" class=""><span class="dot"></span><span class="ln">8.2</span><span>Phase 2: Build &amp; Iterate</span></a></li><li><a href="../deploy.html" data-slug="deploy" class=""><span class="dot"></span><span class="ln">8.3</span><span>Phase 3: Deploy ออนไลน์</span></a></li></ul></details></nav><div class="sb-back"><a href="../index.html">🏠 หน้าหลักคอร์ส</a></div></aside>
+<div class="main">
+  <div class="topbar"><button class="hamb" id="hamb" aria-label="เมนู">☰</button>
+    <span class="tb-title">3. 💬 Prompt Engineering</span></div>
+  <article class="reading">
+    <div class="crumb"><a href="../index.html">หน้าหลัก</a> › โมดูล 3: 💬 Prompt Engineering</div>
+    <span class="les-no">บทเรียน 3.5</span>
+    <h1>Common Mistakes ที่ต้องเลี่ยง</h1>
+    <p class="lead">รวมข้อผิดพลาดที่มือใหม่ทำบ่อยเวลาคุยกับ Claude Code พร้อมวิธีแก้ เพื่อให้คุณข้ามหลุมพวกนี้ไปได้เลย</p>
+    <div class="objectives"><h2>🎯 เมื่อเรียนจบบทนี้ คุณจะ…</h2><ul><li>เข้าใจข้อผิดพลาดที่พบบ่อยในการใช้ Claude Code</li><li>ปรับปรุงคำสั่ง (prompt) ให้ Claude Code เข้าใจง่ายขึ้น</li><li>ตรวจสอบและแก้ไขโค้ดที่ได้จาก Claude Code ก่อนนำไปใช้</li></ul></div>
+    <figure class="lesson-hero"><img src="../images/03-mistakes.webp" alt="เลี่ยงข้อผิดพลาดที่พบบ่อยเวลาสั่งงาน Claude" loading="lazy" decoding="async"><figcaption>🖼️ เลี่ยงข้อผิดพลาดที่พบบ่อยเวลาสั่งงาน Claude</figcaption></figure>
+    <div class="block"><h3>5 ข้อผิดพลาดที่พบบ่อย</h3><ul class='ul'><li><b>สั่งกว้างเกินไป</b> — "ทำให้ดีขึ้น" → บอกให้เจาะจง</li><li>ไม่ให้ context — Claude เดาเอง อาจผิด</li><li>ไม่มี test/วิธีตรวจผล — ไม่รู้ว่าถูกไหม</li><li>ปล่อย context ยาวเกิน — ใช้ /compact หรือ /clear</li><li>ไม่ review โค้ดก่อน merge — เชื่อ 100% โดยไม่ตรวจ</li></ul></div><div class="block"><h3>กฎง่ายๆ</h3><p>เจาะจง + ให้ context + มีวิธีตรวจผล = ได้งานดี</p></div>
   
   <div class="note"><span class="ni">💡</span><div class="note-body"><strong>เคล็ดลับ:</strong> ถ้าผลออกมาไม่ดีบ่อยๆ ปัญหามักอยู่ที่ prompt กว้างหรือ context ไม่พอ ไม่ใช่ที่ Claude</div></div>
   <div class="takeaways"><div class="tk-title">📌 สรุปบทนี้</div><ul><li>เจาะจงเข้าไว้</li><li>ให้ context และวิธีตรวจผล</li><li>review ก่อน merge เสมอ</li></ul></div>
-  <div class="pagenav"><a href="03-iterative.html" class="pn-btn pn-prev"><span class="pn-dir">← ก่อนหน้า</span><span class="pn-title">Iterative Refinement Workflow</span></a><a href="04-error-debug.html" class="pn-btn pn-next"><span class="pn-dir">ถัดไป →</span><span class="pn-title">ให้ Claude หา Root Cause ของ Error</span></a></div>
+    <div class="quiz"><div class="quiz-h">🧠 แบบทดสอบท้ายบท</div><div class="quiz-sub">ลองตอบดู แล้วระบบจะเฉลยให้ทันที</div><div class="q" data-answer="2"><div class="q-text"><span class="qn">ข้อ 1.</span>ถ้าเราสั่ง Claude Code ว่า &#x27;ทำให้ดีขึ้น&#x27; ผลลัพธ์ที่ได้มักจะเป็นอย่างไร?</div><div class="choices"><button class="choice"><span class="mk">A</span><span>ก. ได้โค้ดที่ดีเยี่ยมทันที</span></button><button class="choice"><span class="mk">B</span><span>ข. Claude Code จะถามข้อมูลเพิ่มเติม</span></button><button class="choice"><span class="mk">C</span><span>ค. ผลลัพธ์อาจไม่ตรงตามที่เราต้องการ</span></button><button class="choice"><span class="mk">D</span><span>ง. Claude Code จะปฏิเสธที่จะทำ</span></button></div><div class="q-explain"><strong>เฉลย:</strong> การสั่งกว้างๆ ทำให้ Claude Code เดาเอง ซึ่งอาจไม่ตรงกับที่เราอยากได้</div></div><div class="q" data-answer="2"><div class="q-text"><span class="qn">ข้อ 2.</span>ข้อใดคือสิ่งสำคัญที่สุดในการเขียนคำสั่ง (prompt) ให้ Claude Code เพื่อให้ได้งานที่ดี?</div><div class="choices"><button class="choice"><span class="mk">A</span><span>ก. เขียนคำสั่งให้สั้นที่สุดเท่าที่จะทำได้</span></button><button class="choice"><span class="mk">B</span><span>ข. บอกแค่ว่าอยากได้อะไรโดยไม่ต้องให้รายละเอียด</span></button><button class="choice"><span class="mk">C</span><span>ค. ระบุให้เจาะจง ให้ข้อมูลประกอบ และมีวิธีตรวจผลลัพธ์</span></button><button class="choice"><span class="mk">D</span><span>ง. เชื่อใจ Claude Code 100% โดยไม่ต้องตรวจสอบ</span></button></div><div class="q-explain"><strong>เฉลย:</strong> กฎง่ายๆ คือ ต้องเจาะจง ให้ context และมีวิธีตรวจผลลัพธ์เสมอ</div></div></div>
+    <div class="complete-row"><button class="btn-complete" id="btnComplete">✓ ทำเครื่องหมายว่าเรียนจบ</button></div>
+    <div class="pagenav"><a href="03-iterative.html" class="pn-btn "><span class="pn-dir">← ก่อนหน้า</span><span class="pn-title">Iterative refinement</span></a><a href="04-error-debug.html" class="pn-btn pn-next"><span class="pn-dir">ถัดไป →</span><span class="pn-title">หา root cause ของ error</span></a></div>
+  </article>
+  <footer>Claude Code Learning Hub · เรียนฟรี · Curated by <strong>Chetaphong Preecha</strong> &amp; Beyond Team</footer>
 </div>
-<footer><div class="footer-credit">Claude Code Learning Hub · Curated by <strong>Chetaphong Preecha</strong> &amp; <strong>Beyond Team</strong></div></footer>
-<script>
-const sc=document.getElementById('stars');
-for(let i=0;i<70;i++){const s=document.createElement('div');s.className='star';const z=Math.random()*2.5+.5;s.style.cssText=`width:${z}px;height:${z}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${Math.random()*4+2}s;animation-delay:${Math.random()*5}s`;sc.appendChild(s)}
-window.addEventListener('scroll',()=>{const t=document.documentElement.scrollTop,h=document.documentElement.scrollHeight-window.innerHeight;document.getElementById('bar').style.width=(t/h*100)+'%'});
-function cp(){const el=document.getElementById('pt');navigator.clipboard.writeText(el.innerText);const b=document.querySelector('.copy-btn');const o=b.innerHTML;b.innerHTML='✅ คัดลอกแล้ว!';b.classList.add('done');setTimeout(()=>{b.innerHTML=o;b.classList.remove('done')},2000)}
-function cc(btn){const pre=btn.parentElement.querySelector('pre');navigator.clipboard.writeText(pre.innerText);const o=btn.innerHTML;btn.innerHTML='✅';setTimeout(()=>btn.innerHTML=o,1500)}
-</script>
+<script src="../assets/app.js"></script>
 </body>
 </html>
