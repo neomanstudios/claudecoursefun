@@ -11,10 +11,12 @@ content = json.load(open(os.path.join(ROOT, "data", "workshops_content.json"), e
     if os.path.exists(os.path.join(ROOT, "data", "workshops_content.json")) else {}
 
 FLAT = [(c, w) for c in catalog["categories"] for w in c["workshops"]]
-CAT_OF = {w["slug"]: c for c, w in FLAT}
 
+# Prose fields (glance summary, chips, compare role, concept body, keypoint text,
+# howto steps, takeaways) are trusted authored HTML and inserted raw so they may use
+# <b>/<code>. Labels/identifiers (names, titles, headings, labels, quiz text) are escaped.
 def _sec(heading, lead, sid):
-    h = f'<h2 class="sec-title" id="{sid}">{heading}</h2>' if heading else ""
+    h = f'<h2 class="sec-title" id="{sid}">{html.escape(heading)}</h2>' if heading else ""
     l = f'<p class="sec-lead">{html.escape(lead)}</p>' if lead else ""
     return h + l
 
@@ -55,8 +57,8 @@ def block_howto(b, sid):
 
 def block_prompt(b, sid):
     return (f'<div class="prompt-box"><div class="prompt-label">{html.escape(b.get("label","ลองใช้ Prompt นี้"))}</div>'
-            f'<div class="prompt-text" id="pt">{html.escape(b["text"])}</div>'
-            f'<button class="copy-btn" onclick="cp()">คัดลอก Prompt</button></div>')
+            f'<div class="prompt-text" id="{sid}">{html.escape(b["text"])}</div>'
+            f'<button class="copy-btn" onclick="cp(\'{sid}\')">คัดลอก Prompt</button></div>')
 
 RENDERERS = {"compare": block_compare, "concept": block_concept,
              "keypoint": block_keypoint, "howto": block_howto, "prompt": block_prompt}
@@ -183,7 +185,7 @@ def build_workshops_index():
 <html lang="th"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Workshops | เรียนใช้ AI ทำงานจริง</title>
-<meta name="description" content="50 เวิร์กช็อปลงมือทำ เรียนใช้ AI กับงานจริง">
+<meta name="description" content="{total} เวิร์กช็อปลงมือทำ เรียนใช้ AI กับงานจริง">
 {HEAD_THEME}{FONTS}<link rel="stylesheet" href="../assets/app.css"></head>
 <body data-slug="__wshome__">
 <div class="reading-bar" id="bar"></div><div class="sb-overlay"></div>
