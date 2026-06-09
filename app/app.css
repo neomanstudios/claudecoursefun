@@ -368,6 +368,10 @@ code{background:rgba(56,189,248,.12);color:#7DD3FC;padding:.12rem .42rem;border-
 /* ============================================================
    Content search — ⌘K command palette + triggers
    ============================================================ */
+.sb-switch{display:flex;gap:.25rem;margin:.1rem .8rem .7rem;padding:.25rem;background:var(--card-2);border:1px solid var(--line);border-radius:11px}
+.sb-switch a{flex:1;text-align:center;padding:.44rem .5rem;border-radius:8px;font-size:.83rem;font-weight:700;color:var(--text-2);font-family:var(--th);transition:.15s}
+.sb-switch a:hover{color:var(--text);background:rgba(255,255,255,.04)}
+.sb-switch a.active{background:var(--accent);color:#fff;box-shadow:0 4px 12px -5px rgba(59,130,246,.7)}
 .sb-search{display:flex;align-items:center;gap:.5rem;margin:.1rem .8rem .7rem;padding:.52rem .7rem;width:calc(100% - 1.6rem);
   background:var(--card);border:1px solid var(--line);border-radius:10px;color:var(--text-2);font-family:var(--th);font-size:.85rem;cursor:pointer;transition:.15s}
 .sb-search:hover{border-color:rgba(59,130,246,.4);color:var(--text)}

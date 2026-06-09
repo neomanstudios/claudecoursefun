@@ -42,6 +42,8 @@ def outline(active_slug):
                     f'<ul class="lessons">{"".join(lis)}</ul></details>')
     return ('<aside class="sidebar"><div class="brand"><a href="../index.html" class="brand-l">'
             '<span class="logo">CC</span><b>Claude Code</b></a></div>'
+            '<div class="sb-switch"><a href="../index.html" class="active">บทเรียน</a>'
+            '<a href="../workshops/index.html">เวิร์กช็อป</a></div>'
             '<div class="sb-progress"><div class="pl"><span>ความคืบหน้า</span><b class="prog-lbl">0/0</b></div>'
             '<div class="pbar"><i></i></div></div>'
             f'<div class="sb-scroll">{"".join(rows)}</div>'
@@ -195,7 +197,7 @@ def build_index():
 {FONTS}<link rel="stylesheet" href="app.css"></head>
 <body data-slug="__home__">
 <div class="sb-overlay"></div>
-{outline(None).replace('class="active"','').replace('href="../index.html"','href="index.html"').replace('../../workshops','../workshops').replace('href="01','href="lessons/01').replace('href="02','href="lessons/02').replace('href="03','href="lessons/03').replace('href="04','href="lessons/04').replace('href="05','href="lessons/05').replace('href="06','href="lessons/06').replace('href="07','href="lessons/07').replace('href="08','href="lessons/08').replace('href="deploy','href="lessons/deploy')}
+{outline(None).replace('href="../workshops/index.html"','href="workshops/index.html"').replace('href="../index.html"','href="index.html"').replace('../../workshops','../workshops').replace('href="01','href="lessons/01').replace('href="02','href="lessons/02').replace('href="03','href="lessons/03').replace('href="04','href="lessons/04').replace('href="05','href="lessons/05').replace('href="06','href="lessons/06').replace('href="07','href="lessons/07').replace('href="08','href="lessons/08').replace('href="deploy','href="lessons/deploy')}
 <div class="shell">
 {topbar().replace('href="../','href="')}
 <div class="home">

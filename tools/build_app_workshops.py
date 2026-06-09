@@ -50,8 +50,10 @@ def ws_outline(active_slug):
                     f'<span class="mt">{html.escape(c["title"])}</span>'
                     f'<svg class="chev ic" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></summary>'
                     f'<ul class="lessons">{"".join(lis)}</ul></details>')
-    return ('<aside class="sidebar"><div class="brand"><a href="index.html" class="brand-l">'
-            '<span class="logo">CC</span><b>Workshops</b></a></div>'
+    return ('<aside class="sidebar"><div class="brand"><a href="../index.html" class="brand-l">'
+            '<span class="logo">CC</span><b>Claude Code</b></a></div>'
+            '<div class="sb-switch"><a href="../index.html">บทเรียน</a>'
+            '<a href="index.html" class="active">เวิร์กช็อป</a></div>'
             '<div class="sb-progress"><div class="pl"><span>ทำเสร็จแล้ว</span><b class="prog-lbl">0/0</b></div>'
             '<div class="pbar"><i></i></div></div>'
             f'<div class="sb-scroll">{"".join(rows)}</div>'
