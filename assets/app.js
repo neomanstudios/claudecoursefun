@@ -1,7 +1,8 @@
-/* Claude Code Learning Hub — shared lesson behaviour
-   - ความคืบหน้า (เก็บใน localStorage)  - แบบทดสอบโต้ตอบ  - ปุ่มคัดลอก  - เมนูมือถือ */
+/* Claude Code Learning Hub — shared behaviour
+   - dark/light theme toggle (persisted)   - scroll reveal
+   - progress (localStorage)   - interactive quiz   - copy buttons   - mobile nav */
 (function(){
-  var KEY='cc_progress_v1';
+  var KEY='cc_progress_v1', THEME='cc_theme';
   function load(){try{return JSON.parse(localStorage.getItem(KEY))||[]}catch(e){return[]}}
   function save(a){localStorage.setItem(KEY,JSON.stringify(a))}
   function done(){return load()}
@@ -9,13 +10,53 @@
   function setDone(slug,v){var a=load();var i=a.indexOf(slug);
     if(v&&i<0)a.push(slug); if(!v&&i>-1)a.splice(i,1); save(a);}
 
+  // ---- theme toggle ----
+  function curTheme(){
+    var t=document.documentElement.getAttribute('data-theme');
+    if(t)return t;
+    return (window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';
+  }
+  function paintToggle(){
+    var dark=curTheme()==='dark';
+    document.querySelectorAll('.theme-toggle').forEach(function(b){
+      b.textContent=dark?'☀️':'🌙';
+      b.setAttribute('aria-label',dark?'สลับเป็นโหมดสว่าง':'สลับเป็นโหมดมืด');
+    });
+  }
+  function initTheme(){
+    paintToggle();
+    document.querySelectorAll('.theme-toggle').forEach(function(b){
+      b.addEventListener('click',function(){
+        var next=curTheme()==='dark'?'light':'dark';
+        document.documentElement.setAttribute('data-theme',next);
+        try{localStorage.setItem(THEME,next);}catch(e){}
+        paintToggle();
+      });
+    });
+  }
+
+  // ---- scroll reveal (skipped under reduced-motion / no IO -> content stays visible) ----
+  function initReveal(){
+    if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    if(!('IntersectionObserver' in window))return;
+    var sel='.block,.objectives,figure.lesson-hero,.prompt-box,.takeaways,.quiz,.pagenav,.complete-row';
+    var nodes=[].slice.call(document.querySelectorAll(sel));
+    [].slice.call(document.querySelectorAll('.reveal')).forEach(function(n){if(nodes.indexOf(n)<0)nodes.push(n);});
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+    },{rootMargin:'0px 0px -8% 0px',threshold:.08});
+    nodes.forEach(function(n){n.classList.add('reveal');io.observe(n);});
+    // safety net: never leave content hidden if the observer misfires.
+    // Off-screen nodes are revealed invisibly; on failure this rescues them.
+    setTimeout(function(){nodes.forEach(function(n){n.classList.add('in');});},2500);
+  }
+
   // ---- sidebar progress + active + checkmarks ----
   function refreshSidebar(){
-    // mark done state on every lesson link (sidebar + หน้าหลัก)
-    document.querySelectorAll('.sb-les a[data-slug]').forEach(function(a){
+    document.querySelectorAll('.sb-les a[data-slug], .mc-list a[data-slug]').forEach(function(a){
       if(isDone(a.getAttribute('data-slug')))a.classList.add('done');else a.classList.remove('done');
     });
-    // นับความคืบหน้าจาก sidebar เท่านั้น (กันนับซ้ำกับการ์ดในหน้าหลัก)
+    // count progress from the sidebar only (avoid double-counting home cards)
     var counted=document.querySelectorAll('.sidebar .sb-les a[data-slug]');
     var total=counted.length, n=0;
     counted.forEach(function(a){if(isDone(a.getAttribute('data-slug')))n++;});
@@ -75,7 +116,7 @@
     window.addEventListener('scroll',function(){
       var t=document.documentElement.scrollTop,
           h=document.documentElement.scrollHeight-window.innerHeight;
-      bar.style.width=(h>0?t/h*100:0)+'%';});}
+      bar.style.width=(h>0?t/h*100:0)+'%';},{passive:true});}
 
   // ---- mobile nav ----
   function initNav(){
@@ -93,7 +134,7 @@
       a.scrollIntoView({block:'center'});}
   }
 
-  // ---- scroll-spy: ไฮไลต์หัวข้อปัจจุบันใน "ในบทนี้" ----
+  // ---- scroll-spy: highlight current heading in "ในบทนี้" ----
   function initTOC(){
     var links=document.querySelectorAll('.toc a[href^="#"]');
     if(!links.length)return;
@@ -113,6 +154,7 @@
   }
 
   document.addEventListener('DOMContentLoaded',function(){
-    refreshSidebar();initComplete();initQuiz();initBar();initNav();openActiveModule();initTOC();
+    initTheme();refreshSidebar();initComplete();initQuiz();initBar();initNav();
+    openActiveModule();initTOC();initReveal();
   });
 })();

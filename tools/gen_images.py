@@ -1,24 +1,49 @@
 #!/usr/bin/env python3
 """สร้างภาพประกอบบทเรียนด้วย Gemini 2.5 Flash Image (Gemini 2)
 - ภาพละ 1 ไฟล์ .webp ในโฟลเดอร์ images/
-- โทนสีตรงกับธีมเว็บ (navy + ม่วง/เขียวมิ้นต์)
-- ข้ามไฟล์ที่มีอยู่แล้ว เพื่อให้รันซ้ำได้ (resume) — ใส่ --force เพื่อสร้างใหม่ทั้งหมด
+- โทนสีสดใส หลากสี ตามธีมเว็บใหม่ โดยแต่ละภาพเน้นสีประจำโมดูลของตัวเอง
+- ข้ามไฟล์ที่มีอยู่แล้ว เพื่อให้รันซ้ำได้ (resume); ใส่ --force เพื่อสร้างใหม่ทั้งหมด
 """
 import os, sys, json, base64, time, urllib.request, urllib.error
 from io import BytesIO
-from PIL import Image
 
-KEY = os.environ["GEMINI_KEY"]
+# NOTE: PIL and the API key (GEMINI_API_KEY / GEMINI_KEY) are only needed for
+# actual image generation. They are imported/read lazily inside gen()/save_webp()
+# so that other tools (e.g. build_site.py) can import the LESSONS/DEPLOY caption
+# dicts below without Pillow installed or an API key set.
 MODEL = "gemini-2.5-flash-image"
-URL = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent?key={KEY}"
 OUT = os.path.join(os.path.dirname(__file__), "..", "images")
 FORCE = "--force" in sys.argv
 ONLY = [a for a in sys.argv[1:] if not a.startswith("-")]
 
-BASE = ("Clean modern flat-design educational illustration. Dark navy background (#050510). "
-        "Glowing purple-to-teal gradient accents (#6C63FF to #4ECDC4) with soft coral (#FF6B6B) highlights. "
-        "Minimal friendly vector style, subtle space/stars theme, soft glow, centered balanced composition, "
-        "high quality, no text, no words, no letters, no captions. Subject: ")
+BASE = ("Bright, cheerful, modern flat vector illustration for a beginner-friendly AI coding course. "
+        "Playful rounded shapes, smooth flat color fills, soft light shadows, clean and generous negative space, "
+        "friendly and approachable, crisp and high quality, centered balanced composition. "
+        "No text, no words, no letters, no numbers, no captions, no realistic UI screenshots. ")
+
+# Each module owns a color (matches assets/app.css --m1..--m8). Every lesson's
+# illustration leans into its module color so the art reinforces the same
+# wayfinding palette as the rest of the site.
+MODULE_ACCENT = {
+ "1":("coral","#F2545B"), "2":("amber","#F59E0B"), "3":("violet","#8B5CF6"),
+ "4":("cyan","#06B6D4"),  "5":("green","#22C55E"), "6":("pink","#EC4899"),
+ "7":("indigo","#6366F1"),"8":("teal","#14B8A6"),
+}
+
+def module_of(slug):
+    """Map a lesson slug to its module number (deploy = module 8)."""
+    if slug == "deploy":
+        return "8"
+    head = slug.split("-", 1)[0].lstrip("0")
+    return head or "8"
+
+def build_prompt(slug, subject):
+    name, hexv = MODULE_ACCENT.get(module_of(slug), ("blue", "#3361FF"))
+    return (BASE
+            + f"Soft pastel {name}-tinted background. "
+            + f"Dominant accent color {name} ({hexv}), with bright supporting pops of "
+              "coral, amber, violet, cyan, green, pink, indigo and teal. "
+            + "Subject: " + subject)
 
 # slug -> (english subject for the image, thai caption shown under image)
 LESSONS = {
@@ -98,13 +123,22 @@ DEPLOY = {
     "เฟส 3: นำเว็บขึ้นออนไลน์ให้คนทั้งโลกเข้าได้"),
 }
 
+def _api_key():
+    """Accept either GEMINI_API_KEY (preferred) or GEMINI_KEY."""
+    key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GEMINI_KEY")
+    if not key:
+        raise SystemExit("Set GEMINI_API_KEY (or GEMINI_KEY) to generate images.")
+    return key
+
 def gen(slug, subject, retries=4):
-    body = {"contents":[{"parts":[{"text": BASE + subject}]}],
+    key = _api_key()
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent?key={key}"
+    body = {"contents":[{"parts":[{"text": build_prompt(slug, subject)}]}],
             "generationConfig":{"responseModalities":["IMAGE"]}}
     data = json.dumps(body).encode()
     for attempt in range(retries):
         try:
-            req = urllib.request.Request(URL, data=data, headers={"Content-Type":"application/json"})
+            req = urllib.request.Request(url, data=data, headers={"Content-Type":"application/json"})
             resp = urllib.request.urlopen(req, timeout=180)
             payload = json.loads(resp.read())
             for p in payload["candidates"][0]["content"]["parts"]:
@@ -119,6 +153,7 @@ def gen(slug, subject, retries=4):
     return None
 
 def save_webp(raw, path):
+    from PIL import Image
     im = Image.open(BytesIO(raw)).convert("RGB")
     # crop to square center then resize to 880px (lesson width)
     w,h = im.size; s=min(w,h)

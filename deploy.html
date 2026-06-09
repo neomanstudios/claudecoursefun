@@ -5,103 +5,107 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Phase 3: Deploy เว็บขึ้นออนไลน์ | Claude Code Hub</title>
 <meta name="description" content="เอาเว็บขึ้นออนไลน์ฟรี ด้วย Cloudflare Pages, Vercel, GitHub Pages หรือ Netlify ทำตามทีละขั้น">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script>(function(){try{var t=localStorage.getItem("cc_theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.className+=" js";})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600;700&family=Sarabun:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/app.css">
 <style>
-/* ---- deploy page specific (light theme overrides) ---- */
+/* ---- deploy page specific (themed via design tokens, dark-aware) ----
+   page accent = --mc (module 8 = teal); primary buttons = --accent */
 .container{max-width:none;margin:0;padding:0}
-.hl{background:linear-gradient(135deg,var(--p),var(--teal));-webkit-background-clip:text;
+.hl{background:linear-gradient(135deg,var(--mc),var(--accent-2));-webkit-background-clip:text;
   -webkit-text-fill-color:transparent;background-clip:text}
-.hl2{color:var(--teal)}
+.hl2{color:var(--mc)}
 .sec-head{margin:2.2rem 0 1rem}
-.sec-tag{display:inline-block;font-family:var(--mono);font-size:.74rem;font-weight:700;color:var(--p);
-  background:var(--p-soft);padding:.2rem .7rem;border-radius:20px;margin-bottom:.5rem}
-.sec-head h2{font-size:1.5rem;font-weight:800;margin-bottom:.3rem}
+.sec-tag{display:inline-block;font-family:var(--mono);font-size:.74rem;font-weight:700;color:var(--mc);
+  background:color-mix(in srgb,var(--mc) 14%,transparent);padding:.2rem .7rem;border-radius:20px;margin-bottom:.5rem}
+.sec-head h2{font-family:var(--font-display);font-size:1.5rem;font-weight:700;margin-bottom:.3rem;color:var(--ink)}
 .sec-head p{color:var(--muted);font-size:.95rem}
 .intro-box{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-  padding:1.3rem;margin-bottom:1.4rem;box-shadow:var(--shadow)}
-.intro-box h3{font-size:1.15rem;font-weight:800;margin-bottom:.6rem}
+  padding:1.3rem;margin-bottom:1.4rem;box-shadow:var(--shadow-sm)}
+.intro-box h3{font-family:var(--font-display);font-size:1.15rem;font-weight:600;margin-bottom:.6rem;color:var(--ink)}
 .intro-box p{color:var(--ink-2);margin-bottom:.6rem}
 .quick-nav{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.4rem}
 .qn-link{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:.5rem .9rem;
-  font-size:.85rem;font-weight:600;color:var(--ink-2)}
-.qn-link:hover{border-color:var(--p);color:var(--p)}
+  font-size:.85rem;font-weight:600;color:var(--ink-2);transition:.15s}
+.qn-link:hover{border-color:var(--mc);color:var(--mc)}
 .compare{overflow-x:auto;margin-bottom:1.4rem}
 .compare table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);
   border-radius:var(--radius);overflow:hidden;font-size:.9rem}
-.compare th{background:var(--bg);text-align:left;padding:.7rem .9rem;font-weight:800;color:var(--ink);
+.compare th{background:var(--bg-2);text-align:left;padding:.7rem .9rem;font-weight:700;color:var(--ink);
   border-bottom:1px solid var(--line)}
 .compare td{padding:.7rem .9rem;border-bottom:1px solid var(--line-2);color:var(--ink-2)}
 .compare tr:last-child td{border-bottom:none}
-.badge-best{display:inline-block;background:var(--green-soft);color:var(--green);font-size:.7rem;
+.badge-best{display:inline-block;background:var(--ok-soft);color:var(--ok-ink);font-size:.7rem;
   font-weight:700;padding:.1rem .5rem;border-radius:20px;margin-left:.3rem}
 .platform{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-  padding:1.4rem;margin-bottom:1.4rem;box-shadow:var(--shadow)}
+  padding:1.4rem;margin-bottom:1.4rem;box-shadow:var(--shadow-sm)}
 .plat-head{display:flex;gap:.9rem;align-items:flex-start;margin-bottom:.9rem}
-.plat-logo{width:46px;height:46px;border-radius:12px;background:var(--p-soft);display:flex;
-  align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
-.plat-name{font-size:1.15rem;font-weight:800}
+.plat-logo{width:46px;height:46px;border-radius:13px;background:color-mix(in srgb,var(--mc) 15%,transparent);
+  display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
+.plat-name{font-family:var(--font-display);font-size:1.15rem;font-weight:600;color:var(--ink)}
 .plat-tagline{color:var(--muted);font-size:.86rem;margin:.15rem 0 .4rem}
 .plat-tags{display:flex;flex-wrap:wrap;gap:.4rem}
 .ptag{font-size:.72rem;font-weight:700;padding:.18rem .55rem;border-radius:20px}
-.ptag-free{background:var(--green-soft);color:var(--green)}
-.ptag-fast{background:var(--p-soft);color:var(--p)}
-.ptag-easy{background:var(--teal-soft);color:var(--teal)}
-.plat-best{background:var(--bg);border-left:3px solid var(--teal);border-radius:8px;padding:.7rem .9rem;
+.ptag-free{background:var(--ok-soft);color:var(--ok-ink)}
+.ptag-fast{background:var(--accent-soft);color:var(--accent)}
+.ptag-easy{background:color-mix(in srgb,var(--accent-2) 16%,transparent);color:var(--accent-2)}
+.plat-best{background:var(--bg-2);border-left:3px solid var(--mc);border-radius:8px;padding:.7rem .9rem;
   font-size:.88rem;color:var(--ink-2);margin-bottom:1rem}
 .plat-best strong{color:var(--ink)}
 .way{border:1px solid var(--line);border-radius:12px;padding:1rem 1.1rem;margin-bottom:1rem}
-.way-easy{background:var(--teal-soft);border-color:#BFEBE4}
-.way-manual{background:var(--bg)}
-.way-title{font-weight:800;font-size:.98rem;margin-bottom:.6rem}
+.way-easy{background:color-mix(in srgb,var(--mc) 9%,var(--card));border-color:color-mix(in srgb,var(--mc) 26%,var(--line))}
+.way-manual{background:var(--bg-2)}
+.way-title{font-family:var(--font-display);font-weight:600;font-size:.98rem;margin-bottom:.6rem;color:var(--ink)}
 .action-list{list-style:none;margin:.3rem 0}
 .action-list li{display:flex;gap:.7rem;align-items:flex-start;margin-bottom:.6rem}
-.action-num{width:24px;height:24px;border-radius:50%;background:var(--p);color:#fff;font-weight:800;
+.action-num{width:24px;height:24px;border-radius:50%;background:var(--mc);color:#fff;font-weight:800;
   font-size:.78rem;font-family:var(--mono);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .action-text{color:var(--ink-2);font-size:.92rem;line-height:1.65}
 .action-text strong{color:var(--ink)}
 .action-text small{display:block;color:var(--muted);font-size:.8rem;margin-top:.2rem}
-.result-url{display:flex;gap:.6rem;align-items:center;background:var(--green-soft);border:1px solid #BFE8CE;
-  border-radius:10px;padding:.7rem .9rem;margin-top:.8rem;color:#0d6b3a;font-size:.9rem}
+.result-url{display:flex;gap:.6rem;align-items:center;background:var(--ok-soft);
+  border:1px solid color-mix(in srgb,var(--ok) 40%,transparent);
+  border-radius:10px;padding:.7rem .9rem;margin-top:.8rem;color:var(--ok-ink);font-size:.9rem}
 .result-url .ri{font-size:1.2rem}
-.terminal{background:#1B1F2E;border-radius:10px;overflow:hidden;margin:.6rem 0}
-.term-bar{display:flex;align-items:center;gap:.4rem;padding:.5rem .8rem;background:#262B3D}
+.terminal{background:#101320;border:1px solid #232838;border-radius:12px;overflow:hidden;margin:.6rem 0}
+.term-bar{display:flex;align-items:center;gap:.4rem;padding:.5rem .8rem;background:#1a1f30}
 .tdot{width:11px;height:11px;border-radius:50%}
 .term-title{color:#cfd3e6;font-size:.78rem;margin-left:.4rem;font-family:var(--mono)}
 .term-body{padding:.8rem 1rem;font-family:var(--mono);font-size:.84rem;color:#E7E9F3;white-space:pre-wrap;line-height:1.7}
 .prompt{color:#7CFFB2}.cmd{color:#E7E9F3}.cmt{color:#8b93a7}.ok{color:#7CFFB2}
-.copy-cmd{background:var(--p);color:#fff;border:none;border-radius:8px;padding:.35rem .8rem;
-  font-size:.78rem;font-weight:700;font-family:var(--font);cursor:pointer;margin-top:-.2rem}
+.copy-cmd{background:var(--accent);color:var(--accent-ink);border:none;border-radius:8px;padding:.35rem .8rem;
+  font-size:.78rem;font-weight:700;font-family:var(--font-display);cursor:pointer;margin-top:-.2rem}
 .domain-box{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-  padding:1.4rem;margin-bottom:1.4rem;box-shadow:var(--shadow)}
-.note-warn{background:#FDECEC;border:1px solid #F3C2C2;border-left:4px solid var(--coral)}
-.note-tip{background:var(--teal-soft);border:1px solid #BFEBE4;border-left:4px solid var(--teal)}
+  padding:1.4rem;margin-bottom:1.4rem;box-shadow:var(--shadow-sm)}
+.note-warn{background:var(--bad-soft);border:1px solid color-mix(in srgb,var(--bad) 35%,transparent);border-left:4px solid var(--bad)}
+.note-tip{background:color-mix(in srgb,var(--accent-2) 12%,var(--card));border:1px solid color-mix(in srgb,var(--accent-2) 30%,var(--line));border-left:4px solid var(--accent-2)}
 .next-section{margin-top:2rem}
-.next-box{background:linear-gradient(135deg,var(--p-soft),var(--teal-soft));border:1px solid var(--line);
-  border-radius:18px;padding:2rem;text-align:center}
-.next-box .mt,.next-box p{color:var(--ink-2)}
-.go-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--p);color:#fff;font-weight:700;
-  padding:.65rem 1.3rem;border-radius:11px}
+.next-box{background:linear-gradient(135deg,color-mix(in srgb,var(--mc) 14%,var(--card)),color-mix(in srgb,var(--accent-2) 12%,var(--card)));
+  border:1px solid color-mix(in srgb,var(--mc) 26%,var(--line));border-radius:18px;padding:2rem;text-align:center}
+.next-box .mt{font-family:var(--font-display);font-weight:700;font-size:1.2rem;color:var(--ink);margin-bottom:.4rem;display:block}
+.next-box p{color:var(--ink-2)}
+.go-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--accent);color:var(--accent-ink);
+  font-family:var(--font-display);font-weight:700;padding:.7rem 1.4rem;border-radius:12px}
 .go-link{display:inline-flex;align-items:center;gap:.4rem;background:var(--card);border:1px solid var(--line);
-  color:var(--ink);font-weight:700;padding:.65rem 1.3rem;border-radius:11px}
+  color:var(--ink);font-weight:700;padding:.7rem 1.4rem;border-radius:12px}
 .fade-up{opacity:1}
-code{color:#5B3BC4}
 </style>
 </head>
-<body data-slug="deploy">
+<body data-slug="deploy" data-mod="8">
 <div class="reading-bar" id="bar"></div>
 <div class="sb-overlay"></div>
-<aside class="sidebar"><a href="index.html" class="sb-head" style="text-decoration:none;color:inherit"><span class="sb-logo">⚡</span><span class="sb-brand">Claude Code Hub<small>คอร์สเรียนภาษาไทย</small></span></a><div class="sb-progress"><div class="lbl"><span>ความคืบหน้า</span><b>0/0 บท</b></div><div class="sb-bar"><i></i></div></div><nav class="sb-nav"><details class="sb-mod"><summary><span class="mn">1</span><span class="mt">🧠 Claude Code คืออะไร ทำไมต้องใช้</span><span class="mk">▶</span></summary><ul class="sb-les"><li><a href="lessons/01-what-is-claude-code.html" data-slug="01-what-is-claude-code" class=""><span class="dot"></span><span class="ln">1.1</span><span>Claude Code vs Copilot vs Cursor</span></a></li><li><a href="lessons/01-agentic-mode.html" data-slug="01-agentic-mode" class=""><span class="dot"></span><span class="ln">1.2</span><span>Agentic Mode คืออะไร</span></a></li><li><a href="lessons/01-real-use-cases.html" data-slug="01-real-use-cases" class=""><span class="dot"></span><span class="ln">1.3</span><span>Use cases จริงที่ได้ผล</span></a></li><li><a href="lessons/01-limitations.html" data-slug="01-limitations" class=""><span class="dot"></span><span class="ln">1.4</span><span>ข้อจำกัดที่ต้องรู้</span></a></li></ul></details><details class="sb-mod"><summary><span class="mn">2</span><span class="mt">⚙️ Setup &amp; Configuration</span><span class="mk">▶</span></summary><ul class="sb-les"><li><a href="lessons/02-install.html" data-slug="02-install" class=""><span class="dot"></span><span class="ln">2.1</span><span>ติดตั้ง CLI + VS Code Extension</span></a></li><li><a href="lessons/02-api-key.html" data-slug="02-api-key" class=""><span class="dot"></span><span class="ln">2.2</span><span>ตั้งค่า Login และ Billing</span></a></li><li><a href="lessons/02-claude-md.html" data-slug="02-claude-md" class=""><span class="dot"></span><span class="ln">2.3</span><span>สร้าง CLAUDE.md ที่ดี</span></a></li><li><a href="lessons/02-settings.html" data-slug="02-settings" class=""><span class="dot"></span><span class="ln">2.4</span><span>settings.json ปรับ behavior</span></a></li><li><a href="lessons/02-permissions.html" data-slug="02-permissions" class=""><span class="dot"></span><span class="ln">2.5</span><span>Permission System</span></a></li></ul></details><details class="sb-mod"><summary><span class="mn">3</span><span class="mt">💬 Prompt Engineering</span><span class="mk">▶</span></summary><ul class="sb-les"><li><a href="lessons/03-context-first.html" data-slug="03-context-first" class=""><span class="dot"></span><span class="ln">3.1</span><span>Context-first prompting</span></a></li><li><a href="lessons/03-constraints.html" data-slug="03-constraints" class=""><span class="dot"></span><span class="ln">3.2</span><span>ให้ constraints ที่ชัดเจน</span></a></li><li><a href="lessons/03-think-first.html" data-slug="03-think-first" class=""><span class="dot"></span><span class="ln">3.3</span><span>คิดก่อน แล้วค่อยทำ</span></a></li><li><a href="lessons/03-iterative.html" data-slug="03-iterative" class=""><span class="dot"></span><span class="ln">3.4</span><span>Iterative refinement</span></a></li><li><a href="lessons/03-mistakes.html" data-slug="03-mistakes" class=""><span class="dot"></span><span class="ln">3.5</span><span>Mistakes ที่ต้องเลี่ยง</span></a></li></ul></details><details class="sb-mod"><summary><span class="mn">4</span><span class="mt">🔍 Debugging &amp; Code Review</span><span class="mk">▶</span></summary><ul class="sb-les"><li><a href="lessons/04-error-debug.html" data-slug="04-error-debug" class=""><span class="dot"></span><span class="ln">4.1</span><span>หา root cause ของ error</span></a></li><li><a href="lessons/04-code-review.html" data-slug="04-code-review" class=""><span class="dot"></span><span class="ln">4.2</span><span>Code review workflow</span></a></li><li><a href="lessons/04-security.html" data-slug="04-security" class=""><span class="dot"></span><span class="ln">4.3</span><span>Security scanning</span></a></li><li><a href="lessons/04-performance.html" data-slug="04-performance" class=""><span class="dot"></span><span class="ln">4.4</span><span>Performance optimization</span></a></li></ul></details><details class="sb-mod"><summary><span class="mn">5</span><span class="mt">🧪 Testing &amp; Documentation</span><span class="mk">▶</span></summary><ul class="sb-les"><li><a href="lessons/05-unit-tests.html" data-slug="05-unit-tests" class=""><span class="dot"></span><span class="ln">5.1</span><span>Generate unit tests</span></a></li><li><a href="lessons/05-e2e.html" data-slug="05-e2e" class=""><span class="dot"></span><span class="ln">5.2</span><span>E2E tests ด้วย Playwright</span></a></li><li><a href="lessons/05-api-docs.html" data-slug="05-api-docs" class=""><span class="dot"></span><span class="ln">5.3</span><span>Auto-generate API docs</span></a></li><li><a href="lessons/05-tdd.html" data-slug="05-tdd" class=""><span class="dot"></span><span class="ln">5.4</span><span>TDD — test ก่อน code</span></a></li></ul></details><details class="sb-mod"><summary><span class="mn">6</span><span class="mt">🏗️ Architecture &amp; Refactoring</span><span class="mk">▶</span></summary><ul class="sb-les"><li><a href="lessons/06-system-design.html" data-slug="06-system-design" class=""><span class="dot"></span><span class="ln">6.1</span><span>System design consultation</span></a></li><li><a href="lessons/06-refactor.html" data-slug="06-refactor" class=""><span class="dot"></span><span class="ln">6.2</span><span>Refactor codebase ใหญ่</span></a></li><li><a href="lessons/06-migration.html" data-slug="06-migration" class=""><span class="dot"></span><span class="ln">6.3</span><span>Migration JS→TS, Class→Hooks</span></a></li><li><a href="lessons/06-db-design.html" data-slug="06-db-design" class=""><span class="dot"></span><span class="ln">6.4</span><span>Database schema design</span></a></li></ul></details><details class="sb-mod"><summary><span class="mn">7</span><span class="mt">⚡ Superpower Skills</span><span class="mk">▶</span></summary><ul class="sb-les"><li><a href="lessons/07-mcp-intro.html" data-slug="07-mcp-intro" class=""><span class="dot"></span><span class="ln">7.1</span><span>MCP Servers คืออะไร</span></a></li><li><a href="lessons/07-mcp-db.html" data-slug="07-mcp-db" class=""><span class="dot"></span><span class="ln">7.2</span><span>เชื่อม Database เข้า Claude</span></a></li><li><a href="lessons/07-slash-commands.html" data-slug="07-slash-commands" class=""><span class="dot"></span><span class="ln">7.3</span><span>Custom Slash Commands</span></a></li><li><a href="lessons/07-hooks.html" data-slug="07-hooks" class=""><span class="dot"></span><span class="ln">7.4</span><span>Hooks ทำงานอัตโนมัติ</span></a></li><li><a href="lessons/07-multi-agent.html" data-slug="07-multi-agent" class=""><span class="dot"></span><span class="ln">7.5</span><span>Multi-agent workflows</span></a></li><li><a href="lessons/07-headless.html" data-slug="07-headless" class=""><span class="dot"></span><span class="ln">7.6</span><span>Headless mode ใน CI/CD</span></a></li></ul></details><details class="sb-mod" open><summary><span class="mn">8</span><span class="mt">🌐 Workshop: สร้าง Portfolio Website</span><span class="mk">▶</span></summary><ul class="sb-les"><li><a href="lessons/08-design.html" data-slug="08-design" class=""><span class="dot"></span><span class="ln">8.1</span><span>Phase 1: Design กับ Claude</span></a></li><li><a href="lessons/08-build.html" data-slug="08-build" class=""><span class="dot"></span><span class="ln">8.2</span><span>Phase 2: Build &amp; Iterate</span></a></li><li><a href="deploy.html" data-slug="deploy" class="active"><span class="dot"></span><span class="ln">8.3</span><span>Phase 3: Deploy ออนไลน์</span></a></li></ul></details></nav><div class="sb-back"><a href="index.html">🏠 หน้าหลักคอร์ส</a></div></aside>
+<aside class="sidebar"><div class="sb-head"><a href="index.html" class="sb-brand-link"><span class="sb-logo">⚡</span><span class="sb-brand">Claude Code Hub<small>คอร์สเรียนภาษาไทย</small></span></a><button class="theme-toggle" type="button" aria-label="สลับโหมดสว่าง/มืด" title="สลับโหมดสว่าง/มืด">🌙</button></div><div class="sb-progress"><div class="lbl"><span>ความคืบหน้า</span><b>0/0 บท</b></div><div class="sb-bar"><i></i></div></div><nav class="sb-nav"><details class="sb-mod" data-mod="1"><summary><span class="mn">1</span><span class="mt">🧠 Claude Code คืออะไร ทำไมต้องใช้</span><span class="mk">▶</span></summary><ul class="sb-les"><li><a href="lessons/01-what-is-claude-code.html" data-slug="01-what-is-claude-code" class=""><span class="dot"></span><span class="ln">1.1</span><span>Claude Code vs Copilot vs Cursor</span></a></li><li><a href="lessons/01-agentic-mode.html" data-slug="01-agentic-mode" class=""><span class="dot"></span><span class="ln">1.2</span><span>Agentic Mode คืออะไร</span></a></li><li><a href="lessons/01-real-use-cases.html" data-slug="01-real-use-cases" class=""><span class="dot"></span><span class="ln">1.3</span><span>Use cases จริงที่ได้ผล</span></a></li><li><a href="lessons/01-limitations.html" data-slug="01-limitations" class=""><span class="dot"></span><span class="ln">1.4</span><span>ข้อจำกัดที่ต้องรู้</span></a></li></ul></details><details class="sb-mod" data-mod="2"><summary><span class="mn">2</span><span class="mt">⚙️ Setup &amp; Configuration</span><span class="mk">▶</span></summary><ul class="sb-les"><li><a href="lessons/02-install.html" data-slug="02-install" class=""><span class="dot"></span><span class="ln">2.1</span><span>ติดตั้ง CLI + VS Code Extension</span></a></li><li><a href="lessons/02-api-key.html" data-slug="02-api-key" class=""><span class="dot"></span><span class="ln">2.2</span><span>ตั้งค่า Login และ Billing</span></a></li><li><a href="lessons/02-claude-md.html" data-slug="02-claude-md" class=""><span class="dot"></span><span class="ln">2.3</span><span>สร้าง CLAUDE.md ที่ดี</span></a></li><li><a href="lessons/02-settings.html" data-slug="02-settings" class=""><span class="dot"></span><span class="ln">2.4</span><span>settings.json ปรับ behavior</span></a></li><li><a href="lessons/02-permissions.html" data-slug="02-permissions" class=""><span class="dot"></span><span class="ln">2.5</span><span>Permission System</span></a></li></ul></details><details class="sb-mod" data-mod="3"><summary><span class="mn">3</span><span class="mt">💬 Prompt Engineering</span><span class="mk">▶</span></summary><ul class="sb-les"><li><a href="lessons/03-context-first.html" data-slug="03-context-first" class=""><span class="dot"></span><span class="ln">3.1</span><span>Context-first prompting</span></a></li><li><a href="lessons/03-constraints.html" data-slug="03-constraints" class=""><span class="dot"></span><span class="ln">3.2</span><span>ให้ constraints ที่ชัดเจน</span></a></li><li><a href="lessons/03-think-first.html" data-slug="03-think-first" class=""><span class="dot"></span><span class="ln">3.3</span><span>คิดก่อน แล้วค่อยทำ</span></a></li><li><a href="lessons/03-iterative.html" data-slug="03-iterative" class=""><span class="dot"></span><span class="ln">3.4</span><span>Iterative refinement</span></a></li><li><a href="lessons/03-mistakes.html" data-slug="03-mistakes" class=""><span class="dot"></span><span class="ln">3.5</span><span>Mistakes ที่ต้องเลี่ยง</span></a></li></ul></details><details class="sb-mod" data-mod="4"><summary><span class="mn">4</span><span class="mt">🔍 Debugging &amp; Code Review</span><span class="mk">▶</span></summary><ul class="sb-les"><li><a href="lessons/04-error-debug.html" data-slug="04-error-debug" class=""><span class="dot"></span><span class="ln">4.1</span><span>หา root cause ของ error</span></a></li><li><a href="lessons/04-code-review.html" data-slug="04-code-review" class=""><span class="dot"></span><span class="ln">4.2</span><span>Code review workflow</span></a></li><li><a href="lessons/04-security.html" data-slug="04-security" class=""><span class="dot"></span><span class="ln">4.3</span><span>Security scanning</span></a></li><li><a href="lessons/04-performance.html" data-slug="04-performance" class=""><span class="dot"></span><span class="ln">4.4</span><span>Performance optimization</span></a></li></ul></details><details class="sb-mod" data-mod="5"><summary><span class="mn">5</span><span class="mt">🧪 Testing &amp; Documentation</span><span class="mk">▶</span></summary><ul class="sb-les"><li><a href="lessons/05-unit-tests.html" data-slug="05-unit-tests" class=""><span class="dot"></span><span class="ln">5.1</span><span>Generate unit tests</span></a></li><li><a href="lessons/05-e2e.html" data-slug="05-e2e" class=""><span class="dot"></span><span class="ln">5.2</span><span>E2E tests ด้วย Playwright</span></a></li><li><a href="lessons/05-api-docs.html" data-slug="05-api-docs" class=""><span class="dot"></span><span class="ln">5.3</span><span>Auto-generate API docs</span></a></li><li><a href="lessons/05-tdd.html" data-slug="05-tdd" class=""><span class="dot"></span><span class="ln">5.4</span><span>TDD — test ก่อน code</span></a></li></ul></details><details class="sb-mod" data-mod="6"><summary><span class="mn">6</span><span class="mt">🏗️ Architecture &amp; Refactoring</span><span class="mk">▶</span></summary><ul class="sb-les"><li><a href="lessons/06-system-design.html" data-slug="06-system-design" class=""><span class="dot"></span><span class="ln">6.1</span><span>System design consultation</span></a></li><li><a href="lessons/06-refactor.html" data-slug="06-refactor" class=""><span class="dot"></span><span class="ln">6.2</span><span>Refactor codebase ใหญ่</span></a></li><li><a href="lessons/06-migration.html" data-slug="06-migration" class=""><span class="dot"></span><span class="ln">6.3</span><span>Migration JS→TS, Class→Hooks</span></a></li><li><a href="lessons/06-db-design.html" data-slug="06-db-design" class=""><span class="dot"></span><span class="ln">6.4</span><span>Database schema design</span></a></li></ul></details><details class="sb-mod" data-mod="7"><summary><span class="mn">7</span><span class="mt">⚡ Superpower Skills</span><span class="mk">▶</span></summary><ul class="sb-les"><li><a href="lessons/07-mcp-intro.html" data-slug="07-mcp-intro" class=""><span class="dot"></span><span class="ln">7.1</span><span>MCP Servers คืออะไร</span></a></li><li><a href="lessons/07-mcp-db.html" data-slug="07-mcp-db" class=""><span class="dot"></span><span class="ln">7.2</span><span>เชื่อม Database เข้า Claude</span></a></li><li><a href="lessons/07-slash-commands.html" data-slug="07-slash-commands" class=""><span class="dot"></span><span class="ln">7.3</span><span>Custom Slash Commands</span></a></li><li><a href="lessons/07-hooks.html" data-slug="07-hooks" class=""><span class="dot"></span><span class="ln">7.4</span><span>Hooks ทำงานอัตโนมัติ</span></a></li><li><a href="lessons/07-multi-agent.html" data-slug="07-multi-agent" class=""><span class="dot"></span><span class="ln">7.5</span><span>Multi-agent workflows</span></a></li><li><a href="lessons/07-headless.html" data-slug="07-headless" class=""><span class="dot"></span><span class="ln">7.6</span><span>Headless mode ใน CI/CD</span></a></li></ul></details><details class="sb-mod" data-mod="8" open><summary><span class="mn">8</span><span class="mt">🌐 Workshop: สร้าง Portfolio Website</span><span class="mk">▶</span></summary><ul class="sb-les"><li><a href="lessons/08-design.html" data-slug="08-design" class=""><span class="dot"></span><span class="ln">8.1</span><span>Phase 1: Design กับ Claude</span></a></li><li><a href="lessons/08-build.html" data-slug="08-build" class=""><span class="dot"></span><span class="ln">8.2</span><span>Phase 2: Build &amp; Iterate</span></a></li><li><a href="deploy.html" data-slug="deploy" class="active"><span class="dot"></span><span class="ln">8.3</span><span>Phase 3: Deploy ออนไลน์</span></a></li></ul></details></nav><div class="sb-back"><a href="index.html">🏠 หน้าหลักคอร์ส</a></div></aside>
 <div class="main">
   <div class="topbar"><button class="hamb" id="hamb" aria-label="เมนู">☰</button>
-    <span class="tb-title">8. Workshop: Deploy</span></div>
+    <span class="tb-title">8. Workshop: Deploy</span>
+    <button class="theme-toggle" type="button" aria-label="สลับโหมดสว่าง/มืด" title="สลับโหมดสว่าง/มืด">🌙</button></div>
   <div class="docs">
     <article class="reading">
       <div class="crumb"><a href="index.html">หน้าหลัก</a> › โมดูล 8: Workshop สร้าง Portfolio Website</div>
       <span class="les-no">บทเรียน 8.3</span>
       <h1>เอาเว็บขึ้นออนไลน์ ให้คนทั้งโลกเห็น</h1>
-      <p class="lead">เว็บที่รันบนเครื่องคุณ พร้อมแชร์แล้ว! เลือกแพลตฟอร์มที่ชอบแล้วทำตามทีละขั้น —
-         หรือให้ Claude ช่วย deploy ให้ก็ได้ ทุกแพลตฟอร์มในบทนี้มีแพลนฟรี</p>
+      <p class="lead">เว็บที่รันบนเครื่องคุณ พร้อมแชร์แล้ว! เลือกแพลตฟอร์มที่ชอบแล้วทำตามทีละขั้น
+         หรือจะให้ Claude ช่วย deploy ให้ก็ได้ ทุกแพลตฟอร์มในบทนี้มีแพลนฟรี</p>
       <figure class="lesson-hero"><img src="images/deploy.webp" alt="เฟส 3: นำเว็บขึ้นออนไลน์ให้คนทั้งโลกเข้าได้" loading="lazy" decoding="async"><figcaption>🖼️ เฟส 3: นำเว็บขึ้นออนไลน์ ให้คนทั้งโลกเข้าถึงเว็บของคุณได้</figcaption></figure>
       <div class="container">
   
@@ -370,6 +374,28 @@ code{color:#5B3BC4}
     <div class="complete-row"><button class="btn-complete" id="btnComplete">✓ ทำเครื่องหมายว่าเรียนจบ</button></div>
     <div class="pagenav"><a href="lessons/08-build.html" class="pn-btn"><span class="pn-dir">← ก่อนหน้า</span><span class="pn-title">Phase 2: Build &amp; Iterate</span></a><span class="pn-btn pn-next disabled"><span class="pn-dir">จบคอร์ส 🎉</span><span class="pn-title">คุณเรียนครบแล้ว!</span></span></div>
   </article>
+      <div class="complete-row"><button class="btn-complete" id="btnComplete">✓ ทำเครื่องหมายว่าเรียนจบ</button></div>
+      <div class="pagenav"><a href="lessons/08-build.html" class="pn-btn"><span class="pn-dir">← ก่อนหน้า</span><span class="pn-title">Phase 2: Build &amp; Iterate</span></a><span class="pn-btn pn-next disabled"><span class="pn-dir">จบคอร์ส 🎉</span><span class="pn-title">คุณเรียนครบแล้ว!</span></span></div>
+    </article>
+    <aside class="toc"><div class="toc-t">ในบทนี้</div>
+      <a href="#cloudflare">☁️ Cloudflare Pages</a>
+      <a href="#vercel">▲ Vercel</a>
+      <a href="#github">🐙 GitHub Pages</a>
+      <a href="#netlify">🔷 Netlify</a>
+      <a href="#domain">🌍 โดเมนของตัวเอง</a>
+    </aside>
+  </div>
+      <div class="complete-row"><button class="btn-complete" id="btnComplete">✓ ทำเครื่องหมายว่าเรียนจบ</button></div>
+      <div class="pagenav"><a href="lessons/08-build.html" class="pn-btn"><span class="pn-dir">← ก่อนหน้า</span><span class="pn-title">Phase 2: Build &amp; Iterate</span></a><span class="pn-btn pn-next disabled"><span class="pn-dir">จบคอร์ส 🎉</span><span class="pn-title">คุณเรียนครบแล้ว!</span></span></div>
+    </article>
+    <aside class="toc"><div class="toc-t">ในบทนี้</div>
+      <a href="#cloudflare">☁️ Cloudflare Pages</a>
+      <a href="#vercel">▲ Vercel</a>
+      <a href="#github">🐙 GitHub Pages</a>
+      <a href="#netlify">🔷 Netlify</a>
+      <a href="#domain">🌍 โดเมนของตัวเอง</a>
+    </aside>
+  </div>
       <div class="complete-row"><button class="btn-complete" id="btnComplete">✓ ทำเครื่องหมายว่าเรียนจบ</button></div>
       <div class="pagenav"><a href="lessons/08-build.html" class="pn-btn"><span class="pn-dir">← ก่อนหน้า</span><span class="pn-title">Phase 2: Build &amp; Iterate</span></a><span class="pn-btn pn-next disabled"><span class="pn-dir">จบคอร์ส 🎉</span><span class="pn-title">คุณเรียนครบแล้ว!</span></span></div>
     </article>

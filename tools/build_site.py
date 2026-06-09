@@ -41,8 +41,18 @@ CAPS = {**IMG_CAPS, **IMG_DEPLOY}
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
  '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
- '<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&'
+ '<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600;700&'
+ 'family=Sarabun:wght@400;500;600;700;800&'
  'family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">')
+
+# Anti-FOUC theme script: set data-theme before paint + flag JS on for scroll-reveal.
+HEAD_THEME = ('<script>(function(){try{var t=localStorage.getItem("cc_theme");'
+ 'if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}'
+ 'document.documentElement.className+=" js";})();</script>')
+
+def theme_toggle():
+    return ('<button class="theme-toggle" type="button" aria-label="สลับโหมดสว่าง/มืด" '
+            'title="สลับโหมดสว่าง/มืด">🌙</button>')
 
 def rel(href, from_lessons):
     """แปลง href ที่อ้างอิงจาก root ให้ถูกต้องตามตำแหน่งไฟล์"""
@@ -67,16 +77,18 @@ def sidebar(active_slug, from_lessons):
               f'<span class="dot"></span><span class="ln">{l["num"]}</span>'
               f'<span>{html.escape(l["title"])}</span></a></li>')
         rows.append(
-          f'<details class="sb-mod"{op}><summary>'
+          f'<details class="sb-mod" data-mod="{mod["num"]}"{op}><summary>'
           f'<span class="mn">{mod["num"]}</span>'
           f'<span class="mt">{html.escape(mod["title"])}</span>'
           f'<span class="mk">▶</span></summary>'
           f'<ul class="sb-les">{"".join(lis)}</ul></details>')
     return (
     '<aside class="sidebar">'
-      f'<a href="{home}" class="sb-head" style="text-decoration:none;color:inherit">'
-        '<span class="sb-logo">⚡</span>'
-        '<span class="sb-brand">Claude Code Hub<small>คอร์สเรียนภาษาไทย</small></span></a>'
+      '<div class="sb-head">'
+        f'<a href="{home}" class="sb-brand-link">'
+          '<span class="sb-logo">⚡</span>'
+          '<span class="sb-brand">Claude Code Hub<small>คอร์สเรียนภาษาไทย</small></span></a>'
+        f'{theme_toggle()}</div>'
       '<div class="sb-progress"><div class="lbl"><span>ความคืบหน้า</span><b>0/0 บท</b></div>'
         '<div class="sb-bar"><i></i></div></div>'
       f'<nav class="sb-nav">{"".join(rows)}</nav>'
@@ -124,7 +136,8 @@ def pagenav(les, from_lessons):
     def btn(href, title, nxt):
         if not href:
             d = "ถัดไป →" if nxt else "← ก่อนหน้า"
-            return f'<span class="pn-btn disabled {"pn-next" if nxt else ""}"><span class="pn-dir">{d}</span><span class="pn-title">—</span></span>'
+            empty = "นี่คือบทสุดท้าย" if nxt else "นี่คือบทแรก"
+            return f'<span class="pn-btn disabled {"pn-next" if nxt else ""}"><span class="pn-dir">{d}</span><span class="pn-title">{empty}</span></span>'
         cls = "pn-next" if nxt else ""
         d = "ถัดไป →" if nxt else "← ก่อนหน้า"
         return (f'<a href="{rel(href,from_lessons)}" class="pn-btn {cls}">'
@@ -164,16 +177,18 @@ def render_lesson(les):
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{html.escape(title)} | Claude Code Hub</title>
 <meta name="description" content="{html.escape(c.get('intro','')[:150])}">
+{HEAD_THEME}
 {FONTS}
 <link rel="stylesheet" href="../assets/app.css">
 </head>
-<body data-slug="{slug}">
+<body data-slug="{slug}" data-mod="{html.escape(les['module_num'])}">
 <div class="reading-bar" id="bar"></div>
 <div class="sb-overlay"></div>
 {sidebar(slug, True)}
 <div class="main">
   <div class="topbar"><button class="hamb" id="hamb" aria-label="เมนู">☰</button>
-    <span class="tb-title">{html.escape(les['module_num'])}. {html.escape(les['module_title'])}</span></div>
+    <span class="tb-title">{html.escape(les['module_num'])}. {html.escape(les['module_title'])}</span>
+    {theme_toggle()}</div>
   <div class="docs">
     <article class="reading">
       <div class="crumb"><a href="../index.html">หน้าหลัก</a> › โมดูล {html.escape(les['module_num'])}: {html.escape(les['module_title'])}</div>
@@ -218,13 +233,26 @@ def build_index():
                        f'<span class="dot"></span><span class="ln">{l["num"]}</span>'
                        f'<span>{html.escape(l["title"])}</span></a></li>')
         cards.append(
-          '<section class="mod-card">'
+          f'<section class="mod-card reveal" data-mod="{mod["num"]}">'
           f'<div class="mc-head"><span class="mn">{mod["num"]}</span>'
           f'<div><h3>{html.escape(mod["title"])}</h3>'
           f'<p>{html.escape(mod["sub"])}</p></div>'
           f'<span class="mc-count">{len(mod["lessons"])} บท</span></div>'
-          f'<ul class="sb-les mc-list">{"".join(lis)}</ul></section>')
+          f'<ul class="mc-list">{"".join(lis)}</ul></section>')
+
+    # "what you'll learn" highlights (color-coded)
+    feats = [
+      ("1","🚀","เริ่มจากศูนย์ได้จริง","ไม่ต้องมีพื้นฐานเขียนโปรแกรม คอร์สพาไปทีละขั้นจนสร้างเว็บแอปด้วย AI ได้เอง"),
+      ("4","💬","ลงมือทำตามทันที","ทุกบทมีตัวอย่าง prompt ที่ก๊อปไปใช้ได้เลย พร้อมภาพประกอบเข้าใจง่าย"),
+      ("5","🎯","รู้ว่าเรียนถึงไหน","แบบทดสอบท้ายบทเฉลยทันที และระบบติดตามความคืบหน้าบันทึกให้อัตโนมัติ"),
+    ]
+    learn = "".join(
+      f'<div class="learn-card reveal" data-mod="{m}">'
+      f'<div class="ic">{ic}</div><h4>{html.escape(t)}</h4><p>{html.escape(d)}</p></div>'
+      for m,ic,t,d in feats)
+
     first = course["modules"][0]["lessons"][0]["href"]
+    total = course.get("total", sum(len(m["lessons"]) for m in course["modules"]))
     page = f"""<!DOCTYPE html>
 <html lang="th">
 <head>
@@ -232,32 +260,9 @@ def build_index():
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Claude Code Learning Hub | คอร์สเรียนภาษาไทย</title>
 <meta name="description" content="คอร์สเรียน Claude Code ภาษาไทย สำหรับมือใหม่ เรียนฟรี มีภาพประกอบ แบบทดสอบ และติดตามความคืบหน้าได้">
+{HEAD_THEME}
 {FONTS}
 <link rel="stylesheet" href="assets/app.css">
-<style>
-.home-hero{{background:linear-gradient(135deg,var(--p-soft),var(--teal-soft));border:1px solid var(--line);
-  border-radius:18px;padding:2.2rem;margin-bottom:2rem}}
-.home-hero .tag{{display:inline-block;background:#fff;border:1px solid var(--line);color:var(--p);
-  font-weight:700;font-size:.78rem;padding:.3rem .8rem;border-radius:20px;margin-bottom:.9rem}}
-.home-hero h1{{font-size:clamp(1.8rem,5vw,2.5rem);font-weight:800;line-height:1.2;margin-bottom:.7rem}}
-.home-hero p{{color:var(--ink-2);font-size:1.05rem;max-width:48ch;margin-bottom:1.3rem}}
-.home-cta{{display:inline-flex;align-items:center;gap:.5rem;background:var(--p);color:#fff;
-  font-weight:700;padding:.75rem 1.5rem;border-radius:12px}}
-.home-stats{{display:flex;gap:1.6rem;margin-top:1.4rem;flex-wrap:wrap}}
-.home-stats div{{font-size:.85rem;color:var(--ink-2)}}
-.home-stats b{{display:block;font-size:1.4rem;color:var(--ink);font-weight:800}}
-.mod-card{{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-  padding:1.2rem 1.3rem;margin-bottom:1.1rem;box-shadow:var(--shadow)}}
-.mc-head{{display:flex;align-items:center;gap:.9rem;margin-bottom:.6rem}}
-.mc-head .mn{{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--p),var(--teal));
-  color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}}
-.mc-head h3{{font-size:1.08rem;font-weight:800}}
-.mc-head p{{font-size:.85rem;color:var(--muted)}}
-.mc-count{{margin-left:auto;font-size:.78rem;color:var(--p);background:var(--p-soft);
-  padding:.25rem .7rem;border-radius:20px;font-weight:700;align-self:flex-start}}
-.mc-list{{padding-left:0}}
-.mc-list a{{padding:.45rem .55rem}}
-</style>
 </head>
 <body data-slug="__home__">
 <div class="reading-bar" id="bar"></div>
@@ -265,21 +270,28 @@ def build_index():
 {sidebar(None, False)}
 <div class="main">
   <div class="topbar"><button class="hamb" id="hamb" aria-label="เมนู">☰</button>
-    <span class="tb-title">Claude Code Hub</span></div>
-  <div class="reading">
-    <div class="home-hero">
+    <span class="tb-title">Claude Code Hub</span>
+    {theme_toggle()}</div>
+  <div class="home">
+    <section class="home-hero">
       <span class="tag">🇹🇭 เรียนฟรี · มือใหม่ทำตามได้</span>
-      <h1>เรียน Claude Code <br>สร้างเว็บแอปด้วย AI</h1>
+      <h1>เรียน Claude Code สร้างเว็บแอปด้วย AI</h1>
       <p>คอร์สภาษาไทยที่พามือใหม่ไม่มีพื้นฐาน ใช้ Claude Code สร้างงานจริงได้ทีละขั้น
          มีภาพประกอบทุกบท แบบทดสอบท้ายบท และติดตามความคืบหน้าได้</p>
       <a href="{first}" class="home-cta">เริ่มเรียนบทแรก →</a>
       <div class="home-stats">
-        <div><b>{course['total']}</b> บทเรียน</div>
+        <div><b>{total}</b> บทเรียน</div>
         <div><b>{len(course['modules'])}</b> โมดูล</div>
         <div><b>ฟรี</b> ทุกบท</div>
       </div>
-    </div>
-    {''.join(cards)}
+    </section>
+
+    <div class="learn-grid">{learn}</div>
+
+    <h2 class="home-sec-h">เนื้อหาคอร์ส</h2>
+    <p class="home-sec-sub">{len(course['modules'])} โมดูล · {total} บทเรียน · แต่ละโมดูลมีสีของตัวเองให้จำง่าย</p>
+    <div class="mod-grid">{''.join(cards)}</div>
+
     <footer style="border:none">Claude Code Learning Hub · Curated by <strong>Chetaphong Preecha</strong> &amp; Beyond Team</footer>
   </div>
 </div>
