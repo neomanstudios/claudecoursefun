@@ -374,8 +374,11 @@ code{background:var(--code-bg);color:var(--code-ink);padding:.12rem .42rem;borde
 .concept h4{font-family:var(--font-display);font-weight:600;font-size:1.04rem;color:var(--ink);margin:.15rem 0 0}
 .concept p{font-size:.94rem;color:var(--ink-2);line-height:1.6;margin:0}
 
-/* hands-on "ลองเลย" steps — big, tactile, scannable */
-.howto{margin:1.3rem 0 1.6rem}
+/* hands-on "ลองเลย" — the ONE focal "do-it" zone: a contained, elevated panel
+   (everything around it stays flat, so this is unmistakably where you act) */
+.howto{margin:2.2rem 0;padding:1.4rem 1.5rem 1.5rem;border-radius:var(--radius);background:var(--card);
+  border:1px solid color-mix(in srgb,var(--mc) 30%,var(--line));box-shadow:var(--shadow)}
+.howto-t{margin-top:.1rem}
 .howto-t{font-family:var(--font-display);font-weight:700;font-size:1.15rem;color:var(--ink);
   margin-bottom:1rem;display:flex;align-items:center;gap:.55rem}
 .howto-t .badge{font-size:.7rem;font-weight:700;color:#fff;background:var(--mc);border-radius:99px;
