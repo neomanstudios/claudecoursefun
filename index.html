@@ -3,1728 +3,734 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Claude Code Mastery 2026 | หลักสูตร 1 วัน</title>
+<title>Claude Code Learning Hub | Beyond Team</title>
+<meta name="description" content="แหล่งเรียนรู้ Claude Code สำหรับ Programmer ครบทุกระดับ เรียนฟรี ทำตามได้ทันที">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700;800&family=Space+Grotesk:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700;800&family=Space+Grotesk:wght@400;600;700&display=swap');
+:root{
+  --p:#6C63FF;--s:#FF6B6B;--a:#4ECDC4;--g:#FFD700;
+  --dk:#0A0A1A;--dkr:#050510;--cd:#12122A;--cd2:#1A1A35;
+  --tx:#E8E8FF;--mt:#8888BB;
+  --g1:linear-gradient(135deg,#6C63FF,#4ECDC4);
+  --g2:linear-gradient(135deg,#FF6B6B,#FFD700);
+  --glow:0 0 30px rgba(108,99,255,.35);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Sarabun',sans-serif;background:var(--dkr);color:var(--tx);overflow-x:hidden;line-height:1.7}
 
-  :root {
-    --primary: #6C63FF;
-    --secondary: #FF6B6B;
-    --accent: #4ECDC4;
-    --gold: #FFD700;
-    --dark: #0A0A1A;
-    --darker: #050510;
-    --card: #12122A;
-    --card2: #1A1A35;
-    --text: #E8E8FF;
-    --muted: #8888BB;
-    --gradient1: linear-gradient(135deg, #6C63FF 0%, #4ECDC4 100%);
-    --gradient2: linear-gradient(135deg, #FF6B6B 0%, #FFD700 100%);
-    --gradient3: linear-gradient(135deg, #0A0A1A 0%, #1A0A3A 100%);
-    --glow: 0 0 30px rgba(108,99,255,0.4);
-    --glow2: 0 0 30px rgba(78,205,196,0.4);
-  }
+/* STARS */
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.star{position:absolute;border-radius:50%;background:#fff;animation:tw var(--d) ease-in-out infinite}
+@keyframes tw{0%,100%{opacity:.08}50%{opacity:.7}}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(5,5,16,.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(108,99,255,.15);padding:.7rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.nav-brand{display:flex;align-items:center;gap:.7rem;text-decoration:none}
+.nav-logo{width:32px;height:32px;border-radius:9px;background:var(--g1);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.nav-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1rem;background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;gap:0;list-style:none}
+.nav-links a{color:var(--mt);text-decoration:none;font-size:.82rem;padding:.4rem .9rem;border-radius:8px;transition:all .2s}
+.nav-links a:hover{color:var(--tx);background:rgba(255,255,255,.05)}
+.nav-links a.active{color:var(--p);background:rgba(108,99,255,.1)}
+.nav-right{display:flex;align-items:center;gap:.6rem}
+.nav-tag{background:rgba(78,205,196,.1);border:1px solid rgba(78,205,196,.2);color:var(--a);padding:.3rem .8rem;border-radius:8px;font-size:.72rem;font-weight:700}
 
-  html { scroll-behavior: smooth; }
+/* PROGRESS */
+.reading-bar{position:fixed;top:0;left:0;height:2px;z-index:9999;background:var(--g1);transition:width .1s}
 
-  body {
-    font-family: 'Sarabun', sans-serif;
-    background: var(--darker);
-    color: var(--text);
-    overflow-x: hidden;
-    line-height: 1.7;
-  }
+/* HERO - portal style */
+.portal-hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6rem 2rem 3rem;position:relative;z-index:2;background:radial-gradient(ellipse at 50% 40%,rgba(108,99,255,.1) 0%,transparent 60%)}
+.welcome-chip{display:inline-flex;align-items:center;gap:.5rem;background:rgba(108,99,255,.1);border:1px solid rgba(108,99,255,.25);border-radius:30px;padding:.35rem 1rem;font-size:.78rem;color:var(--p);margin-bottom:2rem}
+.welcome-chip .dot{width:7px;height:7px;border-radius:50%;background:var(--a);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+.hero-title{font-size:clamp(2rem,5vw,3.8rem);font-weight:800;line-height:1.2;margin-bottom:1.2rem}
+.hl{background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hl2{background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{color:var(--mt);font-size:1.05rem;max-width:560px;margin:0 auto 2.5rem;line-height:1.8}
+.quick-start{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center;margin-bottom:3rem}
+.qs-btn{display:flex;align-items:center;gap:.5rem;padding:.75rem 1.5rem;border-radius:12px;font-size:.9rem;font-weight:700;text-decoration:none;transition:all .3s;font-family:'Sarabun',sans-serif;border:none;cursor:pointer}
+.qs-primary{background:var(--g1);color:#fff;box-shadow:var(--glow)}
+.qs-primary:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(108,99,255,.5)}
+.qs-sec{background:var(--cd);border:1px solid rgba(255,255,255,.08);color:var(--tx)}
+.qs-sec:hover{border-color:rgba(108,99,255,.3);color:var(--p)}
+.hero-stats{display:flex;gap:3rem;justify-content:center;flex-wrap:wrap}
+.hstat{text-align:center}
+.hstat-n{font-size:2rem;font-weight:800;background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+.hstat-l{font-size:.72rem;color:var(--mt);margin-top:.2rem}
 
-  /* ======= STARFIELD BACKGROUND ======= */
-  .stars {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none; z-index: 0; overflow: hidden;
-  }
-  .star {
-    position: absolute; border-radius: 50%;
-    background: white; animation: twinkle var(--d) ease-in-out infinite;
-  }
-  @keyframes twinkle {
-    0%,100% { opacity: 0.1; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.5); }
-  }
+/* SECTION */
+section{position:relative;z-index:2}
+.container{max-width:1200px;margin:0 auto;padding:0 2rem}
+.sec-label{display:inline-block;padding:.28rem .9rem;border-radius:20px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.8rem}
+.lp{background:rgba(108,99,255,.1);color:var(--p);border:1px solid rgba(108,99,255,.2)}
+.lt{background:rgba(78,205,196,.1);color:var(--a);border:1px solid rgba(78,205,196,.2)}
+.ls{background:rgba(255,107,107,.1);color:var(--s);border:1px solid rgba(255,107,107,.2)}
+.lg{background:rgba(255,215,0,.1);color:var(--g);border:1px solid rgba(255,215,0,.2)}
+h2{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;margin-bottom:.5rem}
+.sec-desc{color:var(--mt);font-size:.95rem}
 
-  /* ======= NAV ======= */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-    background: rgba(5,5,16,0.85);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(108,99,255,0.2);
-    padding: 0.8rem 2rem;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .nav-logo {
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700; font-size: 1.2rem;
-    background: var(--gradient1); -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    display: flex; align-items: center; gap: 0.5rem;
-  }
-  .nav-links {
-    display: flex; gap: 1.5rem; list-style: none;
-    font-size: 0.85rem;
-  }
-  .nav-links a {
-    color: var(--muted); text-decoration: none;
-    transition: color 0.3s;
-  }
-  .nav-links a:hover { color: var(--primary); }
-  .nav-badge {
-    background: var(--gradient2); padding: 0.3rem 1rem;
-    border-radius: 20px; font-size: 0.75rem; font-weight: 700;
-    color: white;
-  }
+/* LEARNING PATH */
+.learning-path{padding:5rem 0}
+.path-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+.path-card{background:var(--cd);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:2rem;position:relative;overflow:hidden;transition:all .35s;text-decoration:none;display:block;color:inherit}
+.path-card:hover{transform:translateY(-5px);border-color:rgba(108,99,255,.3);box-shadow:var(--glow)}
+.path-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;opacity:0;transition:opacity .3s}
+.path-card:hover::after{opacity:1}
+.pc-beginner::after{background:linear-gradient(90deg,#27C93F,#4ECDC4)}
+.pc-inter::after{background:var(--g1)}
+.pc-adv::after{background:var(--g2)}
+.path-level{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;margin-bottom:1.2rem}
+.level-b{color:#27C93F}.level-i{color:var(--p)}.level-a{color:var(--s)}
+.path-icon{font-size:2.5rem;margin-bottom:1rem}
+.path-title{font-size:1.15rem;font-weight:700;margin-bottom:.5rem}
+.path-desc{color:var(--mt);font-size:.85rem;margin-bottom:1.5rem;line-height:1.7}
+.path-topics{list-style:none}
+.path-topics li{font-size:.82rem;color:var(--mt);padding:.25rem 0;display:flex;align-items:center;gap:.5rem}
+.path-topics li::before{content:'›';color:var(--p);font-weight:700}
+.path-count{position:absolute;top:1.2rem;right:1.2rem;background:rgba(0,0,0,.3);border-radius:8px;padding:.25rem .6rem;font-size:.7rem;font-weight:700;color:var(--mt)}
 
-  /* ======= HERO ======= */
-  .hero {
-    min-height: 100vh;
-    display: flex; align-items: center; justify-content: center;
-    position: relative; overflow: hidden;
-    background: radial-gradient(ellipse at 20% 50%, rgba(108,99,255,0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(78,205,196,0.1) 0%, transparent 50%),
-                var(--darker);
-  }
-  .hero-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 4rem; max-width: 1200px; margin: 0 auto;
-    padding: 6rem 2rem 4rem;
-    align-items: center; position: relative; z-index: 2;
-  }
-  .hero-tag {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    background: rgba(108,99,255,0.15);
-    border: 1px solid rgba(108,99,255,0.3);
-    border-radius: 30px; padding: 0.4rem 1rem;
-    font-size: 0.8rem; color: var(--primary);
-    margin-bottom: 1.5rem; letter-spacing: 0.05em;
-  }
-  .hero-tag::before {
-    content: ''; width: 8px; height: 8px; border-radius: 50%;
-    background: var(--primary); animation: pulse 2s infinite;
-  }
-  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+/* SKILLS TOOLKIT */
+.skills-section{padding:5rem 0;background:radial-gradient(ellipse at 50% 50%,rgba(108,99,255,.05) 0%,transparent 60%)}
+.skills-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:3rem}
+.skill-card{background:var(--cd2);border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:1.5rem;transition:all .3s;cursor:default}
+.skill-card:hover{transform:translateY(-3px);border-color:rgba(108,99,255,.25);box-shadow:var(--glow)}
+.sk-icon{font-size:1.8rem;margin-bottom:.8rem}
+.sk-cmd{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--p);margin-bottom:.3rem}
+.sk-name{font-size:.9rem;font-weight:700;margin-bottom:.3rem}
+.sk-desc{color:var(--mt);font-size:.78rem;line-height:1.6}
+.sk-when{margin-top:.8rem;font-size:.7rem;background:rgba(108,99,255,.08);border:1px solid rgba(108,99,255,.15);border-radius:6px;padding:.3rem .6rem;color:var(--p)}
 
-  h1 {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 800; line-height: 1.15;
-    margin-bottom: 1.5rem;
-  }
-  .highlight {
-    background: var(--gradient1); -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .highlight2 {
-    background: var(--gradient2); -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .hero-desc {
-    color: var(--muted); font-size: 1.1rem; margin-bottom: 2rem;
-    max-width: 480px;
-  }
-  .hero-stats {
-    display: flex; gap: 2rem; margin-bottom: 2.5rem;
-  }
-  .stat { text-align: center; }
-  .stat-num {
-    font-size: 1.8rem; font-weight: 800;
-    background: var(--gradient1); -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .stat-label { font-size: 0.75rem; color: var(--muted); }
-  .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
-  .btn-primary {
-    background: var(--gradient1); color: white;
-    padding: 0.9rem 2rem; border-radius: 12px;
-    text-decoration: none; font-weight: 700; font-size: 0.95rem;
-    box-shadow: var(--glow); transition: all 0.3s;
-    border: none; cursor: pointer;
-  }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(108,99,255,0.6); }
-  .btn-secondary {
-    background: transparent;
-    border: 1px solid rgba(108,99,255,0.4);
-    color: var(--text); padding: 0.9rem 2rem;
-    border-radius: 12px; text-decoration: none;
-    font-weight: 600; font-size: 0.95rem; transition: all 0.3s;
-  }
-  .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
+/* MODULES */
+.modules{padding:5rem 0}
+.modules-list{margin-top:3rem;display:grid;gap:1rem}
+.module-row{background:var(--cd);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:0;overflow:hidden;transition:all .3s}
+.module-row:hover{border-color:rgba(108,99,255,.2)}
+.mod-header{padding:1.2rem 1.5rem;display:flex;align-items:center;gap:1rem;cursor:pointer}
+.mod-num{width:36px;height:36px;border-radius:10px;background:var(--g1);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0}
+.mod-info{flex:1}
+.mod-title{font-weight:700;font-size:.95rem}
+.mod-sub{color:var(--mt);font-size:.78rem;margin-top:.15rem}
+.mod-right{display:flex;align-items:center;gap:.7rem}
+.mod-chips{display:flex;gap:.3rem}
+.mod-chip{padding:.18rem .6rem;border-radius:8px;font-size:.65rem;font-weight:700}
+.mc-free{background:rgba(39,201,63,.1);color:#27C93F;border:1px solid rgba(39,201,63,.2)}
+.mc-lessons{background:rgba(108,99,255,.1);color:var(--p);border:1px solid rgba(108,99,255,.2)}
+.mod-arrow{color:var(--mt);transition:transform .3s;font-size:.8rem}
+.module-row.open .mod-arrow{transform:rotate(180deg)}
+.mod-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.module-row.open .mod-body{max-height:600px}
+.mod-lessons{padding:0 1.5rem 1.2rem;display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem}
+.lesson-link{display:flex;align-items:center;gap:.7rem;padding:.7rem .9rem;background:rgba(0,0,0,.2);border-radius:10px;text-decoration:none;color:var(--mt);font-size:.82rem;transition:all .2s;border:1px solid transparent}
+.lesson-link:hover{color:var(--tx);border-color:rgba(108,99,255,.2);background:rgba(108,99,255,.06)}
+.lesson-link .ll-icon{font-size:1rem;flex-shrink:0}
+.lesson-link .ll-num{font-family:'Space Grotesk',sans-serif;font-size:.65rem;color:rgba(255,255,255,.2);flex-shrink:0}
+.lesson-link .ll-done{color:#27C93F;font-size:.75rem}
 
-  /* ======= HERO VISUAL ======= */
-  .hero-visual {
-    position: relative; display: flex; align-items: center; justify-content: center;
-  }
-  .terminal {
-    background: var(--card); border-radius: 16px;
-    border: 1px solid rgba(108,99,255,0.3);
-    overflow: hidden; width: 100%; max-width: 500px;
-    box-shadow: var(--glow), 0 40px 80px rgba(0,0,0,0.5);
-    animation: float 6s ease-in-out infinite;
-  }
-  @keyframes float {
-    0%,100% { transform: translateY(0px) rotate(-1deg); }
-    50% { transform: translateY(-15px) rotate(1deg); }
-  }
-  .terminal-bar {
-    background: rgba(255,255,255,0.05); padding: 0.7rem 1rem;
-    display: flex; align-items: center; gap: 0.5rem;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-  }
-  .dot { width: 12px; height: 12px; border-radius: 50%; }
-  .dot-r { background: #FF5F56; }
-  .dot-y { background: #FFBD2E; }
-  .dot-g { background: #27C93F; }
-  .terminal-title {
-    flex: 1; text-align: center; font-size: 0.75rem; color: var(--muted);
-    font-family: 'Space Grotesk', sans-serif;
-  }
-  .terminal-body { padding: 1.5rem; font-family: monospace; font-size: 0.85rem; }
-  .t-line { margin-bottom: 0.5rem; }
-  .t-prompt { color: var(--accent); }
-  .t-cmd { color: white; }
-  .t-comment { color: var(--muted); }
-  .t-output { color: var(--gold); }
-  .t-success { color: #27C93F; }
-  .t-cursor {
-    display: inline-block; width: 8px; height: 15px;
-    background: var(--primary); animation: blink 1s infinite;
-    vertical-align: middle;
-  }
-  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
-  .orbit-ring {
-    position: absolute; border-radius: 50%;
-    border: 1px dashed rgba(108,99,255,0.2);
-    animation: spin var(--speed) linear infinite;
-  }
-  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-  .orbit-dot {
-    position: absolute; width: 10px; height: 10px;
-    border-radius: 50%; top: -5px; left: 50%; transform: translateX(-50%);
-  }
+/* PROJECTS SECTION */
+.projects-section{padding:5rem 0}
+.project-preview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2.5rem}
+.pp-card{background:var(--cd);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:1.4rem;text-decoration:none;display:block;transition:all .3s;position:relative;overflow:hidden}
+.pp-card:hover{transform:translateY(-4px);border-color:rgba(108,99,255,.3);box-shadow:var(--glow)}
+.pp-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--g1);opacity:0;transition:opacity .3s}
+.pp-card:hover::before{opacity:1}
+.pp-icon{font-size:1.8rem;margin-bottom:.8rem}
+.pp-title{font-size:.95rem;font-weight:700;color:var(--tx);margin-bottom:.3rem}
+.pp-desc{color:var(--mt);font-size:.78rem;line-height:1.5}
+.pp-tech{display:flex;gap:.3rem;margin-top:.8rem;flex-wrap:wrap}
+.pp-tech span{background:rgba(108,99,255,.08);border:1px solid rgba(108,99,255,.15);color:rgba(108,99,255,.9);padding:.12rem .5rem;border-radius:6px;font-size:.65rem;font-weight:600}
+.see-all-btn{display:flex;align-items:center;justify-content:center;gap:.5rem;margin:2rem auto 0;max-width:280px;padding:.9rem 2rem;background:transparent;border:1px solid rgba(108,99,255,.3);border-radius:12px;color:var(--p);font-size:.9rem;font-weight:700;text-decoration:none;transition:all .3s;font-family:'Sarabun',sans-serif}
+.see-all-btn:hover{background:rgba(108,99,255,.1);border-color:var(--p)}
 
-  /* ======= SECTION STYLES ======= */
-  section { position: relative; z-index: 2; }
-  .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-  .section-header { text-align: center; margin-bottom: 4rem; }
-  .section-tag {
-    display: inline-block; padding: 0.3rem 1rem;
-    border-radius: 20px; font-size: 0.75rem; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem;
-  }
-  .tag-purple { background: rgba(108,99,255,0.15); color: var(--primary); border: 1px solid rgba(108,99,255,0.3); }
-  .tag-teal { background: rgba(78,205,196,0.15); color: var(--accent); border: 1px solid rgba(78,205,196,0.3); }
-  .tag-red { background: rgba(255,107,107,0.15); color: var(--secondary); border: 1px solid rgba(255,107,107,0.3); }
-  .tag-gold { background: rgba(255,215,0,0.15); color: var(--gold); border: 1px solid rgba(255,215,0,0.3); }
-  h2 {
-    font-size: clamp(1.8rem, 3vw, 2.8rem);
-    font-weight: 800; margin-bottom: 1rem;
-  }
-  .section-desc { color: var(--muted); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
+/* QUICK REFERENCE */
+.quick-ref{padding:5rem 0}
+.ref-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:2.5rem}
+.ref-card{background:var(--cd);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:1.8rem;transition:all .3s}
+.ref-card:hover{border-color:rgba(108,99,255,.2)}
+.ref-title{font-size:1rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
+.code-blk{background:rgba(0,0,0,.4);border-radius:10px;padding:1rem 1.2rem;font-family:monospace;font-size:.78rem;border:1px solid rgba(255,255,255,.05);margin:.5rem 0;overflow-x:auto}
+.cp{color:#A89FFF}.ct{color:#4ECDC4}.cg{color:#27C93F}.co{color:#FFD700}.cr{color:#FF6B6B}.cm{color:var(--mt)}.cw{color:#E8E8FF}
 
-  /* ======= SCHEDULE ======= */
-  .schedule { padding: 6rem 0; }
-  .timeline {
-    position: relative; max-width: 900px; margin: 0 auto;
-  }
-  .timeline::before {
-    content: ''; position: absolute; left: 140px; top: 0; bottom: 0;
-    width: 2px;
-    background: linear-gradient(to bottom, var(--primary), var(--accent), var(--secondary));
-  }
-  .time-item {
-    display: flex; gap: 2rem; margin-bottom: 2rem;
-    align-items: flex-start;
-  }
-  .time-label {
-    width: 120px; text-align: right; flex-shrink: 0;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.85rem; color: var(--muted);
-    padding-top: 0.3rem;
-  }
-  .time-dot-wrap {
-    width: 40px; display: flex; justify-content: center;
-    flex-shrink: 0; position: relative; padding-top: 0.3rem;
-  }
-  .time-dot {
-    width: 16px; height: 16px; border-radius: 50%;
-    border: 3px solid var(--primary);
-    background: var(--darker); z-index: 1;
-    box-shadow: 0 0 15px rgba(108,99,255,0.6);
-    transition: all 0.3s;
-  }
-  .time-dot.accent { border-color: var(--accent); box-shadow: 0 0 15px rgba(78,205,196,0.6); }
-  .time-dot.hot { border-color: var(--secondary); box-shadow: 0 0 15px rgba(255,107,107,0.6); }
-  .time-dot.gold { border-color: var(--gold); box-shadow: 0 0 15px rgba(255,215,0,0.6); }
-  .time-card {
-    flex: 1; background: var(--card);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 14px; padding: 1.2rem 1.5rem;
-    transition: all 0.3s; cursor: pointer;
-  }
-  .time-card:hover {
-    border-color: rgba(108,99,255,0.4);
-    transform: translateX(4px);
-    box-shadow: var(--glow);
-  }
-  .time-card-header { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.3rem; }
-  .time-icon { font-size: 1.4rem; }
-  .time-title { font-weight: 700; font-size: 1rem; }
-  .time-sub { color: var(--muted); font-size: 0.85rem; }
-  .time-topics {
-    display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.8rem;
-  }
-  .chip {
-    padding: 0.2rem 0.7rem; border-radius: 20px;
-    font-size: 0.72rem; font-weight: 600;
-    background: rgba(108,99,255,0.1);
-    border: 1px solid rgba(108,99,255,0.2);
-    color: var(--primary);
-  }
-  .chip.teal { background: rgba(78,205,196,0.1); border-color: rgba(78,205,196,0.2); color: var(--accent); }
-  .chip.red { background: rgba(255,107,107,0.1); border-color: rgba(255,107,107,0.2); color: var(--secondary); }
-  .chip.gold { background: rgba(255,215,0,0.1); border-color: rgba(255,215,0,0.2); color: var(--gold); }
+/* CONTRIBUTE / OPEN */
+.open-banner{margin:5rem auto;max-width:800px;padding:0 2rem;text-align:center;position:relative;z-index:2}
+.banner-box{background:linear-gradient(135deg,rgba(108,99,255,.08),rgba(78,205,196,.06));border:1px solid rgba(108,99,255,.2);border-radius:24px;padding:3rem 2rem;position:relative;overflow:hidden}
+.banner-box::after{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(108,99,255,.12),transparent);pointer-events:none}
 
-  /* ======= CHAPTER CARDS ======= */
-  .chapters { padding: 6rem 0; background: radial-gradient(ellipse at 50% 50%, rgba(108,99,255,0.05) 0%, transparent 70%); }
-  .chapters-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 1.5rem;
-  }
-  .chapter-card {
-    background: var(--card); border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 20px; padding: 2rem; transition: all 0.4s;
-    position: relative; overflow: hidden; cursor: pointer;
-  }
-  .chapter-card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-    background: var(--gradient1); opacity: 0; transition: opacity 0.3s;
-  }
-  .chapter-card:hover::before { opacity: 1; }
-  .chapter-card:hover {
-    transform: translateY(-6px);
-    border-color: rgba(108,99,255,0.3);
-    box-shadow: var(--glow), 0 30px 60px rgba(0,0,0,0.3);
-  }
-  .chapter-card.accent-card::before { background: linear-gradient(90deg, var(--accent), #00D2FF); }
-  .chapter-card.hot-card::before { background: var(--gradient2); }
-  .chapter-card.special-card {
-    background: linear-gradient(135deg, rgba(108,99,255,0.15) 0%, rgba(78,205,196,0.1) 100%);
-    border-color: rgba(108,99,255,0.3);
-  }
-  .chapter-card.special-card::before { background: var(--gradient1); opacity: 1; }
-  .chapter-num {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.7rem; color: var(--muted); margin-bottom: 1rem;
-    letter-spacing: 0.15em; text-transform: uppercase;
-  }
-  .chapter-icon-wrap {
-    width: 56px; height: 56px; border-radius: 14px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.6rem; margin-bottom: 1.2rem;
-  }
-  .icon-purple { background: rgba(108,99,255,0.2); }
-  .icon-teal { background: rgba(78,205,196,0.2); }
-  .icon-red { background: rgba(255,107,107,0.2); }
-  .icon-gold { background: rgba(255,215,0,0.2); }
-  .icon-green { background: rgba(39,201,63,0.2); }
-  .chapter-title {
-    font-size: 1.2rem; font-weight: 700; margin-bottom: 0.6rem; line-height: 1.4;
-  }
-  .chapter-desc { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.2rem; line-height: 1.6; }
-  .chapter-items { list-style: none; }
-  .chapter-items li {
-    padding: 0.3rem 0; font-size: 0.85rem; color: var(--muted);
-    display: flex; align-items: flex-start; gap: 0.5rem;
-  }
-  .chapter-items li::before {
-    content: '▸'; color: var(--primary); flex-shrink: 0; margin-top: 0.1rem;
-  }
-  .chapter-card.accent-card .chapter-items li::before { color: var(--accent); }
-  .chapter-card.hot-card .chapter-items li::before { color: var(--secondary); }
+/* FOOTER */
+footer{border-top:1px solid rgba(255,255,255,.05);padding:2.5rem 2rem;text-align:center;position:relative;z-index:2}
+.footer-links{display:flex;justify-content:center;gap:1.5rem;margin-bottom:1rem;flex-wrap:wrap}
+.footer-links a{color:var(--mt);text-decoration:none;font-size:.82rem;transition:color .2s}
+.footer-links a:hover{color:var(--p)}
+.footer-credit{color:var(--mt);font-size:.78rem;opacity:.6}
+.footer-credit strong{color:var(--p);opacity:1}
 
-  /* ======= SUPERPOWER SECTION ======= */
-  .superpowers {
-    padding: 6rem 0;
-    background: linear-gradient(180deg, transparent, rgba(108,99,255,0.05), transparent);
-  }
-  .powers-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 1rem; margin-top: 3rem;
-  }
-  .power-card {
-    background: var(--card2); border-radius: 16px;
-    border: 1px solid rgba(255,255,255,0.05);
-    padding: 1.8rem; transition: all 0.4s;
-    position: relative; overflow: hidden;
-  }
-  .power-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(108,99,255,0.3);
-    box-shadow: var(--glow);
-  }
-  .power-glow {
-    position: absolute; width: 100px; height: 100px;
-    border-radius: 50%; top: -20px; right: -20px;
-    filter: blur(40px); opacity: 0.3;
-  }
-  .power-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-  .power-name { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
-  .power-desc { color: var(--muted); font-size: 0.85rem; line-height: 1.6; }
-  .power-badge {
-    display: inline-block; margin-top: 1rem;
-    padding: 0.2rem 0.8rem; border-radius: 20px;
-    font-size: 0.7rem; font-weight: 700;
-    background: rgba(255,215,0,0.15); color: var(--gold);
-    border: 1px solid rgba(255,215,0,0.3);
-  }
-  .superpower-hero {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 4rem; align-items: center; margin-bottom: 4rem;
-  }
-  .sp-visual {
-    display: flex; justify-content: center; align-items: center;
-  }
+/* FADE */
+.fade-up{opacity:0;transform:translateY(20px);transition:all .6s ease-out}
+.fade-up.vis{opacity:1;transform:translateY(0)}
 
-  /* ======= WORKSHOP ======= */
-  .workshop { padding: 6rem 0; }
-  .workshop-card {
-    background: linear-gradient(135deg, rgba(108,99,255,0.1) 0%, rgba(78,205,196,0.08) 100%);
-    border: 1px solid rgba(108,99,255,0.25);
-    border-radius: 24px; padding: 3rem; margin-bottom: 3rem;
-    position: relative; overflow: hidden;
-  }
-  .workshop-card::after {
-    content: ''; position: absolute; bottom: -50px; right: -50px;
-    width: 200px; height: 200px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(78,205,196,0.1), transparent);
-  }
-  .workshop-header {
-    display: flex; align-items: flex-start; gap: 2rem; margin-bottom: 2rem;
-  }
-  .workshop-num {
-    width: 64px; height: 64px; border-radius: 16px; flex-shrink: 0;
-    background: var(--gradient1); display: flex; align-items: center;
-    justify-content: center; font-size: 1.6rem; font-weight: 800;
-    font-family: 'Space Grotesk', sans-serif;
-  }
-  .workshop-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.4rem; }
-  .workshop-meta { color: var(--muted); font-size: 0.9rem; }
-  .steps-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 2rem;
-  }
-  .step-card {
-    background: rgba(0,0,0,0.3); border-radius: 12px; padding: 1.2rem;
-    border: 1px solid rgba(255,255,255,0.05); text-align: center;
-    transition: all 0.3s;
-  }
-  .step-card:hover { border-color: rgba(108,99,255,0.3); }
-  .step-num {
-    width: 32px; height: 32px; border-radius: 50%;
-    background: var(--gradient1); display: flex; align-items: center;
-    justify-content: center; font-size: 0.8rem; font-weight: 700;
-    margin: 0 auto 0.8rem;
-  }
-  .step-title { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem; }
-  .step-desc { color: var(--muted); font-size: 0.75rem; }
-  .result-preview {
-    margin-top: 2rem; background: var(--card);
-    border-radius: 16px; overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.06);
-  }
-  .result-bar {
-    background: rgba(255,255,255,0.04); padding: 0.7rem 1rem;
-    display: flex; gap: 0.5rem; align-items: center;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-  }
-  .url-bar {
-    flex: 1; background: rgba(0,0,0,0.3); border-radius: 6px;
-    padding: 0.3rem 0.8rem; font-family: monospace; font-size: 0.8rem;
-    color: var(--muted); border: 1px solid rgba(255,255,255,0.05);
-  }
-  .result-body {
-    padding: 2rem; display: grid;
-    grid-template-columns: repeat(3, 1fr); gap: 1rem;
-  }
-  .mock-card {
-    background: rgba(108,99,255,0.08); border-radius: 10px;
-    padding: 1rem; border: 1px solid rgba(108,99,255,0.15);
-  }
-  .mock-img {
-    height: 80px; border-radius: 8px; margin-bottom: 0.8rem;
-    background: linear-gradient(135deg, rgba(108,99,255,0.3), rgba(78,205,196,0.3));
-  }
-  .mock-title { height: 10px; background: rgba(255,255,255,0.15); border-radius: 5px; margin-bottom: 0.4rem; }
-  .mock-text { height: 8px; background: rgba(255,255,255,0.07); border-radius: 4px; margin-bottom: 0.3rem; width: 70%; }
-
-  /* ======= TIPS BOX ======= */
-  .tips-section { padding: 4rem 0; }
-  .tips-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
-  .tip-box {
-    background: var(--card2); border-radius: 16px; padding: 1.5rem;
-    border-left: 3px solid var(--primary); transition: all 0.3s;
-  }
-  .tip-box:hover { transform: translateX(4px); }
-  .tip-box.teal { border-left-color: var(--accent); }
-  .tip-box.red { border-left-color: var(--secondary); }
-  .tip-box.gold { border-left-color: var(--gold); }
-  .tip-header { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.8rem; }
-  .tip-icon { font-size: 1.3rem; }
-  .tip-title { font-weight: 700; font-size: 0.95rem; }
-  .tip-text { color: var(--muted); font-size: 0.85rem; line-height: 1.7; }
-  .code-snippet {
-    background: rgba(0,0,0,0.4); border-radius: 8px; padding: 0.8rem 1rem;
-    margin-top: 0.8rem; font-family: monospace; font-size: 0.8rem;
-    border: 1px solid rgba(255,255,255,0.05);
-  }
-  .code-snippet .c-purple { color: var(--primary); }
-  .code-snippet .c-teal { color: var(--accent); }
-  .code-snippet .c-gold { color: var(--gold); }
-  .code-snippet .c-green { color: #27C93F; }
-  .code-snippet .c-red { color: var(--secondary); }
-  .code-snippet .c-muted { color: var(--muted); }
-
-  /* ======= INSTRUCTOR ======= */
-  .instructor { padding: 6rem 0; }
-  .instructor-card {
-    max-width: 700px; margin: 0 auto;
-    background: var(--card); border-radius: 24px; padding: 3rem;
-    border: 1px solid rgba(255,255,255,0.06); text-align: center;
-  }
-  .avatar {
-    width: 100px; height: 100px; border-radius: 50%;
-    margin: 0 auto 1.5rem;
-    background: var(--gradient1);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 2.5rem; box-shadow: var(--glow);
-    position: relative;
-  }
-  .avatar::after {
-    content: '✓'; position: absolute; bottom: 4px; right: 4px;
-    width: 24px; height: 24px; border-radius: 50%;
-    background: #27C93F; font-size: 0.7rem;
-    display: flex; align-items: center; justify-content: center;
-    border: 2px solid var(--darker);
-  }
-
-  /* ======= FOOTER CTA ======= */
-  .cta {
-    padding: 6rem 0; text-align: center;
-    background: radial-gradient(ellipse at 50% 50%, rgba(108,99,255,0.1) 0%, transparent 60%);
-  }
-  .cta h2 { font-size: 2.5rem; margin-bottom: 1rem; }
-  .cta p { color: var(--muted); margin-bottom: 2.5rem; font-size: 1.05rem; }
-  .cta-buttons { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
-
-  /* ======= PROGRESS BAR ======= */
-  .reading-progress {
-    position: fixed; top: 0; left: 0; height: 3px; z-index: 9999;
-    background: var(--gradient1); transition: width 0.1s;
-  }
-
-  /* ======= SCROLL ANIMATIONS ======= */
-  .fade-in {
-    opacity: 0; transform: translateY(30px);
-    transition: all 0.7s ease-out;
-  }
-  .fade-in.visible { opacity: 1; transform: translateY(0); }
-  .slide-left {
-    opacity: 0; transform: translateX(-30px);
-    transition: all 0.7s ease-out;
-  }
-  .slide-left.visible { opacity: 1; transform: translateX(0); }
-  .slide-right {
-    opacity: 0; transform: translateX(30px);
-    transition: all 0.7s ease-out;
-  }
-  .slide-right.visible { opacity: 1; transform: translateX(0); }
-
-  /* ======= SVG ILLUSTRATIONS ======= */
-  .svg-container {
-    display: flex; justify-content: center; align-items: center;
-    padding: 1rem;
-  }
-
-  /* ======= RESPONSIVE ======= */
-  @media (max-width: 768px) {
-    .hero-grid { grid-template-columns: 1fr; }
-    .hero-visual { display: none; }
-    .powers-grid { grid-template-columns: 1fr; }
-    .steps-grid { grid-template-columns: repeat(2, 1fr); }
-    .result-body { grid-template-columns: 1fr; }
-    .tips-grid { grid-template-columns: 1fr; }
-    .superpower-hero { grid-template-columns: 1fr; }
-    .timeline::before { left: 100px; }
-    nav .nav-links { display: none; }
-  }
-
-  /* ======= GLITCH EFFECT ======= */
-  .glitch {
-    position: relative;
-  }
-  .glitch::before, .glitch::after {
-    content: attr(data-text);
-    position: absolute; top: 0; left: 0;
-    background: var(--gradient1); -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .glitch::before {
-    animation: glitch1 3s infinite;
-    clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
-  }
-  .glitch::after {
-    animation: glitch2 3s infinite;
-    clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
-  }
-  @keyframes glitch1 {
-    0%,90%,100% { transform: translate(0); }
-    92% { transform: translate(-3px, 1px); }
-    96% { transform: translate(3px, -1px); }
-  }
-  @keyframes glitch2 {
-    0%,90%,100% { transform: translate(0); }
-    93% { transform: translate(3px, 2px); }
-    97% { transform: translate(-2px, -1px); }
-  }
-
-  /* Accordion */
-  .accordion { margin-top: 1rem; }
-  .accordion-item {
-    background: rgba(0,0,0,0.2); border-radius: 10px; margin-bottom: 0.5rem;
-    border: 1px solid rgba(255,255,255,0.05); overflow: hidden;
-  }
-  .accordion-header {
-    padding: 1rem 1.2rem; cursor: pointer; display: flex;
-    justify-content: space-between; align-items: center;
-    font-size: 0.9rem; font-weight: 600; transition: background 0.2s;
-  }
-  .accordion-header:hover { background: rgba(108,99,255,0.1); }
-  .accordion-arrow { transition: transform 0.3s; font-size: 0.8rem; }
-  .accordion-body {
-    padding: 0 1.2rem; max-height: 0; overflow: hidden;
-    transition: max-height 0.3s ease, padding 0.3s;
-    color: var(--muted); font-size: 0.85rem;
-  }
-  .accordion-body.open { max-height: 300px; padding: 0 1.2rem 1rem; }
-  .accordion-item.open .accordion-arrow { transform: rotate(180deg); }
-
-  /* Feature flags */
-  .new-badge {
-    display: inline-block; background: var(--gradient2);
-    padding: 0.1rem 0.5rem; border-radius: 6px;
-    font-size: 0.65rem; font-weight: 700; margin-left: 0.4rem;
-    vertical-align: middle;
-  }
-
-  /* Divider */
-  .divider {
-    height: 1px; background: linear-gradient(90deg, transparent, rgba(108,99,255,0.3), transparent);
-    margin: 2rem 0;
-  }
-
-  /* Quote */
-  .quote-block {
-    border-left: 3px solid var(--primary); padding: 1rem 1.5rem;
-    background: rgba(108,99,255,0.05); border-radius: 0 10px 10px 0;
-    margin: 1.5rem 0; font-style: italic; color: var(--muted);
-  }
-
-  /* Countdown */
-  .countdown-wrap {
-    display: flex; gap: 1rem; justify-content: center; margin: 2rem 0;
-  }
-  .count-box {
-    background: var(--card); border-radius: 12px; padding: 1rem 1.5rem;
-    text-align: center; border: 1px solid rgba(108,99,255,0.2);
-    min-width: 80px;
-  }
-  .count-num { font-size: 2rem; font-weight: 800; color: var(--primary); line-height: 1; }
-  .count-label { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; margin-top: 0.3rem; }
+/* RESPONSIVE */
+@media(max-width:900px){.path-grid{grid-template-columns:1fr}.skills-grid{grid-template-columns:repeat(2,1fr)}.project-preview-grid{grid-template-columns:1fr}.ref-grid{grid-template-columns:1fr}.mod-lessons{grid-template-columns:1fr}.nav-links{display:none}}
 </style>
 </head>
 <body>
 
-<!-- Reading Progress -->
-<div class="reading-progress" id="progress"></div>
-
-<!-- Stars Background -->
+<div class="reading-bar" id="bar"></div>
 <div class="stars" id="stars"></div>
 
-<!-- ===== NAVIGATION ===== -->
+<!-- NAV -->
 <nav>
-  <div class="nav-logo">
-    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-      <rect width="28" height="28" rx="8" fill="url(#ng)"/>
-      <path d="M8 14L12 10L16 14L20 8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="20" cy="20" r="3" fill="white" opacity="0.8"/>
-      <defs>
-        <linearGradient id="ng" x1="0" y1="0" x2="28" y2="28">
-          <stop stop-color="#6C63FF"/>
-          <stop offset="1" stop-color="#4ECDC4"/>
-        </linearGradient>
-      </defs>
-    </svg>
-    Claude Code Mastery
-  </div>
+  <a href="index.html" class="nav-brand">
+    <div class="nav-logo">⚡</div>
+    <span class="nav-name">Claude Code Hub</span>
+  </a>
   <ul class="nav-links">
-    <li><a href="#schedule">ตารางเรียน</a></li>
-    <li><a href="#chapters">บทเรียน</a></li>
-    <li><a href="#superpowers">Superpowers</a></li>
-    <li><a href="#workshop">Workshop</a></li>
-    <li><a href="#tips">เทคนิค</a></li>
+    <li><a href="#path" >Learning Path</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#modules">บทเรียน</a></li>
+    <li><a href="projects.html">55 โปรเจกต์</a></li>
+    <li><a href="#ref">Quick Ref</a></li>
   </ul>
-  <div class="nav-badge">🗓️ 2026 Edition</div>
+  <div class="nav-right">
+    <span class="nav-tag">by Beyond Team</span>
+  </div>
 </nav>
 
-<!-- ===== HERO ===== -->
-<section class="hero">
-  <div class="hero-grid">
-    <div class="hero-content slide-left">
-      <div class="hero-tag">หลักสูตร 1 วัน สำหรับ Programmer</div>
-      <h1>
-        เขียนโค้ดเก่งขึ้น<br>
-        <span class="highlight">10 เท่า</span> ด้วย<br>
-        <span class="highlight2">Claude Code</span>
-      </h1>
-      <p class="hero-desc">
-        หลักสูตรแบบ Hands-on สำหรับ Programmer ที่ต้องการ
-        ใช้ AI เป็น pair programmer จริงๆ ไม่ใช่แค่ถาม-ตอบ
-      </p>
-      <div class="hero-stats">
-        <div class="stat">
-          <div class="stat-num">1</div>
-          <div class="stat-label">วันเต็ม</div>
-        </div>
-        <div class="stat">
-          <div class="stat-num">8</div>
-          <div class="stat-label">บทเรียน</div>
-        </div>
-        <div class="stat">
-          <div class="stat-num">3</div>
-          <div class="stat-label">Workshop</div>
-        </div>
-        <div class="stat">
-          <div class="stat-num">∞</div>
-          <div class="stat-label">Superpower</div>
-        </div>
-      </div>
-      <div class="hero-buttons">
-        <a href="projects.html" class="btn-primary">🚀 ดู 55 โปรเจกต์ →</a>
-        <a href="#schedule" class="btn-secondary">ตารางเรียน</a>
-      </div>
-    </div>
-
-    <div class="hero-visual slide-right">
-      <div style="position:relative;">
-        <!-- Orbit rings -->
-        <div class="orbit-ring" style="width:320px;height:320px;left:-10px;top:-10px;--speed:20s;">
-          <div class="orbit-dot" style="background:var(--primary);"></div>
-        </div>
-        <div class="orbit-ring" style="width:380px;height:380px;left:-40px;top:-40px;--speed:30s;animation-direction:reverse;">
-          <div class="orbit-dot" style="background:var(--accent);"></div>
-        </div>
-
-        <div class="terminal">
-          <div class="terminal-bar">
-            <div class="dot dot-r"></div>
-            <div class="dot dot-y"></div>
-            <div class="dot dot-g"></div>
-            <div class="terminal-title">claude — bash — 80×24</div>
-          </div>
-          <div class="terminal-body">
-            <div class="t-line"><span class="t-comment"># บอก Claude Code งานที่ต้องทำ</span></div>
-            <div class="t-line">
-              <span class="t-prompt">❯ </span>
-              <span class="t-cmd">claude "สร้าง API สำหรับ user auth<br>&nbsp;&nbsp;พร้อม JWT และ refresh token"</span>
-            </div>
-            <div class="t-line" style="margin-top:0.5rem;"></div>
-            <div class="t-line"><span class="t-output">◆ กำลังวิเคราะห์ codebase...</span></div>
-            <div class="t-line"><span class="t-output">◆ สร้าง auth/middleware.ts</span></div>
-            <div class="t-line"><span class="t-output">◆ สร้าง auth/jwt.service.ts</span></div>
-            <div class="t-line"><span class="t-output">◆ อัปเดต routes/index.ts</span></div>
-            <div class="t-line"><span class="t-output">◆ เขียน test cases 12 ข้อ</span></div>
-            <div class="t-line" style="margin-top:0.5rem;">
-              <span class="t-success">✓ เสร็จใน 8 วินาที — ทุก test ผ่าน!</span>
-            </div>
-            <div class="t-line">
-              <span class="t-prompt">❯ </span>
-              <span class="t-cursor"></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+<!-- PORTAL HERO -->
+<section class="portal-hero">
+  <div class="welcome-chip">
+    <span class="dot"></span>
+    แหล่งเรียนรู้ Claude Code ภาษาไทย · อัปเดตตลอด 2026
+  </div>
+  <h1 class="hero-title">
+    เรียนรู้ <span class="hl">Claude Code</span><br>
+    สร้างได้จริง <span class="hl2">วันนี้เลย</span>
+  </h1>
+  <p class="hero-sub">
+    Knowledge base สำหรับ Programmer ที่ต้องการใช้ Claude Code
+    ให้เต็มศักยภาพ เรียนฟรี ทำตามได้ทันที ไม่ต้องรอพร้อม
+  </p>
+  <div class="quick-start">
+    <a href="#path" class="qs-btn qs-primary">🚀 เริ่มต้นเรียน</a>
+    <a href="projects.html" class="qs-btn qs-sec">📂 55 โปรเจกต์</a>
+    <a href="#ref" class="qs-btn qs-sec">⚡ Quick Reference</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="hstat-n">8</div><div class="hstat-l">บทเรียนหลัก</div></div>
+    <div class="hstat"><div class="hstat-n">55</div><div class="hstat-l">โปรเจกต์จริง</div></div>
+    <div class="hstat"><div class="hstat-n">8</div><div class="hstat-l">Skills/Tools</div></div>
+    <div class="hstat"><div class="hstat-n">∞</div><div class="hstat-l">เรียนฟรีตลอดชีพ</div></div>
   </div>
 </section>
 
-<!-- ===== WHO IS THIS FOR ===== -->
-<section style="padding: 3rem 0;">
+<!-- LEARNING PATH -->
+<section class="learning-path" id="path">
   <div class="container">
-    <div class="fade-in" style="display:grid; grid-template-columns: repeat(4,1fr); gap:1rem; max-width:900px; margin:0 auto;">
-      <div style="background:var(--card); border-radius:14px; padding:1.2rem; border:1px solid rgba(255,255,255,0.06); text-align:center;">
-        <div style="font-size:2rem; margin-bottom:0.5rem;">🧑‍💻</div>
-        <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.2rem;">Backend Dev</div>
-        <div style="color:var(--muted); font-size:0.75rem;">Node, Python, Go</div>
-      </div>
-      <div style="background:var(--card); border-radius:14px; padding:1.2rem; border:1px solid rgba(255,255,255,0.06); text-align:center;">
-        <div style="font-size:2rem; margin-bottom:0.5rem;">🎨</div>
-        <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.2rem;">Frontend Dev</div>
-        <div style="color:var(--muted); font-size:0.75rem;">React, Vue, Svelte</div>
-      </div>
-      <div style="background:var(--card); border-radius:14px; padding:1.2rem; border:1px solid rgba(255,255,255,0.06); text-align:center;">
-        <div style="font-size:2rem; margin-bottom:0.5rem;">⚙️</div>
-        <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.2rem;">Full-Stack</div>
-        <div style="color:var(--muted); font-size:0.75rem;">สร้าง product เร็วขึ้น</div>
-      </div>
-      <div style="background:var(--card); border-radius:14px; padding:1.2rem; border:1px solid rgba(255,255,255,0.06); text-align:center;">
-        <div style="font-size:2rem; margin-bottom:0.5rem;">🚀</div>
-        <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.2rem;">Solo Builder</div>
-        <div style="color:var(--muted); font-size:0.75rem;">ทำ startup คนเดียว</div>
-      </div>
+    <div class="fade-up">
+      <span class="sec-label lp">Learning Path</span>
+      <h2>เริ่มจากตรงไหน <span class="hl">ก็ได้</span></h2>
+      <p class="sec-desc">เลือก path ตามระดับของคุณ หรือข้ามไปเนื้อหาที่สนใจได้เลย</p>
     </div>
-  </div>
-</section>
-
-<!-- ===== SCHEDULE ===== -->
-<section class="schedule" id="schedule">
-  <div class="container">
-    <div class="section-header fade-in">
-      <div class="section-tag tag-purple">⏰ ตารางเรียน</div>
-      <h2>หนึ่งวันเต็ม <span class="highlight">เปลี่ยนชีวิต</span></h2>
-      <p class="section-desc">เรียนแบบ hands-on ทุกชั่วโมงมี lab ฝึกจริง ไม่ใช่แค่ฟัง</p>
-    </div>
-
-    <div class="timeline">
-      <!-- Morning -->
-      <div class="time-item fade-in">
-        <div class="time-label">08:30 – 09:00</div>
-        <div class="time-dot-wrap"><div class="time-dot"></div></div>
-        <div class="time-card">
-          <div class="time-card-header">
-            <span class="time-icon">☕</span>
-            <div>
-              <div class="time-title">ลงทะเบียนและ Setup</div>
-              <div class="time-sub">ตั้งค่า environment ให้พร้อม 100%</div>
-            </div>
-          </div>
-          <div class="time-topics">
-            <span class="chip">Claude Code CLI</span>
-            <span class="chip">API Key Setup</span>
-            <span class="chip">VS Code Extension</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="time-item fade-in">
-        <div class="time-label">09:00 – 10:30</div>
-        <div class="time-dot-wrap"><div class="time-dot"></div></div>
-        <div class="time-card">
-          <div class="time-card-header">
-            <span class="time-icon">🧠</span>
-            <div>
-              <div class="time-title">บทที่ 1-2: พื้นฐานและวิธีคิด</div>
-              <div class="time-sub">Claude Code คืออะไร ทำไมต้องใช้ในปี 2026</div>
-            </div>
-          </div>
-          <div class="time-topics">
-            <span class="chip">Context Window</span>
-            <span class="chip">Agentic Mode</span>
-            <span class="chip">CLAUDE.md</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="time-item fade-in">
-        <div class="time-label">10:30 – 12:00</div>
-        <div class="time-dot-wrap"><div class="time-dot accent"></div></div>
-        <div class="time-card">
-          <div class="time-card-header">
-            <span class="time-icon">⚡</span>
-            <div>
-              <div class="time-title">บทที่ 3: Superpower Skills <span class="new-badge">NEW</span></div>
-              <div class="time-sub">เทคนิคขั้นสูงที่ 95% ของ programmer ยังไม่รู้</div>
-            </div>
-          </div>
-          <div class="time-topics">
-            <span class="chip teal">Multi-file Edit</span>
-            <span class="chip teal">Custom Slash Cmd</span>
-            <span class="chip teal">MCP Servers</span>
-            <span class="chip teal">Hooks</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="time-item fade-in">
-        <div class="time-label">12:00 – 13:00</div>
-        <div class="time-dot-wrap"><div class="time-dot gold"></div></div>
-        <div class="time-card">
-          <div class="time-card-header">
-            <span class="time-icon">🍜</span>
-            <div>
-              <div class="time-title">พักรับประทานอาหารกลางวัน</div>
-              <div class="time-sub">Networking + ถาม-ตอบนอกรอบ</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="time-item fade-in">
-        <div class="time-label">13:00 – 14:30</div>
-        <div class="time-dot-wrap"><div class="time-dot"></div></div>
-        <div class="time-card">
-          <div class="time-card-header">
-            <span class="time-icon">🔧</span>
-            <div>
-              <div class="time-title">บทที่ 4-5: Workflow และ Best Practices</div>
-              <div class="time-sub">วิธีทำงานกับ Claude Code ใน real project</div>
-            </div>
-          </div>
-          <div class="time-topics">
-            <span class="chip">Git Integration</span>
-            <span class="chip">Code Review</span>
-            <span class="chip">Debugging</span>
-            <span class="chip">Testing</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="time-item fade-in">
-        <div class="time-label">14:30 – 16:00</div>
-        <div class="time-dot-wrap"><div class="time-dot accent"></div></div>
-        <div class="time-card">
-          <div class="time-card-header">
-            <span class="time-icon">🏗️</span>
-            <div>
-              <div class="time-title">บทที่ 6: Architecture & Refactoring</div>
-              <div class="time-sub">ให้ Claude ช่วยออกแบบระบบและ refactor code</div>
-            </div>
-          </div>
-          <div class="time-topics">
-            <span class="chip teal">System Design</span>
-            <span class="chip teal">Refactor</span>
-            <span class="chip teal">Performance</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="time-item fade-in">
-        <div class="time-label">16:00 – 17:30</div>
-        <div class="time-dot-wrap"><div class="time-dot hot"></div></div>
-        <div class="time-card">
-          <div class="time-card-header">
-            <span class="time-icon">🛠️</span>
-            <div>
-              <div class="time-title">Workshop: สร้างเว็บไซต์ตัวเองใน 90 นาที</div>
-              <div class="time-sub">ลงมือสร้าง portfolio website ด้วย Claude Code จริงๆ</div>
-            </div>
-          </div>
-          <div class="time-topics">
-            <span class="chip red">React + TailwindCSS</span>
-            <span class="chip red">Deploy Vercel</span>
-            <span class="chip red">Custom Domain</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="time-item fade-in">
-        <div class="time-label">17:30 – 18:00</div>
-        <div class="time-dot-wrap"><div class="time-dot gold"></div></div>
-        <div class="time-card">
-          <div class="time-card-header">
-            <span class="time-icon">🏆</span>
-            <div>
-              <div class="time-title">Showcase + Wrap Up</div>
-              <div class="time-sub">แสดงผลงาน + Certificate + สิ่งที่ต้องทำต่อ</div>
-            </div>
-          </div>
-          <div class="time-topics">
-            <span class="chip gold">Showcase</span>
-            <span class="chip gold">Certificate</span>
-            <span class="chip gold">Roadmap</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== CHAPTERS ===== -->
-<section class="chapters" id="chapters">
-  <div class="container">
-    <div class="section-header fade-in">
-      <div class="section-tag tag-teal">📚 บทเรียน</div>
-      <h2>8 บทเรียน <span class="highlight">ครบทุกมิติ</span></h2>
-      <p class="section-desc">จาก zero ถึง pro ในหนึ่งวัน เนื้อหาออกแบบสำหรับ programmer โดยเฉพาะ</p>
-    </div>
-
-    <div class="chapters-grid">
-      <!-- Chapter 1 -->
-      <div class="chapter-card fade-in">
-        <div class="chapter-num">Chapter 01</div>
-        <div class="chapter-icon-wrap icon-purple">🚀</div>
-        <div class="chapter-title">Claude Code คืออะไร ทำไมปี 2026 ต้องใช้</div>
-        <div class="chapter-desc">เข้าใจว่า Claude Code ต่างจาก ChatGPT อย่างไร และทำไมมันเป็น game-changer</div>
-        <ul class="chapter-items">
-          <li>Claude Code vs Copilot vs Cursor — ข้อแตกต่างที่สำคัญ</li>
-          <li>Agentic workflow คืออะไร ทำงานยังไง</li>
-          <li>Real-world use case ที่ได้ผลจริง</li>
-          <li>ข้อจำกัดที่ต้องรู้ก่อนใช้งาน</li>
+    <div class="path-grid">
+      <a href="#modules" class="path-card pc-beginner fade-up">
+        <span class="path-count">8 บท</span>
+        <div class="path-level level-b">⚡ เริ่มต้น — Beginner</div>
+        <div class="path-icon">🌱</div>
+        <div class="path-title">ทำความรู้จัก Claude Code</div>
+        <div class="path-desc">ไม่เคยใช้มาก่อน เริ่มจากศูนย์ ติดตั้ง ตั้งค่า และใช้งานครั้งแรก</div>
+        <ul class="path-topics">
+          <li>Claude Code คืออะไร ต่างจาก ChatGPT ยังไง</li>
+          <li>ติดตั้งและตั้งค่าครั้งแรก</li>
+          <li>คุยกับ Claude อย่างได้ผล</li>
+          <li>สร้างโปรเจกต์แรกใน 30 นาที</li>
+          <li>CLAUDE.md — สอน Claude รู้จัก project ของคุณ</li>
         </ul>
-      </div>
-
-      <!-- Chapter 2 -->
-      <div class="chapter-card accent-card fade-in">
-        <div class="chapter-num">Chapter 02</div>
-        <div class="chapter-icon-wrap icon-teal">⚙️</div>
-        <div class="chapter-title">Setup & Configuration ให้พร้อมทำงาน</div>
-        <div class="chapter-desc">ติดตั้งและตั้งค่า Claude Code ให้ทำงานได้ดีที่สุด</div>
-        <ul class="chapter-items">
-          <li>ติดตั้ง CLI และ extensions ที่จำเป็น</li>
-          <li>สร้าง CLAUDE.md ที่ดี — บอก Claude ให้เข้าใจ project</li>
-          <li>Settings.json optimization</li>
-          <li>Multi-project setup strategies</li>
-        </ul>
-      </div>
-
-      <!-- Chapter 3 -->
-      <div class="chapter-card fade-in">
-        <div class="chapter-num">Chapter 03</div>
-        <div class="chapter-icon-wrap icon-purple">💬</div>
-        <div class="chapter-title">Prompt Engineering สำหรับ Programmer</div>
-        <div class="chapter-desc">วิธีสื่อสารกับ Claude Code ให้ได้ผลลัพธ์ที่ต้องการ</div>
-        <ul class="chapter-items">
-          <li>Context-first prompting technique</li>
-          <li>ให้ code constraint ที่ชัดเจน</li>
-          <li>Iterative refinement workflow</li>
-          <li>Common mistakes ที่ต้องหลีกเลี่ยง</li>
-        </ul>
-      </div>
-
-      <!-- Chapter 4 -->
-      <div class="chapter-card accent-card fade-in">
-        <div class="chapter-num">Chapter 04</div>
-        <div class="chapter-icon-wrap icon-teal">🔍</div>
-        <div class="chapter-title">Debugging & Code Review กับ Claude</div>
-        <div class="chapter-desc">ใช้ Claude เป็น senior developer ที่ช่วย review และหา bug</div>
-        <ul class="chapter-items">
-          <li>ให้ Claude อ่าน error message และหา root cause</li>
-          <li>Code review workflow ที่ effective</li>
-          <li>Security vulnerability scanning</li>
-          <li>Performance optimization analysis</li>
-        </ul>
-      </div>
-
-      <!-- Chapter 5 -->
-      <div class="chapter-card hot-card fade-in">
-        <div class="chapter-num">Chapter 05</div>
-        <div class="chapter-icon-wrap icon-red">🧪</div>
-        <div class="chapter-title">Testing & Documentation อัตโนมัติ</div>
-        <div class="chapter-desc">ให้ Claude เขียน test และ document แทนคุณ</div>
-        <ul class="chapter-items">
-          <li>Generate unit tests และ integration tests</li>
-          <li>Test coverage analysis และ improvement</li>
-          <li>Auto-generate API documentation</li>
-          <li>Comment generation strategies</li>
-        </ul>
-      </div>
-
-      <!-- Chapter 6 -->
-      <div class="chapter-card fade-in">
-        <div class="chapter-num">Chapter 06</div>
-        <div class="chapter-icon-wrap icon-purple">🏗️</div>
-        <div class="chapter-title">Architecture & Large-Scale Refactoring</div>
-        <div class="chapter-desc">ให้ Claude ช่วยออกแบบระบบและ refactor codebase ขนาดใหญ่</div>
-        <ul class="chapter-items">
-          <li>System design consultation</li>
-          <li>Migration strategies (class → hooks, JS → TS)</li>
-          <li>Database schema design</li>
-          <li>Microservices decomposition</li>
-        </ul>
-      </div>
-
-      <!-- Chapter 7 - Superpower -->
-      <div class="chapter-card special-card fade-in">
-        <div class="chapter-num">Chapter 07 — ⭐ Featured</div>
-        <div class="chapter-icon-wrap icon-gold">⚡</div>
-        <div class="chapter-title">Superpower Skills — เทคนิคที่ทำให้คุณก้าวกระโดด</div>
-        <div class="chapter-desc">เทคนิคขั้นสูงที่เปลี่ยน Claude จาก assistant เป็น autonomous agent</div>
-        <ul class="chapter-items">
-          <li>Custom slash commands (/deploy, /review, /test)</li>
-          <li>MCP Servers — เชื่อม database, API, tools เข้าไปใน Claude</li>
-          <li>Hooks — ทำงานอัตโนมัติเมื่อ Claude ทำบางอย่าง</li>
-          <li>Multi-agent workflows สำหรับงานซับซ้อน</li>
-          <li>Headless mode สำหรับ CI/CD pipeline</li>
-        </ul>
-      </div>
-
-      <!-- Chapter 8 - Workshop -->
-      <div class="chapter-card hot-card fade-in">
-        <div class="chapter-num">Chapter 08 — 🛠️ Workshop</div>
-        <div class="chapter-icon-wrap icon-red">🌐</div>
-        <div class="chapter-title">Workshop: สร้าง Portfolio Website ใน 90 นาที</div>
-        <div class="chapter-desc">ลงมือจริง สร้างเว็บไซต์ส่วนตัวและ deploy ให้ออนไลน์</div>
-        <ul class="chapter-items">
-          <li>Design → Code → Deploy pipeline ด้วย Claude</li>
-          <li>React + TailwindCSS project from scratch</li>
-          <li>Deploy บน Vercel ด้วย custom domain</li>
-          <li>Add features: dark mode, animations, contact form</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== SUPERPOWERS ===== -->
-<section class="superpowers" id="superpowers">
-  <div class="container">
-    <div class="superpower-hero">
-      <div class="slide-left">
-        <div class="section-tag tag-gold">⚡ Superpower Skills</div>
-        <h2 style="margin-top:1rem;">
-          ไม่ใช่แค่<br>
-          <span class="highlight">"ขอให้เขียน"</span><br>
-          แต่คือ <span class="highlight2">Automation</span>
-        </h2>
-        <p style="color:var(--muted); margin: 1.5rem 0; font-size:1rem; line-height:1.8;">
-          เทคนิคที่แยก programmer ธรรมดาออกจาก 10x developer คือการใช้ Claude Code
-          ไม่ใช่แค่ถามคำถาม แต่ <strong style="color:var(--text);">โปรแกรม Claude ให้ทำงานแทนเรา</strong>
-        </p>
-        <div class="quote-block">
-          "The best code is the code you never had to write. The second best is the code Claude wrote for you — automatically."
-        </div>
-        <div class="accordion">
-          <div class="accordion-item" onclick="toggleAccordion(this)">
-            <div class="accordion-header">
-              🎯 Custom Slash Commands ทำงานยังไง?
-              <span class="accordion-arrow">▼</span>
-            </div>
-            <div class="accordion-body">
-              สร้างไฟล์ใน .claude/commands/ เช่น deploy.md แล้วใส่ prompt ที่ต้องการ
-              เมื่อพิมพ์ /deploy Claude จะรันตาม instruction ที่กำหนดไว้ทันที
-              สามารถรับ argument ได้ด้วย $ARGUMENTS
-            </div>
-          </div>
-          <div class="accordion-item" onclick="toggleAccordion(this)">
-            <div class="accordion-header">
-              🔌 MCP Server คือ?
-              <span class="accordion-arrow">▼</span>
-            </div>
-            <div class="accordion-body">
-              Model Context Protocol — มาตรฐานการเชื่อม tool ภายนอกเข้ากับ Claude
-              เช่น เชื่อม PostgreSQL, Slack, GitHub, Figma เข้าไปใน context
-              Claude จะสามารถ query database, post Slack message, create PR ได้โดยตรง
-            </div>
-          </div>
-          <div class="accordion-item" onclick="toggleAccordion(this)">
-            <div class="accordion-header">
-              🪝 Hooks คืออะไร ใช้งานยังไง?
-              <span class="accordion-arrow">▼</span>
-            </div>
-            <div class="accordion-body">
-              Hook คือ shell script ที่รันอัตโนมัติเมื่อ Claude ทำบางอย่าง เช่น
-              PreToolUse: ก่อน Claude รันคำสั่ง — ใช้ validate หรือ log
-              PostToolUse: หลังรัน — ใช้ trigger test หรือ notification
-              Stop: เมื่อ Claude เสร็จงาน — ใช้ deploy หรือ send report
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="sp-visual slide-right">
-        <div style="position:relative; width:400px;">
-          <!-- Central node -->
-          <div style="position:relative; width:400px; height:400px;">
-            <svg width="400" height="400" viewBox="0 0 400 400">
-              <defs>
-                <radialGradient id="glow-grad" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stop-color="#6C63FF" stop-opacity="0.3"/>
-                  <stop offset="100%" stop-color="#6C63FF" stop-opacity="0"/>
-                </radialGradient>
-                <filter id="glow-filter">
-                  <feGaussianBlur stdDeviation="3" result="blur"/>
-                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                </filter>
-              </defs>
-
-              <!-- Background glow -->
-              <circle cx="200" cy="200" r="150" fill="url(#glow-grad)"/>
-
-              <!-- Connection lines -->
-              <line x1="200" y1="200" x2="200" y2="60" stroke="#6C63FF" stroke-width="1.5" stroke-dasharray="5,5" opacity="0.5"/>
-              <line x1="200" y1="200" x2="340" y2="140" stroke="#4ECDC4" stroke-width="1.5" stroke-dasharray="5,5" opacity="0.5"/>
-              <line x1="200" y1="200" x2="340" y2="280" stroke="#FF6B6B" stroke-width="1.5" stroke-dasharray="5,5" opacity="0.5"/>
-              <line x1="200" y1="200" x2="200" y2="340" stroke="#FFD700" stroke-width="1.5" stroke-dasharray="5,5" opacity="0.5"/>
-              <line x1="200" y1="200" x2="60" y2="280" stroke="#6C63FF" stroke-width="1.5" stroke-dasharray="5,5" opacity="0.5"/>
-              <line x1="200" y1="200" x2="60" y2="140" stroke="#4ECDC4" stroke-width="1.5" stroke-dasharray="5,5" opacity="0.5"/>
-
-              <!-- Satellite nodes -->
-              <circle cx="200" cy="60" r="28" fill="#12122A" stroke="#6C63FF" stroke-width="2"/>
-              <text x="200" y="65" text-anchor="middle" fill="white" font-size="18">🔌</text>
-              <text x="200" y="44" text-anchor="middle" fill="#6C63FF" font-size="9">MCP Server</text>
-
-              <circle cx="340" cy="140" r="28" fill="#12122A" stroke="#4ECDC4" stroke-width="2"/>
-              <text x="340" y="145" text-anchor="middle" fill="white" font-size="18">⚡</text>
-              <text x="340" y="124" text-anchor="middle" fill="#4ECDC4" font-size="9">Slash Cmd</text>
-
-              <circle cx="340" cy="280" r="28" fill="#12122A" stroke="#FF6B6B" stroke-width="2"/>
-              <text x="340" y="285" text-anchor="middle" fill="white" font-size="18">🪝</text>
-              <text x="340" y="264" text-anchor="middle" fill="#FF6B6B" font-size="9">Hooks</text>
-
-              <circle cx="200" cy="340" r="28" fill="#12122A" stroke="#FFD700" stroke-width="2"/>
-              <text x="200" y="345" text-anchor="middle" fill="white" font-size="18">🤖</text>
-              <text x="200" y="322" text-anchor="middle" fill="#FFD700" font-size="9">Multi-Agent</text>
-
-              <circle cx="60" cy="280" r="28" fill="#12122A" stroke="#6C63FF" stroke-width="2"/>
-              <text x="60" y="285" text-anchor="middle" fill="white" font-size="18">🔄</text>
-              <text x="60" y="264" text-anchor="middle" fill="#6C63FF" font-size="9">Headless</text>
-
-              <circle cx="60" cy="140" r="28" fill="#12122A" stroke="#4ECDC4" stroke-width="2"/>
-              <text x="60" y="145" text-anchor="middle" fill="white" font-size="18">📋</text>
-              <text x="60" y="124" text-anchor="middle" fill="#4ECDC4" font-size="9">CLAUDE.md</text>
-
-              <!-- Center -->
-              <circle cx="200" cy="200" r="50" fill="#1A1A35" stroke="#6C63FF" stroke-width="3" filter="url(#glow-filter)"/>
-              <text x="200" y="192" text-anchor="middle" fill="white" font-size="26">⚡</text>
-              <text x="200" y="213" text-anchor="middle" fill="#6C63FF" font-size="11" font-weight="bold">Claude</text>
-              <text x="200" y="226" text-anchor="middle" fill="#4ECDC4" font-size="9">Code</text>
-            </svg>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Powers Grid -->
-    <div class="powers-grid fade-in">
-      <div class="power-card">
-        <div class="power-glow" style="background:var(--primary);"></div>
-        <div class="power-icon">🔌</div>
-        <div class="power-name">MCP Servers</div>
-        <div class="power-desc">
-          เชื่อม Claude เข้ากับ database, Slack, GitHub, Jira, Figma และอื่นๆ
-          ได้โดยตรง ไม่ต้อง copy-paste ข้อมูลเอง
-        </div>
-        <div class="power-badge">⭐ Game Changer</div>
-        <div class="code-snippet" style="margin-top:1rem;">
-          <div><span class="c-muted"># เพิ่ม Postgres MCP server</span></div>
-          <div><span class="c-purple">claude</span> <span class="c-teal">mcp add</span> postgres</div>
-          <div><span class="c-muted"># Claude ตอนนี้ query DB ได้เลย!</span></div>
-        </div>
-      </div>
-
-      <div class="power-card">
-        <div class="power-glow" style="background:var(--accent);"></div>
-        <div class="power-icon">⚡</div>
-        <div class="power-name">Custom Slash Commands</div>
-        <div class="power-desc">
-          สร้าง command ที่ใช้บ่อยๆ ให้เป็น /shortcut เช่น /deploy, /review, /migrate
-          รัน complex workflow ด้วยคำสั่งสั้นๆ
-        </div>
-        <div class="power-badge">⚡ Productivity x10</div>
-        <div class="code-snippet" style="margin-top:1rem;">
-          <div><span class="c-muted"># .claude/commands/review.md</span></div>
-          <div><span class="c-gold">Review</span> <span class="c-teal">$ARGUMENTS</span> สำหรับ</div>
-          <div>security, performance, readability</div>
-          <div><span class="c-muted"># ใช้: /review src/api/auth.ts</span></div>
-        </div>
-      </div>
-
-      <div class="power-card">
-        <div class="power-glow" style="background:var(--secondary);"></div>
-        <div class="power-icon">🪝</div>
-        <div class="power-name">Hooks Automation</div>
-        <div class="power-desc">
-          Claude ทำอะไร → trigger อะไรอัตโนมัติ
-          เช่น เขียนไฟล์เสร็จ → รัน test → ถ้าผ่าน → commit → notify Slack
-        </div>
-        <div class="power-badge">🤖 True Automation</div>
-        <div class="code-snippet" style="margin-top:1rem;">
-          <div><span class="c-muted">// settings.json</span></div>
-          <div><span class="c-purple">"hooks"</span><span class="c-teal">:</span> <span class="c-gold">&#123;</span></div>
-          <div>&nbsp;<span class="c-red">"PostToolUse"</span><span class="c-teal">:</span> [&#123;</div>
-          <div>&nbsp;&nbsp;<span class="c-purple">"command"</span><span class="c-teal">:</span> <span class="c-green">"npm test"</span></div>
-          <div>&nbsp;&#125;]&#125;</div>
-        </div>
-      </div>
-
-      <div class="power-card">
-        <div class="power-glow" style="background:#27C93F;"></div>
-        <div class="power-icon">🤖</div>
-        <div class="power-name">Multi-Agent Workflows</div>
-        <div class="power-desc">
-          ให้ Claude instances หลายตัวทำงานพร้อมกัน เช่น ตัวหนึ่ง frontend อีกตัว backend
-          ทำงาน parallel เร็วกว่า 5 เท่า
-        </div>
-        <div class="power-badge">🚀 Parallel Power</div>
-      </div>
-
-      <div class="power-card">
-        <div class="power-glow" style="background:var(--gold);"></div>
-        <div class="power-icon">📋</div>
-        <div class="power-name">CLAUDE.md Mastery</div>
-        <div class="power-desc">
-          ไฟล์ที่บอก Claude ทุกอย่างเกี่ยวกับ project ของคุณ
-          เมื่อ setup ถูกต้อง Claude จะเข้าใจ codebase เหมือน senior dev ใน team
-        </div>
-        <div class="power-badge">📌 Foundation</div>
-      </div>
-
-      <div class="power-card">
-        <div class="power-glow" style="background:var(--primary);"></div>
-        <div class="power-icon">🔄</div>
-        <div class="power-name">Headless & CI/CD Mode</div>
-        <div class="power-desc">
-          รัน Claude แบบ non-interactive ใน GitHub Actions
-          ให้ Claude auto-fix failing tests, review PRs, หรือ generate release notes อัตโนมัติ
-        </div>
-        <div class="power-badge">⚙️ DevOps Level</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== WORKSHOP ===== -->
-<section class="workshop" id="workshop">
-  <div class="container">
-    <div class="section-header fade-in">
-      <div class="section-tag tag-red">🛠️ Workshop</div>
-      <h2>สร้างเว็บไซต์ <span class="highlight2">ตัวเอง</span> ใน 90 นาที</h2>
-      <p class="section-desc">ลงมือจริง ทำจริง เห็นผลจริง ก่อนกลับบ้านเว็บไซต์ของคุณต้องออนไลน์</p>
-    </div>
-
-    <!-- Workshop Phase 1 -->
-    <div class="workshop-card fade-in">
-      <div class="workshop-header">
-        <div class="workshop-num">1</div>
-        <div>
-          <div class="workshop-title">Phase 1 — Design with Claude (20 นาที)</div>
-          <div class="workshop-meta">⏱️ 16:00 – 16:20 | บอก Claude เกี่ยวกับตัวคุณ แล้วให้มัน design ให้</div>
-        </div>
-      </div>
-      <p style="color:var(--muted); font-size:0.9rem; margin-bottom:1.5rem;">
-        ไม่ต้อง design เอง แค่บอก Claude ว่าคุณเป็นใคร ทำอะไร ต้องการ style แบบไหน
-        Claude จะ generate HTML/CSS wireframe ให้ก่อน แล้วค่อยเลือก
-      </p>
-      <div class="code-snippet">
-        <div><span class="c-muted"># Prompt ตัวอย่าง:</span></div>
-        <div><span class="c-gold">"</span><span class="c-teal">สร้าง portfolio website สำหรับ Full-Stack Developer</span></div>
-        <div><span class="c-teal">ชื่อ สมชาย รักโค้ด เชี่ยวชาญ React, Node.js, PostgreSQL</span></div>
-        <div><span class="c-teal">ต้องการสไตล์ dark + modern + minimalist</span></div>
-        <div><span class="c-teal">มี section: hero, skills, projects, contact</span></div>
-        <div><span class="c-teal">ใช้ React + TailwindCSS + Framer Motion</span><span class="c-gold">"</span></div>
-      </div>
-    </div>
-
-    <!-- Workshop Phase 2 -->
-    <div class="workshop-card fade-in" style="border-color: rgba(78,205,196,0.25); background: linear-gradient(135deg, rgba(78,205,196,0.08) 0%, rgba(108,99,255,0.06) 100%);">
-      <div class="workshop-header">
-        <div class="workshop-num" style="background: linear-gradient(135deg, var(--accent), #00D2FF);">2</div>
-        <div>
-          <div class="workshop-title">Phase 2 — Build & Iterate (50 นาที)</div>
-          <div class="workshop-meta">⏱️ 16:20 – 17:10 | Claude เขียนโค้ด คุณ review และขอ feature เพิ่ม</div>
-        </div>
-      </div>
-      <div class="steps-grid">
-        <div class="step-card">
-          <div class="step-num">1</div>
-          <div class="step-title">Init Project</div>
-          <div class="step-desc">Claude สร้าง React app + setup TailwindCSS ทั้งหมด</div>
-        </div>
-        <div class="step-card">
-          <div class="step-num">2</div>
-          <div class="step-title">Build Components</div>
-          <div class="step-desc">Hero, Skills, Projects, Contact form ทีละ section</div>
-        </div>
-        <div class="step-card">
-          <div class="step-num">3</div>
-          <div class="step-title">Add Animations</div>
-          <div class="step-desc">Scroll animations, hover effects, loading states</div>
-        </div>
-        <div class="step-card">
-          <div class="step-num">4</div>
-          <div class="step-title">Responsive</div>
-          <div class="step-desc">Mobile-first design ที่ดูดีทุก screen size</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Workshop Phase 3 -->
-    <div class="workshop-card fade-in" style="border-color: rgba(255,107,107,0.25); background: linear-gradient(135deg, rgba(255,107,107,0.08) 0%, rgba(255,215,0,0.05) 100%);">
-      <div class="workshop-header">
-        <div class="workshop-num" style="background: var(--gradient2);">3</div>
-        <div>
-          <div class="workshop-title">Phase 3 — Deploy & Go Live! (20 นาที)</div>
-          <div class="workshop-meta">⏱️ 17:10 – 17:30 | ออนไลน์จริงๆ ก่อนกลับบ้าน</div>
-        </div>
-      </div>
-      <p style="color:var(--muted); font-size:0.9rem; margin-bottom:1.5rem;">
-        Claude จะช่วย setup Vercel deployment, write GitHub Actions pipeline,
-        และ configure custom domain ให้ด้วย
-      </p>
-      <div class="code-snippet">
-        <div><span class="c-muted"># Claude จะทำสิ่งเหล่านี้ให้คุณ:</span></div>
-        <div><span class="c-green">✓</span> <span class="c-teal">git init && git add . && git commit -m "initial"</span></div>
-        <div><span class="c-green">✓</span> <span class="c-teal">gh repo create portfolio && git push</span></div>
-        <div><span class="c-green">✓</span> <span class="c-teal">vercel --prod</span></div>
-        <div><span class="c-gold">→ yourname.vercel.app ออนไลน์แล้ว! 🎉</span></div>
-      </div>
-
-      <!-- Preview mockup -->
-      <div class="result-preview" style="margin-top:1.5rem;">
-        <div class="result-bar">
-          <div class="dot dot-r"></div>
-          <div class="dot dot-y"></div>
-          <div class="dot dot-g"></div>
-          <div class="url-bar">https://yourname.vercel.app</div>
-          <div style="color:#27C93F; font-size:0.75rem;">🔒 Live</div>
-        </div>
-        <div class="result-body">
-          <div class="mock-card">
-            <div class="mock-img" style="background:linear-gradient(135deg,rgba(108,99,255,0.4),rgba(78,205,196,0.3));display:flex;align-items:center;justify-content:center;font-size:1.5rem;">👨‍💻</div>
-            <div class="mock-title" style="width:80%;"></div>
-            <div class="mock-text"></div>
-            <div class="mock-text" style="width:50%;"></div>
-          </div>
-          <div class="mock-card">
-            <div class="mock-img" style="background:linear-gradient(135deg,rgba(255,107,107,0.3),rgba(255,215,0,0.2));display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🚀</div>
-            <div class="mock-title"></div>
-            <div class="mock-text"></div>
-            <div class="mock-text" style="width:60%;"></div>
-          </div>
-          <div class="mock-card">
-            <div class="mock-img" style="background:linear-gradient(135deg,rgba(39,201,63,0.2),rgba(78,205,196,0.3));display:flex;align-items:center;justify-content:center;font-size:1.5rem;">📬</div>
-            <div class="mock-title" style="width:60%;"></div>
-            <div class="mock-text"></div>
-            <div class="mock-text"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== TIPS & TRICKS ===== -->
-<section class="tips-section" id="tips">
-  <div class="container">
-    <div class="section-header fade-in">
-      <div class="section-tag tag-purple">💡 เทคนิค</div>
-      <h2>Pro Tips ที่ <span class="highlight">ต้องรู้</span></h2>
-      <p class="section-desc">เทคนิคจากการใช้งานจริง ที่จะทำให้คุณทำงานได้เร็วและดีขึ้น</p>
-    </div>
-
-    <div class="tips-grid">
-      <div class="tip-box fade-in">
-        <div class="tip-header">
-          <span class="tip-icon">📌</span>
-          <div class="tip-title">เขียน CLAUDE.md ให้ดีตั้งแต่แรก</div>
-        </div>
-        <div class="tip-text">
-          ไฟล์ CLAUDE.md คือ "คู่มือ project" ที่ Claude อ่านทุกครั้ง ใส่ข้อมูลสำคัญเช่น
-          tech stack, coding conventions, architecture decisions, และสิ่งที่ Claude
-          <strong>ห้ามทำ</strong> โดยเด็ดขาด
-        </div>
-        <div class="code-snippet">
-          <div><span class="c-gold"># CLAUDE.md</span></div>
-          <div><span class="c-green">## Tech Stack</span></div>
-          <div>- Node.js <span class="c-teal">v22</span>, TypeScript strict mode</div>
-          <div>- PostgreSQL + Drizzle ORM</div>
-          <div><span class="c-green">## NEVER</span></div>
-          <div>- <span class="c-red">อย่าใช้ any ใน TypeScript</span></div>
-          <div>- <span class="c-red">อย่า commit โดยไม่รัน tests</span></div>
-        </div>
-      </div>
-
-      <div class="tip-box teal fade-in">
-        <div class="tip-header">
-          <span class="tip-icon">🎯</span>
-          <div class="tip-title">ให้ Claude คิดก่อน แล้วค่อยทำ</div>
-        </div>
-        <div class="tip-text">
-          เพิ่ม "ก่อนเขียนโค้ด ช่วยอธิบาย approach ที่จะใช้ก่อน" ในทุก prompt ที่ซับซ้อน
-          จะทำให้ Claude วางแผนดีขึ้น และคุณสามารถ redirect ก่อนที่จะสายเกินไป
-        </div>
-        <div class="code-snippet">
-          <div><span class="c-gold"># ❌ แบบไม่ดี</span></div>
-          <div>สร้าง payment system</div>
-          <div style="margin-top:0.5rem;"><span class="c-green"># ✅ แบบดี</span></div>
-          <div>ก่อนเขียนโค้ด อธิบาย <span class="c-teal">architecture</span></div>
-          <div>และ trade-offs ของ payment system ก่อน</div>
-        </div>
-      </div>
-
-      <div class="tip-box red fade-in">
-        <div class="tip-header">
-          <span class="tip-icon">🔄</span>
-          <div class="tip-title">ใช้ /compact และ /clear อย่างถูกเวลา</div>
-        </div>
-        <div class="tip-text">
-          Context window มีจำกัด เมื่อทำงานนานๆ ใช้ /compact เพื่อ summarize
-          conversation และลดขนาด context ส่วน /clear ใช้เมื่อเริ่ม task ใหม่
-          ที่ไม่เกี่ยวกับ task เดิมเลย
-        </div>
-        <div class="code-snippet">
-          <div><span class="c-purple">/compact</span> <span class="c-muted">← ย่อ context ไว้</span></div>
-          <div><span class="c-purple">/clear</span> <span class="c-muted">← เริ่มใหม่สะอาด</span></div>
-          <div><span class="c-purple">/resume</span> <span class="c-muted">← กลับมา session เดิม</span></div>
-        </div>
-      </div>
-
-      <div class="tip-box gold fade-in">
-        <div class="tip-header">
-          <span class="tip-icon">🛡️</span>
-          <div class="tip-title">ตั้งค่า Permissions อย่างระมัดระวัง</div>
-        </div>
-        <div class="tip-text">
-          Claude Code มีระบบ permission ที่ต้องตั้งค่าก่อน allow อะไร ใช้ allowedTools
-          ใน settings.json เพื่อกำหนดว่า Claude ทำอะไรได้บ้างโดยไม่ต้องขออนุมัติ
-          ลด friction ใน development workflow
-        </div>
-        <div class="code-snippet">
-          <div><span class="c-muted">// settings.json</span></div>
-          <div><span class="c-teal">"allowedTools"</span>: [</div>
-          <div>&nbsp;<span class="c-green">"Bash(npm:*)"</span>,</div>
-          <div>&nbsp;<span class="c-green">"Bash(git:*)"</span>,</div>
-          <div>&nbsp;<span class="c-red">"Bash(rm:*)"</span> <span class="c-muted">← อย่า allow!</span></div>
-          <div>]</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== WHAT YOU'LL BUILD ===== -->
-<section style="padding: 4rem 0;">
-  <div class="container">
-    <div class="section-header fade-in">
-      <div class="section-tag tag-teal">🎯 ผลลัพธ์</div>
-      <h2>กลับบ้านไปพร้อม <span class="highlight">อะไรบ้าง?</span></h2>
-    </div>
-    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:1.5rem; fade-in">
-      <div class="fade-in" style="background:var(--card); border-radius:16px; padding:2rem; border:1px solid rgba(78,205,196,0.2); text-align:center;">
-        <div style="font-size:3rem; margin-bottom:1rem;">🌐</div>
-        <div style="font-weight:700; font-size:1.1rem; margin-bottom:0.5rem;">Portfolio Website Live</div>
-        <div style="color:var(--muted); font-size:0.85rem;">เว็บไซต์ส่วนตัวออนไลน์จริงๆ บน Vercel พร้อม domain</div>
-      </div>
-      <div class="fade-in" style="background:var(--card); border-radius:16px; padding:2rem; border:1px solid rgba(108,99,255,0.2); text-align:center;">
-        <div style="font-size:3rem; margin-bottom:1rem;">⚡</div>
-        <div style="font-weight:700; font-size:1.1rem; margin-bottom:0.5rem;">Superpower Setup</div>
-        <div style="color:var(--muted); font-size:0.85rem;">MCP servers, custom commands, hooks ที่ใช้งานได้จริง</div>
-      </div>
-      <div class="fade-in" style="background:var(--card); border-radius:16px; padding:2rem; border:1px solid rgba(255,107,107,0.2); text-align:center;">
-        <div style="font-size:3rem; margin-bottom:1rem;">🧠</div>
-        <div style="font-weight:700; font-size:1.1rem; margin-bottom:0.5rem;">Mental Model ใหม่</div>
-        <div style="color:var(--muted); font-size:0.85rem;">วิธีคิดเกี่ยวกับ AI-assisted development ที่ถูกต้อง</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== COMPARISON ===== -->
-<section style="padding: 4rem 0;">
-  <div class="container">
-    <div class="fade-in" style="max-width:800px; margin:0 auto;">
-      <div class="section-tag tag-gold" style="margin-bottom:2rem; display:block; text-align:center;">Before vs After</div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem;">
-        <div style="background:rgba(255,107,107,0.05); border:1px solid rgba(255,107,107,0.2); border-radius:16px; padding:2rem;">
-          <div style="color:var(--secondary); font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:1.5rem;">❌ ก่อนเรียน</div>
-          <ul style="list-style:none; color:var(--muted); font-size:0.9rem; line-height:2;">
-            <li>☐ ใช้ Claude แบบ Q&A ธรรมดา</li>
-            <li>☐ Copy-paste code จาก response</li>
-            <li>☐ ทำทีละไฟล์ทีละฟังก์ชัน</li>
-            <li>☐ ไม่รู้ว่ามี CLAUDE.md</li>
-            <li>☐ ไม่มี workflow ที่ชัดเจน</li>
-            <li>☐ Claude ทำผิดบ่อย ต้อง redo</li>
-          </ul>
-        </div>
-        <div style="background:rgba(39,201,63,0.05); border:1px solid rgba(39,201,63,0.2); border-radius:16px; padding:2rem;">
-          <div style="color:#27C93F; font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:1.5rem;">✅ หลังเรียน</div>
-          <ul style="list-style:none; font-size:0.9rem; line-height:2;">
-            <li>☑ Agentic workflow ทำงานแทนคุณ</li>
-            <li>☑ Claude edit files อัตโนมัติ</li>
-            <li>☑ Multi-file changes ในครั้งเดียว</li>
-            <li>☑ CLAUDE.md สอน Claude เรื่อง project</li>
-            <li>☑ MCP + Hooks automation</li>
-            <li>☑ Claude เข้าใจ codebase จริงๆ</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== FINAL CTA ===== -->
-<section class="cta">
-  <div class="container fade-in">
-    <div style="display:inline-flex; align-items:center; gap:0.5rem; background:rgba(255,215,0,0.1); border:1px solid rgba(255,215,0,0.3); border-radius:30px; padding:0.4rem 1rem; font-size:0.8rem; color:var(--gold); margin-bottom:2rem;">
-      🏆 2026 Edition — Updated ทุกเดือน
-    </div>
-    <h2>พร้อมจะเป็น <span class="highlight">10x Developer</span> แล้วหรือยัง?</h2>
-    <p>หนึ่งวันที่ลงทุนวันนี้ จะเปลี่ยนวิธีทำงานทุกวันของคุณตลอดไป</p>
-
-    <div class="countdown-wrap">
-      <div class="count-box">
-        <div class="count-num" id="hours">08</div>
-        <div class="count-label">ชั่วโมง</div>
-      </div>
-      <div class="count-box">
-        <div class="count-num">8</div>
-        <div class="count-label">บทเรียน</div>
-      </div>
-      <div class="count-box">
-        <div class="count-num">3</div>
-        <div class="count-label">Workshop</div>
-      </div>
-      <div class="count-box">
-        <div class="count-num">1</div>
-        <div class="count-label">Website Live</div>
-      </div>
-    </div>
-
-    <div class="cta-buttons">
-      <a href="#schedule" class="btn-primary" style="font-size:1rem; padding:1rem 2.5rem;">
-        ลงทะเบียนเรียน →
       </a>
-      <a href="#chapters" class="btn-secondary" style="font-size:1rem; padding:1rem 2rem;">
-        ดูเนื้อหาทั้งหมด
+      <a href="#skills" class="path-card pc-inter fade-up">
+        <span class="path-count">8 Skills</span>
+        <div class="path-level level-i">⚙️ กลาง — Intermediate</div>
+        <div class="path-icon">⚡</div>
+        <div class="path-title">Superpower Workflow</div>
+        <div class="path-desc">ใช้ Claude Code เป็นแล้ว อยากทำงานเร็วขึ้น 10 เท่า ด้วย tools และ automation</div>
+        <ul class="path-topics">
+          <li>MCP Servers เชื่อม tools เข้า Claude</li>
+          <li>Custom Slash Commands</li>
+          <li>Hooks — automation หลังทุก action</li>
+          <li>Multi-file editing workflow</li>
+          <li>/context7, /tailwind-mcp, /taste-design</li>
+        </ul>
+      </a>
+      <a href="projects.html" class="path-card pc-adv fade-up">
+        <span class="path-count">55 projects</span>
+        <div class="path-level level-a">🔥 สร้างของจริง — Project</div>
+        <div class="path-icon">🏗️</div>
+        <div class="path-title">Build Real Projects</div>
+        <div class="path-desc">เรียนรู้ผ่านการทำ 55 โปรเจกต์จริงตั้งแต่ resume website จนถึง POS system</div>
+        <ul class="path-topics">
+          <li>Personal Resume + Portfolio</li>
+          <li>E-Commerce Store + Payment</li>
+          <li>Restaurant POS System</li>
+          <li>AI Chatbot Widget</li>
+          <li>และอีก 51 โปรเจกต์...</li>
+        </ul>
       </a>
     </div>
+  </div>
+</section>
 
-    <div style="margin-top:3rem; color:var(--muted); font-size:0.85rem;">
-      สำหรับ Programmer ทุกระดับ · ไม่ต้องมีพื้นฐาน AI · Workshop ลงมือจริง
+<!-- SKILLS TOOLKIT -->
+<section class="skills-section" id="skills">
+  <div class="container">
+    <div class="fade-up" style="text-align:center">
+      <span class="sec-label lt">Skills & Tools</span>
+      <h2><span class="hl">8 Skills</span> ที่ต้องรู้</h2>
+      <p class="sec-desc">slash commands และ MCP tools ที่ใช้ประกอบในทุกบทเรียนของ portal นี้</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card fade-up">
+        <div class="sk-icon">🎨</div>
+        <div class="sk-cmd">/uxui-promax</div>
+        <div class="sk-name">UX/UI Pro Mode</div>
+        <div class="sk-desc">ออกแบบ UI components, wireframe, user flow และ design system อย่างมืออาชีพ</div>
+        <div class="sk-when">ใช้เมื่อ: สร้าง UI ใหม่, redesign, ทำ component library</div>
+      </div>
+      <div class="skill-card fade-up">
+        <div class="sk-icon">🐙</div>
+        <div class="sk-cmd">/github-mcp</div>
+        <div class="sk-name">GitHub MCP</div>
+        <div class="sk-desc">Claude ทำ git operations ได้โดยตรง — create repo, commit, PR, review code</div>
+        <div class="sk-when">ใช้เมื่อ: push code, create PR, review, manage issues</div>
+      </div>
+      <div class="skill-card fade-up">
+        <div class="sk-icon">☁️</div>
+        <div class="sk-cmd">/cloudflare-mcp</div>
+        <div class="sk-name">Cloudflare MCP</div>
+        <div class="sk-desc">Deploy Workers, Pages, D1 database, R2 storage ผ่าน Claude โดยตรง</div>
+        <div class="sk-when">ใช้เมื่อ: deploy app, setup edge functions, manage storage</div>
+      </div>
+      <div class="skill-card fade-up">
+        <div class="sk-icon">⚡</div>
+        <div class="sk-cmd">/superpower</div>
+        <div class="sk-name">Superpower Mode</div>
+        <div class="sk-desc">Hooks, Custom Commands, Multi-agent workflows — ทำให้ Claude ทำงานแทนคุณ</div>
+        <div class="sk-when">ใช้เมื่อ: automation, CI/CD, repetitive tasks</div>
+      </div>
+      <div class="skill-card fade-up">
+        <div class="sk-icon">💨</div>
+        <div class="sk-cmd">/tailwind-mcp</div>
+        <div class="sk-name">TailwindCSS MCP</div>
+        <div class="sk-desc">ดึง TailwindCSS docs เข้า context อัตโนมัติ ไม่ต้องจำ class names อีกต่อไป</div>
+        <div class="sk-when">ใช้เมื่อ: สร้าง UI ด้วย TailwindCSS ทุกครั้ง</div>
+      </div>
+      <div class="skill-card fade-up">
+        <div class="sk-icon">📚</div>
+        <div class="sk-cmd">/context7</div>
+        <div class="sk-name">Context7</div>
+        <div class="sk-desc">ดึง docs ล่าสุดของ library ที่ใช้งานเข้า context อัตโนมัติ ไม่ outdated อีก</div>
+        <div class="sk-when">ใช้เมื่อ: ใช้ library ที่ Claude อาจไม่รู้ version ล่าสุด</div>
+      </div>
+      <div class="skill-card fade-up">
+        <div class="sk-icon">✨</div>
+        <div class="sk-cmd">/taste-design</div>
+        <div class="sk-name">Design Taste</div>
+        <div class="sk-desc">ยกระดับ visual design — color theory, typography, spacing, visual hierarchy</div>
+        <div class="sk-when">ใช้เมื่อ: อยากให้หน้าตาสวยขึ้น มี design sense</div>
+      </div>
+      <div class="skill-card fade-up">
+        <div class="sk-icon">🍌</div>
+        <div class="sk-cmd">/nano-banana-pro</div>
+        <div class="sk-name">Nano Banana Pro</div>
+        <div class="sk-desc">Rapid prototyping mode — สร้าง micro-interactions และ prototypes เร็วสุดๆ</div>
+        <div class="sk-when">ใช้เมื่อ: prototype เร็ว, test ideas, micro-animations</div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ===== FOOTER ===== -->
-<section style="padding:4rem 0 2rem; text-align:center; position:relative; z-index:2;">
+<!-- MODULES / LESSONS -->
+<section class="modules" id="modules">
   <div class="container">
-    <div class="fade-in" style="background:linear-gradient(135deg,rgba(108,99,255,0.08) 0%,rgba(78,205,196,0.06) 100%); border:1px solid rgba(108,99,255,0.2); border-radius:24px; padding:3rem 2rem; max-width:700px; margin:0 auto; position:relative; overflow:hidden;">
-      <!-- glow bg -->
-      <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(108,99,255,0.15),transparent);pointer-events:none;"></div>
-      <div style="position:absolute;bottom:-40px;left:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(78,205,196,0.1),transparent);pointer-events:none;"></div>
+    <div class="fade-up">
+      <span class="sec-label lp">บทเรียน</span>
+      <h2>เนื้อหา <span class="hl">ครบทุกบท</span></h2>
+      <p class="sec-desc">กดแต่ละบทเพื่อดูบทเรียนย่อย ทำตามได้ทีละ step</p>
+    </div>
 
-      <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:1.2rem;">เนื้อหาคัดสรรโดย</div>
+    <div class="modules-list" style="margin-top:2rem">
 
-      <!-- Beyond Team Logo / Badge -->
-      <div style="display:inline-flex;align-items:center;gap:1rem;background:rgba(0,0,0,0.3);border:1px solid rgba(108,99,255,0.3);border-radius:16px;padding:0.8rem 1.8rem;margin-bottom:1.5rem;">
-        <div style="width:44px;height:44px;border-radius:12px;background:var(--gradient1);display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:var(--glow);flex-shrink:0;">🚀</div>
-        <div style="text-align:left;">
-          <div style="font-size:1.3rem;font-weight:800;background:var(--gradient1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Beyond Team</div>
-          <div style="font-size:0.75rem;color:var(--muted);margin-top:0.1rem;">Curated &amp; Crafted with Excellence</div>
+      <!-- Module 1 -->
+      <div class="module-row fade-up" onclick="toggleMod(this)">
+        <div class="mod-header">
+          <div class="mod-num">1</div>
+          <div class="mod-info">
+            <div class="mod-title">🧠 Claude Code คืออะไร และทำไมปี 2026 ต้องใช้</div>
+            <div class="mod-sub">พื้นฐานที่ทุกคนต้องรู้ก่อนเริ่ม · 4 บทเรียน</div>
+          </div>
+          <div class="mod-right">
+            <div class="mod-chips"><span class="mod-chip mc-free">ฟรี</span><span class="mod-chip mc-lessons">4 lessons</span></div>
+            <span class="mod-arrow">▼</span>
+          </div>
+        </div>
+        <div class="mod-body">
+          <div class="mod-lessons">
+            <a href="lessons/01-what-is-claude-code.html" class="lesson-link"><span class="ll-icon">📖</span><span class="ll-num">1.1</span>Claude Code vs Copilot vs Cursor — ต่างกันยังไง</a>
+            <a href="lessons/01-agentic-mode.html" class="lesson-link"><span class="ll-icon">🤖</span><span class="ll-num">1.2</span>Agentic Mode คืออะไร ทำงานยังไง</a>
+            <a href="lessons/01-real-use-cases.html" class="lesson-link"><span class="ll-icon">💡</span><span class="ll-num">1.3</span>Use cases จริงที่ได้ผล (พร้อมตัวอย่าง)</a>
+            <a href="lessons/01-limitations.html" class="lesson-link"><span class="ll-icon">⚠️</span><span class="ll-num">1.4</span>ข้อจำกัดที่ต้องรู้ก่อนใช้</a>
+          </div>
         </div>
       </div>
 
-      <p style="color:var(--muted);font-size:0.9rem;line-height:1.8;max-width:480px;margin:0 auto 1.5rem;">
-        เนื้อหาทุกบทเรียน เทคนิค Superpower และ Workshop ในหลักสูตรนี้
-        ผ่านการคัดสรรและออกแบบโดย <strong style="color:var(--text);">Beyond Team</strong>
-        เพื่อให้ Programmer ได้ความรู้ที่ใช้งานได้จริงที่สุด
-      </p>
+      <!-- Module 2 -->
+      <div class="module-row fade-up" onclick="toggleMod(this)">
+        <div class="mod-header">
+          <div class="mod-num">2</div>
+          <div class="mod-info">
+            <div class="mod-title">⚙️ Setup และ Configuration ให้พร้อมทำงาน</div>
+            <div class="mod-sub">ติดตั้งและตั้งค่าครั้งแรก · 5 บทเรียน</div>
+          </div>
+          <div class="mod-right">
+            <div class="mod-chips"><span class="mod-chip mc-free">ฟรี</span><span class="mod-chip mc-lessons">5 lessons</span></div>
+            <span class="mod-arrow">▼</span>
+          </div>
+        </div>
+        <div class="mod-body">
+          <div class="mod-lessons">
+            <a href="lessons/02-install.html" class="lesson-link"><span class="ll-icon">💻</span><span class="ll-num">2.1</span>ติดตั้ง Claude Code CLI + VS Code Extension</a>
+            <a href="lessons/02-api-key.html" class="lesson-link"><span class="ll-icon">🔑</span><span class="ll-num">2.2</span>ตั้งค่า API Key และ billing</a>
+            <a href="lessons/02-claude-md.html" class="lesson-link"><span class="ll-icon">📋</span><span class="ll-num">2.3</span>สร้าง CLAUDE.md ที่ดี — สอน Claude รู้จัก project</a>
+            <a href="lessons/02-settings.html" class="lesson-link"><span class="ll-icon">⚙️</span><span class="ll-num">2.4</span>settings.json — ปรับ behavior ของ Claude</a>
+            <a href="lessons/02-permissions.html" class="lesson-link"><span class="ll-icon">🛡️</span><span class="ll-num">2.5</span>Permission system — ให้สิทธิ์อะไรได้บ้าง</a>
+          </div>
+        </div>
+      </div>
 
-      <div style="display:flex;justify-content:center;gap:0.6rem;flex-wrap:wrap;">
-        <span style="background:rgba(108,99,255,0.1);border:1px solid rgba(108,99,255,0.2);color:var(--primary);padding:0.25rem 0.8rem;border-radius:20px;font-size:0.72rem;font-weight:600;">✦ Hands-on First</span>
-        <span style="background:rgba(78,205,196,0.1);border:1px solid rgba(78,205,196,0.2);color:var(--accent);padding:0.25rem 0.8rem;border-radius:20px;font-size:0.72rem;font-weight:600;">✦ Real-world Focus</span>
-        <span style="background:rgba(255,215,0,0.1);border:1px solid rgba(255,215,0,0.2);color:var(--gold);padding:0.25rem 0.8rem;border-radius:20px;font-size:0.72rem;font-weight:600;">✦ Updated 2026</span>
+      <!-- Module 3 -->
+      <div class="module-row fade-up" onclick="toggleMod(this)">
+        <div class="mod-header">
+          <div class="mod-num">3</div>
+          <div class="mod-info">
+            <div class="mod-title">💬 Prompt Engineering สำหรับ Programmer</div>
+            <div class="mod-sub">คุยกับ Claude ให้ได้ผลที่ต้องการ · 5 บทเรียน</div>
+          </div>
+          <div class="mod-right">
+            <div class="mod-chips"><span class="mod-chip mc-free">ฟรี</span><span class="mod-chip mc-lessons">5 lessons</span></div>
+            <span class="mod-arrow">▼</span>
+          </div>
+        </div>
+        <div class="mod-body">
+          <div class="mod-lessons">
+            <a href="lessons/03-context-first.html" class="lesson-link"><span class="ll-icon">🎯</span><span class="ll-num">3.1</span>Context-first prompting — บอก context ก่อนเสมอ</a>
+            <a href="lessons/03-constraints.html" class="lesson-link"><span class="ll-icon">📌</span><span class="ll-num">3.2</span>ให้ constraints ที่ชัดเจน — ห้ามทำอะไร</a>
+            <a href="lessons/03-think-first.html" class="lesson-link"><span class="ll-icon">🤔</span><span class="ll-num">3.3</span>"คิดก่อน แล้วค่อยทำ" technique</a>
+            <a href="lessons/03-iterative.html" class="lesson-link"><span class="ll-icon">🔄</span><span class="ll-num">3.4</span>Iterative refinement workflow</a>
+            <a href="lessons/03-mistakes.html" class="lesson-link"><span class="ll-icon">❌</span><span class="ll-num">3.5</span>Common mistakes ที่ต้องหลีกเลี่ยง</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 4 -->
+      <div class="module-row fade-up" onclick="toggleMod(this)">
+        <div class="mod-header">
+          <div class="mod-num">4</div>
+          <div class="mod-info">
+            <div class="mod-title">🔍 Debugging &amp; Code Review กับ Claude</div>
+            <div class="mod-sub">ใช้ Claude เป็น senior dev · 4 บทเรียน</div>
+          </div>
+          <div class="mod-right">
+            <div class="mod-chips"><span class="mod-chip mc-free">ฟรี</span><span class="mod-chip mc-lessons">4 lessons</span></div>
+            <span class="mod-arrow">▼</span>
+          </div>
+        </div>
+        <div class="mod-body">
+          <div class="mod-lessons">
+            <a href="lessons/04-error-debug.html" class="lesson-link"><span class="ll-icon">🐛</span><span class="ll-num">4.1</span>ให้ Claude อ่าน error หา root cause</a>
+            <a href="lessons/04-code-review.html" class="lesson-link"><span class="ll-icon">👁️</span><span class="ll-num">4.2</span>Code review workflow ที่ effective</a>
+            <a href="lessons/04-security.html" class="lesson-link"><span class="ll-icon">🔒</span><span class="ll-num">4.3</span>Security vulnerability scanning</a>
+            <a href="lessons/04-performance.html" class="lesson-link"><span class="ll-icon">⚡</span><span class="ll-num">4.4</span>Performance optimization กับ Claude</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 5 -->
+      <div class="module-row fade-up" onclick="toggleMod(this)">
+        <div class="mod-header">
+          <div class="mod-num">5</div>
+          <div class="mod-info">
+            <div class="mod-title">🧪 Testing &amp; Documentation อัตโนมัติ</div>
+            <div class="mod-sub">Claude เขียน test แทนคุณ · 4 บทเรียน</div>
+          </div>
+          <div class="mod-right">
+            <div class="mod-chips"><span class="mod-chip mc-free">ฟรี</span><span class="mod-chip mc-lessons">4 lessons</span></div>
+            <span class="mod-arrow">▼</span>
+          </div>
+        </div>
+        <div class="mod-body">
+          <div class="mod-lessons">
+            <a href="lessons/05-unit-tests.html" class="lesson-link"><span class="ll-icon">✅</span><span class="ll-num">5.1</span>Generate unit tests ด้วย Claude</a>
+            <a href="lessons/05-e2e.html" class="lesson-link"><span class="ll-icon">🌐</span><span class="ll-num">5.2</span>E2E tests ด้วย Playwright</a>
+            <a href="lessons/05-api-docs.html" class="lesson-link"><span class="ll-icon">📄</span><span class="ll-num">5.3</span>Auto-generate API documentation</a>
+            <a href="lessons/05-tdd.html" class="lesson-link"><span class="ll-icon">🔴</span><span class="ll-num">5.4</span>TDD workflow — test ก่อน code</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 6 -->
+      <div class="module-row fade-up" onclick="toggleMod(this)">
+        <div class="mod-header">
+          <div class="mod-num">6</div>
+          <div class="mod-info">
+            <div class="mod-title">🏗️ Architecture &amp; Large-Scale Refactoring</div>
+            <div class="mod-sub">ออกแบบระบบและ refactor · 4 บทเรียน</div>
+          </div>
+          <div class="mod-right">
+            <div class="mod-chips"><span class="mod-chip mc-free">ฟรี</span><span class="mod-chip mc-lessons">4 lessons</span></div>
+            <span class="mod-arrow">▼</span>
+          </div>
+        </div>
+        <div class="mod-body">
+          <div class="mod-lessons">
+            <a href="lessons/06-system-design.html" class="lesson-link"><span class="ll-icon">🗺️</span><span class="ll-num">6.1</span>System design consultation กับ Claude</a>
+            <a href="lessons/06-refactor.html" class="lesson-link"><span class="ll-icon">♻️</span><span class="ll-num">6.2</span>Refactor codebase ขนาดใหญ่</a>
+            <a href="lessons/06-migration.html" class="lesson-link"><span class="ll-icon">🚀</span><span class="ll-num">6.3</span>Migration strategies (JS→TS, Class→Hooks)</a>
+            <a href="lessons/06-db-design.html" class="lesson-link"><span class="ll-icon">🗄️</span><span class="ll-num">6.4</span>Database schema design</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 7 - Superpower -->
+      <div class="module-row fade-up" onclick="toggleMod(this)" style="border-color:rgba(108,99,255,.2)">
+        <div class="mod-header">
+          <div class="mod-num" style="background:var(--g2)">7</div>
+          <div class="mod-info">
+            <div class="mod-title">⚡ Superpower Skills — เทคนิคที่ทำให้คุณก้าวกระโดด</div>
+            <div class="mod-sub">MCP · Hooks · Custom Commands · Multi-agent · 6 บทเรียน</div>
+          </div>
+          <div class="mod-right">
+            <div class="mod-chips"><span class="mod-chip mc-free">ฟรี</span><span class="mod-chip mc-lessons">6 lessons</span></div>
+            <span class="mod-arrow">▼</span>
+          </div>
+        </div>
+        <div class="mod-body">
+          <div class="mod-lessons">
+            <a href="lessons/07-mcp-intro.html" class="lesson-link"><span class="ll-icon">🔌</span><span class="ll-num">7.1</span>MCP Servers คืออะไร ติดตั้งอย่างไร</a>
+            <a href="lessons/07-mcp-db.html" class="lesson-link"><span class="ll-icon">🗄️</span><span class="ll-num">7.2</span>เชื่อม Database เข้า Claude ด้วย MCP</a>
+            <a href="lessons/07-slash-commands.html" class="lesson-link"><span class="ll-icon">⚡</span><span class="ll-num">7.3</span>สร้าง Custom Slash Commands</a>
+            <a href="lessons/07-hooks.html" class="lesson-link"><span class="ll-icon">🪝</span><span class="ll-num">7.4</span>Hooks — ทำงานอัตโนมัติทุก action</a>
+            <a href="lessons/07-multi-agent.html" class="lesson-link"><span class="ll-icon">🤖</span><span class="ll-num">7.5</span>Multi-agent workflows</a>
+            <a href="lessons/07-headless.html" class="lesson-link"><span class="ll-icon">🔄</span><span class="ll-num">7.6</span>Headless mode ใน CI/CD pipeline</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 8 -->
+      <div class="module-row fade-up" onclick="toggleMod(this)">
+        <div class="mod-header">
+          <div class="mod-num">8</div>
+          <div class="mod-info">
+            <div class="mod-title">🌐 Workshop: สร้าง Portfolio Website ใน 90 นาที</div>
+            <div class="mod-sub">Design → Code → Deploy ครบจบใน session เดียว · 3 บทเรียน</div>
+          </div>
+          <div class="mod-right">
+            <div class="mod-chips"><span class="mod-chip mc-free">ฟรี</span><span class="mod-chip mc-lessons">3 lessons</span></div>
+            <span class="mod-arrow">▼</span>
+          </div>
+        </div>
+        <div class="mod-body">
+          <div class="mod-lessons">
+            <a href="lessons/08-design.html" class="lesson-link"><span class="ll-icon">🎨</span><span class="ll-num">8.1</span>Phase 1: Design กับ Claude (20 นาที)</a>
+            <a href="lessons/08-build.html" class="lesson-link"><span class="ll-icon">⚙️</span><span class="ll-num">8.2</span>Phase 2: Build &amp; Iterate (50 นาที)</a>
+            <a href="lessons/08-deploy.html" class="lesson-link"><span class="ll-icon">🚀</span><span class="ll-num">8.3</span>Phase 3: Deploy บน Vercel/Cloudflare (20 นาที)</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT HIGHLIGHTS -->
+<section class="projects-section" id="projects">
+  <div class="container">
+    <div class="fade-up" style="text-align:center">
+      <span class="sec-label ls">Project Library</span>
+      <h2>สร้างได้จริง <span class="hl2">55 โปรเจกต์</span></h2>
+      <p class="sec-desc">ทุกโปรเจกต์มี step-by-step พร้อม Claude prompts ที่ copy-paste ได้เลย</p>
+    </div>
+    <div class="project-preview-grid">
+      <a href="projects.html" class="pp-card fade-up">
+        <div class="pp-icon">📄</div>
+        <div class="pp-title">Personal Resume Website</div>
+        <div class="pp-desc">เว็บ resume สวยงาม HR ประทับใจ มี dark mode + print layout</div>
+        <div class="pp-tech"><span>HTML</span><span>CSS</span><span>JS</span></div>
+      </a>
+      <a href="projects.html" class="pp-card fade-up">
+        <div class="pp-icon">🛒</div>
+        <div class="pp-title">E-Commerce Store</div>
+        <div class="pp-desc">ร้านค้าออนไลน์ครบระบบ cart + Stripe payment + admin dashboard</div>
+        <div class="pp-tech"><span>Next.js</span><span>Stripe</span><span>Prisma</span></div>
+      </a>
+      <a href="projects.html" class="pp-card fade-up">
+        <div class="pp-icon">🖥️</div>
+        <div class="pp-title">Restaurant POS System</div>
+        <div class="pp-desc">POS ครบระบบ — table, order, kitchen display, billing, receipt</div>
+        <div class="pp-tech"><span>React</span><span>Node.js</span><span>SQLite</span></div>
+      </a>
+      <a href="projects.html" class="pp-card fade-up">
+        <div class="pp-icon">🤖</div>
+        <div class="pp-title">AI Chatbot Widget</div>
+        <div class="pp-desc">Chatbot embed ลงเว็บใดก็ได้ ตอบตาม knowledge base ด้วย Claude API</div>
+        <div class="pp-tech"><span>React</span><span>Claude API</span><span>pgvector</span></div>
+      </a>
+      <a href="projects.html" class="pp-card fade-up">
+        <div class="pp-icon">📊</div>
+        <div class="pp-title">Analytics Dashboard</div>
+        <div class="pp-desc">Dashboard KPIs, charts, date range filter, export PDF/CSV</div>
+        <div class="pp-tech"><span>React</span><span>Recharts</span><span>TailwindCSS</span></div>
+      </a>
+      <a href="projects.html" class="pp-card fade-up" style="background:linear-gradient(135deg,rgba(108,99,255,.08),rgba(78,205,196,.05));border-color:rgba(108,99,255,.2);display:flex;align-items:center;justify-content:center;text-align:center">
+        <div>
+          <div style="font-size:2.5rem;margin-bottom:.8rem">+50</div>
+          <div style="font-weight:700;color:var(--p);font-size:1.05rem">โปรเจกต์อีกมากมาย</div>
+          <div style="color:var(--mt);font-size:.82rem;margin-top:.3rem">กด ดูทั้งหมด →</div>
+        </div>
+      </a>
+    </div>
+    <a href="projects.html" class="see-all-btn">ดูทั้ง 55 โปรเจกต์ →</a>
+  </div>
+</section>
+
+<!-- QUICK REFERENCE -->
+<section class="quick-ref" id="ref">
+  <div class="container">
+    <div class="fade-up">
+      <span class="sec-label lg">Quick Reference</span>
+      <h2>Commands <span class="hl">ที่ใช้บ่อย</span></h2>
+      <p class="sec-desc">copy ไปใช้ได้เลย ไม่ต้องจำ</p>
+    </div>
+    <div class="ref-grid">
+      <div class="ref-card fade-up">
+        <div class="ref-title">⚡ Basic Commands</div>
+        <div class="code-blk"><span class="co"># เริ่ม session ใหม่</span>
+<span class="ct">claude</span>
+
+<span class="co"># บอกงานตรงๆ</span>
+<span class="ct">claude</span> <span class="cw">"สร้าง REST API สำหรับ user auth"</span>
+
+<span class="co"># ใช้ในโฟลเดอร์ project</span>
+<span class="ct">claude</span> <span class="cp">--add-dir</span> ./src <span class="cw">"review code ทั้งหมด"</span>
+
+<span class="co"># Headless mode (CI/CD)</span>
+<span class="ct">claude</span> <span class="cp">-p</span> <span class="cw">"รัน tests และ fix ถ้าพัง"</span> <span class="cp">--output-format</span> json</div>
+      </div>
+      <div class="ref-card fade-up">
+        <div class="ref-title">💬 Slash Commands</div>
+        <div class="code-blk"><span class="cp">/help</span>       <span class="cm">— ดู commands ทั้งหมด</span>
+<span class="cp">/compact</span>    <span class="cm">— ย่อ context ให้สั้นลง</span>
+<span class="cp">/clear</span>      <span class="cm">— เริ่ม session ใหม่สะอาด</span>
+<span class="cp">/resume</span>     <span class="cm">— กลับ session ที่ค้างอยู่</span>
+<span class="cp">/review</span>     <span class="cm">— custom: code review</span>
+<span class="cp">/deploy</span>     <span class="cm">— custom: deploy workflow</span>
+<span class="cp">/test</span>       <span class="cm">— custom: run + fix tests</span></div>
+      </div>
+      <div class="ref-card fade-up">
+        <div class="ref-title">📋 CLAUDE.md Template</div>
+        <div class="code-blk"><span class="co"># Project Name</span>
+
+<span class="cg">## Tech Stack</span>
+<span class="cw">- Node.js v22, TypeScript strict</span>
+<span class="cw">- PostgreSQL + Drizzle ORM</span>
+<span class="cw">- React 19 + TailwindCSS v4</span>
+
+<span class="cg">## Conventions</span>
+<span class="cw">- ใช้ camelCase สำหรับ variables</span>
+<span class="cw">- ทุก function ต้องมี return type</span>
+<span class="cw">- error handling ด้วย Result type</span>
+
+<span class="cg">## NEVER</span>
+<span class="cr">- อย่าใช้ any ใน TypeScript</span>
+<span class="cr">- อย่า commit โดยไม่รัน tests</span>
+<span class="cr">- อย่าลบ .env.example</span></div>
+      </div>
+      <div class="ref-card fade-up">
+        <div class="ref-title">🪝 Hooks Example</div>
+        <div class="code-blk"><span class="co">// settings.json</span>
+<span class="cw">{</span>
+  <span class="cp">"hooks"</span><span class="cw">: {</span>
+    <span class="cp">"PostToolUse"</span><span class="cw">: [{</span>
+      <span class="cp">"matcher"</span><span class="cw">: </span><span class="cg">"Write"</span><span class="cw">,</span>
+      <span class="cp">"hooks"</span><span class="cw">: [{</span>
+        <span class="cp">"type"</span><span class="cw">: </span><span class="cg">"command"</span><span class="cw">,</span>
+        <span class="cp">"command"</span><span class="cw">: </span><span class="cg">"npm test"</span>
+      <span class="cw">}]</span>
+    <span class="cw">}],</span>
+    <span class="cp">"Stop"</span><span class="cw">: [{</span>
+      <span class="cp">"command"</span><span class="cw">: </span><span class="cg">"./notify.sh"</span>
+    <span class="cw">}]</span>
+  <span class="cw">}</span>
+<span class="cw">}</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<footer style="border-top:1px solid rgba(255,255,255,0.05); padding:2rem; text-align:center; color:var(--muted); font-size:0.8rem;">
-  <div style="display:flex; justify-content:center; align-items:center; gap:1rem; flex-wrap:wrap;">
-    <span>Claude Code Mastery 2026</span>
-    <span>·</span>
-    <span>สำหรับ Programmer ที่ต้องการก้าวกระโดด</span>
-    <span>·</span>
-    <span>ไม่ใช่ AI course — เป็น Productivity course</span>
+<!-- OPEN / COMMUNITY -->
+<div class="open-banner">
+  <div class="banner-box fade-up">
+    <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--mt);margin-bottom:1rem">Beyond Team</div>
+    <h2 style="font-size:1.8rem;font-weight:800;margin-bottom:.8rem">Knowledge is for <span class="hl">Everyone</span></h2>
+    <p style="color:var(--mt);max-width:480px;margin:0 auto 2rem;font-size:.95rem;line-height:1.8">
+      portal นี้สร้างขึ้นเพื่อให้ทุกคนเข้าถึงความรู้ Claude Code ได้ฟรี
+      เรียนได้ทันที ไม่มีข้อจำกัด
+    </p>
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center">
+      <span style="background:rgba(108,99,255,.1);border:1px solid rgba(108,99,255,.2);color:var(--p);padding:.3rem .9rem;border-radius:20px;font-size:.75rem;font-weight:600">✦ เรียนฟรี ไม่ต้องลงทะเบียน</span>
+      <span style="background:rgba(78,205,196,.1);border:1px solid rgba(78,205,196,.2);color:var(--a);padding:.3rem .9rem;border-radius:20px;font-size:.75rem;font-weight:600">✦ อัปเดตตลอด 2026</span>
+      <span style="background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.2);color:var(--g);padding:.3rem .9rem;border-radius:20px;font-size:.75rem;font-weight:600">✦ ทำตามได้ทันที</span>
+    </div>
   </div>
-  <div style="margin-top:1rem; opacity:0.5;">
-    Built with Claude Code · Curated by <strong style="color:var(--primary);opacity:1;">Beyond Team</strong>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="index.html">หน้าหลัก</a>
+    <a href="#path">Learning Path</a>
+    <a href="#modules">บทเรียน</a>
+    <a href="projects.html">55 โปรเจกต์</a>
+    <a href="#ref">Quick Ref</a>
+    <a href="#skills">Skills</a>
+  </div>
+  <div class="footer-credit">
+    Claude Code Learning Hub · Curated by <strong>Beyond Team</strong> · 2026
   </div>
 </footer>
 
 <script>
-// ===== STARS =====
-const starsContainer = document.getElementById('stars');
-for (let i = 0; i < 150; i++) {
-  const star = document.createElement('div');
-  star.className = 'star';
-  const size = Math.random() * 2.5 + 0.5;
-  star.style.cssText = `
-    width:${size}px; height:${size}px;
-    left:${Math.random()*100}%; top:${Math.random()*100}%;
-    --d:${Math.random()*4+2}s;
-    animation-delay:${Math.random()*5}s;
-  `;
-  starsContainer.appendChild(star);
-}
+// Stars
+const sc=document.getElementById('stars');
+for(let i=0;i<120;i++){const s=document.createElement('div');s.className='star';const z=Math.random()*2.5+.5;s.style.cssText=`width:${z}px;height:${z}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${Math.random()*4+2}s;animation-delay:${Math.random()*5}s`;sc.appendChild(s)}
 
-// ===== READING PROGRESS =====
-const progress = document.getElementById('progress');
-window.addEventListener('scroll', () => {
-  const scrollTop = document.documentElement.scrollTop;
-  const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-  progress.style.width = (scrollTop / scrollHeight * 100) + '%';
-});
+// Progress bar
+window.addEventListener('scroll',()=>{const t=document.documentElement.scrollTop,h=document.documentElement.scrollHeight-window.innerHeight;document.getElementById('bar').style.width=(t/h*100)+'%'});
 
-// ===== SCROLL ANIMATIONS =====
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
-}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+// Module accordion
+function toggleMod(el){el.classList.toggle('open')}
 
-document.querySelectorAll('.fade-in, .slide-left, .slide-right').forEach(el => {
-  observer.observe(el);
-});
+// Fade-up observer
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')})},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
 
-// ===== ACCORDION =====
-function toggleAccordion(item) {
-  const body = item.querySelector('.accordion-body');
-  const isOpen = body.classList.contains('open');
-  document.querySelectorAll('.accordion-body.open').forEach(b => b.classList.remove('open'));
-  document.querySelectorAll('.accordion-item.open').forEach(i => i.classList.remove('open'));
-  if (!isOpen) {
-    body.classList.add('open');
-    item.classList.add('open');
-  }
-}
-
-// ===== TERMINAL TYPING EFFECT =====
-const lines = document.querySelectorAll('.t-line');
-lines.forEach((line, i) => {
-  line.style.opacity = '0';
-  setTimeout(() => {
-    line.style.opacity = '1';
-    line.style.transition = 'opacity 0.3s';
-  }, i * 200 + 500);
-});
-
-// ===== SMOOTH HOVER ON CHAPTER CARDS =====
-document.querySelectorAll('.chapter-card').forEach(card => {
-  card.addEventListener('mouseenter', function() {
-    this.style.zIndex = '10';
-  });
-  card.addEventListener('mouseleave', function() {
-    this.style.zIndex = '1';
+// Highlight active nav on scroll
+const sections=['path','skills','modules','projects','ref'];
+window.addEventListener('scroll',()=>{
+  const pos=window.scrollY+100;
+  sections.forEach(id=>{
+    const el=document.getElementById(id);
+    const link=document.querySelector(`a[href="#${id}"]`);
+    if(!el||!link)return;
+    if(pos>=el.offsetTop&&pos<el.offsetTop+el.offsetHeight)link.classList.add('active');
+    else link.classList.remove('active');
   });
 });
-
-// ===== ANIMATE NUMBERS =====
-function animateNumber(el, target) {
-  let current = 0;
-  const step = target / 30;
-  const timer = setInterval(() => {
-    current += step;
-    if (current >= target) { current = target; clearInterval(timer); }
-    el.textContent = Math.floor(current);
-  }, 50);
-}
 </script>
 </body>
 </html>
