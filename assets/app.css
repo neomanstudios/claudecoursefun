@@ -538,3 +538,9 @@ footer strong{color:var(--accent)}
   .home-hero{padding:2rem 1.5rem}
   .home,.docs{padding-left:1.1rem;padding-right:1.1rem}
 }
+
+/* coming-soon workshop (no page yet) */
+.sb-soon{display:flex;align-items:center;gap:.5rem;padding:.42rem .55rem;font-size:.83rem;
+  color:var(--muted);opacity:.7}
+.sb-soon em{margin-left:auto;font-style:normal;font-size:.66rem;font-weight:700;color:var(--muted);
+  background:var(--bg-2);border-radius:99px;padding:.1rem .5rem}
